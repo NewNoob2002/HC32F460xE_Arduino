@@ -1,0 +1,83 @@
+T455C 000:217.000   SEGGER J-Link V7.22b Log File
+T455C 000:217.182   DLL Compiled: Jun 17 2021 17:22:49
+T455C 000:217.193   Logging started @ 2025-10-31 08:32
+T455C 000:217.203 - 217.208ms
+T455C 000:217.219 JLINK_SetWarnOutHandler(...)
+T455C 000:217.232 - 0.018ms
+T455C 000:217.243 JLINK_OpenEx(...)
+T455C 000:224.952   Firmware: J-Link OB-Mini Plus-CortexM compiled Mar  8 2099 11:15:54
+T455C 000:228.907   Firmware: J-Link OB-Mini Plus-CortexM compiled Mar  8 2099 11:15:54
+T455C 000:258.757   Hardware: V1.00
+T455C 000:258.812   S/N: 63728769
+T455C 000:258.837   OEM: SEGGER
+T455C 000:258.857   Feature(s): GDB, RDI, FlashBP, FlashDL, JFlash
+T455C 000:275.037   TELNET listener socket opened on port 19021
+T455C 000:275.487   WEBSRV Starting webserver
+T455C 000:275.848   WEBSRV Webserver running on local port 19080
+T455C 000:275.878 - 58.642ms returns "O.K."
+T455C 000:275.910 JLINK_GetEmuCaps()
+T455C 000:275.925 - 0.021ms returns 0xB8EA5A33
+T455C 000:275.947 JLINK_TIF_GetAvailable(...)
+T455C 000:278.771 - 2.844ms
+T455C 000:278.808 JLINK_SetErrorOutHandler(...)
+T455C 000:278.823 - 0.021ms
+T455C 000:278.858 JLINK_ExecCommand("ProjectFile = "D:\workspace\xyz_back\hc32\HC32F460xE_Arduino\Platform\project\JLinkSettings.ini"", ...). 
+T455C 000:286.477 - 7.640ms returns 0x00
+T455C 000:286.523 JLINK_ExecCommand("Device = HC32F460JEUA", ...). 
+T455C 000:286.863   Looking for J-Link GUI Server exe at: C:\Keil_v5\ARM\Segger\JLinkGUIServer.exe
+T455C 000:287.061   Looking for J-Link GUI Server exe at: C:\Program Files\SEGGER\JLink_V844a\JLinkGUIServer.exe
+T455C 000:287.135   Forking J-Link GUI Server: C:\Program Files\SEGGER\JLink_V844a\JLinkGUIServer.exe
+T455C 000:311.381   J-Link GUI Server info: "J-Link GUI server V8.44a "
+T455C 003:002.097 - 2715.684ms returns 0xFFFFFFFF
+T455C 003:005.073 JLINK_GetHardwareVersion()
+T455C 003:005.127 - 0.062ms returns 10000
+T455C 003:005.147 JLINK_GetDLLVersion()
+T455C 003:005.162 - 0.023ms returns 72202
+T455C 003:005.179 JLINK_GetOEMString(...)
+T455C 003:005.197 JLINK_GetFirmwareString(...)
+T455C 003:005.223 - 0.034ms
+T455C 003:005.248 JLINK_GetDLLVersion()
+T455C 003:005.263 - 0.022ms returns 72202
+T455C 003:005.279 JLINK_GetCompileDateTime()
+T455C 003:005.294 - 0.022ms
+T455C 003:005.313 JLINK_GetFirmwareString(...)
+T455C 003:005.328 - 0.022ms
+T455C 003:005.345 JLINK_GetHardwareVersion()
+T455C 003:005.360 - 0.022ms returns 10000
+T455C 003:005.377 JLINK_GetSN()
+T455C 003:005.393 - 0.023ms returns 63728769
+T455C 003:005.410 JLINK_GetOEMString(...)
+T455C 003:973.357 JLINK_TIF_Select(JLINKARM_TIF_JTAG)
+T455C 003:976.726   
+  ***** Error: 
+T455C 003:976.768   Debugger tries to select target interface JTAG.
+This interface is not supported by the connected emulator.
+Selection will be ignored by the DLL.
+T455C 003:976.784 - 3.433ms returns 0x01
+T455C 003:976.809 JLINK_HasError()
+T455C 003:976.829 JLINK_SetSpeed(5000)
+T455C 003:976.842 - 0.018ms
+T455C 003:978.056 JLINK_HasError()
+T455C 003:978.094 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
+T455C 003:978.112 - 0.023ms returns JLINKARM_RESET_TYPE_NORMAL
+T455C 003:978.125 JLINK_Reset()
+T455C 004:000.626   
+  ***** Error: 
+T455C 004:000.680   No CPU core or target device has been selected. Please make sure at least the core J-Link shall connect to, is selected.
+T455C 004:000.700 - 22.582ms
+T455C 004:000.778 JLINK_GetId()
+T455C 004:004.731   
+  ***** Error: 
+T455C 004:004.782   No CPU core or target device has been selected. Please make sure at least the core J-Link shall connect to, is selected.
+T455C 004:004.798 - 4.027ms returns 0x00000000
+T455C 004:004.825 JLINK_GetId()
+T455C 004:008.733   
+  ***** Error: 
+T455C 004:008.778   No CPU core or target device has been selected. Please make sure at least the core J-Link shall connect to, is selected.
+T455C 004:008.801 - 3.984ms returns 0x00000000
+T455C 004:016.899 JLINK_GetFirmwareString(...)
+T455C 004:016.946 - 0.052ms
+T455C 005:203.605 JLINK_Close()
+T455C 005:220.502 - 16.944ms
+T455C 005:220.556   
+T455C 005:220.568   Closed
