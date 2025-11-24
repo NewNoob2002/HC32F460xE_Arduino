@@ -6740,94 +6740,94 @@ Image Symbol Table
     [Anonymous Symbol]                       0x00006570   Section        0  dwt.o(.text.dwt_getStatus)
     [Anonymous Symbol]                       0x0000657c   Section        0  dwt.o(.text.dwt_init)
     [Anonymous Symbol]                       0x000065c4   Section        0  main.o(.text.main)
-    [Anonymous Symbol]                       0x0000664c   Section        0  wiring_digital.o(.text.pinMode)
-    [Anonymous Symbol]                       0x000066c8   Section        0  usart.o(.text.usart1_write)
-    CL$$btod_d2e                             0x000066ec   Section       62  btod.o(CL$$btod_d2e)
-    CL$$btod_d2e_denorm_low                  0x0000672a   Section       70  btod.o(CL$$btod_d2e_denorm_low)
-    CL$$btod_d2e_norm_op1                    0x00006770   Section       96  btod.o(CL$$btod_d2e_norm_op1)
-    CL$$btod_div_common                      0x000067d0   Section      824  btod.o(CL$$btod_div_common)
-    CL$$btod_e2e                             0x00006b08   Section      220  btod.o(CL$$btod_e2e)
-    CL$$btod_ediv                            0x00006be4   Section       42  btod.o(CL$$btod_ediv)
-    CL$$btod_emul                            0x00006c0e   Section       42  btod.o(CL$$btod_emul)
-    CL$$btod_mult_common                     0x00006c38   Section      580  btod.o(CL$$btod_mult_common)
-    i.__ARM_fpclassify                       0x00006e7c   Section        0  fpclassify.o(i.__ARM_fpclassify)
-    i._is_digit                              0x00006eac   Section        0  __printf_wp.o(i._is_digit)
-    i.fputc                                  0x00006eba   Section        0  fputc.o(i.fputc)
-    locale$$code                             0x00006ed4   Section       44  lc_ctype_c.o(locale$$code)
-    locale$$code                             0x00006f00   Section       44  lc_numeric_c.o(locale$$code)
-    $v0                                      0x00006f2c   Number         0  d2f.o(x$fpl$d2f)
-    x$fpl$d2f                                0x00006f2c   Section       98  d2f.o(x$fpl$d2f)
-    $v0                                      0x00006f90   Number         0  ddiv.o(x$fpl$ddiv)
-    x$fpl$ddiv                               0x00006f90   Section      692  ddiv.o(x$fpl$ddiv)
-    ddiv_entry                               0x00006f97   Thumb Code     0  ddiv.o(x$fpl$ddiv)
-    $v0                                      0x00007244   Number         0  dflt_clz.o(x$fpl$dfltu)
-    x$fpl$dfltu                              0x00007244   Section       38  dflt_clz.o(x$fpl$dfltu)
-    $v0                                      0x0000726c   Number         0  dfltll_clz.o(x$fpl$dfltull)
-    x$fpl$dfltull                            0x0000726c   Section      138  dfltll_clz.o(x$fpl$dfltull)
-    $v0                                      0x000072f6   Number         0  dnaninf.o(x$fpl$dnaninf)
-    x$fpl$dnaninf                            0x000072f6   Section      156  dnaninf.o(x$fpl$dnaninf)
-    $v0                                      0x00007392   Number         0  dretinf.o(x$fpl$dretinf)
-    x$fpl$dretinf                            0x00007392   Section       12  dretinf.o(x$fpl$dretinf)
-    $v0                                      0x0000739e   Number         0  fpinit.o(x$fpl$fpinit)
-    x$fpl$fpinit                             0x0000739e   Section       26  fpinit.o(x$fpl$fpinit)
-    $v0                                      0x000073b8   Number         0  fretinf.o(x$fpl$fretinf)
-    x$fpl$fretinf                            0x000073b8   Section       10  fretinf.o(x$fpl$fretinf)
-    $v0                                      0x000073c2   Number         0  printf1.o(x$fpl$printf1)
-    x$fpl$printf1                            0x000073c2   Section        4  printf1.o(x$fpl$printf1)
-    $v0                                      0x000073c6   Number         0  printf2.o(x$fpl$printf2)
-    x$fpl$printf2                            0x000073c6   Section        4  printf2.o(x$fpl$printf2)
-    .constdata                               0x000073ca   Section        4  sys_io_names.o(.constdata)
-    x$fpl$usenofp                            0x000073ca   Section        0  usenofp.o(x$fpl$usenofp)
+    [Anonymous Symbol]                       0x00006650   Section        0  wiring_digital.o(.text.pinMode)
+    [Anonymous Symbol]                       0x000066cc   Section        0  usart.o(.text.usart1_write)
+    CL$$btod_d2e                             0x000066f0   Section       62  btod.o(CL$$btod_d2e)
+    CL$$btod_d2e_denorm_low                  0x0000672e   Section       70  btod.o(CL$$btod_d2e_denorm_low)
+    CL$$btod_d2e_norm_op1                    0x00006774   Section       96  btod.o(CL$$btod_d2e_norm_op1)
+    CL$$btod_div_common                      0x000067d4   Section      824  btod.o(CL$$btod_div_common)
+    CL$$btod_e2e                             0x00006b0c   Section      220  btod.o(CL$$btod_e2e)
+    CL$$btod_ediv                            0x00006be8   Section       42  btod.o(CL$$btod_ediv)
+    CL$$btod_emul                            0x00006c12   Section       42  btod.o(CL$$btod_emul)
+    CL$$btod_mult_common                     0x00006c3c   Section      580  btod.o(CL$$btod_mult_common)
+    i.__ARM_fpclassify                       0x00006e80   Section        0  fpclassify.o(i.__ARM_fpclassify)
+    i._is_digit                              0x00006eb0   Section        0  __printf_wp.o(i._is_digit)
+    i.fputc                                  0x00006ebe   Section        0  fputc.o(i.fputc)
+    locale$$code                             0x00006ed8   Section       44  lc_ctype_c.o(locale$$code)
+    locale$$code                             0x00006f04   Section       44  lc_numeric_c.o(locale$$code)
+    $v0                                      0x00006f30   Number         0  d2f.o(x$fpl$d2f)
+    x$fpl$d2f                                0x00006f30   Section       98  d2f.o(x$fpl$d2f)
+    $v0                                      0x00006f94   Number         0  ddiv.o(x$fpl$ddiv)
+    x$fpl$ddiv                               0x00006f94   Section      692  ddiv.o(x$fpl$ddiv)
+    ddiv_entry                               0x00006f9b   Thumb Code     0  ddiv.o(x$fpl$ddiv)
+    $v0                                      0x00007248   Number         0  dflt_clz.o(x$fpl$dfltu)
+    x$fpl$dfltu                              0x00007248   Section       38  dflt_clz.o(x$fpl$dfltu)
+    $v0                                      0x00007270   Number         0  dfltll_clz.o(x$fpl$dfltull)
+    x$fpl$dfltull                            0x00007270   Section      138  dfltll_clz.o(x$fpl$dfltull)
+    $v0                                      0x000072fa   Number         0  dnaninf.o(x$fpl$dnaninf)
+    x$fpl$dnaninf                            0x000072fa   Section      156  dnaninf.o(x$fpl$dnaninf)
+    $v0                                      0x00007396   Number         0  dretinf.o(x$fpl$dretinf)
+    x$fpl$dretinf                            0x00007396   Section       12  dretinf.o(x$fpl$dretinf)
+    $v0                                      0x000073a2   Number         0  fpinit.o(x$fpl$fpinit)
+    x$fpl$fpinit                             0x000073a2   Section       26  fpinit.o(x$fpl$fpinit)
+    $v0                                      0x000073bc   Number         0  fretinf.o(x$fpl$fretinf)
+    x$fpl$fretinf                            0x000073bc   Section       10  fretinf.o(x$fpl$fretinf)
+    $v0                                      0x000073c6   Number         0  printf1.o(x$fpl$printf1)
+    x$fpl$printf1                            0x000073c6   Section        4  printf1.o(x$fpl$printf1)
+    $v0                                      0x000073ca   Number         0  printf2.o(x$fpl$printf2)
+    x$fpl$printf2                            0x000073ca   Section        4  printf2.o(x$fpl$printf2)
     .constdata                               0x000073ce   Section        4  sys_io_names.o(.constdata)
+    x$fpl$usenofp                            0x000073ce   Section        0  usenofp.o(x$fpl$usenofp)
     .constdata                               0x000073d2   Section        4  sys_io_names.o(.constdata)
-    maptable                                 0x000073d6   Data          17  __printf_flags_ss_wp.o(.constdata)
-    .constdata                               0x000073d6   Section       17  __printf_flags_ss_wp.o(.constdata)
-    initial_mbstate                          0x000073e8   Data           8  _printf_wctomb.o(.constdata)
-    .constdata                               0x000073e8   Section        8  _printf_wctomb.o(.constdata)
-    uc_hextab                                0x000073f0   Data          20  _printf_hex_int_ll_ptr.o(.constdata)
-    .constdata                               0x000073f0   Section       40  _printf_hex_int_ll_ptr.o(.constdata)
-    lc_hextab                                0x00007404   Data          20  _printf_hex_int_ll_ptr.o(.constdata)
-    lc_hextab                                0x00007418   Data          19  _printf_fp_hex.o(.constdata)
-    .constdata                               0x00007418   Section       38  _printf_fp_hex.o(.constdata)
-    uc_hextab                                0x0000742b   Data          19  _printf_fp_hex.o(.constdata)
-    tenpwrs_x                                0x00007440   Data          60  bigflt0.o(.constdata)
-    .constdata                               0x00007440   Section      148  bigflt0.o(.constdata)
-    tenpwrs_i                                0x0000747c   Data          64  bigflt0.o(.constdata)
-    generic_st7789                           0x0000756d   Data          35  adafruit_st7789.o(.rodata._ZL14generic_st7789)
-    [Anonymous Symbol]                       0x0000756d   Section        0  adafruit_st7789.o(.rodata._ZL14generic_st7789)
-    font                                     0x00007590   Data        1280  adafruit_gfx.o(.rodata._ZL4font)
-    [Anonymous Symbol]                       0x00007590   Section        0  adafruit_gfx.o(.rodata._ZL4font)
-    .L__const.SmartCard_CalculateBrr.au16EtuClkCnts 0x00007c20   Data          16  hc32_ll_usart.o(.rodata.cst16)
-    .L.str                                   0x00007c30   Data          20  hal_cortex.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x00007c30   Section        0  hal_cortex.o(.rodata.str1.1)
-    .L.str                                   0x00007c44   Data          28  hc32_ll_clk.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x00007c44   Section        0  hc32_ll_clk.o(.rodata.str1.1)
-    .L.str                                   0x00007c60   Data          28  hc32_ll_efm.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x00007c60   Section        0  hc32_ll_efm.o(.rodata.str1.1)
-    .L.str                                   0x00007c7c   Data          28  hc32_ll_fcg.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x00007c7c   Section        0  hc32_ll_fcg.o(.rodata.str1.1)
-    .L.str                                   0x00007c98   Data          29  hc32_ll_gpio.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x00007c98   Section        0  hc32_ll_gpio.o(.rodata.str1.1)
-    .L.str                                   0x00007cb5   Data          28  hc32_ll_pwc.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x00007cb5   Section        0  hc32_ll_pwc.o(.rodata.str1.1)
-    .L.str                                   0x00007cd1   Data          28  hc32_ll_spi.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x00007cd1   Section        0  hc32_ll_spi.o(.rodata.str1.1)
-    .L.str                                   0x00007ced   Data          29  hc32_ll_sram.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x00007ced   Section        0  hc32_ll_sram.o(.rodata.str1.1)
-    .L.str                                   0x00007d0a   Data          30  hc32_ll_usart.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x00007d0a   Section        0  hc32_ll_usart.o(.rodata.str1.1)
-    locale$$data                             0x00007d48   Section      272  lc_ctype_c.o(locale$$data)
-    __lcctype_c_name                         0x00007d4c   Data           2  lc_ctype_c.o(locale$$data)
-    __lcctype_c_start                        0x00007d54   Data           0  lc_ctype_c.o(locale$$data)
-    __lcctype_c_end                          0x00007e58   Data           0  lc_ctype_c.o(locale$$data)
-    locale$$data                             0x00007e58   Section       28  lc_numeric_c.o(locale$$data)
-    __lcnum_c_name                           0x00007e5c   Data           2  lc_numeric_c.o(locale$$data)
-    __lcnum_c_start                          0x00007e64   Data           0  lc_numeric_c.o(locale$$data)
-    __lcnum_c_point                          0x00007e70   Data           0  lc_numeric_c.o(locale$$data)
-    __lcnum_c_thousands                      0x00007e72   Data           0  lc_numeric_c.o(locale$$data)
-    __lcnum_c_grouping                       0x00007e73   Data           0  lc_numeric_c.o(locale$$data)
-    __lcnum_c_end                            0x00007e74   Data           0  lc_numeric_c.o(locale$$data)
-    .init_array                              0x00007e78   Section        0  init_aeabi.o(.init_array)
+    .constdata                               0x000073d6   Section        4  sys_io_names.o(.constdata)
+    maptable                                 0x000073da   Data          17  __printf_flags_ss_wp.o(.constdata)
+    .constdata                               0x000073da   Section       17  __printf_flags_ss_wp.o(.constdata)
+    initial_mbstate                          0x000073ec   Data           8  _printf_wctomb.o(.constdata)
+    .constdata                               0x000073ec   Section        8  _printf_wctomb.o(.constdata)
+    uc_hextab                                0x000073f4   Data          20  _printf_hex_int_ll_ptr.o(.constdata)
+    .constdata                               0x000073f4   Section       40  _printf_hex_int_ll_ptr.o(.constdata)
+    lc_hextab                                0x00007408   Data          20  _printf_hex_int_ll_ptr.o(.constdata)
+    lc_hextab                                0x0000741c   Data          19  _printf_fp_hex.o(.constdata)
+    .constdata                               0x0000741c   Section       38  _printf_fp_hex.o(.constdata)
+    uc_hextab                                0x0000742f   Data          19  _printf_fp_hex.o(.constdata)
+    tenpwrs_x                                0x00007444   Data          60  bigflt0.o(.constdata)
+    .constdata                               0x00007444   Section      148  bigflt0.o(.constdata)
+    tenpwrs_i                                0x00007480   Data          64  bigflt0.o(.constdata)
+    generic_st7789                           0x00007571   Data          35  adafruit_st7789.o(.rodata._ZL14generic_st7789)
+    [Anonymous Symbol]                       0x00007571   Section        0  adafruit_st7789.o(.rodata._ZL14generic_st7789)
+    font                                     0x00007594   Data        1280  adafruit_gfx.o(.rodata._ZL4font)
+    [Anonymous Symbol]                       0x00007594   Section        0  adafruit_gfx.o(.rodata._ZL4font)
+    .L__const.SmartCard_CalculateBrr.au16EtuClkCnts 0x00007c24   Data          16  hc32_ll_usart.o(.rodata.cst16)
+    .L.str                                   0x00007c34   Data          20  hal_cortex.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x00007c34   Section        0  hal_cortex.o(.rodata.str1.1)
+    .L.str                                   0x00007c48   Data          28  hc32_ll_clk.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x00007c48   Section        0  hc32_ll_clk.o(.rodata.str1.1)
+    .L.str                                   0x00007c64   Data          28  hc32_ll_efm.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x00007c64   Section        0  hc32_ll_efm.o(.rodata.str1.1)
+    .L.str                                   0x00007c80   Data          28  hc32_ll_fcg.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x00007c80   Section        0  hc32_ll_fcg.o(.rodata.str1.1)
+    .L.str                                   0x00007c9c   Data          29  hc32_ll_gpio.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x00007c9c   Section        0  hc32_ll_gpio.o(.rodata.str1.1)
+    .L.str                                   0x00007cb9   Data          28  hc32_ll_pwc.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x00007cb9   Section        0  hc32_ll_pwc.o(.rodata.str1.1)
+    .L.str                                   0x00007cd5   Data          28  hc32_ll_spi.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x00007cd5   Section        0  hc32_ll_spi.o(.rodata.str1.1)
+    .L.str                                   0x00007cf1   Data          29  hc32_ll_sram.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x00007cf1   Section        0  hc32_ll_sram.o(.rodata.str1.1)
+    .L.str                                   0x00007d0e   Data          30  hc32_ll_usart.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x00007d0e   Section        0  hc32_ll_usart.o(.rodata.str1.1)
+    locale$$data                             0x00007d4c   Section      272  lc_ctype_c.o(locale$$data)
+    __lcctype_c_name                         0x00007d50   Data           2  lc_ctype_c.o(locale$$data)
+    __lcctype_c_start                        0x00007d58   Data           0  lc_ctype_c.o(locale$$data)
+    __lcctype_c_end                          0x00007e5c   Data           0  lc_ctype_c.o(locale$$data)
+    locale$$data                             0x00007e5c   Section       28  lc_numeric_c.o(locale$$data)
+    __lcnum_c_name                           0x00007e60   Data           2  lc_numeric_c.o(locale$$data)
+    __lcnum_c_start                          0x00007e68   Data           0  lc_numeric_c.o(locale$$data)
+    __lcnum_c_point                          0x00007e74   Data           0  lc_numeric_c.o(locale$$data)
+    __lcnum_c_thousands                      0x00007e76   Data           0  lc_numeric_c.o(locale$$data)
+    __lcnum_c_grouping                       0x00007e77   Data           0  lc_numeric_c.o(locale$$data)
+    __lcnum_c_end                            0x00007e78   Data           0  lc_numeric_c.o(locale$$data)
+    .init_array                              0x00007e7c   Section        0  init_aeabi.o(.init_array)
     .data                                    0x1fff8008   Section        4  stdio_streams.o(.data)
     .data                                    0x1fff800c   Section        4  stdio_streams.o(.data)
     .data                                    0x1fff8010   Section        4  stdio_streams.o(.data)
@@ -7375,53 +7375,53 @@ Image Symbol Table
     disable_JTAG                             0x00006555   Thumb Code    14  addon_gpio.o(.text.disable_JTAG)
     dwt_getStatus                            0x00006571   Thumb Code    12  dwt.o(.text.dwt_getStatus)
     dwt_init                                 0x0000657d   Thumb Code    70  dwt.o(.text.dwt_init)
-    main                                     0x000065c5   Thumb Code   128  main.o(.text.main)
-    pinMode                                  0x0000664d   Thumb Code   124  wiring_digital.o(.text.pinMode)
-    usart1_write                             0x000066c9   Thumb Code    36  usart.o(.text.usart1_write)
-    _btod_d2e                                0x000066ed   Thumb Code    62  btod.o(CL$$btod_d2e)
-    _d2e_denorm_low                          0x0000672b   Thumb Code    70  btod.o(CL$$btod_d2e_denorm_low)
-    _d2e_norm_op1                            0x00006771   Thumb Code    96  btod.o(CL$$btod_d2e_norm_op1)
-    __btod_div_common                        0x000067d1   Thumb Code   696  btod.o(CL$$btod_div_common)
-    _e2e                                     0x00006b09   Thumb Code   220  btod.o(CL$$btod_e2e)
-    _btod_ediv                               0x00006be5   Thumb Code    42  btod.o(CL$$btod_ediv)
-    _btod_emul                               0x00006c0f   Thumb Code    42  btod.o(CL$$btod_emul)
-    __btod_mult_common                       0x00006c39   Thumb Code   580  btod.o(CL$$btod_mult_common)
-    __ARM_fpclassify                         0x00006e7d   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
-    _is_digit                                0x00006ead   Thumb Code    14  __printf_wp.o(i._is_digit)
-    fputc                                    0x00006ebb   Thumb Code    26  fputc.o(i.fputc)
-    _get_lc_ctype                            0x00006ed5   Thumb Code    44  lc_ctype_c.o(locale$$code)
-    _get_lc_numeric                          0x00006f01   Thumb Code    44  lc_numeric_c.o(locale$$code)
-    __aeabi_d2f                              0x00006f2d   Thumb Code     0  d2f.o(x$fpl$d2f)
-    _d2f                                     0x00006f2d   Thumb Code    98  d2f.o(x$fpl$d2f)
-    __aeabi_ddiv                             0x00006f91   Thumb Code     0  ddiv.o(x$fpl$ddiv)
-    _ddiv                                    0x00006f91   Thumb Code   556  ddiv.o(x$fpl$ddiv)
-    __aeabi_ui2d                             0x00007245   Thumb Code     0  dflt_clz.o(x$fpl$dfltu)
-    _dfltu                                   0x00007245   Thumb Code    38  dflt_clz.o(x$fpl$dfltu)
-    __aeabi_ul2d                             0x0000726d   Thumb Code     0  dfltll_clz.o(x$fpl$dfltull)
-    _ll_uto_d                                0x0000726d   Thumb Code   138  dfltll_clz.o(x$fpl$dfltull)
-    __fpl_dnaninf                            0x000072f7   Thumb Code   156  dnaninf.o(x$fpl$dnaninf)
-    __fpl_dretinf                            0x00007393   Thumb Code    12  dretinf.o(x$fpl$dretinf)
-    _fp_init                                 0x0000739f   Thumb Code    26  fpinit.o(x$fpl$fpinit)
-    __fplib_config_fpu_vfp                   0x000073b7   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __fplib_config_pureend_doubles           0x000073b7   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __fpl_fretinf                            0x000073b9   Thumb Code    10  fretinf.o(x$fpl$fretinf)
-    _printf_fp_dec                           0x000073c3   Thumb Code     4  printf1.o(x$fpl$printf1)
-    _printf_fp_hex                           0x000073c7   Thumb Code     4  printf2.o(x$fpl$printf2)
-    __I$use$fp                               0x000073ca   Number         0  usenofp.o(x$fpl$usenofp)
-    __stdin_name                             0x000073ca   Data           4  sys_io_names.o(.constdata)
-    __stdout_name                            0x000073ce   Data           4  sys_io_names.o(.constdata)
-    __stderr_name                            0x000073d2   Data           4  sys_io_names.o(.constdata)
-    PIN_MAP                                  0x000074d4   Data         153  variant.o(.rodata.PIN_MAP)
-    vtable for Adafruit_GFX                  0x00007a90   Data          88  adafruit_gfx.o(.rodata._ZTV12Adafruit_GFX)
-    vtable for Adafruit_SPITFT               0x00007ae8   Data          96  adafruit_spitft.o(.rodata._ZTV15Adafruit_SPITFT)
-    vtable for Adafruit_ST7789               0x00007b48   Data          96  adafruit_st7789.o(.rodata._ZTV15Adafruit_ST7789)
-    vtable for Adafruit_ST77xx               0x00007ba8   Data          96  adafruit_st77xx.o(.rodata._ZTV15Adafruit_ST77xx)
-    vtable for Print                         0x00007c08   Data          24  print.o(.rodata._ZTV5Print)
-    Region$$Table$$Base                      0x00007d28   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00007d48   Number         0  anon$$obj.o(Region$$Table)
-    __ctype                                  0x00007d55   Data           0  lc_ctype_c.o(locale$$data)
-    SHT$$INIT_ARRAY$$Base                    0x00007e74   Number         0  main.o(.init_array)
-    SHT$$INIT_ARRAY$$Limit                   0x00007e78   Number         0  init_aeabi.o(.init_array)
+    main                                     0x000065c5   Thumb Code   132  main.o(.text.main)
+    pinMode                                  0x00006651   Thumb Code   124  wiring_digital.o(.text.pinMode)
+    usart1_write                             0x000066cd   Thumb Code    36  usart.o(.text.usart1_write)
+    _btod_d2e                                0x000066f1   Thumb Code    62  btod.o(CL$$btod_d2e)
+    _d2e_denorm_low                          0x0000672f   Thumb Code    70  btod.o(CL$$btod_d2e_denorm_low)
+    _d2e_norm_op1                            0x00006775   Thumb Code    96  btod.o(CL$$btod_d2e_norm_op1)
+    __btod_div_common                        0x000067d5   Thumb Code   696  btod.o(CL$$btod_div_common)
+    _e2e                                     0x00006b0d   Thumb Code   220  btod.o(CL$$btod_e2e)
+    _btod_ediv                               0x00006be9   Thumb Code    42  btod.o(CL$$btod_ediv)
+    _btod_emul                               0x00006c13   Thumb Code    42  btod.o(CL$$btod_emul)
+    __btod_mult_common                       0x00006c3d   Thumb Code   580  btod.o(CL$$btod_mult_common)
+    __ARM_fpclassify                         0x00006e81   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
+    _is_digit                                0x00006eb1   Thumb Code    14  __printf_wp.o(i._is_digit)
+    fputc                                    0x00006ebf   Thumb Code    26  fputc.o(i.fputc)
+    _get_lc_ctype                            0x00006ed9   Thumb Code    44  lc_ctype_c.o(locale$$code)
+    _get_lc_numeric                          0x00006f05   Thumb Code    44  lc_numeric_c.o(locale$$code)
+    __aeabi_d2f                              0x00006f31   Thumb Code     0  d2f.o(x$fpl$d2f)
+    _d2f                                     0x00006f31   Thumb Code    98  d2f.o(x$fpl$d2f)
+    __aeabi_ddiv                             0x00006f95   Thumb Code     0  ddiv.o(x$fpl$ddiv)
+    _ddiv                                    0x00006f95   Thumb Code   556  ddiv.o(x$fpl$ddiv)
+    __aeabi_ui2d                             0x00007249   Thumb Code     0  dflt_clz.o(x$fpl$dfltu)
+    _dfltu                                   0x00007249   Thumb Code    38  dflt_clz.o(x$fpl$dfltu)
+    __aeabi_ul2d                             0x00007271   Thumb Code     0  dfltll_clz.o(x$fpl$dfltull)
+    _ll_uto_d                                0x00007271   Thumb Code   138  dfltll_clz.o(x$fpl$dfltull)
+    __fpl_dnaninf                            0x000072fb   Thumb Code   156  dnaninf.o(x$fpl$dnaninf)
+    __fpl_dretinf                            0x00007397   Thumb Code    12  dretinf.o(x$fpl$dretinf)
+    _fp_init                                 0x000073a3   Thumb Code    26  fpinit.o(x$fpl$fpinit)
+    __fplib_config_fpu_vfp                   0x000073bb   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __fplib_config_pureend_doubles           0x000073bb   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __fpl_fretinf                            0x000073bd   Thumb Code    10  fretinf.o(x$fpl$fretinf)
+    _printf_fp_dec                           0x000073c7   Thumb Code     4  printf1.o(x$fpl$printf1)
+    _printf_fp_hex                           0x000073cb   Thumb Code     4  printf2.o(x$fpl$printf2)
+    __I$use$fp                               0x000073ce   Number         0  usenofp.o(x$fpl$usenofp)
+    __stdin_name                             0x000073ce   Data           4  sys_io_names.o(.constdata)
+    __stdout_name                            0x000073d2   Data           4  sys_io_names.o(.constdata)
+    __stderr_name                            0x000073d6   Data           4  sys_io_names.o(.constdata)
+    PIN_MAP                                  0x000074d8   Data         153  variant.o(.rodata.PIN_MAP)
+    vtable for Adafruit_GFX                  0x00007a94   Data          88  adafruit_gfx.o(.rodata._ZTV12Adafruit_GFX)
+    vtable for Adafruit_SPITFT               0x00007aec   Data          96  adafruit_spitft.o(.rodata._ZTV15Adafruit_SPITFT)
+    vtable for Adafruit_ST7789               0x00007b4c   Data          96  adafruit_st7789.o(.rodata._ZTV15Adafruit_ST7789)
+    vtable for Adafruit_ST77xx               0x00007bac   Data          96  adafruit_st77xx.o(.rodata._ZTV15Adafruit_ST77xx)
+    vtable for Print                         0x00007c0c   Data          24  print.o(.rodata._ZTV5Print)
+    Region$$Table$$Base                      0x00007d2c   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00007d4c   Number         0  anon$$obj.o(Region$$Table)
+    __ctype                                  0x00007d59   Data           0  lc_ctype_c.o(locale$$data)
+    SHT$$INIT_ARRAY$$Base                    0x00007e78   Number         0  main.o(.init_array)
+    SHT$$INIT_ARRAY$$Limit                   0x00007e7c   Number         0  init_aeabi.o(.init_array)
     HRC_VALUE                                0x1fff8000   Data           4  system_hc32f460.o(.bss.noinit)
     SystemCoreClock                          0x1fff8004   Data           4  system_hc32f460.o(.bss.noinit)
     __aeabi_stdin                            0x1fff8008   Data           4  stdio_streams.o(.data)
@@ -7445,9 +7445,9 @@ Memory Map of the image
 
   Image Entry point : 0x00000281
 
-  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00007ec8, Max: 0x00080000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00007ed0, Max: 0x00080000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00007e78, Max: 0x00080000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00007e7c, Max: 0x00080000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -8123,105 +8123,105 @@ Memory Map of the image
     0x00006570   0x00006570   0x0000000c   Code   RO           68    .text.dwt_getStatus  dwt.o
     0x0000657c   0x0000657c   0x00000046   Code   RO           66    .text.dwt_init      dwt.o
     0x000065c2   0x000065c2   0x00000002   PAD
-    0x000065c4   0x000065c4   0x00000088   Code   RO            4    .text.main          main.o
-    0x0000664c   0x0000664c   0x0000007c   Code   RO         2084    .text.pinMode       wiring_digital.o
-    0x000066c8   0x000066c8   0x00000024   Code   RO           82    .text.usart1_write  usart.o
-    0x000066ec   0x000066ec   0x0000003e   Code   RO         3199    CL$$btod_d2e        c_w.l(btod.o)
-    0x0000672a   0x0000672a   0x00000046   Code   RO         3201    CL$$btod_d2e_denorm_low  c_w.l(btod.o)
-    0x00006770   0x00006770   0x00000060   Code   RO         3200    CL$$btod_d2e_norm_op1  c_w.l(btod.o)
-    0x000067d0   0x000067d0   0x00000338   Code   RO         3209    CL$$btod_div_common  c_w.l(btod.o)
-    0x00006b08   0x00006b08   0x000000dc   Code   RO         3206    CL$$btod_e2e        c_w.l(btod.o)
-    0x00006be4   0x00006be4   0x0000002a   Code   RO         3203    CL$$btod_ediv       c_w.l(btod.o)
-    0x00006c0e   0x00006c0e   0x0000002a   Code   RO         3202    CL$$btod_emul       c_w.l(btod.o)
-    0x00006c38   0x00006c38   0x00000244   Code   RO         3208    CL$$btod_mult_common  c_w.l(btod.o)
-    0x00006e7c   0x00006e7c   0x00000030   Code   RO         3253    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
-    0x00006eac   0x00006eac   0x0000000e   Code   RO         2629    i._is_digit         c_w.l(__printf_wp.o)
-    0x00006eba   0x00006eba   0x0000001a   Code   RO         2646    i.fputc             c_w.l(fputc.o)
-    0x00006ed4   0x00006ed4   0x0000002c   Code   RO         2937    locale$$code        c_w.l(lc_ctype_c.o)
-    0x00006f00   0x00006f00   0x0000002c   Code   RO         3127    locale$$code        c_w.l(lc_numeric_c.o)
-    0x00006f2c   0x00006f2c   0x00000062   Code   RO         2712    x$fpl$d2f           fz_wm.l(d2f.o)
-    0x00006f8e   0x00006f8e   0x00000002   PAD
-    0x00006f90   0x00006f90   0x000002b4   Code   RO         2723    x$fpl$ddiv          fz_wm.l(ddiv.o)
-    0x00007244   0x00007244   0x00000026   Code   RO         2734    x$fpl$dfltu         fz_wm.l(dflt_clz.o)
-    0x0000726a   0x0000726a   0x00000002   PAD
-    0x0000726c   0x0000726c   0x0000008a   Code   RO         2741    x$fpl$dfltull       fz_wm.l(dfltll_clz.o)
-    0x000072f6   0x000072f6   0x0000009c   Code   RO         3010    x$fpl$dnaninf       fz_wm.l(dnaninf.o)
-    0x00007392   0x00007392   0x0000000c   Code   RO         3012    x$fpl$dretinf       fz_wm.l(dretinf.o)
-    0x0000739e   0x0000739e   0x0000001a   Code   RO         3169    x$fpl$fpinit        fz_wm.l(fpinit.o)
-    0x000073b8   0x000073b8   0x0000000a   Code   RO         3016    x$fpl$fretinf       fz_wm.l(fretinf.o)
-    0x000073c2   0x000073c2   0x00000004   Code   RO         3018    x$fpl$printf1       fz_wm.l(printf1.o)
-    0x000073c6   0x000073c6   0x00000004   Code   RO         3020    x$fpl$printf2       fz_wm.l(printf2.o)
-    0x000073ca   0x000073ca   0x00000000   Code   RO         3026    x$fpl$usenofp       fz_wm.l(usenofp.o)
-    0x000073ca   0x000073ca   0x00000004   Data   RO         2526    .constdata          c_w.l(sys_io_names.o)
-    0x000073ce   0x000073ce   0x00000004   Data   RO         2527    .constdata          c_w.l(sys_io_names.o)
-    0x000073d2   0x000073d2   0x00000004   Data   RO         2528    .constdata          c_w.l(sys_io_names.o)
-    0x000073d6   0x000073d6   0x00000011   Data   RO         2637    .constdata          c_w.l(__printf_flags_ss_wp.o)
-    0x000073e7   0x000073e7   0x00000001   PAD
-    0x000073e8   0x000073e8   0x00000008   Data   RO         2868    .constdata          c_w.l(_printf_wctomb.o)
-    0x000073f0   0x000073f0   0x00000028   Data   RO         2897    .constdata          c_w.l(_printf_hex_int_ll_ptr.o)
-    0x00007418   0x00007418   0x00000026   Data   RO         3094    .constdata          c_w.l(_printf_fp_hex.o)
-    0x0000743e   0x0000743e   0x00000002   PAD
-    0x00007440   0x00007440   0x00000094   Data   RO         3197    .constdata          c_w.l(bigflt0.o)
-    0x000074d4   0x000074d4   0x00000099   Data   RO         2078    .rodata.PIN_MAP     variant.o
-    0x0000756d   0x0000756d   0x00000023   Data   RO         2478    .rodata._ZL14generic_st7789  adafruit_st7789.o
-    0x00007590   0x00007590   0x00000500   Data   RO         2297    .rodata._ZL4font    adafruit_gfx.o
-    0x00007a90   0x00007a90   0x00000058   Data   RO         2296    .rodata._ZTV12Adafruit_GFX  adafruit_gfx.o
-    0x00007ae8   0x00007ae8   0x00000060   Data   RO         2395    .rodata._ZTV15Adafruit_SPITFT  adafruit_spitft.o
-    0x00007b48   0x00007b48   0x00000060   Data   RO         2477    .rodata._ZTV15Adafruit_ST7789  adafruit_st7789.o
-    0x00007ba8   0x00007ba8   0x00000060   Data   RO         2458    .rodata._ZTV15Adafruit_ST77xx  adafruit_st77xx.o
-    0x00007c08   0x00007c08   0x00000018   Data   RO         1806    .rodata._ZTV5Print  print.o
-    0x00007c20   0x00007c20   0x00000010   Data   RO         1708    .rodata.cst16       hc32_ll_usart.o
-    0x00007c30   0x00007c30   0x00000014   Data   RO          285    .rodata.str1.1      hal_cortex.o
-    0x00007c44   0x00007c44   0x0000001c   Data   RO          513    .rodata.str1.1      hc32_ll_clk.o
-    0x00007c60   0x00007c60   0x0000001c   Data   RO          764    .rodata.str1.1      hc32_ll_efm.o
-    0x00007c7c   0x00007c7c   0x0000001c   Data   RO          783    .rodata.str1.1      hc32_ll_fcg.o
-    0x00007c98   0x00007c98   0x0000001d   Data   RO          832    .rodata.str1.1      hc32_ll_gpio.o
-    0x00007cb5   0x00007cb5   0x0000001c   Data   RO         1373    .rodata.str1.1      hc32_ll_pwc.o
-    0x00007cd1   0x00007cd1   0x0000001c   Data   RO         1449    .rodata.str1.1      hc32_ll_spi.o
-    0x00007ced   0x00007ced   0x0000001d   Data   RO         1472    .rodata.str1.1      hc32_ll_sram.o
-    0x00007d0a   0x00007d0a   0x0000001e   Data   RO         1707    .rodata.str1.1      hc32_ll_usart.o
-    0x00007d28   0x00007d28   0x00000020   Data   RO         3358    Region$$Table       anon$$obj.o
-    0x00007d48   0x00007d48   0x00000110   Data   RO         2936    locale$$data        c_w.l(lc_ctype_c.o)
-    0x00007e58   0x00007e58   0x0000001c   Data   RO         3126    locale$$data        c_w.l(lc_numeric_c.o)
-    0x00007e74   0x00007e74   0x00000004   Data   RO           13    .init_array         main.o
-    0x00007e78   0x00007e74   0x00000000   Data   RO         2707    .init_array         c_w.l(init_aeabi.o)
+    0x000065c4   0x000065c4   0x0000008c   Code   RO            4    .text.main          main.o
+    0x00006650   0x00006650   0x0000007c   Code   RO         2084    .text.pinMode       wiring_digital.o
+    0x000066cc   0x000066cc   0x00000024   Code   RO           82    .text.usart1_write  usart.o
+    0x000066f0   0x000066f0   0x0000003e   Code   RO         3199    CL$$btod_d2e        c_w.l(btod.o)
+    0x0000672e   0x0000672e   0x00000046   Code   RO         3201    CL$$btod_d2e_denorm_low  c_w.l(btod.o)
+    0x00006774   0x00006774   0x00000060   Code   RO         3200    CL$$btod_d2e_norm_op1  c_w.l(btod.o)
+    0x000067d4   0x000067d4   0x00000338   Code   RO         3209    CL$$btod_div_common  c_w.l(btod.o)
+    0x00006b0c   0x00006b0c   0x000000dc   Code   RO         3206    CL$$btod_e2e        c_w.l(btod.o)
+    0x00006be8   0x00006be8   0x0000002a   Code   RO         3203    CL$$btod_ediv       c_w.l(btod.o)
+    0x00006c12   0x00006c12   0x0000002a   Code   RO         3202    CL$$btod_emul       c_w.l(btod.o)
+    0x00006c3c   0x00006c3c   0x00000244   Code   RO         3208    CL$$btod_mult_common  c_w.l(btod.o)
+    0x00006e80   0x00006e80   0x00000030   Code   RO         3253    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
+    0x00006eb0   0x00006eb0   0x0000000e   Code   RO         2629    i._is_digit         c_w.l(__printf_wp.o)
+    0x00006ebe   0x00006ebe   0x0000001a   Code   RO         2646    i.fputc             c_w.l(fputc.o)
+    0x00006ed8   0x00006ed8   0x0000002c   Code   RO         2937    locale$$code        c_w.l(lc_ctype_c.o)
+    0x00006f04   0x00006f04   0x0000002c   Code   RO         3127    locale$$code        c_w.l(lc_numeric_c.o)
+    0x00006f30   0x00006f30   0x00000062   Code   RO         2712    x$fpl$d2f           fz_wm.l(d2f.o)
+    0x00006f92   0x00006f92   0x00000002   PAD
+    0x00006f94   0x00006f94   0x000002b4   Code   RO         2723    x$fpl$ddiv          fz_wm.l(ddiv.o)
+    0x00007248   0x00007248   0x00000026   Code   RO         2734    x$fpl$dfltu         fz_wm.l(dflt_clz.o)
+    0x0000726e   0x0000726e   0x00000002   PAD
+    0x00007270   0x00007270   0x0000008a   Code   RO         2741    x$fpl$dfltull       fz_wm.l(dfltll_clz.o)
+    0x000072fa   0x000072fa   0x0000009c   Code   RO         3010    x$fpl$dnaninf       fz_wm.l(dnaninf.o)
+    0x00007396   0x00007396   0x0000000c   Code   RO         3012    x$fpl$dretinf       fz_wm.l(dretinf.o)
+    0x000073a2   0x000073a2   0x0000001a   Code   RO         3169    x$fpl$fpinit        fz_wm.l(fpinit.o)
+    0x000073bc   0x000073bc   0x0000000a   Code   RO         3016    x$fpl$fretinf       fz_wm.l(fretinf.o)
+    0x000073c6   0x000073c6   0x00000004   Code   RO         3018    x$fpl$printf1       fz_wm.l(printf1.o)
+    0x000073ca   0x000073ca   0x00000004   Code   RO         3020    x$fpl$printf2       fz_wm.l(printf2.o)
+    0x000073ce   0x000073ce   0x00000000   Code   RO         3026    x$fpl$usenofp       fz_wm.l(usenofp.o)
+    0x000073ce   0x000073ce   0x00000004   Data   RO         2526    .constdata          c_w.l(sys_io_names.o)
+    0x000073d2   0x000073d2   0x00000004   Data   RO         2527    .constdata          c_w.l(sys_io_names.o)
+    0x000073d6   0x000073d6   0x00000004   Data   RO         2528    .constdata          c_w.l(sys_io_names.o)
+    0x000073da   0x000073da   0x00000011   Data   RO         2637    .constdata          c_w.l(__printf_flags_ss_wp.o)
+    0x000073eb   0x000073eb   0x00000001   PAD
+    0x000073ec   0x000073ec   0x00000008   Data   RO         2868    .constdata          c_w.l(_printf_wctomb.o)
+    0x000073f4   0x000073f4   0x00000028   Data   RO         2897    .constdata          c_w.l(_printf_hex_int_ll_ptr.o)
+    0x0000741c   0x0000741c   0x00000026   Data   RO         3094    .constdata          c_w.l(_printf_fp_hex.o)
+    0x00007442   0x00007442   0x00000002   PAD
+    0x00007444   0x00007444   0x00000094   Data   RO         3197    .constdata          c_w.l(bigflt0.o)
+    0x000074d8   0x000074d8   0x00000099   Data   RO         2078    .rodata.PIN_MAP     variant.o
+    0x00007571   0x00007571   0x00000023   Data   RO         2478    .rodata._ZL14generic_st7789  adafruit_st7789.o
+    0x00007594   0x00007594   0x00000500   Data   RO         2297    .rodata._ZL4font    adafruit_gfx.o
+    0x00007a94   0x00007a94   0x00000058   Data   RO         2296    .rodata._ZTV12Adafruit_GFX  adafruit_gfx.o
+    0x00007aec   0x00007aec   0x00000060   Data   RO         2395    .rodata._ZTV15Adafruit_SPITFT  adafruit_spitft.o
+    0x00007b4c   0x00007b4c   0x00000060   Data   RO         2477    .rodata._ZTV15Adafruit_ST7789  adafruit_st7789.o
+    0x00007bac   0x00007bac   0x00000060   Data   RO         2458    .rodata._ZTV15Adafruit_ST77xx  adafruit_st77xx.o
+    0x00007c0c   0x00007c0c   0x00000018   Data   RO         1806    .rodata._ZTV5Print  print.o
+    0x00007c24   0x00007c24   0x00000010   Data   RO         1708    .rodata.cst16       hc32_ll_usart.o
+    0x00007c34   0x00007c34   0x00000014   Data   RO          285    .rodata.str1.1      hal_cortex.o
+    0x00007c48   0x00007c48   0x0000001c   Data   RO          513    .rodata.str1.1      hc32_ll_clk.o
+    0x00007c64   0x00007c64   0x0000001c   Data   RO          764    .rodata.str1.1      hc32_ll_efm.o
+    0x00007c80   0x00007c80   0x0000001c   Data   RO          783    .rodata.str1.1      hc32_ll_fcg.o
+    0x00007c9c   0x00007c9c   0x0000001d   Data   RO          832    .rodata.str1.1      hc32_ll_gpio.o
+    0x00007cb9   0x00007cb9   0x0000001c   Data   RO         1373    .rodata.str1.1      hc32_ll_pwc.o
+    0x00007cd5   0x00007cd5   0x0000001c   Data   RO         1449    .rodata.str1.1      hc32_ll_spi.o
+    0x00007cf1   0x00007cf1   0x0000001d   Data   RO         1472    .rodata.str1.1      hc32_ll_sram.o
+    0x00007d0e   0x00007d0e   0x0000001e   Data   RO         1707    .rodata.str1.1      hc32_ll_usart.o
+    0x00007d2c   0x00007d2c   0x00000020   Data   RO         3358    Region$$Table       anon$$obj.o
+    0x00007d4c   0x00007d4c   0x00000110   Data   RO         2936    locale$$data        c_w.l(lc_ctype_c.o)
+    0x00007e5c   0x00007e5c   0x0000001c   Data   RO         3126    locale$$data        c_w.l(lc_numeric_c.o)
+    0x00007e78   0x00007e78   0x00000004   Data   RO           13    .init_array         main.o
+    0x00007e7c   0x00007e78   0x00000000   Data   RO         2707    .init_array         c_w.l(init_aeabi.o)
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x1fff8000, Load base: 0x00007e78, Size: 0x00000008, Max: 0x00000008, ABSOLUTE, UNINIT)
+    Execution Region RW_IRAM1 (Exec base: 0x1fff8000, Load base: 0x00007e7c, Size: 0x00000008, Max: 0x00000008, ABSOLUTE, UNINIT)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x1fff8000        -       0x00000008   Zero   RW           31    .bss.noinit         system_hc32f460.o
 
 
-    Execution Region RW_IRAM2 (Exec base: 0x1fff8008, Load base: 0x00007e78, Size: 0x00000e08, Max: 0x0002eff8, ABSOLUTE)
+    Execution Region RW_IRAM2 (Exec base: 0x1fff8008, Load base: 0x00007e80, Size: 0x00000e08, Max: 0x0002eff8, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x1fff8008   0x00007e78   0x00000004   Data   RW         2654    .data               c_w.l(stdio_streams.o)
-    0x1fff800c   0x00007e7c   0x00000004   Data   RW         2655    .data               c_w.l(stdio_streams.o)
-    0x1fff8010   0x00007e80   0x00000004   Data   RW         2656    .data               c_w.l(stdio_streams.o)
-    0x1fff8014   0x00007e84   0x0000003c   Data   RW          207    .data.SPI_3         spi.o
-    0x1fff8050   0x00007ec0   0x00000001   Data   RW          247    .data.uwTickFreq    hal.o
-    0x1fff8051   0x00007ec1   0x00000003   PAD
-    0x1fff8054   0x00007ec4   0x00000004   Data   RW          246    .data.uwTickPrio    hal.o
+    0x1fff8008   0x00007e80   0x00000004   Data   RW         2654    .data               c_w.l(stdio_streams.o)
+    0x1fff800c   0x00007e84   0x00000004   Data   RW         2655    .data               c_w.l(stdio_streams.o)
+    0x1fff8010   0x00007e88   0x00000004   Data   RW         2656    .data               c_w.l(stdio_streams.o)
+    0x1fff8014   0x00007e8c   0x0000003c   Data   RW          207    .data.SPI_3         spi.o
+    0x1fff8050   0x00007ec8   0x00000001   Data   RW          247    .data.uwTickFreq    hal.o
+    0x1fff8051   0x00007ec9   0x00000003   PAD
+    0x1fff8054   0x00007ecc   0x00000004   Data   RW          246    .data.uwTickPrio    hal.o
     0x1fff8058        -       0x00000054   Zero   RW         2651    .bss                c_w.l(stdio_streams.o)
     0x1fff80ac        -       0x00000054   Zero   RW         2652    .bss                c_w.l(stdio_streams.o)
     0x1fff8100        -       0x00000054   Zero   RW         2653    .bss                c_w.l(stdio_streams.o)
     0x1fff8154        -       0x00000060   Zero   RW         3055    .bss                c_w.l(libspace.o)
     0x1fff81b4        -       0x0000004c   Zero   RW           12    .bss._ZL6screen     main.o
     0x1fff8200        -       0x00000001   Zero   RW           70    .bss.dwt_enabled    dwt.o
-    0x1fff8201   0x00007ec8   0x00000003   PAD
+    0x1fff8201   0x00007ed0   0x00000003   PAD
     0x1fff8204        -       0x00000200   Zero   RW         1231    .bss.m_apfnIrqHandler  hc32_ll_interrupts.o
     0x1fff8404        -       0x00000001   Zero   RW           84    .bss.printf_init_done  usart.o
-    0x1fff8405   0x00007ec8   0x00000003   PAD
+    0x1fff8405   0x00007ed0   0x00000003   PAD
     0x1fff8408        -       0x00000004   Zero   RW          248    .bss.uwTick         hal.o
-    0x1fff840c   0x00007ec8   0x00000004   PAD
+    0x1fff840c   0x00007ed0   0x00000004   PAD
     0x1fff8410        -       0x00000200   Zero   RW           40    HEAP                startup_hc32f460.o
     0x1fff8610        -       0x00000800   Zero   RW           39    STACK               startup_hc32f460.o
 
 
-    Execution Region RW_IRAMB (Exec base: 0x200f0000, Load base: 0x00007ec8, Size: 0x00000000, Max: 0x00001000, ABSOLUTE)
+    Execution Region RW_IRAMB (Exec base: 0x200f0000, Load base: 0x00007ed0, Size: 0x00000000, Max: 0x00001000, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
@@ -8255,7 +8255,7 @@ Image component sizes
       2702          0         46          0          0      23644   hc32_ll_usart.o
          2          0          0          0          0        499   hc32_ll_utility.o
         16          0          0          0          0       1295   hc32f4xx_it.o
-       432          8          4          0         76      19856   main.o
+       436          8          4          0         76      19856   main.o
        170          0         24          0          0      34053   print.o
        424          0          0         60          0      28112   spi.o
        128         42        640          0       2560        936   startup_hc32f460.o
@@ -8267,7 +8267,7 @@ Image component sizes
          2          0          0          0          0        354   yield.o
 
     ----------------------------------------------------------------------
-     17860         78       2840         68       3172     477854   Object Totals
+     17864         78       2840         68       3172     477854   Object Totals
          0          0         32          0          0          0   (incl. Generated)
        418          0          0          3         10          0   (incl. Padding)
 
@@ -8424,15 +8424,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     28970        740       3406         80       3520     481006   Grand Totals
-     28970        740       3406         80       3520     481006   ELF Image Totals
-     28970        740       3406         80          0          0   ROM Totals
+     28974        740       3406         80       3520     481006   Grand Totals
+     28974        740       3406         80       3520     481006   ELF Image Totals
+     28974        740       3406         80          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                32376 (  31.62kB)
+    Total RO  Size (Code + RO Data)                32380 (  31.62kB)
     Total RW  Size (RW Data + ZI Data)              3600 (   3.52kB)
-    Total ROM Size (Code + RO Data + RW Data)      32456 (  31.70kB)
+    Total ROM Size (Code + RO Data + RW Data)      32460 (  31.70kB)
 
 ==============================================================================
 
