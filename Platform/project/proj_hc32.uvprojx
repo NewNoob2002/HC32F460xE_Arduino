@@ -337,9 +337,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>HC32F460,USE_DDL_DRIVER,__DEBUG</Define>
+              <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111, __DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\App\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core;..\Core\gpio;..\HAL;..\Driver\inc;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx</IncludePath>
+              <IncludePath>..\..\App\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\HAL;..\Driver\inc;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -409,29 +409,39 @@
           <GroupName>Platform/Core</GroupName>
           <Files>
             <File>
-              <FileName>Syscalls_KEIL.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Syscalls_KEIL.c</FilePath>
-            </File>
-            <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\delay.c</FilePath>
+              <FilePath>..\Core\src\delay.c</FilePath>
             </File>
             <File>
               <FileName>dwt.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\dwt.c</FilePath>
+              <FilePath>..\Core\src\dwt.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\src\usart.c</FilePath>
             </File>
             <File>
               <FileName>addon_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\gpio\addon_gpio.c</FilePath>
+              <FilePath>..\Core\src\addon_gpio.c</FilePath>
             </File>
             <File>
               <FileName>hc32f4xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\hc32f4xx_it.c</FilePath>
+              <FilePath>..\Core\src\hc32f4xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>Syscalls_KEIL.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\src\Syscalls_KEIL.c</FilePath>
+            </File>
+            <File>
+              <FileName>SPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Core\src\SPI.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -651,6 +661,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Platform/Config</GroupName>
+          <Files>
+            <File>
+              <FileName>hc32f4xx_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Config\hc32f4xx_conf.h</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Config\mcu_config.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Arduino</GroupName>
           <Files>
             <File>
@@ -705,6 +730,38 @@
         </Group>
         <Group>
           <GroupName>Libraries</GroupName>
+          <Files>
+            <File>
+              <FileName>glcdfont.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\Adafruit-GFX-Library\glcdfont.c</FilePath>
+            </File>
+            <File>
+              <FileName>Adafruit_GFX.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\Adafruit-GFX-Library\Adafruit_GFX.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Adafruit_SPITFT.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\Adafruit-GFX-Library\Adafruit_SPITFT.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Adafruit_ST77xx.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\Adafruit-ST7735-Library\Adafruit_ST77xx.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Adafruit_ST7789.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\Adafruit-ST7735-Library\Adafruit_ST7789.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Adafruit_SPIDevice.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\Adafruit_BusIO\Adafruit_SPIDevice.cpp</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>

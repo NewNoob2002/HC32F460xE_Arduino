@@ -61,7 +61,7 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 #include <string.h>
 #include <rt_sys.h>
 #include <rt_misc.h>
-
+#include "usart.h"
 /*********************************************************************
 *
 *       #pragmas
@@ -199,7 +199,7 @@ int _sys_write(FILEHANDLE hFile, const unsigned char * pBuffer, unsigned NumByte
 
   (void)Mode;
   if (hFile == STDOUT) {
-    //HAL_UART_Transmit_DMA(&huart1, pBuffer, NumBytes);
+    usart1_write(pBuffer, NumBytes);
 		return 0;
   }
   return r;

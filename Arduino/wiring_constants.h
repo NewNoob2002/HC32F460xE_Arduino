@@ -35,8 +35,8 @@ typedef enum
     INPUT_ANALOG_DMA,
     OUTPUT,
     OUTPUT_OPEN_DRAIN,
-//    OUTPUT_AF_OD,
 //    OUTPUT_AF_PP,
+		OUTPUT_AF_ALTER,
     PWM
 } PinMode_TypeDef;
 

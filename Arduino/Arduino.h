@@ -49,6 +49,9 @@ extern "C"{
 #include "yield.h"
 #include "delay.h"
 #include "dwt.h"
+#include "gpio.h"
+#include "addon_gpio.h"
+#include "mcu_config.h"
   /* sketch */
 //void setup( void ) ;
 //void loop( void ) ;
@@ -101,6 +104,12 @@ extern "C"{
 
 #define bit(b) (1UL << (b))
 
+#define delay(ms)                    delay_ms(ms)
+#define delayMicroseconds(us)        delay_us(us)
+
+#define NOT_A_PIN                    0xFF
+#define NOT_A_PORT                   0xFF
+#define NOT_AN_INTERRUPT             -1
 // dynamic F_CPU
 #ifndef F_CPU
   #define F_CPU (SystemCoreClock)

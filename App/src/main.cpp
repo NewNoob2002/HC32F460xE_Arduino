@@ -2,10 +2,19 @@
  * Include files
  ******************************************************************************/
 #include "Arduino.h"
-
-
+#include "usart.h"
+#include "Adafruit-ST7735-Library/Adafruit_ST7789.h"
 
 void SystemClock_Config(void);
+
+typedef Adafruit_ST7789 SCREEN_CLASS;
+
+static SCREEN_CLASS screen(
+	  &CONFIG_SCREEN_SPI,
+    CONFIG_SCREEN_CS_PIN,
+    CONFIG_SCREEN_DC_PIN,
+    CONFIG_SCREEN_RST_PIN
+);
 /**
  * @brief  Main function of SPI tx/rx dma project
  * @param  None
@@ -15,15 +24,24 @@ int main(void)
 {
 	/* Peripheral registers write unprotected */
   LL_PERIPH_WE(EXAMPLE_PERIPH_WE);
+	disable_JTAG();
 	dwt_init();
 	SystemClock_Config();
 	HAL_Init();
+	USART_Init();
     /* Configure BSP */
 	pinMode(PA0, OUTPUT);
+	screen.init(CONFIG_SCREEN_VER_RES, CONFIG_SCREEN_HOR_RES);
+	screen.fillScreen(ST77XX_BLACK);
+	screen.setCursor(10, 10);
+	screen.printf("Hello");
+	pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
+	digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
 	/* Peripheral registers write protected */
   LL_PERIPH_WP(EXAMPLE_PERIPH_WP);
   while (1) {
 			digitalToggle(PA0);
+			printf("Hello\n");
 			delay_ms(100);
     }
 }

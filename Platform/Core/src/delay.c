@@ -1,4 +1,6 @@
-#include "Arduino.h"
+#include "delay.h"
+#include "dwt.h"
+#include "yield.h"
 
 uint32_t HAL_GetTick(void);
 

@@ -66,4 +66,9 @@ int32_t PORT_GetFunc(uint8_t port, uint16_t pin, uint16_t *funcSel, en_functiona
     // PORT_Lock();
     return LL_OK;
 }
+
+void disable_JTAG()
+{
+	WRITE_REG16(CM_GPIO->PSPCR, 0x03);
+}
 #endif

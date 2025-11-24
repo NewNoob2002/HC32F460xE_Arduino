@@ -1,0 +1,256 @@
+version: "4.1"
+name: proj_hc32
+type: ARM
+deviceName: null
+packDir: null
+srcDirs: []
+virtualFolder:
+  name: <virtual_root>
+  files: []
+  folders:
+    - name: App
+      files:
+        - path: App/src/main.cpp
+      folders: []
+    - name: Platform
+      files: []
+      folders:
+        - name: CMSIS
+          files:
+            - path: Platform/CMSIS/Device/HDSC/hc32f4xx/Source/system_hc32f460.c
+            - path: Platform/CMSIS/Device/HDSC/hc32f4xx/Source/ARM/startup_hc32f460.s
+          folders: []
+        - name: Core
+          files:
+            - path: Platform/Core/src/delay.c
+            - path: Platform/Core/src/dwt.c
+            - path: Platform/Core/src/usart.c
+            - path: Platform/Core/src/addon_gpio.c
+            - path: Platform/Core/src/hc32f4xx_it.c
+            - path: Platform/Core/src/Syscalls_KEIL.c
+            - path: Platform/Core/src/SPI.cpp
+          folders: []
+        - name: Hal
+          files:
+            - path: Platform/HAL/HAL.c
+            - path: Platform/HAL/HAL_CORTEX.c
+          folders: []
+        - name: Drivers
+          files:
+            - path: Platform/Driver/src/hc32_ll.c
+            - path: Platform/Driver/src/hc32_ll_adc.c
+            - path: Platform/Driver/src/hc32_ll_aes.c
+            - path: Platform/Driver/src/hc32_ll_aos.c
+            - path: Platform/Driver/src/hc32_ll_can.c
+            - path: Platform/Driver/src/hc32_ll_clk.c
+            - path: Platform/Driver/src/hc32_ll_cmp.c
+            - path: Platform/Driver/src/hc32_ll_crc.c
+            - path: Platform/Driver/src/hc32_ll_dbgc.c
+            - path: Platform/Driver/src/hc32_ll_dcu.c
+            - path: Platform/Driver/src/hc32_ll_dma.c
+            - path: Platform/Driver/src/hc32_ll_efm.c
+            - path: Platform/Driver/src/hc32_ll_emb.c
+            - path: Platform/Driver/src/hc32_ll_event_port.c
+            - path: Platform/Driver/src/hc32_ll_fcg.c
+            - path: Platform/Driver/src/hc32_ll_gpio.c
+            - path: Platform/Driver/src/hc32_ll_hash.c
+            - path: Platform/Driver/src/hc32_ll_i2c.c
+            - path: Platform/Driver/src/hc32_ll_icg.c
+            - path: Platform/Driver/src/hc32_ll_interrupts.c
+            - path: Platform/Driver/src/hc32_ll_keyscan.c
+            - path: Platform/Driver/src/hc32_ll_mpu.c
+            - path: Platform/Driver/src/hc32_ll_pwc.c
+            - path: Platform/Driver/src/hc32_ll_qspi.c
+            - path: Platform/Driver/src/hc32_ll_rmu.c
+            - path: Platform/Driver/src/hc32_ll_rtc.c
+            - path: Platform/Driver/src/hc32_ll_sdioc.c
+            - path: Platform/Driver/src/hc32_ll_spi.c
+            - path: Platform/Driver/src/hc32_ll_sram.c
+            - path: Platform/Driver/src/hc32_ll_swdt.c
+            - path: Platform/Driver/src/hc32_ll_tmr0.c
+            - path: Platform/Driver/src/hc32_ll_tmr4.c
+            - path: Platform/Driver/src/hc32_ll_tmr6.c
+            - path: Platform/Driver/src/hc32_ll_tmra.c
+            - path: Platform/Driver/src/hc32_ll_trng.c
+            - path: Platform/Driver/src/hc32_ll_usart.c
+            - path: Platform/Driver/src/hc32_ll_utility.c
+            - path: Platform/Driver/src/hc32_ll_wdt.c
+            - path: Platform/Driver/src/hc32f460_ll_interrupts_share.c
+          folders: []
+        - name: Config
+          files:
+            - path: Platform/Config/hc32f4xx_conf.h
+            - path: Platform/Config/mcu_config.h
+          folders: []
+    - name: Arduino
+      files:
+        - path: Arduino/itoa.c
+        - path: Arduino/yield.c
+        - path: Arduino/Print.cpp
+        - path: Arduino/Stream.cpp
+        - path: Arduino/WMath.cpp
+        - path: Arduino/WString.cpp
+        - path: Arduino/Core/avr/dtostrf.c
+        - path: Arduino/Core/variants/hc32f460xx/variant.cpp
+        - path: Arduino/wiring_digital.cpp
+      folders:
+        - name: Core
+          files: []
+          folders: []
+    - name: Libraries
+      files:
+        - path: Libraries/Adafruit-GFX-Library/glcdfont.c
+        - path: Libraries/Adafruit-GFX-Library/Adafruit_GFX.cpp
+        - path: Libraries/Adafruit-GFX-Library/Adafruit_SPITFT.cpp
+        - path: Libraries/Adafruit-ST7735-Library/Adafruit_ST77xx.cpp
+        - path: Libraries/Adafruit-ST7735-Library/Adafruit_ST7789.cpp
+        - path: Libraries/Adafruit_BusIO/Adafruit_SPIDevice.cpp
+      folders: []
+dependenceList: []
+outDir: build
+miscInfo:
+  uid: d39b31e467f7abf1fe46c83582a1cc7d
+targets:
+  debug:
+    cppPreprocessAttrs:
+      defineList:
+        - HC32F460
+        - USE_DDL_DRIVER
+        - ARDUINO=111
+        - __DEBUG
+      incList:
+        - App/inc
+        - Platform/CMSIS/Include
+        - Platform/CMSIS/Device/HDSC/hc32f4xx/Include
+        - Platform/Config
+        - Platform/Core/inc
+        - Platform/HAL
+        - Platform/Driver/inc
+        - Arduino
+        - Arduino/Core/avr
+        - Arduino/Core/variants/hc32f460xx
+        - Libraries
+        - Libraries/Adafruit-GFX-Library
+        - Libraries/Adafruit_BusIO
+        - .cmsis/include
+        - Platform/project/RTE/_debug
+      libList: []
+    excludeList: []
+    toolchain: AC6
+    toolchainConfigMap:
+      AC6:
+        archExtensions: ""
+        cpuType: Cortex-M4
+        floatingPointHardware: single
+        options:
+          version: 3
+          afterBuildTasks: []
+          asm-compiler:
+            $use: asm-auto
+            misc-controls: ""
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            language-c: c99
+            language-cpp: c++11
+            link-time-optimization: false
+            one-elf-section-per-function: true
+            optimization: level-1
+            short-enums#wchar: true
+            warnings: ac5-like-warnings
+          global:
+            output-debug-info: enable
+            use-microLIB: false
+          linker:
+            $outputTaskExcludes:
+              - .bin
+            misc-controls: --diag_suppress=L6329
+            output-format: elf
+            ro-base: "0x00000000"
+            rw-base: "0x1FFF8000"
+            xo-base: ""
+        scatterFilePath: Platform/project/linker/HC32F460xE.sct
+        storageLayout:
+          RAM:
+            - id: 1
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 3
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 1
+              isChecked: true
+              mem:
+                size: "0x2f000"
+                startAddr: "0x1fff8000"
+              noInit: false
+              tag: IRAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x1000"
+                startAddr: "0x200f0000"
+              noInit: false
+              tag: IRAM
+          ROM:
+            - id: 1
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 3
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 1
+              isChecked: true
+              isStartup: true
+              mem:
+                size: "0x80000"
+                startAddr: "0x0"
+              tag: IROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x3fc"
+                startAddr: "0x3000c00"
+              tag: IROM
+        useCustomScatterFile: true
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: "null"
+          vendor: "null"
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+    uploader: JLink

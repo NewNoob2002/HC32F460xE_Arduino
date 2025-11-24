@@ -93,7 +93,6 @@ __WEAKDEF int32_t DDL_ConsoleOutputChar(char cData);
 #define DDL_PrintfInit(vpDevice, u32Param, pfnPreinit)
 #define DDL_Printf(...)
 #endif
-
 /**
  * @}
  */
