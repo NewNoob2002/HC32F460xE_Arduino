@@ -3,18 +3,51 @@
  ******************************************************************************/
 #include "Arduino.h"
 #include "usart.h"
-#include "Adafruit-ST7735-Library/Adafruit_ST7789.h"
+#include "lv_port.h"
 
 void SystemClock_Config(void);
 
-typedef Adafruit_ST7789 SCREEN_CLASS;
 
-static SCREEN_CLASS screen(
-	  &CONFIG_SCREEN_SPI,
-    CONFIG_SCREEN_CS_PIN,
-    CONFIG_SCREEN_DC_PIN,
-    CONFIG_SCREEN_RST_PIN
-);
+static void anim_x_cb(void * var, int32_t v)
+{
+    lv_obj_set_x((lv_obj_t *) var, v);
+}
+
+static void anim_size_cb(void * var, int32_t v)
+{
+    lv_obj_set_size((lv_obj_t *) var, v, v);
+}
+
+/**
+ * Create a playback animation
+ */
+void lv_example_anim_2(void)
+{
+
+    lv_obj_t * obj = lv_obj_create(lv_screen_active());
+    lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_bg_color(obj, lv_palette_main(LV_PALETTE_RED), 0);
+    lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, 0);
+
+    lv_obj_align(obj, LV_ALIGN_LEFT_MID, 10, 0);
+
+    lv_anim_t a;
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, obj);
+    lv_anim_set_values(&a, 10, 50);
+    lv_anim_set_duration(&a, 1000);
+    lv_anim_set_reverse_delay(&a, 100);
+    lv_anim_set_reverse_duration(&a, 300);
+    lv_anim_set_repeat_delay(&a, 500);
+    lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+
+    lv_anim_set_exec_cb(&a, anim_size_cb);
+    lv_anim_start(&a);
+    lv_anim_set_exec_cb(&a, anim_x_cb);
+    lv_anim_set_values(&a, 10, 240);
+    lv_anim_start(&a);
+}
 /**
  * @brief  Main function of SPI tx/rx dma project
  * @param  None
@@ -31,18 +64,22 @@ int main(void)
 	USART_Init();
     /* Configure BSP */
 	pinMode(PA0, OUTPUT);
-	screen.init(CONFIG_SCREEN_VER_RES, CONFIG_SCREEN_HOR_RES);
-	screen.fillScreen(ST77XX_BLACK);
-	screen.setCursor(10, 10);
-	screen.printf("Hello");
-	pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
-	digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
+	
+	lv_init();
+	lv_port_init();
+	
+	lv_example_anim_2();
 	/* Peripheral registers write protected */
   LL_PERIPH_WP(EXAMPLE_PERIPH_WP);
   while (1) {
+		static uint32_t last = 0;
+		if(millis() - last >= 1000)
+		{
+			last = millis();
 			digitalToggle(PA0);
 			printf("Hello\n");
-			delay_ms(100);
+		}
+		lv_timer_handler();
     }
 }
 
@@ -50,6 +87,7 @@ int main(void)
 extern "C" void SysTick_Handler()
 {
 	HAL_IncTick();
+	lv_tick_inc(1);
 }
 /**
   * @brief System Clock Configuration

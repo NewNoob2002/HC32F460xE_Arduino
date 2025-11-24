@@ -26,7 +26,7 @@
 #define SPI_I2S_TXDATA(spix, data)           (spix->DR = (data))
 #define SPI_I2S_WAIT_RX(spix)                do{ while (!SPI_I2S_GET_FLAG(spix, SPI_FLAG_RX_BUF_FULL)); } while(0)
 #define SPI_I2S_WAIT_TX(spix)                do{ while (!SPI_I2S_GET_FLAG(spix, SPI_FLAG_TX_BUF_EMPTY)); } while(0)
-#define SPI_I2S_WAIT_BUSY(spix)              do{ while (!SPI_I2S_GET_FLAG(spix,  SPI_FLAG_IDLE));   } while(0)
+#define SPI_I2S_WAIT_BUSY(spix)              do{ while (SPI_I2S_GET_FLAG(spix,  SPI_FLAG_IDLE));   } while(0)
 
 
 typedef enum
