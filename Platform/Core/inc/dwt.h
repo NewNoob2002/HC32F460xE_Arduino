@@ -31,7 +31,7 @@ extern "C" {
 #endif
 
 uint32_t dwt_init(void);
-bool dwt_getStatus();
+void dwt_access(bool ena);
 
 static inline uint32_t dwt_max_sec(void)
 {

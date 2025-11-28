@@ -88,15 +88,12 @@ void pinMode(gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State)
 //        // return immediately, as pwm needs different function
 //        return;
     case OUTPUT:
-				pinConf.u16PinDrv = PIN_HIGH_DRV;
         pinConf.u16PinDir = PIN_DIR_OUT;
         pinConf.u16PullUp = PIN_PU_ON;
         break;
 		case OUTPUT_OPEN_DRAIN:
 				pinConf.u16PinDir = PIN_DIR_OUT;
 				pinConf.u16PinOutputType = PIN_OUT_TYPE_NMOS;
-		case OUTPUT_AF_ALTER:
-				pinConf.u16PinDrv = PIN_HIGH_DRV;
     default:
         CORE_ASSERT_FAIL("pinMode: invalid pin mode. Must be INPUT, INPUT_PULLUP, INPUT_ANALOG or OUTPUT");
         return;

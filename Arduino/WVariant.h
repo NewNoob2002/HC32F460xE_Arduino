@@ -137,6 +137,16 @@ typedef struct pin_info_t
 		 */
 		const uint8_t port : 3; 
 
+#ifdef __cplusplus
+		/**
+		 * @brief bit mask of the pin in the port
+		 */
+		uint16_t bit_mask() const
+		{
+			return (uint16_t)(1 << bit_pos);
+		}
+#endif
+
 		/**
 		 * @brief adc configuration for this pin
 		 */

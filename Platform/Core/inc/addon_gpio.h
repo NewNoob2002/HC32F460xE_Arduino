@@ -15,7 +15,7 @@ extern "C"
      * @brief inverse of PORT_SetFunc
     */
     int32_t PORT_GetFunc(uint8_t port, uint16_t pin, uint16_t *funcSel, en_functional_state_t *subFuncEn);
-		void disable_JTAG();
+
 #ifdef __cplusplus
 }
 #endif

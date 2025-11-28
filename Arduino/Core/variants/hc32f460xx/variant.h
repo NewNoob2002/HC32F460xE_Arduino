@@ -36,7 +36,7 @@ typedef enum
 #ifdef GPIO_E
     PE0, PE1, PE2, PE3, PE4, PE5, PE6, PE7, PE8, PE9, PE10, PE11, PE12, PE13, PE14, PE15,
 #endif
-		PH0, PH1, PH2,
+		PH0 = 80, PH1 = 81, PH2 = 82,
     PIN_MAX
 } Pin_TypeDef;
 
