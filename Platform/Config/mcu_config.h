@@ -24,3 +24,11 @@
 #define CONFIG_SCREEN_SPI      SPI_3
 #define CONFIG_SCREEN_HOR_RES  240
 #define CONFIG_SCREEN_VER_RES  135
+
+/* DMA definition */
+#define DMA_UNIT                        (CM_DMA1)
+#define DMA_CLK                         (FCG0_PERIPH_DMA1 | FCG0_PERIPH_AOS)
+#define DMA_TX_CH                       (DMA_CH0)
+#define DMA_TX_TRIG_CH                  (AOS_DMA1_0)
+
+#define SPI_TX_EVT_SRC                  (EVT_SRC_SPI3_SPTI)

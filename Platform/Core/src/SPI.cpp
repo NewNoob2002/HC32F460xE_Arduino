@@ -101,7 +101,7 @@ void SPIClass::begin(void)
         SPI_MASTER,
         SPI_DATA_SIZE_8BIT,
         SPI_MODE0,
-        SPI_BR_CLK_DIV4,
+        SPI_BR_CLK_DIV2,
         SPI_FIRST_MSB
     );
 }

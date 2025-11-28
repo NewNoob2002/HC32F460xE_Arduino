@@ -29,20 +29,38 @@ void disp_disable_update(void)
     disp_flush_enabled = false;
 }
 
+void spi_trans(void *buf, uint16_t len)
+{
+	DMA_ChCmd(DMA_UNIT, DMA_TX_CH, DISABLE);
+	DMA_SetSrcAddr(DMA_UNIT, DMA_TX_CH, (uint32_t)buf);
+	DMA_SetTransCount(DMA_UNIT, DMA_TX_CH, len);
+	
+	DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
+	
+	SPI_Cmd(SPI_CLASS_3_SPI, ENABLE);
+	while(DMA_GetTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0) == RESET)
+	{
+	}
+	DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
+	
+////	/* Disable SPI */
+//  SPI_Cmd(SPI_CLASS_3_SPI, DISABLE);
+}
+
 static void disp_flush(lv_display_t * disp_drv, const lv_area_t * area, uint8_t * px_map) {
     if(disp_flush_enabled) {
         /*The most simple case (but also the slowest) to put all pixels to the screen one-by-one*/
 
         int32_t x;
         int32_t y;
-        for(y = area->y1; y <= area->y2; y++) {
-            for(x = area->x1; x <= area->x2; x++) {
-                /*Put a pixel to the display. For example:*/
-								uint16_t color = (px_map[1] << 8) | px_map[0];
-                screen.drawPixel(x, y, color);
-                px_map += 2;
-            }
-        }
+				const lv_coord_t w = (area->x2 - area->x1 + 1);
+				const lv_coord_t h = (area->y2 - area->y1 + 1);
+				const uint32_t len = w * h * 2;
+			
+				screen.setAddrWindow(area->x1, area->y1, w, h);
+				digitalWrite(CONFIG_SCREEN_CS_PIN, LOW);
+				digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
+				spi_trans((uint8_t *)px_map, len);
     }
 
     /*IMPORTANT!!!
@@ -57,6 +75,27 @@ void lv_port_disp_init()
 	pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
 	digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
 	
+	/*DMA init*/
+	stc_dma_init_t stcDmaInit;
+	
+  FCG_Fcg0PeriphClockCmd(DMA_CLK, ENABLE);
+  (void)DMA_StructInit(&stcDmaInit);
+  stcDmaInit.u32BlockSize  = 1UL;
+  stcDmaInit.u32TransCount = 65535;
+  stcDmaInit.u32DataWidth  = DMA_DATAWIDTH_8BIT;
+  /* Configure TX */
+  stcDmaInit.u32SrcAddrInc  = DMA_SRC_ADDR_INC;
+  stcDmaInit.u32DestAddrInc = DMA_DEST_ADDR_FIX;
+  stcDmaInit.u32SrcAddr     = (uint32_t)(0);
+  stcDmaInit.u32DestAddr    = (uint32_t)(&SPI_CLASS_3_SPI->DR);
+  if (LL_OK != DMA_Init(DMA_UNIT, DMA_TX_CH, &stcDmaInit)) {
+      for (;;) {
+      }
+  }
+  AOS_SetTriggerEventSrc(DMA_TX_TRIG_CH, SPI_TX_EVT_SRC);
+	
+	DMA_Cmd(DMA_UNIT, ENABLE);
+  DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
 	/*------------------------------------
   * Create a display and set a flush_cb
   * -----------------------------------*/
