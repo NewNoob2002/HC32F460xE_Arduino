@@ -27,17 +27,16 @@
 #include <stdio.h>
 #include <signal.h>
 #include <time.h>
-#include <sys/time.h>
 #include <sys/times.h>
 
 
 /* Variables */
-extern int __io_putchar(int ch) __attribute__((weak));
-extern int __io_getchar(void) __attribute__((weak));
+extern int io_putchar(int ch) __attribute__((weak));
+extern int io_getchar(void) __attribute__((weak));
 
 
-char *__env[1] = { 0 };
-char **environ = __env;
+char *env[1] = { 0 };
+char **environ = env;
 
 
 /* Functions */
@@ -71,7 +70,7 @@ __attribute__((weak)) int _read(int file, char *ptr, int len)
 
   for (DataIdx = 0; DataIdx < len; DataIdx++)
   {
-    *ptr++ = __io_getchar();
+    *ptr++ = io_getchar();
   }
 
   return len;
@@ -84,7 +83,7 @@ __attribute__((weak)) int _write(int file, char *ptr, int len)
 
   for (DataIdx = 0; DataIdx < len; DataIdx++)
   {
-    __io_putchar(*ptr++);
+    io_putchar(*ptr++);
   }
   return len;
 }

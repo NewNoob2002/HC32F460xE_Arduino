@@ -5,13 +5,13 @@
 
 uint8_t testBuf[64];
 
-void SystemClock_Config(void);
+void SystemClock_Config();
 /**
  * @brief  Main function of SPI tx/rx dma project
  * @param  None
  * @retval int32_t return value, if needed
  */
-int main(void)
+[[noreturn]] int main()
 {
     /* Peripheral registers write unprotected */
     LL_PERIPH_WE(EXAMPLE_PERIPH_WE);
@@ -21,24 +21,18 @@ int main(void)
     pinMode(PA0, OUTPUT);
     /* Peripheral registers write protected */
     LL_PERIPH_WP(EXAMPLE_PERIPH_WP);
-    while (1)
+    while (true)
     {
         digitalToggle(PA0);
-        delay_ms(100);
+        delay_ms(1000);
     }
-}
-
-
-extern "C" void SysTick_Handler()
-{
-    HAL_IncTick();
 }
 
 /**
   * @brief System Clock Configuration
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config()
 {
     stc_clock_xtal_init_t stcXtalInit;
     stc_clock_pll_init_t stcMpllInit;

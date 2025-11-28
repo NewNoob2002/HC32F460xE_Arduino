@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    dwt.c
-  * @author  Frederic Pillon
+  * @author  Frederic Pillion
   * @brief   Provide Data Watchpoint and Trace services
   ******************************************************************************
   * @attention
@@ -55,7 +55,7 @@ void dwt_access(bool ena)
 {
 #if (__CORTEX_M == 0x07U)
   /*
-   * Define DWT LSR mask which is (currentuly) not defined by the CMSIS.
+   * Define DWT LSR mask which is (currently) not defined by the CMSIS.
    * Same as ITM LSR one.
    */
 #if !defined DWT_LSR_Present_Msk

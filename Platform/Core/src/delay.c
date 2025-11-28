@@ -1,7 +1,5 @@
 #include "Arduino.h"
 
-uint32_t HAL_GetTick(void);
-
 uint32_t millis(void)
 {
   // ToDo: ensure no interrupts
@@ -17,18 +15,18 @@ uint32_t micros(void)
 void delay_ms(uint32_t ms)
 {
 	if (ms != 0) {
-    uint32_t start = HAL_GetTick();
+    const uint32_t start = HAL_GetTick();
     do {
       yield();
     } while (HAL_GetTick() - start < ms);
   }
 }
 
-void delay_us(uint32_t us)
+void delay_us(const uint32_t us)
 {
 #if defined(DWT_BASE) && !defined(DWT_DELAY_DISABLED)
-  int32_t start  = dwt_getCycles();
-  int32_t cycles = us * (SystemCoreClock / 1000000);
+  const uint32_t start  = dwt_getCycles();
+  const uint32_t cycles = us * (SystemCoreClock / 1000000);
 
   while ((int32_t)dwt_getCycles() - start < cycles);
 #else

@@ -24,6 +24,7 @@ set(Application_Src
     ${CMAKE_CURRENT_SOURCE_DIR}/../../App/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Platform/Core/Src/addon_gpio.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Platform/Core/Src/delay.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Platform/Core/Src/dwt.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Platform/Core/Src/hc32f4xx_it.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Platform/Core/Src/sysmem.c
     ${CMAKE_CURRENT_SOURCE_DIR}/../../Platform/Core/Src/syscalls.c
