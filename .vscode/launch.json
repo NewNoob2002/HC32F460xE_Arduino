@@ -31,7 +31,7 @@
             "type": "cortex-debug",
             "runToEntryPoint": "main",
             "servertype": "jlink",
-            "serverpath": "C:/Program Files/SEGGER/JLink_V844a/JLinkGDBServerCL.exe",
+            //"serverpath": "C:/Program Files/SEGGER/JLink_V844a/JLinkGDBServerCL.exe",
             "device": "HC32F460xE",
             "liveWatch": {
                 "enabled": true,
