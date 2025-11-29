@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "addon_gpio.h": "c"
+    }
+}

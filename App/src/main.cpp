@@ -15,7 +15,9 @@ void SystemClock_Config();
 {
     /* Peripheral registers write unprotected */
     LL_PERIPH_WE(EXAMPLE_PERIPH_WE);
+    disable_JTAG();
     SystemClock_Config();
+	dwt_init();
     HAL_Init();
     /* Configure BSP */
     pinMode(PA0, OUTPUT);
@@ -24,7 +26,7 @@ void SystemClock_Config();
     while (true)
     {
         digitalToggle(PA0);
-        delay_ms(1000);
+        delay_ms(100);
     }
 }
 

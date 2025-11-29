@@ -49,6 +49,8 @@ extern "C"{
 #include "yield.h"
 #include "delay.h"
 #include "dwt.h"
+#include "gpio.h"
+#include "addon_gpio.h"
   /* sketch */
 //void setup( void ) ;
 //void loop( void ) ;

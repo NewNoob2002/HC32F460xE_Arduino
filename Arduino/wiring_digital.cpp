@@ -1,7 +1,7 @@
 #include "wiring_digital.h"
 #include "gpio.h"
-//#include "adc.h"
-//#include "timera_pwm.h"
+// #include "adc.h"
+// #include "timera_pwm.h"
 #include "core_debug.h"
 #include <string.h>
 
@@ -14,26 +14,26 @@ void pinMode(gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State)
     }
 
     // if pin has ADC channel, configure ADC according to pin mode
-//    pin_adc_info_t adc_info = PIN_MAP[dwPin].adc_info;
-//    adc_device_t *adc_device = adc_info.get_device();
-//    uint8_t adc_channel = adc_info.channel;
-//    if (adc_device != NULL && adc_channel != ADC_PIN_INVALID)
-//    {
-//        // is a valid ADC pin
-//        if (dwMode == INPUT_ANALOG)
-//        {
-//            // initialize adc device (if already initialized, this will do nothing)
-//            adc_device_init(adc_device);
+    //    pin_adc_info_t adc_info = PIN_MAP[dwPin].adc_info;
+    //    adc_device_t *adc_device = adc_info.get_device();
+    //    uint8_t adc_channel = adc_info.channel;
+    //    if (adc_device != NULL && adc_channel != ADC_PIN_INVALID)
+    //    {
+    //        // is a valid ADC pin
+    //        if (dwMode == INPUT_ANALOG)
+    //        {
+    //            // initialize adc device (if already initialized, this will do nothing)
+    //            adc_device_init(adc_device);
 
-//            // enable ADC channel
-//            adc_enable_channel(adc_device, adc_channel);
-//        }
-//        else
-//        {
-//            // disable ADC channel
-//            adc_disable_channel(adc_device, adc_channel);
-//        }
-//    }
+    //            // enable ADC channel
+    //            adc_enable_channel(adc_device, adc_channel);
+    //        }
+    //        else
+    //        {
+    //            // disable ADC channel
+    //            adc_disable_channel(adc_device, adc_channel);
+    //        }
+    //    }
 
     // build pin configuration
     stc_gpio_init_t pinConf;
@@ -48,57 +48,57 @@ void pinMode(gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State)
         pinConf.u16PullUp = PIN_PU_ON;
         break;
     case INPUT_ANALOG:
-				pinConf.u16PinDir = PIN_DIR_IN;
+        pinConf.u16PinDir = PIN_DIR_IN;
         pinConf.u16PinAttr = PIN_ATTR_ANALOG;
         break;
     case PWM:
         // get timer assignment for pin
-//        timera_config_t *unit;
-//        en_timera_channel_t channel;
-//        en_port_func_t port_function;
-//        if (!timera_get_assignment(dwPin, unit, channel, port_function))
-//        {
-//            CORE_ASSERT_FAIL("analogWrite: pin is not a PWM pin");
-//            return;
-//        }
+        //        timera_config_t *unit;
+        //        en_timera_channel_t channel;
+        //        en_port_func_t port_function;
+        //        if (!timera_get_assignment(dwPin, unit, channel, port_function))
+        //        {
+        //            CORE_ASSERT_FAIL("analogWrite: pin is not a PWM pin");
+        //            return;
+        //        }
 
-//        // initialize timer unit, allow incompatible config
-//        switch (timera_pwm_start(unit, 1000 /* Hz */, 16, true))
-//        {
-//        case Ok:
-//            // all good
-//            break;
-//        case ErrorOperationInProgress:
-//            // already initialized with incompatible config
-//            CORE_ASSERT_FAIL("timera_pwm_start failed: ErrorOperationInProgress");
-//            return;
-//        case ErrorInvalidParameter:
-//        default:
-//            // invalid parameter or other error
-//            CORE_ASSERT_FAIL("timera_pwm_start failed");
-//            return;
-//        }
+        //        // initialize timer unit, allow incompatible config
+        //        switch (timera_pwm_start(unit, 1000 /* Hz */, 16, true))
+        //        {
+        //        case Ok:
+        //            // all good
+        //            break;
+        //        case ErrorOperationInProgress:
+        //            // already initialized with incompatible config
+        //            CORE_ASSERT_FAIL("timera_pwm_start failed: ErrorOperationInProgress");
+        //            return;
+        //        case ErrorInvalidParameter:
+        //        default:
+        //            // invalid parameter or other error
+        //            CORE_ASSERT_FAIL("timera_pwm_start failed");
+        //            return;
+        //        }
 
-//        // initialize channel, start now
-//        timera_pwm_channel_start(unit, channel, true);
+        //        // initialize channel, start now
+        //        timera_pwm_channel_start(unit, channel, true);
 
-//        // set pin function to TimerA output, no GPIO
-//        GPIO_SetFunc(dwPin, port_function, Disable);
+        //        // set pin function to TimerA output, no GPIO
+        //        GPIO_SetFunc(dwPin, port_function, Disable);
 
-//        // return immediately, as pwm needs different function
-//        return;
+        //        // return immediately, as pwm needs different function
+        //        return;
     case OUTPUT:
         pinConf.u16PinDir = PIN_DIR_OUT;
         pinConf.u16PullUp = PIN_PU_ON;
         break;
-		case OUTPUT_OPEN_DRAIN:
-				pinConf.u16PinDir = PIN_DIR_OUT;
-				pinConf.u16PinOutputType = PIN_OUT_TYPE_NMOS;
+    case OUTPUT_OPEN_DRAIN:
+        pinConf.u16PinDir = PIN_DIR_OUT;
+        pinConf.u16PinOutputType = PIN_OUT_TYPE_NMOS;
     default:
         CORE_ASSERT_FAIL("pinMode: invalid pin mode. Must be INPUT, INPUT_PULLUP, INPUT_ANALOG or OUTPUT");
         return;
     }
-		pinConf.u16PinState = State;
+    pinConf.u16PinState = State;
     // set pin function and config
     _GPIO_Init(dwPin, &pinConf);
 }
@@ -130,12 +130,12 @@ uint32_t getPinMode(gpio_pin_t dwPin)
         case PIN_DIR_OUT:
             return OUTPUT;
         case PIN_DIR_IN:
-						if(pinConf.u16PinAttr == PIN_ATTR_ANALOG)
-							return INPUT_ANALOG;
-            if(pinConf.u16PullUp == PIN_PU_ON)
-							return INPUT_PULLUP;
-						else
-							return INPUT;
+            if (pinConf.u16PinAttr == PIN_ATTR_ANALOG)
+                return INPUT_ANALOG;
+            if (pinConf.u16PullUp == PIN_PU_ON)
+                return INPUT_PULLUP;
+            else
+                return INPUT;
         default:
             CORE_ASSERT_FAIL("getPinMode: invalid configuration for Func_Gpio");
             return INPUT;
@@ -146,8 +146,8 @@ uint32_t getPinMode(gpio_pin_t dwPin)
     case Func_Tima2:
         // TimerA output function, must be PWM
         // in that case, subFunction is always disabled
-//        CORE_ASSERT(pinSubFunction == Disable, "getPinMode: pinSubFunctin is Enabled for Func_TimaX");
-//        return OUTPUT_PWM;
+        //        CORE_ASSERT(pinSubFunction == Disable, "getPinMode: pinSubFunctin is Enabled for Func_TimaX");
+        //        return OUTPUT_PWM;
 
     default:
         CORE_ASSERT_FAIL("getPinMode: invalid pin function");

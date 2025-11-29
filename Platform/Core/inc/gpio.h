@@ -84,7 +84,7 @@ extern "C" {
 //
 // GPIO wrappers for PORT_* functions
 //
-#define PIN_ARG(gpio_pin) PIN_MAP[gpio_pin].port, PIN_MAP[gpio_pin].bit_mask()
+#define PIN_ARG(gpio_pin) PIN_MAP[gpio_pin].port, 1 << PIN_MAP[gpio_pin].bit_pos
 
 /**
  * @brief GPIO wrapper for PORT_Init
@@ -149,6 +149,7 @@ inline void GPIO_Toggle(gpio_pin_t gpio_pin)
     GPIO_TogglePins(PIN_ARG(gpio_pin));
 }
 
+#ifdef __cplusplus
 /**
  * @brief GPIO wrapper for PORT_SetFunc
  * @param enFuncSelect GPIO pin primary function select
@@ -163,6 +164,17 @@ inline void GPIO_SetFunction(gpio_pin_t gpio_pin, uint16_t enFuncSelect, en_func
             CORE_DEBUG_PRINTF("Enabled SubFunction But not set SubFunction Sel");
     }
 }
+#else
+inline void GPIO_SetFunction(gpio_pin_t gpio_pin, uint16_t enFuncSelect, en_functional_state_t enSubFunc, uint8_t u8SubFunc)
+{
+    ASSERT_GPIO_PIN_VALID(gpio_pin, "GPIO_SetFunc");
+    GPIO_SetFunc(PIN_ARG(gpio_pin), enFuncSelect);
+    if (enSubFunc == ENABLE) {
+        if (u8SubFunc == 0)
+            CORE_DEBUG_PRINTF("Enabled SubFunction But not set SubFunction Sel");
+    }
+}
+#endif
 
 /**
  * @brief GPIO wrapper for PORT_GetFunc
