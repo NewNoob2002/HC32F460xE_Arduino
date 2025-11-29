@@ -19,7 +19,9 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
+      <config projectName="HC32F460xE" targetName="freertos_kernel_port" />
       <config projectName="HC32F460xE" targetName="HC32F460xE" />
+      <config projectName="HC32F460xE" targetName="freertos_kernel" />
       <config projectName="HC32F460xE" targetName="Drivers" />
     </generated>
   </component>
@@ -30,16 +32,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e23d3b1a-7444-471a-85b6-b1ea17033fc0" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/src/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arduino/Arduino.h" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/Arduino.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arduino/WVariant.h" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/WVariant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arduino/wiring_digital.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Arduino/wiring_digital.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Platform/Core/inc/addon_gpio.h" beforeDir="false" afterPath="$PROJECT_DIR$/Platform/Core/inc/addon_gpio.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Platform/Core/inc/gpio.h" beforeDir="false" afterPath="$PROJECT_DIR$/Platform/Core/inc/gpio.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Platform/Core/src/addon_gpio.c" beforeDir="false" afterPath="$PROJECT_DIR$/Platform/Core/src/addon_gpio.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Platform/HAL/HAL.c" beforeDir="false" afterPath="$PROJECT_DIR$/Platform/HAL/HAL.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,9 +114,21 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="freertos_kernel" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HC32F460xE" TARGET_NAME="freertos_kernel" CONFIG_NAME="Debug-MinGW_MCU">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="freertos_kernel_port" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="HC32F460xE" TARGET_NAME="freertos_kernel_port" CONFIG_NAME="Debug-MinGW_MCU">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="CMake 应用程序.HC32F460xE" />
       <item itemvalue="CMake 应用程序.Drivers" />
+      <item itemvalue="CMake 应用程序.freertos_kernel" />
+      <item itemvalue="CMake 应用程序.freertos_kernel_port" />
     </list>
   </component>
   <component name="TaskManager">
@@ -130,7 +138,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1764390621559</updated>
-      <workItem from="1764390623449" duration="484000" />
+      <workItem from="1764390623449" duration="1044000" />
     </task>
     <servers />
   </component>

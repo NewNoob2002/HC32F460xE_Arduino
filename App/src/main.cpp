@@ -2,10 +2,20 @@
  * Include files
  ******************************************************************************/
 #include "Arduino.h"
-
+#include "FreeRTOS.h"
+#include "task.h"
 uint8_t testBuf[64];
 
 void SystemClock_Config();
+
+static void vTask1(void *pvParameters)
+{
+    while (true)
+    {
+        digitalToggle(PA0);
+        vTaskDelay(100);
+    }
+}
 /**
  * @brief  Main function of SPI tx/rx dma project
  * @param  None
@@ -17,23 +27,23 @@ void SystemClock_Config();
     LL_PERIPH_WE(EXAMPLE_PERIPH_WE);
     disable_JTAG();
     SystemClock_Config();
-	dwt_init();
+    dwt_init();
     HAL_Init();
     /* Configure BSP */
     pinMode(PA0, OUTPUT);
     /* Peripheral registers write protected */
     LL_PERIPH_WP(EXAMPLE_PERIPH_WP);
+    xTaskCreate(vTask1, "Task 1", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
+    vTaskStartScheduler();
     while (true)
     {
-        digitalToggle(PA0);
-        delay_ms(100);
     }
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config()
 {
     stc_clock_xtal_init_t stcXtalInit;
@@ -45,7 +55,7 @@ void SystemClock_Config()
 
     /* Set bus clk div. */
     CLK_SetClockDiv(CLK_BUS_CLK_ALL, (CLK_HCLK_DIV1 | CLK_EXCLK_DIV2 | CLK_PCLK0_DIV1 | CLK_PCLK1_DIV2 |
-                        CLK_PCLK2_DIV4 | CLK_PCLK3_DIV4 | CLK_PCLK4_DIV2));
+                                      CLK_PCLK2_DIV4 | CLK_PCLK3_DIV4 | CLK_PCLK4_DIV2));
 
     /* Config Xtal and enable Xtal */
     stcXtalInit.u8Mode = CLK_XTAL_MD_OSC;
