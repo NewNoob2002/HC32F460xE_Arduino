@@ -5,110 +5,128 @@
 typedef Adafruit_ST7789 SCREEN_CLASS;
 
 static SCREEN_CLASS screen(
-	  &CONFIG_SCREEN_SPI,
+    &CONFIG_SCREEN_SPI,
     CONFIG_SCREEN_CS_PIN,
     CONFIG_SCREEN_DC_PIN,
-    CONFIG_SCREEN_RST_PIN
-);
+    CONFIG_SCREEN_RST_PIN);
 
 #define SCREEN_BUFFER_SIZE (CONFIG_SCREEN_HOR_RES * CONFIG_SCREEN_VER_RES)
 
-volatile bool disp_flush_enabled = true;
+static lv_disp_drv_t* disp_drv_p = NULL;
 
-/* Enable updating the screen (the flushing process) when disp_flush() is called by LVGL
- */
-void disp_enable_update(void)
+void spi_dma_trans(void *buf, uint16_t len)
 {
-    disp_flush_enabled = true;
+    if (SPI_CLASS_3_SPI->CR1 & SPI_CR1_SPE)
+        SPI_Cmd(SPI_CLASS_3_SPI, DISABLE);
+    DMA_SetSrcAddr(DMA_UNIT, DMA_TX_CH, (uint32_t)buf);
+    DMA_SetTransCount(DMA_UNIT, DMA_TX_CH, len);
+
+    DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
+
+    SPI_Cmd(SPI_CLASS_3_SPI, ENABLE);
+    //	while(DMA_GetTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0) == RESET)
+    //	{
+    //	}
+    //	DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
 }
 
-/* Disable updating the screen (the flushing process) when disp_flush() is called by LVGL
- */
-void disp_disable_update(void)
+/*Flush the content of the internal buffer the specific area on the display
+ *You can use DMA or any hardware acceleration to do this operation in the background but
+ *'lv_disp_flush_ready()' has to be called when finished.*/
+static void disp_flush(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p)
 {
-    disp_flush_enabled = false;
+    disp_drv_p = disp_drv;
+
+    const lv_coord_t w = (area->x2 - area->x1 + 1);
+    const lv_coord_t h = (area->y2 - area->y1 + 1);
+    const uint32_t len = w * h;
+		screen.setAddrWindow(area->x1, area->y1, w, h);
+		digitalWrite(CONFIG_SCREEN_CS_PIN, LOW);
+		digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
+		spi_dma_trans(color_p, len * 2);
 }
 
-void spi_trans(void *buf, uint16_t len)
+static void DMA_TransCompleteCallback(void)
 {
-	DMA_ChCmd(DMA_UNIT, DMA_TX_CH, DISABLE);
-	DMA_SetSrcAddr(DMA_UNIT, DMA_TX_CH, (uint32_t)buf);
-	DMA_SetTransCount(DMA_UNIT, DMA_TX_CH, len);
-	
-	DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
-	
-	SPI_Cmd(SPI_CLASS_3_SPI, ENABLE);
-	while(DMA_GetTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0) == RESET)
-	{
-	}
-	DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
-	
-////	/* Disable SPI */
-//  SPI_Cmd(SPI_CLASS_3_SPI, DISABLE);
-}
-
-static void disp_flush(lv_display_t * disp_drv, const lv_area_t * area, uint8_t * px_map) {
-    if(disp_flush_enabled) {
-        /*The most simple case (but also the slowest) to put all pixels to the screen one-by-one*/
-
-        int32_t x;
-        int32_t y;
-				const lv_coord_t w = (area->x2 - area->x1 + 1);
-				const lv_coord_t h = (area->y2 - area->y1 + 1);
-				const uint32_t len = w * h * 2;
-			
-				screen.setAddrWindow(area->x1, area->y1, w, h);
-				digitalWrite(CONFIG_SCREEN_CS_PIN, LOW);
-				digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
-				spi_trans((uint8_t *)px_map, len);
-    }
-
-    /*IMPORTANT!!!
+    DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
+	    /*IMPORTANT!!!
      *Inform the graphics library that you are ready with the flushing*/
-    lv_display_flush_ready(disp_drv);
+    lv_disp_flush_ready(disp_drv_p);
 }
 
 void lv_port_disp_init()
 {
-	screen.init(CONFIG_SCREEN_VER_RES, CONFIG_SCREEN_HOR_RES);
-	screen.fillScreen(ST77XX_BLACK);
-	pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
-	digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
-	
-	/*DMA init*/
-	stc_dma_init_t stcDmaInit;
-	
-  FCG_Fcg0PeriphClockCmd(DMA_CLK, ENABLE);
-  (void)DMA_StructInit(&stcDmaInit);
-  stcDmaInit.u32BlockSize  = 1UL;
-  stcDmaInit.u32TransCount = 65535;
-  stcDmaInit.u32DataWidth  = DMA_DATAWIDTH_8BIT;
-  /* Configure TX */
-  stcDmaInit.u32SrcAddrInc  = DMA_SRC_ADDR_INC;
-  stcDmaInit.u32DestAddrInc = DMA_DEST_ADDR_FIX;
-  stcDmaInit.u32SrcAddr     = (uint32_t)(0);
-  stcDmaInit.u32DestAddr    = (uint32_t)(&SPI_CLASS_3_SPI->DR);
-  if (LL_OK != DMA_Init(DMA_UNIT, DMA_TX_CH, &stcDmaInit)) {
-      for (;;) {
-      }
-  }
-  AOS_SetTriggerEventSrc(DMA_TX_TRIG_CH, SPI_TX_EVT_SRC);
-	
-	DMA_Cmd(DMA_UNIT, ENABLE);
-  DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
-	/*------------------------------------
-  * Create a display and set a flush_cb
-  * -----------------------------------*/
-  lv_display_t * disp = lv_display_create(screen.width(), screen.height());
-  lv_display_set_flush_cb(disp, disp_flush);
-	
-  /* Example 3
-   * Two buffers screen sized buffer for double buffering.
-   * Both LV_DISPLAY_RENDER_MODE_DIRECT and LV_DISPLAY_RENDER_MODE_FULL works, see their comments*/
-  LV_ATTRIBUTE_MEM_ALIGN
-  static uint8_t buf_3_1[SCREEN_BUFFER_SIZE * 2];
+    /*DMA init*/
+    stc_dma_init_t stcDmaInit;
 
-  LV_ATTRIBUTE_MEM_ALIGN
-  static uint8_t buf_3_2[SCREEN_BUFFER_SIZE * 2];
-  lv_display_set_buffers(disp, buf_3_1, buf_3_2, sizeof(buf_3_1), LV_DISPLAY_RENDER_MODE_DIRECT);
+    FCG_Fcg0PeriphClockCmd(DMA_CLK, ENABLE);
+    (void)DMA_StructInit(&stcDmaInit);
+    stcDmaInit.u32IntEn      = DMA_INT_ENABLE;
+    stcDmaInit.u32BlockSize  = 1UL;
+    stcDmaInit.u32TransCount = 65535;
+    stcDmaInit.u32DataWidth  = DMA_DATAWIDTH_8BIT;
+    /* Configure TX */
+    stcDmaInit.u32SrcAddrInc  = DMA_SRC_ADDR_INC;
+    stcDmaInit.u32DestAddrInc = DMA_DEST_ADDR_FIX;
+    stcDmaInit.u32SrcAddr     = (uint32_t)(0);
+    stcDmaInit.u32DestAddr    = (uint32_t)(&SPI_CLASS_3_SPI->DR);
+    if (LL_OK != DMA_Init(DMA_UNIT, DMA_TX_CH, &stcDmaInit)) {
+        for (;;) {
+        }
+    }
+    AOS_SetTriggerEventSrc(DMA_TX_TRIG_CH, SPI_TX_EVT_SRC);
+
+    stc_irq_signin_config_t stcIrqSignConfig;
+    stcIrqSignConfig.enIntSrc    = INT_SRC_DMA1_TC0;
+    stcIrqSignConfig.enIRQn      = INT009_IRQn;
+    stcIrqSignConfig.pfnCallback = &DMA_TransCompleteCallback;
+    (void)INTC_IrqSignIn(&stcIrqSignConfig);
+    NVIC_ClearPendingIRQ(stcIrqSignConfig.enIRQn);
+    NVIC_SetPriority(stcIrqSignConfig.enIRQn, DDL_IRQ_PRIO_DEFAULT);
+    NVIC_EnableIRQ(stcIrqSignConfig.enIRQn);
+
+    DMA_Cmd(DMA_UNIT, ENABLE);
+    DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
+
+    screen.init(CONFIG_SCREEN_VER_RES, CONFIG_SCREEN_HOR_RES);
+		screen.setRotation(1);
+    screen.fillScreen(ST77XX_BLUE);
+    pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
+    digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
+
+		/* Example for 2) */
+    static lv_disp_draw_buf_t draw_buf_dsc_2;
+    static lv_color_t buf_2_1[CONFIG_SCREEN_HOR_RES * 10];                        /*A buffer for 10 rows*/
+    static lv_color_t buf_2_2[CONFIG_SCREEN_HOR_RES * 10];                        /*An other buffer for 10 rows*/
+    lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, CONFIG_SCREEN_HOR_RES * 10);   /*Initialize the display buffer*/
+		
+		    /*-----------------------------------
+     * Register the display in LVGL
+     *----------------------------------*/
+
+    static lv_disp_drv_t disp_drv;                         /*Descriptor of a display driver*/
+    lv_disp_drv_init(&disp_drv);                    /*Basic initialization*/
+
+    /*Set up the functions to access to your display*/
+
+    /*Set the resolution of the display*/
+    disp_drv.hor_res = CONFIG_SCREEN_HOR_RES;
+    disp_drv.ver_res = CONFIG_SCREEN_VER_RES;
+
+    /*Used to copy the buffer's content to the display*/
+    disp_drv.flush_cb = disp_flush;
+
+    /*Set a display buffer*/
+    disp_drv.draw_buf = &draw_buf_dsc_2;
+
+    /*Required for Example 3)*/
+    //disp_drv.full_refresh = 1;
+
+    /* Fill a memory array with a color if you have GPU.
+     * Note that, in lv_conf.h you can enable GPUs that has built-in support in LVGL.
+     * But if you have a different GPU you can use with this callback.*/
+    //disp_drv.gpu_fill_cb = gpu_fill;
+
+    /*Finally register the driver*/
+    lv_disp_drv_register(&disp_drv);
 }

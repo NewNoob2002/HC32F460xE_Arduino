@@ -22,8 +22,8 @@
 #define CONFIG_SCREEN_MOSI_PIN PB7
 #define CONFIG_SCREEN_BLK_PIN  PB3 // TIM3
 #define CONFIG_SCREEN_SPI      SPI_3
-#define CONFIG_SCREEN_HOR_RES  240
-#define CONFIG_SCREEN_VER_RES  135
+#define CONFIG_SCREEN_HOR_RES  172
+#define CONFIG_SCREEN_VER_RES  320
 
 /* DMA definition */
 #define DMA_UNIT                        (CM_DMA1)
