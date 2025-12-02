@@ -76,7 +76,28 @@ static const uint8_t PROGMEM
     ST77XX_DISPON ,   ST_CMD_DELAY, //  9: Main screen turn on, no args, delay
       10 };                          //    10 ms delay
 
-// clang-format on
+static const uint8_t PROGMEM
+  generic_RM690A0[] =  {                // Init commands for 7789 screens
+    9,                              //  9 commands in list:
+    0xfe,   1, //  1: Software reset, no args, w/delay
+			0x01,
+		0x6A,		1,
+			0x21,
+		0xfe,		1,
+			0x00,
+		0xC4,		1,
+			0x80,
+		0x35,		1,
+			0x00,
+		0x51,		1,
+			0xff,
+		0x3A,		1,
+			0x05, 			//16 bit
+		0x11,	ST_CMD_DELAY,
+			10,
+		0x29, ST_CMD_DELAY,
+			10,
+	};
 
 /**************************************************************************/
 /*!
@@ -115,7 +136,8 @@ void Adafruit_ST7789::init(uint16_t width, uint16_t height, uint8_t mode) {
     // pixel lands in _colstart and not in _colstart2
     _colstart = (int)((240 - width + 1) / 2);
     _colstart2 = (int)((240 - width) / 2);
-  } else {
+  }
+	else {
     // 1.47", 1.69, 1.9", 2.0" displays (centered)
     _rowstart = _rowstart2 = (int)((320 - height) / 2);
     _colstart = _colstart2 = (int)((240 - width) / 2);

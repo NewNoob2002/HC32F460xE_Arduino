@@ -30,6 +30,22 @@ void spi_dma_trans(void *buf, uint16_t len)
     //	DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
 }
 
+void LCD_Address_Set(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
+{
+		digitalWrite(CONFIG_SCREEN_CS_PIN, LOW);
+		digitalWrite(CONFIG_SCREEN_DC_PIN, LOW);
+		SPI_3.write(0x2a);
+		digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
+		SPI_3.write(x1 + 34);
+		SPI_3.write(x2 + 34);
+		digitalWrite(CONFIG_SCREEN_DC_PIN, LOW);
+		SPI_3.write(0x2b);
+		digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
+		SPI_3.write(y1);
+		SPI_3.write(y2);
+		digitalWrite(CONFIG_SCREEN_DC_PIN, LOW);
+		SPI_3.write(0x2c);//´¢´æÆ÷Ð´
+}
 /*Flush the content of the internal buffer the specific area on the display
  *You can use DMA or any hardware acceleration to do this operation in the background but
  *'lv_disp_flush_ready()' has to be called when finished.*/
@@ -90,16 +106,20 @@ void lv_port_disp_init()
 
     screen.init(CONFIG_SCREEN_VER_RES, CONFIG_SCREEN_HOR_RES);
 		screen.setRotation(1);
-    screen.fillScreen(ST77XX_BLUE);
+    screen.fillScreen(ST77XX_WHITE);
+//		screen.printf("Hello");
     pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
     digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
 
+//    /* Example for 1) */
+//    static lv_disp_draw_buf_t draw_buf_dsc_1;
+//    static lv_color_t buf_1[SCREEN_BUFFER_SIZE];                          /*A buffer for 10 rows*/
+//    lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, SCREEN_BUFFER_SIZE);   /*Initialize the display buffer*/
 		/* Example for 2) */
     static lv_disp_draw_buf_t draw_buf_dsc_2;
-    static lv_color_t buf_2_1[CONFIG_SCREEN_HOR_RES * 10];                        /*A buffer for 10 rows*/
-    static lv_color_t buf_2_2[CONFIG_SCREEN_HOR_RES * 10];                        /*An other buffer for 10 rows*/
-    lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, CONFIG_SCREEN_HOR_RES * 10);   /*Initialize the display buffer*/
-		
+    static lv_color_t buf_2_1[CONFIG_SCREEN_HOR_RES * 60];                        /*A buffer for 10 rows*/
+    static lv_color_t buf_2_2[CONFIG_SCREEN_HOR_RES * 60];                        /*An other buffer for 10 rows*/
+    lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, CONFIG_SCREEN_HOR_RES * 60);   /*Initialize the display buffer*/
 		    /*-----------------------------------
      * Register the display in LVGL
      *----------------------------------*/
@@ -110,15 +130,17 @@ void lv_port_disp_init()
     /*Set up the functions to access to your display*/
 
     /*Set the resolution of the display*/
-    disp_drv.hor_res = CONFIG_SCREEN_HOR_RES;
-    disp_drv.ver_res = CONFIG_SCREEN_VER_RES;
+    disp_drv.hor_res = screen.width();
+    disp_drv.ver_res = screen.height();
 
     /*Used to copy the buffer's content to the display*/
     disp_drv.flush_cb = disp_flush;
 
     /*Set a display buffer*/
     disp_drv.draw_buf = &draw_buf_dsc_2;
-
+		
+//		disp_drv.sw_rotate = 1;
+//		disp_drv.rotated = LV_DISP_ROT_90;
     /*Required for Example 3)*/
     //disp_drv.full_refresh = 1;
 

@@ -98,6 +98,7 @@ public:
 #endif // end !ESP8266
 
   void setAddrWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+	void setAddrWindow_(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
   void setRotation(uint8_t r);
   void enableDisplay(boolean enable);
   void enableTearing(boolean enable);
@@ -107,6 +108,8 @@ protected:
   uint8_t _colstart = 0,   ///< Some displays need this changed to offset
       _rowstart = 0,       ///< Some displays need this changed to offset
       spiMode = SPI_MODE0; ///< Certain display needs MODE3 instead
+
+	int8_t _cs, _dc, _rst;
 
   void begin(uint32_t freq = 0);
   void commonInit(const uint8_t *cmdList);

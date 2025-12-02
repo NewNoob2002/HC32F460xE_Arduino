@@ -80,7 +80,11 @@ Adafruit_ST77xx::Adafruit_ST77xx(uint16_t w, uint16_t h, int8_t cs, int8_t dc,
 /**************************************************************************/
 Adafruit_ST77xx::Adafruit_ST77xx(uint16_t w, uint16_t h, SPIClass *spiClass,
                                  int8_t cs, int8_t dc, int8_t rst)
-    : Adafruit_SPITFT(w, h, spiClass, cs, dc, rst) {}
+    : Adafruit_SPITFT(w, h, spiClass, cs, dc, rst) {
+			_cs = cs;
+			_dc = dc;
+			_rst = rst;
+		}
 #endif // end !ESP8266
 
 /**************************************************************************/
@@ -91,10 +95,17 @@ Adafruit_ST77xx::Adafruit_ST77xx(uint16_t w, uint16_t h, SPIClass *spiClass,
 */
 /**************************************************************************/
 void Adafruit_ST77xx::displayInit(const uint8_t *addr) {
-
+	//hardware reset
+	
   uint8_t numCommands, cmd, numArgs;
   uint16_t ms;
-
+	digitalWrite(_rst, HIGH);
+	delay(50);
+	digitalWrite(_rst, LOW);
+	delay(50);
+	digitalWrite(_rst, HIGH);
+	delay(150);
+	
   numCommands = pgm_read_byte(addr++); // Number of commands to follow
   while (numCommands--) {              // For each command...
     cmd = pgm_read_byte(addr++);       // Read command
@@ -171,6 +182,19 @@ void Adafruit_ST77xx::setAddrWindow(uint16_t x, uint16_t y, uint16_t w,
   writeCommand(ST77XX_RAMWR); // write to RAM
 }
 
+void Adafruit_ST77xx::setAddrWindow_(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
+{
+	uint32_t xa = ((uint32_t)x1 << 16) | x2;
+  uint32_t ya = ((uint32_t)y1 << 16) | y2;
+
+  writeCommand(ST77XX_CASET); // Column addr set
+  SPI_WRITE32(xa);
+
+  writeCommand(ST77XX_RASET); // Row addr set
+  SPI_WRITE32(ya);
+
+  writeCommand(ST77XX_RAMWR); // write to RAM
+}
 /**************************************************************************/
 /*!
     @brief  Set origin of (0,0) and orientation of TFT display
@@ -249,113 +273,3 @@ void Adafruit_ST77xx::enableTearing(boolean enable) {
 void Adafruit_ST77xx::enableSleep(boolean enable) {
   sendCommand(enable ? ST77XX_SLPIN : ST77XX_SLPOUT);
 }
-
-////////// stuff not actively being used, but kept for posterity
-/*
-
- uint8_t Adafruit_ST77xx::spiread(void) {
- uint8_t r = 0;
- if (_sid > 0) {
- r = shiftIn(_sid, _sclk, MSBFIRST);
- } else {
- //SID_DDR &= ~_BV(SID);
- //int8_t i;
- //for (i=7; i>=0; i--) {
- //  SCLK_PORT &= ~_BV(SCLK);
- //  r <<= 1;
- //  r |= (SID_PIN >> SID) & 0x1;
- //  SCLK_PORT |= _BV(SCLK);
- //}
- //SID_DDR |= _BV(SID);
-
- }
- return r;
- }
-
- void Adafruit_ST77xx::dummyclock(void) {
-
- if (_sid > 0) {
- digitalWrite(_sclk, LOW);
- digitalWrite(_sclk, HIGH);
- } else {
- // SCLK_PORT &= ~_BV(SCLK);
- //SCLK_PORT |= _BV(SCLK);
- }
- }
- uint8_t Adafruit_ST77xx::readdata(void) {
- *portOutputRegister(rsport) |= rspin;
-
- *portOutputRegister(csport) &= ~ cspin;
-
- uint8_t r = spiread();
-
- *portOutputRegister(csport) |= cspin;
-
- return r;
-
- }
-
- uint8_t Adafruit_ST77xx::readcommand8(uint8_t c) {
- digitalWrite(_rs, LOW);
-
- *portOutputRegister(csport) &= ~ cspin;
-
- spiwrite(c);
-
- digitalWrite(_rs, HIGH);
- pinMode(_sid, INPUT); // input!
- digitalWrite(_sid, LOW); // low
- spiread();
- uint8_t r = spiread();
-
-
- *portOutputRegister(csport) |= cspin;
-
-
- pinMode(_sid, OUTPUT); // back to output
- return r;
- }
-
-
- uint16_t Adafruit_ST77xx::readcommand16(uint8_t c) {
- digitalWrite(_rs, LOW);
- if (_cs)
- digitalWrite(_cs, LOW);
-
- spiwrite(c);
- pinMode(_sid, INPUT); // input!
- uint16_t r = spiread();
- r <<= 8;
- r |= spiread();
- if (_cs)
- digitalWrite(_cs, HIGH);
-
- pinMode(_sid, OUTPUT); // back to output
- return r;
- }
-
- uint32_t Adafruit_ST77xx::readcommand32(uint8_t c) {
- digitalWrite(_rs, LOW);
- if (_cs)
- digitalWrite(_cs, LOW);
- spiwrite(c);
- pinMode(_sid, INPUT); // input!
-
- dummyclock();
- dummyclock();
-
- uint32_t r = spiread();
- r <<= 8;
- r |= spiread();
- r <<= 8;
- r |= spiread();
- r <<= 8;
- r |= spiread();
- if (_cs)
- digitalWrite(_cs, HIGH);
-
- pinMode(_sid, OUTPUT); // back to output
- return r;
- }
-
- */
