@@ -2,20 +2,9 @@
  * Include files
  ******************************************************************************/
 #include "Arduino.h"
-#include "FreeRTOS.h"
-#include "task.h"
 uint8_t testBuf[64];
 
 void SystemClock_Config();
-
-static void vTask1(void *pvParameters)
-{
-    while (true)
-    {
-        digitalToggle(PA0);
-        vTaskDelay(100);
-    }
-}
 /**
  * @brief  Main function of SPI tx/rx dma project
  * @param  None
@@ -33,10 +22,10 @@ static void vTask1(void *pvParameters)
     pinMode(PA0, OUTPUT);
     /* Peripheral registers write protected */
     LL_PERIPH_WP(EXAMPLE_PERIPH_WP);
-    xTaskCreate(vTask1, "Task 1", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
-    vTaskStartScheduler();
     while (true)
     {
+        digitalToggle(PA0);
+        delay_ms(1000);
     }
 }
 
