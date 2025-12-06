@@ -30,96 +30,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e23d3b1a-7444-471a-85b6-b1ea17033fc0" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/src/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/.git-blame-ignore-revs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/.gitmodules" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/MISRA.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/configuration/FreeRTOSConfig.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/croutine.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/cspell.config.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/event_groups.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/examples/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/examples/cmake_example/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/examples/cmake_example/main.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/examples/coverity/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/examples/coverity/FreeRTOSConfig.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/examples/coverity/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/examples/coverity/coverity_misra.config" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/examples/template_configuration/FreeRTOSConfig.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/examples/template_configuration/readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/FreeRTOS.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/StackMacros.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/atomic.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/croutine.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/deprecated_definitions.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/event_groups.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/list.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/message_buffer.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/mpu_prototypes.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/mpu_syscall_numbers.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/mpu_wrappers.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/newlib-freertos.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/picolibc-freertos.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/portable.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/projdefs.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/queue.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/semphr.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/stack_macros.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/stdint.readme" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/stream_buffer.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/task.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/include/timers.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/list.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/manifest.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM3/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM3/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM3_MPU/mpu_wrappers_v2_asm.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM3_MPU/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM3_MPU/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM4F/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM4_MPU/mpu_wrappers_v2_asm.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM4_MPU/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/GCC/ARM_CM4_MPU/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/MemMang/ReadMe.url" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/MemMang/heap_1.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/MemMang/heap_2.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/MemMang/heap_3.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/MemMang/heap_4.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/MemMang/heap_5.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM7_LPC21xx/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM7_LPC21xx/portASM.s" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM7_LPC21xx/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM7_LPC21xx/portmacro.inc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CA9/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CA9/portASM.s" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CA9/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CA9/portmacro.inc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM0/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM0/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM3/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM3/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM4F/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM4_MPU/mpu_wrappers_v2_asm.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM4_MPU/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM4_MPU/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM7/ReadMe.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM7/r0p1/port.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/RVDS/ARM_CM7/r0p1/portmacro.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/portable/readme.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/queue.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/sbom.spdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/stream_buffer.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/tasks.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/FreeRTOS/timers.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Platform/Core/src/delay.c" beforeDir="false" afterPath="$PROJECT_DIR$/Platform/Core/src/delay.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Platform/Core/src/hc32f4xx_it.c" beforeDir="false" afterPath="$PROJECT_DIR$/Platform/Core/src/hc32f4xx_it.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,6 +60,24 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
@@ -226,6 +158,7 @@
       <option name="presentableId" value="Default" />
       <updated>1764390621559</updated>
       <workItem from="1764390623449" duration="1044000" />
+      <workItem from="1765004966467" duration="5664000" />
     </task>
     <servers />
   </component>

@@ -105,11 +105,8 @@ void HardFault_Handler(void)
 {
 }
 
-void vApplicationTickHook( void )
+
+void SysTick_Handler()
 {
   HAL_IncTick();
 }
-// void SysTick_Handler()
-// {
-//   HAL_IncTick();
-// }

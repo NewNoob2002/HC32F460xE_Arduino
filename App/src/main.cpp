@@ -78,7 +78,7 @@ void SystemClock_Config()
     /* 3 cycles for 126MHz ~ 200MHz */
     GPIO_SetReadWaitCycle(GPIO_RD_WAIT3);
     /* Switch driver ability */
-    (void)PWC_HighSpeedToHighPerformance();
+    // (void)PWC_HighSpeedToHighPerformance();
     /* Switch system clock source to MPLL. */
     CLK_SetSysClockSrc(CLK_SYSCLK_SRC_PLL);
     /* Reset cache ram */

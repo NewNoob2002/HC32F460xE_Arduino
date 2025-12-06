@@ -12,7 +12,7 @@ uint32_t micros(void)
   return 0;
 }
 
-void delay_ms(uint32_t ms)
+void delay_ms(const uint32_t ms)
 {
 	if (ms != 0) {
     const uint32_t start = HAL_GetTick();
