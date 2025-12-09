@@ -4,33 +4,50 @@
 #include "Arduino.h"
 #include "usart.h"
 #include "lv_port.h"
-
+#include "demos/lv_demos.h"
+#include "slave_i2c.h"
 void SystemClock_Config(void);
 
+//static void anim_x_cb(void * var, int32_t v)
+//{
+//    lv_obj_set_x((lv_obj_t *) var, v);
+//}
 
-void lv_example_style_1(void)
-{
-    static lv_style_t style;
-    lv_style_init(&style);
-    lv_style_set_radius(&style, 5);
+//static void anim_size_cb(void * var, int32_t v)
+//{
+//    lv_obj_set_size((lv_obj_t *) var, v, v);
+//}
 
-    /*Make a gradient*/
-    lv_style_set_width(&style, 150);
-    lv_style_set_height(&style, LV_SIZE_CONTENT);
+///**
+// * Create a playback animation
+// */
+//void lv_example_anim_2(void)
+//{
 
-    lv_style_set_pad_ver(&style, 20);
-    lv_style_set_pad_left(&style, 5);
+//    lv_obj_t * obj = lv_obj_create(lv_screen_active());
+//    lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+//    lv_obj_set_style_bg_color(obj, lv_palette_main(LV_PALETTE_RED), 0);
+//    lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, 0);
 
-    lv_style_set_x(&style, lv_pct(50));
-    lv_style_set_y(&style, 80);
+//    lv_obj_align(obj, LV_ALIGN_LEFT_MID, 10, 0);
 
-    /*Create an object with the new style*/
-    lv_obj_t * obj = lv_obj_create(lv_scr_act());
-    lv_obj_add_style(obj, &style, 0);
+//    lv_anim_t a;
+//    lv_anim_init(&a);
+//    lv_anim_set_var(&a, obj);
+//    lv_anim_set_values(&a, 10, 50);
+//    lv_anim_set_duration(&a, 1000);
+//    lv_anim_set_reverse_delay(&a, 100);
+//    lv_anim_set_reverse_duration(&a, 300);
+//    lv_anim_set_repeat_delay(&a, 500);
+//    lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
+//    lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
 
-    lv_obj_t * label = lv_label_create(obj);
-    lv_label_set_text(label, "Hello");
-}
+//    lv_anim_set_exec_cb(&a, anim_size_cb);
+//    lv_anim_start(&a);
+//    lv_anim_set_exec_cb(&a, anim_x_cb);
+//    lv_anim_set_values(&a, 10, 240);
+//    lv_anim_start(&a);
+//}
 /**
  * @brief  Main function of SPI tx/rx dma project
  * @param  None
@@ -46,10 +63,11 @@ int main(void)
 	HAL_Init();
 	USART_Init();
   lv_init();
-	lv_port_disp_init();
-	lv_example_style_1();
+//	lv_port_disp_init();
+//	lv_example_anim_2();
   /* Configure BSP */
-	pinMode(PC13, OUTPUT);
+	pinMode(PA0, OUTPUT);
+	slave_i2c_init();
 	/* Peripheral registers write protected */
   LL_PERIPH_WP(EXAMPLE_PERIPH_WP);
   while (1) {
@@ -57,9 +75,10 @@ int main(void)
 		if(millis() - last >= 1000)
 		{
 			last = millis();
-			digitalToggle(PC13);
+			digitalToggle(PA0);
 		}
-    lv_timer_handler();
+		slave_i2c_update();
+//    lv_timer_handler();
   }
 }
 /**
