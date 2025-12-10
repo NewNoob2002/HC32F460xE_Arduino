@@ -4,15 +4,16 @@
 #include "slave_i2c.h"
 #include "hc32_ll.h"
 #include "SparkFun_Extensible_Message_Parser.h"
-#include "RingBuffer.h"
 
-static bool i2c_rx_flag = true;
+volatile SLAVE_I2C_STATE slave_state = SLAVE_RX;
 
-RingBuffer<uint8_t> *rxBuffer = nullptr;
 volatile uint16_t _txBufferHead = 0;
 volatile uint16_t _txBufferTail = 0;
 uint8_t _txBuffer[SLAVE_TX_BUFFER_SIZE];
-
+volatile uint16_t _rxBufferHead = 0;
+volatile uint16_t _rxBufferTail = 0;
+uint8_t _rxBuffer[SLAVE_RX_BUFFER_SIZE];
+		
 SEMP_PARSE_STATE *CustomParse = nullptr;
 /// @brief Bluetooth parser
 SEMP_PARSE_ROUTINE const CustomParserTable[] = {
@@ -56,6 +57,41 @@ int txBufferWrite(uint8_t *Buffer, const uint16_t length)
 		_txBufferHead = length;
 		return _txBufferHead;
 }
+
+int rxBufferAvailable(void)
+{
+    return ((unsigned int)(SLAVE_RX_BUFFER_SIZE + _rxBufferHead - _rxBufferTail)) % SLAVE_RX_BUFFER_SIZE;
+}
+
+/**
+  * @brief  读取传入的串行数据(字符)
+  * @param  无
+  * @retval 可用的传入串行数据的第一个字节 (如果没有可用的数据, 则为-1)
+  */
+int rxBufferRead(void)
+{
+    // if the head isn't ahead of the tail, we don't have any characters
+    if (_rxBufferHead == _rxBufferTail)
+    {
+        return -1;
+    }
+    else
+    {
+        uint8_t c = _rxBuffer[_rxBufferTail];
+        _rxBufferTail = (uint16_t)(_rxBufferTail + 1) % SLAVE_RX_BUFFER_SIZE;
+        return c;
+    }
+}
+
+void rxBufferWrite(uint8_t ch)
+{
+        uint16_t i = (uint16_t)(_rxBufferHead + 1) % SLAVE_RX_BUFFER_SIZE;
+        if (i != _rxBufferTail)
+        {
+            _rxBuffer[_rxBufferHead] = ch;
+            _rxBufferHead = i;
+        }
+}
 /**
  * @brief   I2C EEI(communication error or event) interrupt callback function
  * @param   None
@@ -70,6 +106,7 @@ static void I2C_EEI_Callback(void)
 
         if ((SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_TRA)))
         {
+						slave_state = SLAVE_TX;
             /* Enable tx end interrupt function*/
             I2C_IntCmd(I2C_UNIT, I2C_INT_TX_CPLT, ENABLE);
             /* Write the first data to DTR immediately */
@@ -80,7 +117,7 @@ static void I2C_EEI_Callback(void)
         }
         else
         {
-						i2c_rx_flag = true;
+						slave_state = SLAVE_RX;
             I2C_IntCmd(I2C_UNIT, I2C_INT_RX_FULL, ENABLE);
         }
         /* Enable stop and NACK interrupt */
@@ -110,14 +147,18 @@ static void I2C_EEI_Callback(void)
     else if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_STOP))
     {
         /* If stop interrupt occurred */
-				i2c_rx_flag = false;
-				_txBufferTail= 0;
-				_txBufferHead = 0;
+				if(slave_state == SLAVE_RX)
+					slave_state = SLAVE_RX_DONE;
+				else if(slave_state == SLAVE_TX)
+				{
+					_txBufferTail= 0;
+					_txBufferHead = 0;
+					slave_state = SLAVE_TX_DONE;
+				}
         /* Disable all interrupt enable flag except SLADDR0IE*/
         I2C_IntCmd(I2C_UNIT, I2C_INT_TX_CPLT | I2C_INT_RX_FULL | I2C_INT_STOP | I2C_INT_NACK, DISABLE);
         /* Clear STOPF flag */
         I2C_ClearStatus(I2C_UNIT, I2C_CLR_STOPFCLR);
-        //        I2C_Cmd(I2C_UNIT, DISABLE);
     }
     else
     {
@@ -143,7 +184,7 @@ static void I2C_TEI_Callback(void)
  */
 static void I2C_RXI_Callback(void)
 {
-	rxBuffer->push(I2C_ReadData(I2C_UNIT));
+	rxBufferWrite(I2C_ReadData(I2C_UNIT));
 }
 
 int32_t slave_i2c_init()
@@ -193,8 +234,6 @@ int32_t slave_i2c_init()
         NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_DEFAULT);
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
 				
-				rxBuffer = new RingBuffer<uint8_t>(512);
-				DDL_ASSERT(rxBuffer != nullptr);
 				CustomParse = sempBeginParser(CustomParserTable, CustomParserCount,
                                   CustomParserNames, CustomParserNameCount,
                                   128, 128, CustomDataProcess, "BluetoothDebug");
@@ -208,10 +247,8 @@ int32_t slave_i2c_init()
 
 void slave_i2c_update()
 {
-	if(rxBuffer->count() > 0 && !i2c_rx_flag)
+	if(rxBufferAvailable() > 0 && slave_state == SLAVE_RX_DONE)
 	{
-		uint8_t ch;
-		rxBuffer->pop(ch);
-		sempParseNextByte(CustomParse, ch);
+		sempParseNextByte(CustomParse, rxBufferRead());
 	}
 }

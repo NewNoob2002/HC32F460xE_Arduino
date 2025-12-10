@@ -30,23 +30,6 @@ void spi_dma_trans(void *buf, uint16_t len)
     //	}
     //	DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
 }
-
-void LCD_Address_Set(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
-{
-    digitalWrite(CONFIG_SCREEN_CS_PIN, LOW);
-    digitalWrite(CONFIG_SCREEN_DC_PIN, LOW);
-    SPI_3.write(0x2a);
-    digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
-    SPI_3.write(x1 + 34);
-    SPI_3.write(x2 + 34);
-    digitalWrite(CONFIG_SCREEN_DC_PIN, LOW);
-    SPI_3.write(0x2b);
-    digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
-    SPI_3.write(y1);
-    SPI_3.write(y2);
-    digitalWrite(CONFIG_SCREEN_DC_PIN, LOW);
-    SPI_3.write(0x2c); // ������д
-}
 /*Flush the content of the internal buffer the specific area on the display
  *You can use DMA or any hardware acceleration to do this operation in the background but
  *'lv_disp_flush_ready()' has to be called when finished.*/
@@ -120,9 +103,7 @@ void lv_port_disp_init()
     DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
 
     screen.init(CONFIG_SCREEN_VER_RES, CONFIG_SCREEN_HOR_RES);
-    screen.setRotation(1);
     screen.fillScreen(ST77XX_WHITE);
-    //		screen.printf("Hello");
     pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
     digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
 

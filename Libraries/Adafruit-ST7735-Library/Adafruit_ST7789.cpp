@@ -79,7 +79,7 @@ static const uint8_t PROGMEM
 static const uint8_t PROGMEM
   generic_RM690A0[] =  {                // Init commands for 7789 screens
     9,                              //  9 commands in list:
-    0xfe,   1, //  1: Software reset, no args, w/delay
+    0xfe,   1, //  1: 1 args, no/delay
 			0x01,
 		0x6A,		1,
 			0x21,
@@ -94,7 +94,7 @@ static const uint8_t PROGMEM
 		0x3A,		1,
 			0x05, 			//16 bit
 		0x11,	ST_CMD_DELAY,
-			10,
+			150,
 		0x29, ST_CMD_DELAY,
 			10,
 	};
