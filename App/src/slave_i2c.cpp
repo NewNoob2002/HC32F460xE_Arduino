@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "slave_i2c.h"
 #include "hc32_ll.h"
+#include "delay.h"
 #include "SparkFun_Extensible_Message_Parser.h"
 
 volatile SLAVE_I2C_STATE slave_state = SLAVE_RX;
@@ -13,7 +14,7 @@ uint8_t _txBuffer[SLAVE_TX_BUFFER_SIZE];
 volatile uint16_t _rxBufferHead = 0;
 volatile uint16_t _rxBufferTail = 0;
 uint8_t _rxBuffer[SLAVE_RX_BUFFER_SIZE];
-		
+
 SEMP_PARSE_STATE *CustomParse = nullptr;
 /// @brief Bluetooth parser
 SEMP_PARSE_ROUTINE const CustomParserTable[] = {
@@ -27,35 +28,34 @@ const char *const CustomParserNames[] = {
 };
 const int CustomParserNameCount = sizeof(CustomParserNames) / sizeof(CustomParserNames[0]);
 
+uint8_t tx_test[12] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c};
+
 void CustomDataProcess(SEMP_PARSE_STATE *parse, uint16_t type)
 {
-	SEMP_CUSTOM_HEADER *messageHeader = (SEMP_CUSTOM_HEADER *)parse->buffer;
-	uint8_t messageId = messageHeader->messageId;
-  uint8_t messageType = messageHeader->messageType;
-	txBufferWrite(parse->buffer, parse->length);
-	
+    SEMP_CUSTOM_HEADER *messageHeader = (SEMP_CUSTOM_HEADER *)parse->buffer;
+    uint8_t messageId                 = messageHeader->messageId;
+    uint8_t messageType               = messageHeader->messageType;
+    txBufferWrite(tx_test, 12);
+		printf("Parser Done, %d\n", millis());
 }
 
 int txBufferAvailable()
 {
-	return _txBufferHead;
+    return _txBufferHead - _txBufferTail;
 }
 
 int txBufferRead(void)
 {
-    // if the head isn't ahead of the tail, we don't have any characters
-	if(_txBufferHead <= 0)
-		return -1;
-	int ch = _txBuffer[_txBufferTail++];
-	return ch;
+    return _txBuffer[_txBufferTail++];
 }
 
 int txBufferWrite(uint8_t *Buffer, const uint16_t length)
 {
     // if the head isn't ahead of the tail, we don't have any characters
-		memcpy(_txBuffer, Buffer, length);
-		_txBufferHead = length;
-		return _txBufferHead;
+    memcpy(_txBuffer, Buffer, length);
+    _txBufferHead = length;
+		_txBufferTail = 0;
+    return _txBufferHead;
 }
 
 int rxBufferAvailable(void)
@@ -63,21 +63,13 @@ int rxBufferAvailable(void)
     return ((unsigned int)(SLAVE_RX_BUFFER_SIZE + _rxBufferHead - _rxBufferTail)) % SLAVE_RX_BUFFER_SIZE;
 }
 
-/**
-  * @brief  读取传入的串行数据(字符)
-  * @param  无
-  * @retval 可用的传入串行数据的第一个字节 (如果没有可用的数据, 则为-1)
-  */
 int rxBufferRead(void)
 {
     // if the head isn't ahead of the tail, we don't have any characters
-    if (_rxBufferHead == _rxBufferTail)
-    {
+    if (_rxBufferHead == _rxBufferTail) {
         return -1;
-    }
-    else
-    {
-        uint8_t c = _rxBuffer[_rxBufferTail];
+    } else {
+        uint8_t c     = _rxBuffer[_rxBufferTail];
         _rxBufferTail = (uint16_t)(_rxBufferTail + 1) % SLAVE_RX_BUFFER_SIZE;
         return c;
     }
@@ -85,95 +77,76 @@ int rxBufferRead(void)
 
 void rxBufferWrite(uint8_t ch)
 {
-        uint16_t i = (uint16_t)(_rxBufferHead + 1) % SLAVE_RX_BUFFER_SIZE;
-        if (i != _rxBufferTail)
-        {
-            _rxBuffer[_rxBufferHead] = ch;
-            _rxBufferHead = i;
-        }
+    uint16_t i = (uint16_t)(_rxBufferHead + 1) % SLAVE_RX_BUFFER_SIZE;
+    if (i != _rxBufferTail) {
+        _rxBuffer[_rxBufferHead] = ch;
+        _rxBufferHead            = i;
+    }
 }
 /**
  * @brief   I2C EEI(communication error or event) interrupt callback function
- * @param   None
- * @retval  None
  */
 static void I2C_EEI_Callback(void)
 {
     /* If address interrupt occurred */
-    if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_MATCH_ADDR0))
-    {
+    if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_MATCH_ADDR0)) {
         I2C_ClearStatus(I2C_UNIT, I2C_CLR_SLADDR0FCLR | I2C_CLR_NACKFCLR | I2C_CLR_STOPFCLR);
 
-        if ((SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_TRA)))
-        {
-						slave_state = SLAVE_TX;
+        if ((SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_TRA))) {
+            slave_state = SLAVE_TX;
             /* Enable tx end interrupt function*/
             I2C_IntCmd(I2C_UNIT, I2C_INT_TX_CPLT, ENABLE);
             /* Write the first data to DTR immediately */
-						if(txBufferAvailable() > 0)
-            {
-							I2C_WriteData(I2C_UNIT, txBufferRead());
-						}
-        }
-        else
-        {
-						slave_state = SLAVE_RX;
-            I2C_IntCmd(I2C_UNIT, I2C_INT_RX_FULL, ENABLE);
+            if (txBufferAvailable() > 0) {
+                I2C_WriteData(I2C_UNIT, txBufferRead());
+            }
+        } else {
+            slave_state = SLAVE_RX;
+//						I2C_IntCmd(I2C_UNIT, I2C_INT_RX_FULL, ENABLE);
         }
         /* Enable stop and NACK interrupt */
         I2C_IntCmd(I2C_UNIT, I2C_INT_STOP | I2C_INT_NACK, ENABLE);
-    }
-    else if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_NACKF))
-    {
+    } else if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_NACKF)) {
         /* If NACK interrupt occurred */
         /* clear NACK flag*/
         I2C_ClearStatus(I2C_UNIT, I2C_CLR_NACKFCLR);
         /* Stop tx or rx process*/
-        if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_TRA))
-        {
+        if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_TRA)) {
             /* Config tx end interrupt function disable*/
             I2C_IntCmd(I2C_UNIT, I2C_INT_TX_CPLT, DISABLE);
             I2C_ClearStatus(I2C_UNIT, I2C_CLR_TENDFCLR);
 
             /* Read DRR register to release */
             (void)I2C_ReadData(I2C_UNIT);
-        }
-        else
-        {
+        } else {
             /* Config rx buffer full interrupt function disable */
-            I2C_IntCmd(I2C_UNIT, I2C_INT_RX_FULL, DISABLE);
+            //            I2C_IntCmd(I2C_UNIT, I2C_INT_RX_FULL, DISABLE);
         }
-    }
-    else if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_STOP))
-    {
+    } else if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_STOP)) {
         /* If stop interrupt occurred */
-				if(slave_state == SLAVE_RX)
-					slave_state = SLAVE_RX_DONE;
-				else if(slave_state == SLAVE_TX)
-				{
-					_txBufferTail= 0;
-					_txBufferHead = 0;
-					slave_state = SLAVE_TX_DONE;
-				}
-        /* Disable all interrupt enable flag except SLADDR0IE*/
-        I2C_IntCmd(I2C_UNIT, I2C_INT_TX_CPLT | I2C_INT_RX_FULL | I2C_INT_STOP | I2C_INT_NACK, DISABLE);
+				/* Disable all interrupt enable flag except SLADDR0IE*/
+        I2C_IntCmd(I2C_UNIT, I2C_INT_TX_CPLT | I2C_INT_STOP | I2C_INT_NACK, DISABLE);
         /* Clear STOPF flag */
         I2C_ClearStatus(I2C_UNIT, I2C_CLR_STOPFCLR);
-    }
-    else
-    {
+        if (slave_state == SLAVE_RX) {
+						printf("Rx Done, %d\n", millis());
+            slave_state = SLAVE_RX_DONE;
+        } else if (slave_state == SLAVE_TX) {
+						printf("Tx Done, %d\n", millis());
+            _txBufferHead = 0;
+            slave_state   = SLAVE_TX_DONE;
+        }
+    } else {
     }
 }
 
 static void I2C_TEI_Callback(void)
 {
     if ((SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_TX_CPLT)) &&
-        (RESET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_NACKF)))
-    {
-						if(txBufferAvailable() > 0)
-            {
-							I2C_WriteData(I2C_UNIT, txBufferRead());
-						}
+        (RESET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_NACKF))) {
+        if (txBufferAvailable() > 0) {
+            I2C_WriteData(I2C_UNIT, txBufferRead());
+        }
     }
 }
 
@@ -184,7 +157,7 @@ static void I2C_TEI_Callback(void)
  */
 static void I2C_RXI_Callback(void)
 {
-	rxBufferWrite(I2C_ReadData(I2C_UNIT));
+    rxBufferWrite(I2C_ReadData(I2C_UNIT));
 }
 
 int32_t slave_i2c_init()
@@ -203,40 +176,39 @@ int32_t slave_i2c_init()
     (void)I2C_StructInit(&stcI2cInit);
     stcI2cInit.u32ClockDiv = I2C_CLK_DIV2;
     stcI2cInit.u32Baudrate = 400000;
-    stcI2cInit.u32SclTime = 5UL;
-    const int32_t i32Ret = I2C_Init(I2C_UNIT, &stcI2cInit, &fErr);
+    stcI2cInit.u32SclTime  = 5UL;
+    const int32_t i32Ret   = I2C_Init(I2C_UNIT, &stcI2cInit, &fErr);
 
-    if (LL_OK == i32Ret)
-    {
+    if (LL_OK == i32Ret) {
         I2C_SlaveAddrConfig(I2C_UNIT, I2C_ADDR0, I2C_ADDR_7BIT, DEVICE_ADDR);
 
-        stcIrqRegCfg.enIRQn = I2C_EEI_IRQN_DEF;
-        stcIrqRegCfg.enIntSrc = I2C_INT_EEI_DEF;
+        stcIrqRegCfg.enIRQn      = I2C_EEI_IRQN_DEF;
+        stcIrqRegCfg.enIntSrc    = I2C_INT_EEI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_EEI_Callback;
         (void)INTC_IrqSignIn(&stcIrqRegCfg);
         NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
         NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_09);
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
 
-        stcIrqRegCfg.enIRQn = I2C_RXI_IRQN_DEF;
-        stcIrqRegCfg.enIntSrc = I2C_INT_RXI_DEF;
+        stcIrqRegCfg.enIRQn      = I2C_RXI_IRQN_DEF;
+        stcIrqRegCfg.enIntSrc    = I2C_INT_RXI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_RXI_Callback;
         (void)INTC_IrqSignIn(&stcIrqRegCfg);
         NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
         NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_DEFAULT);
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
 
-        stcIrqRegCfg.enIRQn = I2C_TEI_IRQN_DEF;
-        stcIrqRegCfg.enIntSrc = I2C_INT_TEI_DEF;
+        stcIrqRegCfg.enIRQn      = I2C_TEI_IRQN_DEF;
+        stcIrqRegCfg.enIntSrc    = I2C_INT_TEI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_TEI_Callback;
         (void)INTC_IrqSignIn(&stcIrqRegCfg);
         NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
         NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_DEFAULT);
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
-				
-				CustomParse = sempBeginParser(CustomParserTable, CustomParserCount,
-                                  CustomParserNames, CustomParserNameCount,
-                                  128, 128, CustomDataProcess, "BluetoothDebug");
+
+        CustomParse = sempBeginParser(CustomParserTable, CustomParserCount,
+                                      CustomParserNames, CustomParserNameCount,
+                                      128, 128, CustomDataProcess, "BluetoothDebug");
         if (!CustomParse)
             printf("Failed to initialize the parser");
     }
@@ -247,8 +219,7 @@ int32_t slave_i2c_init()
 
 void slave_i2c_update()
 {
-	if(rxBufferAvailable() > 0 && slave_state == SLAVE_RX_DONE)
-	{
-		sempParseNextByte(CustomParse, rxBufferRead());
-	}
+    if (rxBufferAvailable() > 0 && slave_state == SLAVE_RX_DONE) {
+        sempParseNextByte(CustomParse, rxBufferRead());
+    }
 }

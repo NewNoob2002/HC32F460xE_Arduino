@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "usart.h"
 #include "lv_port.h"
-#include "demos/lv_demos.h"
+#include "SEGGER_RTT.h"
 #include "slave_i2c.h"
 void SystemClock_Config(void);
 
@@ -62,6 +62,7 @@ int main(void)
 	SystemClock_Config();
 	HAL_Init();
 	USART_Init();
+	SEGGER_RTT_Init();
   lv_init();
 	lv_port_disp_init();
 	lv_example_anim_2();

@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.44a                                           *
+*       RTT version: 8.12g                                           *
 *                                                                    *
 **********************************************************************
 
@@ -61,7 +61,8 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 #include <string.h>
 #include <rt_sys.h>
 #include <rt_misc.h>
-#include "usart.h"
+
+#include "SEGGER_RTT.h"
 /*********************************************************************
 *
 *       #pragmas
@@ -71,13 +72,7 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 #if __ARMCC_VERSION < 6000000
 #pragma import(__use_no_semihosting)
 #endif
-#if (__ARMCC_VERSION > 6000000)
-  __asm (".global __use_no_semihosting\n\t");
-	void _sys_exit(int x)
-  {
-    x = x;
-  }
-#endif
+
 #ifdef _MICROLIB
   #pragma import(__use_full_stdio)
 #endif
@@ -199,7 +194,7 @@ int _sys_write(FILEHANDLE hFile, const unsigned char * pBuffer, unsigned NumByte
 
   (void)Mode;
   if (hFile == STDOUT) {
-    usart1_write(pBuffer, NumBytes);
+    SEGGER_RTT_Write(0, (const char*)pBuffer, NumBytes);
 		return 0;
   }
   return r;
