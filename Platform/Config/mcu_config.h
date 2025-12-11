@@ -4,17 +4,17 @@
 #define  HW_VERSION    "V1.4"
 #define  SW_VERSION    "V1.26"
 
-/* USART unit definition */
-#define USART_UNIT          (CM_USART1)
-#define USART_FCG_ENABLE()  (FCG_Fcg1PeriphClockCmd(FCG1_PERIPH_USART1, ENABLE))
-
-#define PRINTF_PORT         GPIO_PORT_A
-#define PRINTF_PIN          GPIO_PIN_15
-#define PRINTF_TX_GPIO_FUNC (GPIO_FUNC_32)
-
 /*POWER*/
 #define POWER_CONTROL_PIN		PB3
 #define WATCHDOG_FEED_PIN		PA6
+
+/*Function Key*/
+#define FUNCTION_KEY_PIN PA15
+
+/*Status LED*/
+#define POWER_LED_PIN PC13
+#define CHARGE_LED_PIN PH2
+#define FUNCTION_LED_PIN PB5
 
 /* SPI Class */
 #define SPI_CLASS_3_ENABLE 1

@@ -393,6 +393,11 @@
               <FileType>8</FileType>
               <FilePath>..\..\App\src\slave_i2c.cpp</FilePath>
             </File>
+            <File>
+              <FileName>message_decode.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\src\message_decode.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -422,11 +427,6 @@
               <FileName>dwt.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\src\dwt.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\src\usart.c</FilePath>
             </File>
             <File>
               <FileName>SPI.cpp</FileName>

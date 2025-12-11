@@ -102,6 +102,12 @@ const char __stdout_name[] = "STDOUT";
 const char __stderr_name[] = "STDERR";
 #endif
 
+void DDL_AssertHandler(const char *file, int line)
+{
+    /* Users can re-implement this function to print information */
+    printf("Wrong parameters value: file %s on line %d\r\n", file, line);
+    while (1);
+}
 /*********************************************************************
 *
 *       Public code

@@ -3,6 +3,7 @@
  ******************************************************************************/
 #include "Arduino.h"
 #include "SEGGER_RTT.h"
+#include "lv_port.h"
 #include "slave_i2c.h"
 void SystemClock_Config(void);
 
@@ -22,8 +23,11 @@ int main(void)
 	HAL_Init();
 	SEGGER_RTT_Init();
 	systemInfo.batteryInfo.Percent = 50;
+	lv_init();
+	lv_port_init();
   /* Configure BSP */
-	pinMode(PC13, OUTPUT);
+	pinMode(POWER_LED_PIN, OUTPUT);
+	pinMode(FUNCTION_LED_PIN, OUTPUT);
 	pinMode(POWER_CONTROL_PIN, OUTPUT);
 	pinMode(WATCHDOG_FEED_PIN, OUTPUT);
 	digitalWrite(POWER_CONTROL_PIN, HIGH);
@@ -35,10 +39,11 @@ int main(void)
 		if(millis() - last >= 1000)
 		{
 			last = millis();
-			digitalToggle(PC13);
+			digitalToggle(POWER_LED_PIN);
 			digitalToggle(WATCHDOG_FEED_PIN);
 		}
 		slave_i2c_update();
+		lv_timer_handler();
   }
 }
 /**
