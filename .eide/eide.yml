@@ -26,7 +26,6 @@ virtualFolder:
           files:
             - path: Platform/Core/src/delay.c
             - path: Platform/Core/src/dwt.c
-            - path: Platform/Core/src/usart.c
             - path: Platform/Core/src/SPI.cpp
             - path: Platform/Core/Src/new.cpp
             - path: Platform/Core/src/addon_gpio.c

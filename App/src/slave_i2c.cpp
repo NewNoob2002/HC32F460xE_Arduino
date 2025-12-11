@@ -15,7 +15,7 @@ volatile uint16_t _rxBufferHead = 0;
 volatile uint16_t _rxBufferTail = 0;
 uint8_t _rxBuffer[SLAVE_RX_BUFFER_SIZE];
 
-uint8_t txBuffer_temp[NM_PROTOCOL_PINFO_MSG_PACK_LEN];
+uint8_t txBuffer_temp[NM_PROTOCOL_PINFO3_MSG_PACK_LEN];
 
 SEMP_PARSE_STATE *CustomParse = nullptr;
 /// @brief Bluetooth parser

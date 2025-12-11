@@ -13,7 +13,7 @@ static SCREEN_CLASS screen(
 #define SCREEN_BUFFER_SIZE (CONFIG_SCREEN_HOR_RES * CONFIG_SCREEN_VER_RES)
 
 // static lv_disp_drv_t* disp_drv_p = NULL;
-static lv_display_t *disp_drv_p = NULL;
+static lv_display_t *disp_drv_p = nullptr;
 
 void spi_dma_trans(void *buf, uint16_t len)
 {
@@ -30,21 +30,13 @@ void spi_dma_trans(void *buf, uint16_t len)
     //	}
     //	DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
 }
-/*Flush the content of the internal buffer the specific area on the display
- *You can use DMA or any hardware acceleration to do this operation in the background but
- *'lv_disp_flush_ready()' has to be called when finished.*/
-// static void disp_flush(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p)
-//{
-//     disp_drv_p = disp_drv;
+static inline uint16_t LCD_PointConv(const uint32_t point) {
+    return ( ((point >> 16 & 0xF8) << 8)   // 高8位分量
+           + ((point >> 8 & 0xE0) << 3)    // 中间分量高3位
+           + ((point & 0xF8) >> 3)         // 低8位分量高3位
+           + ((point >> 8 & 0x1C) << 3) ); // 中间分量低2位，移位后与其他部分无重叠
+}
 
-//    const lv_coord_t w = (area->x2 - area->x1 + 1);
-//    const lv_coord_t h = (area->y2 - area->y1 + 1);
-//    const uint32_t len = w * h;
-//		screen.setAddrWindow(area->x1, area->y1, w, h);
-//		digitalWrite(CONFIG_SCREEN_CS_PIN, LOW);
-//		digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
-//		spi_dma_trans(color_p, len * 2);
-//}
 static void disp_flush(lv_display_t *disp_drv, const lv_area_t *area, uint8_t *px_map)
 {
     disp_drv_p = disp_drv;
@@ -52,7 +44,7 @@ static void disp_flush(lv_display_t *disp_drv, const lv_area_t *area, uint8_t *p
     const lv_coord_t w = (area->x2 - area->x1 + 1);
     const lv_coord_t h = (area->y2 - area->y1 + 1);
     const uint32_t len = w * h;
-      
+	
     screen.setAddrWindow(area->x1, area->y1, w, h);
     digitalWrite(CONFIG_SCREEN_CS_PIN, LOW);
     digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
@@ -103,6 +95,7 @@ void lv_port_disp_init()
     DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
 
     screen.init(CONFIG_SCREEN_VER_RES, CONFIG_SCREEN_HOR_RES);
+		screen.setRotation(3);
     screen.fillScreen(ST77XX_WHITE);
     pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
     digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
