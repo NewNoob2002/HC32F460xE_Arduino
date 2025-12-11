@@ -137,6 +137,11 @@ void Adafruit_ST7789::init(uint16_t width, uint16_t height, uint8_t mode) {
     _colstart = (int)((240 - width + 1) / 2);
     _colstart2 = (int)((240 - width) / 2);
   }
+	else if(width == 126 && height == 294)
+	{
+		_rowstart = 0;
+		_colstart = 0;
+	}
 	else {
     // 1.47", 1.69, 1.9", 2.0" displays (centered)
     _rowstart = _rowstart2 = (int)((320 - height) / 2);
@@ -146,7 +151,7 @@ void Adafruit_ST7789::init(uint16_t width, uint16_t height, uint8_t mode) {
   windowWidth = width;
   windowHeight = height;
 
-  displayInit(generic_st7789);
+  displayInit(generic_RM690A0);
   setRotation(0);
 }
 

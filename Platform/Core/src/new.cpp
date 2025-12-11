@@ -12,8 +12,8 @@ static void *first_alloc(const size_t size)
         lv_init();
     }
 
-    alloc_func = lv_malloc;
-    return lv_malloc(size);
+    alloc_func = lv_mem_alloc;
+    return lv_mem_alloc(size);
     ;
 }
 
@@ -29,12 +29,12 @@ void *operator new[](size_t size)
 
 void operator delete(void *ptr)
 {
-    lv_free(ptr);
+    lv_mem_free(ptr);
 }
 
 void operator delete[](void *ptr)
 {
-    lv_free(ptr);
+    lv_mem_free(ptr);
 }
 
 //__asm(".global __use_no_heap_region\n\t");
@@ -45,15 +45,10 @@ void *malloc(size_t size)
 
 void free(void *p)
 {
-    lv_free(p);
+    lv_mem_free(p);
 }
 
 void *realloc(void *p, size_t want)
 {
-    return lv_realloc(p, want);
-}
-
-void *calloc(size_t nmemb, size_t size)
-{
-    return lv_calloc(nmemb, size);
+    return lv_mem_realloc(p, want);
 }

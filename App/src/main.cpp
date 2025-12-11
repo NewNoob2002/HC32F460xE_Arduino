@@ -21,14 +21,10 @@ static void anim_size_cb(void * var, int32_t v)
     lv_obj_set_size((lv_obj_t *) var, v, v);
 }
 
-/**
- * Create a playback animation
- */
 void lv_example_anim_2(void)
 {
 
-    lv_obj_t * obj = lv_obj_create(lv_screen_active());
-    lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_t * obj = lv_obj_create(lv_scr_act());
     lv_obj_set_style_bg_color(obj, lv_palette_main(LV_PALETTE_RED), 0);
     lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, 0);
 
@@ -38,9 +34,9 @@ void lv_example_anim_2(void)
     lv_anim_init(&a);
     lv_anim_set_var(&a, obj);
     lv_anim_set_values(&a, 10, 50);
-    lv_anim_set_duration(&a, 1000);
-    lv_anim_set_reverse_delay(&a, 100);
-    lv_anim_set_reverse_duration(&a, 300);
+    lv_anim_set_time(&a, 1000);
+    lv_anim_set_playback_delay(&a, 100);
+    lv_anim_set_playback_time(&a, 300);
     lv_anim_set_repeat_delay(&a, 500);
     lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
     lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
@@ -50,6 +46,32 @@ void lv_example_anim_2(void)
     lv_anim_set_exec_cb(&a, anim_x_cb);
     lv_anim_set_values(&a, 10, 240);
     lv_anim_start(&a);
+}
+
+void lv_example_style_8(void)
+{
+    static lv_style_t style;
+    lv_style_init(&style);
+
+    lv_style_set_radius(&style, 5);
+    lv_style_set_bg_opa(&style, LV_OPA_COVER);
+    lv_style_set_bg_color(&style, lv_palette_lighten(LV_PALETTE_GREY, 2));
+    lv_style_set_border_width(&style, 2);
+    lv_style_set_border_color(&style, lv_palette_main(LV_PALETTE_BLUE));
+    lv_style_set_pad_all(&style, 10);
+
+    lv_style_set_text_color(&style, lv_palette_main(LV_PALETTE_BLUE));
+    lv_style_set_text_letter_space(&style, 5);
+    lv_style_set_text_line_space(&style, 20);
+    lv_style_set_text_decor(&style, LV_TEXT_DECOR_UNDERLINE);
+
+    /*Create an object with the new style*/
+    lv_obj_t * obj = lv_label_create(lv_scr_act());
+    lv_obj_add_style(obj, &style, 0);
+    lv_label_set_text(obj, "Text of\n"
+                      "a label");
+
+    lv_obj_center(obj);
 }
 
 #endif
@@ -89,6 +111,7 @@ int main(void)
 			digitalToggle(WATCHDOG_FEED_PIN);
 		}
 		slave_i2c_update();
+		lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_HIDDEN);
 		lv_timer_handler();
 		__WFI();
   }

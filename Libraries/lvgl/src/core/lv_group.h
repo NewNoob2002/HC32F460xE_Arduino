@@ -13,16 +13,20 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
+
 #include "../lv_conf_internal.h"
 
-#include "../misc/lv_types.h"
+#include <stdint.h>
+#include <stdbool.h>
 #include "../misc/lv_ll.h"
+#include "../misc/lv_types.h"
 
 /*********************
  *      DEFINES
  *********************/
-/** Predefined keys to control which Widget has focus via lv_group_send(group, c) */
-typedef enum {
+/*Predefined keys to control the focused object via lv_group_send(group, c)*/
+
+enum {
     LV_KEY_UP        = 17,  /*0x11*/
     LV_KEY_DOWN      = 18,  /*0x12*/
     LV_KEY_RIGHT     = 19,  /*0x13*/
@@ -35,14 +39,44 @@ typedef enum {
     LV_KEY_PREV      = 11,  /*0x0B, '*/
     LV_KEY_HOME      = 2,   /*0x02, STX*/
     LV_KEY_END       = 3,   /*0x03, ETX*/
-} lv_key_t;
+};
+typedef uint8_t lv_key_t;
 
 /**********************
  *      TYPEDEFS
  **********************/
 
-typedef void (*lv_group_focus_cb_t)(lv_group_t *);
-typedef void (*lv_group_edge_cb_t)(lv_group_t *, bool);
+struct _lv_obj_t;
+struct _lv_group_t;
+
+typedef void (*lv_group_focus_cb_t)(struct _lv_group_t *);
+typedef void (*lv_group_edge_cb_t)(struct _lv_group_t *, bool);
+
+/**
+ * Groups can be used to logically hold objects so that they can be individually focused.
+ * They are NOT for laying out objects on a screen (try layouts for that).
+ */
+typedef struct _lv_group_t {
+    lv_ll_t obj_ll;        /**< Linked list to store the objects in the group*/
+    struct _lv_obj_t ** obj_focus; /**< The object in focus*/
+
+    lv_group_focus_cb_t focus_cb;              /**< A function to call when a new object is focused (optional)*/
+    lv_group_edge_cb_t  edge_cb;               /**< A function to call when an edge is reached, no more focus
+                                                    targets are available in this direction (to allow edge feedback
+                                                    like a sound or a scroll bounce) */
+
+#if LV_USE_USER_DATA
+    void * user_data;
+#endif
+
+    uint8_t frozen : 1;         /**< 1: can't focus to new object*/
+    uint8_t editing : 1;        /**< 1: Edit mode, 0: Navigate mode*/
+    uint8_t refocus_policy : 1; /**< 1: Focus prev if focused on deletion. 0: Focus next if focused on
+                                   deletion.*/
+    uint8_t wrap : 1;           /**< 1: Focus next/prev can wrap at end of list. 0: Focus next/prev stops at end
+                                   of list.*/
+} lv_group_t;
+
 
 typedef enum {
     LV_GROUP_REFOCUS_POLICY_NEXT = 0,
@@ -54,91 +88,96 @@ typedef enum {
  **********************/
 
 /**
- * Create new Widget group.
- * @return          pointer to the new Widget group
+ * Init. the group module
+ * @remarks Internal function, do not call directly.
+ */
+void _lv_group_init(void);
+
+/**
+ * Create a new object group
+ * @return          pointer to the new object group
  */
 lv_group_t * lv_group_create(void);
 
 /**
- * Delete group object.
+ * Delete a group object
  * @param group     pointer to a group
  */
-void lv_group_delete(lv_group_t * group);
+void lv_group_del(lv_group_t * group);
 
 /**
- * Set default group. New Widgets will be added to this group if it's enabled in
- * their class with `add_to_def_group = true`.
+ * Set a default group. New object are added to this group if it's enabled in their class with `add_to_def_group = true`
  * @param group     pointer to a group (can be `NULL`)
  */
 void lv_group_set_default(lv_group_t * group);
 
 /**
- * Get default group.
+ * Get the default group
  * @return          pointer to the default group
  */
 lv_group_t * lv_group_get_default(void);
 
 /**
- * Add an Widget to group.
+ * Add an object to a group
  * @param group     pointer to a group
- * @param obj       pointer to a Widget to add
+ * @param obj       pointer to an object to add
  */
-void lv_group_add_obj(lv_group_t * group, lv_obj_t * obj);
+void lv_group_add_obj(lv_group_t * group, struct _lv_obj_t * obj);
 
 /**
- * Swap 2 Widgets in group.  Widgets must be in the same group.
- * @param obj1  pointer to a Widget
- * @param obj2  pointer to another Widget
+ * Swap 2 object in a group. The object must be in the same group
+ * @param obj1  pointer to an object
+ * @param obj2  pointer to an other object
  */
-void lv_group_swap_obj(lv_obj_t * obj1, lv_obj_t * obj2);
+void lv_group_swap_obj(struct _lv_obj_t * obj1, struct _lv_obj_t * obj2);
 
 /**
- * Remove a Widget from its group.
- * @param obj       pointer to Widget to remove
+ * Remove an object from its group
+ * @param obj       pointer to an object to remove
  */
-void lv_group_remove_obj(lv_obj_t * obj);
+void lv_group_remove_obj(struct _lv_obj_t * obj);
 
 /**
- * Remove all Widgets from a group.
+ * Remove all objects from a group
  * @param group     pointer to a group
  */
 void lv_group_remove_all_objs(lv_group_t * group);
 
 /**
- * Focus on a Widget (defocus the current).
- * @param obj       pointer to Widget to focus on
+ * Focus on an object (defocus the current)
+ * @param obj       pointer to an object to focus on
  */
-void lv_group_focus_obj(lv_obj_t * obj);
+void lv_group_focus_obj(struct _lv_obj_t * obj);
 
 /**
- * Focus on next Widget in a group (defocus the current).
+ * Focus the next object in a group (defocus the current)
  * @param group     pointer to a group
  */
 void lv_group_focus_next(lv_group_t * group);
 
 /**
- * Focus on previous Widget in a group (defocus the current).
+ * Focus the previous object in a group (defocus the current)
  * @param group     pointer to a group
  */
 void lv_group_focus_prev(lv_group_t * group);
 
 /**
- * Do not allow changing focus from current Widget.
+ * Do not let to change the focus from the current object
  * @param group     pointer to a group
  * @param en        true: freeze, false: release freezing (normal mode)
  */
 void lv_group_focus_freeze(lv_group_t * group, bool en);
 
 /**
- * Send a control character to Widget that has focus in a group.
+ * Send a control character to the focuses object of a group
  * @param group     pointer to a group
  * @param c         a character (use LV_KEY_.. to navigate)
- * @return          result of Widget with focus in group.
+ * @return          result of focused object in group.
  */
-lv_result_t lv_group_send_data(lv_group_t * group, uint32_t c);
+lv_res_t lv_group_send_data(lv_group_t * group, uint32_t c);
 
 /**
- * Set a function for a group which will be called when a new Widget has focus.
+ * Set a function for a group which will be called when a new object is focused
  * @param group         pointer to a group
  * @param focus_cb      the call back function or NULL if unused
  */
@@ -151,9 +190,10 @@ void lv_group_set_focus_cb(lv_group_t * group, lv_group_focus_cb_t focus_cb);
  */
 void lv_group_set_edge_cb(lv_group_t * group, lv_group_edge_cb_t edge_cb);
 
+
 /**
- * Set whether the next or previous Widget in a group gets focus when Widget that has
- * focus is deleted.
+ * Set whether the next or previous item in a group is focused if the currently focused obj is
+ * deleted.
  * @param group         pointer to a group
  * @param policy        new refocus policy enum
  */
@@ -167,75 +207,53 @@ void lv_group_set_refocus_policy(lv_group_t * group, lv_group_refocus_policy_t p
 void lv_group_set_editing(lv_group_t * group, bool edit);
 
 /**
- * Set whether moving focus to next/previous Widget will allow wrapping from
- * first->last or last->first Widget.
+ * Set whether focus next/prev will allow wrapping from first->last or last->first object.
  * @param group         pointer to group
  * @param               en true: wrapping enabled; false: wrapping disabled
  */
 void lv_group_set_wrap(lv_group_t * group, bool en);
 
 /**
- * Get Widget that has focus, or NULL if there isn't one.
+ * Get the focused object or NULL if there isn't one
  * @param group         pointer to a group
- * @return              pointer to Widget with focus
+ * @return              pointer to the focused object
  */
-lv_obj_t * lv_group_get_focused(const lv_group_t * group);
+struct _lv_obj_t * lv_group_get_focused(const lv_group_t * group);
 
 /**
- * Get focus callback function of a group.
+ * Get the focus callback function of a group
  * @param group pointer to a group
  * @return the call back function or NULL if not set
  */
 lv_group_focus_cb_t lv_group_get_focus_cb(const lv_group_t * group);
 
 /**
- * Get edge callback function of a group.
+ * Get the edge callback function of a group
  * @param group pointer to a group
  * @return the call back function or NULL if not set
  */
 lv_group_edge_cb_t lv_group_get_edge_cb(const lv_group_t * group);
 
 /**
- * Get current mode (edit or navigate).
+ * Get the current mode (edit or navigate).
  * @param group         pointer to group
  * @return              true: edit mode; false: navigate mode
  */
 bool lv_group_get_editing(const lv_group_t * group);
 
 /**
- * Get whether moving focus to next/previous Widget will allow wrapping from
- * first->last or last->first Widget.
+ * Get whether focus next/prev will allow wrapping from first->last or last->first object.
  * @param group         pointer to group
+ * @param               en true: wrapping enabled; false: wrapping disabled
  */
 bool lv_group_get_wrap(lv_group_t * group);
 
 /**
- * Get number of Widgets in group.
+ * Get the number of object in the group
  * @param group         pointer to a group
- * @return              number of Widgets in the group
+ * @return              number of objects in the group
  */
 uint32_t lv_group_get_obj_count(lv_group_t * group);
-
-/**
- * Get nth Widget within group.
- * @param group         pointer to a group
- * @param index         index of Widget within the group
- * @return              pointer to Widget
- */
-lv_obj_t * lv_group_get_obj_by_index(lv_group_t * group, uint32_t index);
-
-/**
- * Get the number of groups.
- * @return              number of groups
- */
-uint32_t lv_group_get_count(void);
-
-/**
- * Get a group by its index.
- * @param index         index of the group
- * @return              pointer to the group
- */
-lv_group_t  * lv_group_by_index(uint32_t index);
 
 /**********************
  *      MACROS

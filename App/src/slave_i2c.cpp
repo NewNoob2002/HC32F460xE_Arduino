@@ -30,7 +30,6 @@ const char *const CustomParserNames[] = {
 };
 const int CustomParserNameCount = sizeof(CustomParserNames) / sizeof(CustomParserNames[0]);
 
-
 void CustomDataProcess(SEMP_PARSE_STATE *parse, uint16_t type)
 {
     int length = message_decode(parse, txBuffer_temp);
@@ -196,7 +195,7 @@ int32_t slave_i2c_init()
         stcIrqRegCfg.pfnCallback = &I2C_RXI_Callback;
         (void)INTC_IrqSignIn(&stcIrqRegCfg);
         NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
-        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_DEFAULT);
+        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_10);
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
 
         stcIrqRegCfg.enIRQn      = I2C_TEI_IRQN_DEF;
@@ -204,14 +203,15 @@ int32_t slave_i2c_init()
         stcIrqRegCfg.pfnCallback = &I2C_TEI_Callback;
         (void)INTC_IrqSignIn(&stcIrqRegCfg);
         NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
-        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_DEFAULT);
+        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_10);
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
 
-        CustomParse = sempBeginParser(CustomParserTable, CustomParserCount,
-                                      CustomParserNames, CustomParserNameCount,
-                                      128, 128, CustomDataProcess, "BluetoothDebug");
-        if (!CustomParse)
-            printf("Failed to initialize the parser");
+        if (CustomParse == nullptr) {
+            CustomParse = sempBeginParser(CustomParserTable, CustomParserCount,
+                                          CustomParserNames, CustomParserNameCount,
+                                          128, 128, CustomDataProcess, "BluetoothDebug");
+            if (!CustomParse) printf("Failed to initialize the parser");
+        }
     }
     I2C_Cmd(I2C_UNIT, ENABLE);
     I2C_IntCmd(I2C_UNIT, I2C_INT_MATCH_ADDR0 | I2C_INT_RX_FULL, ENABLE);
@@ -221,6 +221,8 @@ int32_t slave_i2c_init()
 void slave_i2c_update()
 {
     if (rxBufferAvailable() > 0 && slave_state == SLAVE_RX_DONE) {
-        sempParseNextByte(CustomParse, rxBufferRead());
+        for (int i = 0; i <= rxBufferAvailable(); i++) {
+            sempParseNextByte(CustomParse, rxBufferRead());
+        }
     }
 }
