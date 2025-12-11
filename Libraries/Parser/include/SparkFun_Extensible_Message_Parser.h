@@ -274,7 +274,8 @@ typedef struct SEMP_CUSTOM_HEADER
     uint8_t syncB;          // 0x44
     uint8_t syncC;          // 0x18
     uint8_t headerLength;     // CPU Idle Percentage 0-100
-    uint16_t messageId;     // Message ID
+    uint8_t messageId_L;     // Message ID
+		uint8_t messageId_H;     // Message ID
     uint16_t RESERVED1;      // reserved
     uint32_t RESERVED_time; // reserved time stamp
     uint16_t messageLength;     // massage length

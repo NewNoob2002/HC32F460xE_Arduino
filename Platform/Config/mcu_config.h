@@ -1,4 +1,8 @@
 #pragma once
+#include "mcu_define.h"
+
+#define  HW_VERSION    "V1.4"
+#define  SW_VERSION    "V1.26"
 
 /* USART unit definition */
 #define USART_UNIT          (CM_USART1)
@@ -7,6 +11,10 @@
 #define PRINTF_PORT         GPIO_PORT_A
 #define PRINTF_PIN          GPIO_PIN_15
 #define PRINTF_TX_GPIO_FUNC (GPIO_FUNC_32)
+
+/*POWER*/
+#define POWER_CONTROL_PIN		PB3
+#define WATCHDOG_FEED_PIN		PA6
 
 /* SPI Class */
 #define SPI_CLASS_3_ENABLE 1
@@ -20,10 +28,11 @@
 #define CONFIG_SCREEN_RST_PIN  PB9
 #define CONFIG_SCREEN_SCK_PIN  PB6
 #define CONFIG_SCREEN_MOSI_PIN PB7
-#define CONFIG_SCREEN_BLK_PIN  PB3 // TIM3
+#define CONFIG_SCREEN_BLK_PIN  PB4 // TIM3
 #define CONFIG_SCREEN_SPI      SPI_3
 #define CONFIG_SCREEN_HOR_RES  320
 #define CONFIG_SCREEN_VER_RES  172
+//////////////////////////////////////////
 //#define CONFIG_SCREEN_CS_PIN   PB14
 //#define CONFIG_SCREEN_DC_PIN   PB1
 //#define CONFIG_SCREEN_RST_PIN  PB2

@@ -693,6 +693,11 @@
               <FileType>5</FileType>
               <FilePath>..\Config\mcu_config.h</FilePath>
             </File>
+            <File>
+              <FileName>mcu_define.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Config\mcu_define.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

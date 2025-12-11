@@ -2,8 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "slave_i2c.h"
-#include "hc32_ll.h"
-#include "delay.h"
+#include "Arduino.h"
 #include "SparkFun_Extensible_Message_Parser.h"
 
 volatile SLAVE_I2C_STATE slave_state = SLAVE_RX;
@@ -30,13 +29,195 @@ const int CustomParserNameCount = sizeof(CustomParserNames) / sizeof(CustomParse
 
 uint8_t tx_test[12] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c};
 
+static uint32_t Calc_MsgCRC(const char *Msg, unsigned int len)
+{
+    DDL_ASSERT(Msg != nullptr);
+    unsigned long crc = 0xFFFFFFFF;
+
+    for (int n = 0; n < len; n++) {
+        crc = semp_crc32Table[(crc ^ Msg[n]) & 0xff] ^ (crc >> 8);
+    }
+
+    return crc ^ 0xFFFFFFFF;
+}
+
 void CustomDataProcess(SEMP_PARSE_STATE *parse, uint16_t type)
 {
     SEMP_CUSTOM_HEADER *messageHeader = (SEMP_CUSTOM_HEADER *)parse->buffer;
-    uint8_t messageId                 = messageHeader->messageId;
+    uint16_t messageId                = *(uint16_t *)&messageHeader->messageId_L;
     uint8_t messageType               = messageHeader->messageType;
-    txBufferWrite(tx_test, 12);
-		printf("Parser Done, %d\n", millis());
+    printf("messageId: %d, h:%d, l:%d,\n", messageId, messageHeader->messageId_H, messageHeader->messageId_L);
+		for(int i = 0; i< parse->length; i++)
+		{
+			printf("%02x ", parse->buffer[i]);
+		}
+		printf("\n");
+    switch (messageId) {
+        case NM_PANNEL_INFO_ID: {
+            uint8_t msg[NM_PROTOCOL_PINFO_MSG_PACK_LEN];
+
+            uint16_t len                      = NM_PROTOCOL_PINFO_MSG_LEN;
+            msg[0]                            = NM_PROTOCOL_SYN_BYTE1;
+            msg[1]                            = NM_PROTOCOL_SYN_BYTE2;
+            msg[2]                            = NM_PROTOCOL_SYN_BYTE3;
+            msg[3]                            = NM_PROTOCOL_HEADER_LEN;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_L]   = messageHeader->messageId_L;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_H]   = messageHeader->messageId_H;
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_L]  = (char)(len & 0x00FF);
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_H]  = (char)((len >> 8) & 0x00FF);
+            msg[NM_PROTOCOL_MSG_SENDER_INDEX] = NM_PROTOCOL_MSG_SENDER_PANNEL;
+            msg[NM_PROTOCOL_MSG_TYPE_INDEX]   = NM_MSG_QUERY_RES_TYPE;
+            memcpy(&msg[NM_PROTOCOL_PHV_OFFSET], HW_VERSION, strlen(HW_VERSION));
+            memcpy(&msg[NM_PROTOCOL_PFV_OFFSET], SW_VERSION, strlen(SW_VERSION));
+
+            memcpy(&msg[NM_PROTOCOL_PBL_OFFSET], &systemInfo.batteryInfo.Percent, 2);
+            memcpy(&msg[NM_PROTOCOL_PBT_OFFSET], &systemInfo.batteryInfo.Temp, 2);
+            memcpy(&msg[NM_PROTOCOL_PBV_OFFSET], &systemInfo.batteryInfo.Voltage, 2);
+
+            msg[NM_PROTOCOL_PSS_OFFSET] = 1;
+
+            const uint32_t crc = Calc_MsgCRC((const char *)msg, (NM_PROTOCOL_PINFO_MSG_PACK_LEN - NM_PROTOCOL_CRC_LEN));
+
+            msg[NM_PROTOCOL_PINFO_MSG_PACK_LEN - 1] = (char)((crc >> 24) & 0x000000FF);
+            msg[NM_PROTOCOL_PINFO_MSG_PACK_LEN - 2] = (char)((crc >> 16) & 0x000000FF);
+            msg[NM_PROTOCOL_PINFO_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
+            msg[NM_PROTOCOL_PINFO_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
+
+            txBufferWrite(msg, NM_PROTOCOL_PINFO_MSG_PACK_LEN);
+            break;
+        }
+        case NM_PANNEL_CTRL_ID: {
+            uint8_t msg[NM_PROTOCOL_PCTRL_MSG_PACK_LEN];
+
+            uint16_t len                      = NM_PROTOCOL_PCTRL_MSG_LEN;
+            msg[0]                            = NM_PROTOCOL_SYN_BYTE1;
+            msg[1]                            = NM_PROTOCOL_SYN_BYTE2;
+            msg[2]                            = NM_PROTOCOL_SYN_BYTE3;
+            msg[3]                            = NM_PROTOCOL_HEADER_LEN;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_L]   = messageHeader->messageId_L;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_H]   = messageHeader->messageId_H;
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_L]  = (char)(len & 0x00FF);
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_H]  = (char)((len >> 8) & 0x00FF);
+            msg[NM_PROTOCOL_MSG_SENDER_INDEX] = NM_PROTOCOL_MSG_SENDER_PANNEL;
+            msg[NM_PROTOCOL_MSG_TYPE_INDEX]   = NM_MSG_QUERY_RES_TYPE;
+
+            msg[NM_PROTOCOL_PRE_OFFSET] = systemInfo.reset_flag;
+            msg[NM_PROTOCOL_PPC_OFFSET] = systemInfo.poweroff_flag;
+
+            msg[NM_PROTOCOL_PRC_OFFSET] = systemInfo.record_flag;
+            msg[NM_PROTOCOL_PRO_OFFSET] = systemInfo.record_op;
+            systemInfo.record_op        = 0;
+
+            msg[NM_PROTOCOL_PEP_OFFSET] = systemInfo.usb_power_flag;
+
+            const uint32_t crc = Calc_MsgCRC((const char *)msg, (NM_PROTOCOL_PCTRL_MSG_PACK_LEN - NM_PROTOCOL_CRC_LEN));
+
+            msg[NM_PROTOCOL_PCTRL_MSG_PACK_LEN - 1] = (char)((crc >> 24) & 0x000000FF);
+            msg[NM_PROTOCOL_PCTRL_MSG_PACK_LEN - 2] = (char)((crc >> 16) & 0x000000FF);
+            msg[NM_PROTOCOL_PCTRL_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
+            msg[NM_PROTOCOL_PCTRL_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
+            txBufferWrite(msg, NM_PROTOCOL_PCTRL_MSG_PACK_LEN);
+            break;
+        }
+        case NM_PANNEL_HOST_ID: {
+            uint8_t msg[NM_PROTOCOL_HOST_MSG_PACK_LEN];
+
+            uint8_t record_state_set = parse->buffer[NM_PROTOCOL_HEADER_LEN];
+
+            if (!systemInfo.record_op) {
+                if (record_state_set) {
+                    systemInfo.record_flag = 1;
+                } else {
+                    systemInfo.record_flag = 0;
+                }
+            }
+
+            //            state = pMsg[NM_PROTOCOL_HNS_OFFSET];
+
+            uint16_t len                      = NM_PROTOCOL_HOST_MSG_LEN;
+            msg[0]                            = NM_PROTOCOL_SYN_BYTE1;
+            msg[1]                            = NM_PROTOCOL_SYN_BYTE2;
+            msg[2]                            = NM_PROTOCOL_SYN_BYTE3;
+            msg[3]                            = NM_PROTOCOL_HEADER_LEN;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_L]   = messageHeader->messageId_L;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_H]   = messageHeader->messageId_H;
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_L]  = (char)(len & 0x00FF);
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_H]  = (char)((len >> 8) & 0x00FF);
+            msg[NM_PROTOCOL_MSG_SENDER_INDEX] = NM_PROTOCOL_MSG_SENDER_PANNEL;
+            msg[NM_PROTOCOL_MSG_TYPE_INDEX]   = NM_MSG_SET_RES_TYPE;
+
+            msg[NM_PROTOCOL_HEADER_LEN] = 1;
+
+            const uint32_t crc = Calc_MsgCRC((const char *)msg, (NM_PROTOCOL_HOST_MSG_PACK_LEN - NM_PROTOCOL_CRC_LEN));
+
+            msg[NM_PROTOCOL_HOST_MSG_PACK_LEN - 1] = (char)((crc >> 24) & 0x000000FF);
+            msg[NM_PROTOCOL_HOST_MSG_PACK_LEN - 2] = (char)((crc >> 16) & 0x000000FF);
+            msg[NM_PROTOCOL_HOST_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
+            msg[NM_PROTOCOL_HOST_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
+            txBufferWrite(msg, NM_PROTOCOL_HOST_MSG_PACK_LEN);
+            break;
+        }
+        case NM_PANNEL_RST_ID: {
+            uint8_t msg[NM_PROTOCOL_RST_RESP_MSG_PACK_LEN];
+            systemInfo.reset_flag = parse->buffer[NM_PROTOCOL_HEADER_LEN];
+
+            uint16_t len                      = NM_PROTOCOL_RST_RESP_MSG_LEN;
+            msg[0]                            = NM_PROTOCOL_SYN_BYTE1;
+            msg[1]                            = NM_PROTOCOL_SYN_BYTE2;
+            msg[2]                            = NM_PROTOCOL_SYN_BYTE3;
+            msg[3]                            = NM_PROTOCOL_HEADER_LEN;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_L]   = messageHeader->messageId_L;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_H]   = messageHeader->messageId_H;
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_L]  = (char)(len & 0x00FF);
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_H]  = (char)((len >> 8) & 0x00FF);
+            msg[NM_PROTOCOL_MSG_SENDER_INDEX] = NM_PROTOCOL_MSG_SENDER_PANNEL;
+            msg[NM_PROTOCOL_MSG_TYPE_INDEX]   = NM_MSG_SET_RES_TYPE;
+
+            msg[NM_PROTOCOL_HEADER_LEN] = 1;
+
+            const uint32_t crc = Calc_MsgCRC((const char *)msg, (NM_PROTOCOL_RST_RESP_MSG_PACK_LEN - NM_PROTOCOL_CRC_LEN));
+
+            msg[NM_PROTOCOL_RST_RESP_MSG_PACK_LEN - 1] = (char)((crc >> 24) & 0x000000FF);
+            msg[NM_PROTOCOL_RST_RESP_MSG_PACK_LEN - 2] = (char)((crc >> 16) & 0x000000FF);
+            msg[NM_PROTOCOL_RST_RESP_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
+            msg[NM_PROTOCOL_RST_RESP_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
+            txBufferWrite(msg, NM_PROTOCOL_RST_RESP_MSG_PACK_LEN);
+            break;
+        }
+        case NM_PANNEL_POWER_ID: {
+            uint8_t msg[NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN];
+
+            if (parse->buffer[NM_PROTOCOL_HEADER_LEN]) {
+                systemInfo.poweroff_flag              = 1;
+                systemInfo.powerMonitor.LinuxPowerOff = true;
+            }
+
+            uint16_t len                      = NM_PROTOCOL_POWER_RESP_MSG_LEN;
+            msg[0]                            = NM_PROTOCOL_SYN_BYTE1;
+            msg[1]                            = NM_PROTOCOL_SYN_BYTE2;
+            msg[2]                            = NM_PROTOCOL_SYN_BYTE3;
+            msg[3]                            = NM_PROTOCOL_HEADER_LEN;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_L]   = messageHeader->messageId_L;
+            msg[NM_PROTOCOL_MSG_ID_INDEX_H]   = messageHeader->messageId_H;
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_L]  = (char)(len & 0x00FF);
+            msg[NM_PROTOCOL_MSG_LEN_INDEX_H]  = (char)((len >> 8) & 0x00FF);
+            msg[NM_PROTOCOL_MSG_SENDER_INDEX] = NM_PROTOCOL_MSG_SENDER_PANNEL;
+            msg[NM_PROTOCOL_MSG_TYPE_INDEX]   = NM_MSG_SET_RES_TYPE;
+
+            msg[NM_PROTOCOL_HEADER_LEN] = 1;
+
+            const uint32_t crc = Calc_MsgCRC((const char *)msg, (NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN - NM_PROTOCOL_CRC_LEN));
+
+            msg[NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN - 1] = (char)((crc >> 24) & 0x000000FF);
+            msg[NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN - 2] = (char)((crc >> 16) & 0x000000FF);
+            msg[NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
+            msg[NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
+            txBufferWrite(msg, NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN);
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 int txBufferAvailable()
@@ -54,7 +235,7 @@ int txBufferWrite(uint8_t *Buffer, const uint16_t length)
     // if the head isn't ahead of the tail, we don't have any characters
     memcpy(_txBuffer, Buffer, length);
     _txBufferHead = length;
-		_txBufferTail = 0;
+    _txBufferTail = 0;
     return _txBufferHead;
 }
 
@@ -102,7 +283,7 @@ static void I2C_EEI_Callback(void)
             }
         } else {
             slave_state = SLAVE_RX;
-//						I2C_IntCmd(I2C_UNIT, I2C_INT_RX_FULL, ENABLE);
+            //						I2C_IntCmd(I2C_UNIT, I2C_INT_RX_FULL, ENABLE);
         }
         /* Enable stop and NACK interrupt */
         I2C_IntCmd(I2C_UNIT, I2C_INT_STOP | I2C_INT_NACK, ENABLE);
@@ -124,15 +305,15 @@ static void I2C_EEI_Callback(void)
         }
     } else if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_STOP)) {
         /* If stop interrupt occurred */
-				/* Disable all interrupt enable flag except SLADDR0IE*/
+        /* Disable all interrupt enable flag except SLADDR0IE*/
         I2C_IntCmd(I2C_UNIT, I2C_INT_TX_CPLT | I2C_INT_STOP | I2C_INT_NACK, DISABLE);
         /* Clear STOPF flag */
         I2C_ClearStatus(I2C_UNIT, I2C_CLR_STOPFCLR);
         if (slave_state == SLAVE_RX) {
-						printf("Rx Done, %d\n", millis());
+            printf("Rx Done, %d\n", millis());
             slave_state = SLAVE_RX_DONE;
         } else if (slave_state == SLAVE_TX) {
-						printf("Tx Done, %d\n", millis());
+            printf("Tx Done, %d\n", millis());
             _txBufferHead = 0;
             slave_state   = SLAVE_TX_DONE;
         }

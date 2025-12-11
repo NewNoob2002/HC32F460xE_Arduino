@@ -105,5 +105,5 @@ void HardFault_Handler(void)
 void SysTick_Handler()
 {
     HAL_IncTick();
-    lv_tick_inc(1);
+	lv_tick_inc(1);
 }
