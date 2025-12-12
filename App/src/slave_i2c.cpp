@@ -1,6 +1,3 @@
-#include <stdbool.h>
-#include <string.h>
-#include <stdio.h>
 #include "slave_i2c.h"
 #include "Arduino.h"
 #include "SparkFun_Extensible_Message_Parser.h"
@@ -129,10 +126,11 @@ static void I2C_EEI_Callback(void)
         /* Clear STOPF flag */
         I2C_ClearStatus(I2C_UNIT, I2C_CLR_STOPFCLR);
         if (slave_state == SLAVE_RX) {
-            printf("Rx Done, %d\n", millis());
+//            CORE_DEBUG_PRINTF("Rx Done, %d\n", millis());
             slave_state = SLAVE_RX_DONE;
         } else if (slave_state == SLAVE_TX) {
-            printf("Tx Done, %d\n", millis());
+//            CORE_DEBUG_PRINTF("Tx Done, %d\n", millis());
+						systemInfo.i2c_communicate_err_count = 0;
             _txBufferHead = 0;
             slave_state   = SLAVE_TX_DONE;
         }
@@ -210,7 +208,7 @@ int32_t slave_i2c_init()
             CustomParse = sempBeginParser(CustomParserTable, CustomParserCount,
                                           CustomParserNames, CustomParserNameCount,
                                           128, 128, CustomDataProcess, "BluetoothDebug");
-            if (!CustomParse) printf("Failed to initialize the parser");
+            if (!CustomParse) CORE_DEBUG_PRINTF("Failed to initialize the parser");
         }
     }
     I2C_Cmd(I2C_UNIT, ENABLE);
@@ -225,4 +223,8 @@ void slave_i2c_update()
             sempParseNextByte(CustomParse, rxBufferRead());
         }
     }
+		if(systemInfo.i2c_communicate_err_count >=2000)
+		{
+			slave_i2c_init();
+		}
 }

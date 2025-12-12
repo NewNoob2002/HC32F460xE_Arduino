@@ -2,6 +2,35 @@
 #define __HAL_H
 
 #include "HAL_CONFIG.h"
+#include "mcu_config.h"
+#include "core_debug.h"
+#include "CommonMacro.h"
+
+#ifdef __cplusplus
+namespace HAL
+{
+	void HAL_Init();
+	void HAL_Update();
+	
+	void HAL_Deinit();
+	/* I2C */
+	int I2C_Scan();
+	
+	/* Power */
+	void Power_Init();
+	void Power_HandleTimeUpdate();
+	void Power_Shutdown();
+	void Power_Update();
+	void Power_EventMonitor();
+	void Power_GetInfo(pPower_Monitor_t info);
+	typedef void(*Power_CallbackFunction_t)(void);
+	void Power_SetEventCallback(Power_CallbackFunction_t callback);
+	void WatchDog_Feed();
+	/* Encoder */
+	void Key_Init();
+	void Key_Update();
+}
+#endif /*__cplusplus*/
 
 #ifdef __cplusplus
  extern "C" {
@@ -46,12 +75,7 @@ extern HAL_TickFreqTypeDef uwTickFreq;
   * @{
   */
 /* Initialization and Configuration functions  ******************************/
-HAL_StatusTypeDef HAL_Init(void);
-HAL_StatusTypeDef HAL_DeInit(void);
-void HAL_MspInit(void);
-void HAL_MspDeInit(void);
 HAL_StatusTypeDef HAL_InitTick (uint32_t TickPriority);
-
 
 void HAL_IncTick(void);
 uint32_t HAL_GetTick(void);
@@ -61,8 +85,12 @@ HAL_TickFreqTypeDef HAL_GetTickFreq(void);
 
 void HAL_SuspendTick(void);
 void HAL_ResumeTick(void);
+
+bool chagrer_begin(pBatteryInfo_t p_batteryState);
+void charger_update(pBatteryInfo_t p_batteryState);
+void checkBatteryInfo(pBatteryInfo_t p_batteryState);
 #ifdef __cplusplus
  }
 #endif /*__cplusplus*/
-	 
+ 
 #endif

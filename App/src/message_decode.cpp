@@ -52,18 +52,18 @@ static int message_info_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
                    strlen(HW_VERSION)); // HardWare_Version
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 8], SW_VERSION,
                    strlen(SW_VERSION)); // SoftWare_Version
-            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 18], &systemInfo.batteryInfo.Percent, 2);
-            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 20], &systemInfo.batteryInfo.Temp, 2);
-            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 22], &systemInfo.batteryInfo.Voltage, 2);
+            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 18], &systemInfo.powerMonitor.batteryInfo.Percent, 2);
+            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 20], &systemInfo.powerMonitor.batteryInfo.Temp, 2);
+            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 22], &systemInfo.powerMonitor.batteryInfo.Voltage, 2);
             break;
         case NM_PANEL_INFO2_ID:
             msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.powerMonitor.reset_flag;    // 主机复位控制
             msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.powerMonitor.poweroff_flag; // 主机关机控制
             msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.recordInfo.record_status;   // 静态记录状态
             msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.recordInfo.record_op;       // 静态记录开关
-            msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.batteryInfo.chargeStatus;   // 充电电源接入
+            msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus;   // 充电电源接入
             systemInfo.recordInfo.record_op = 0;
-            if (systemInfo.powerMonitor.poweroff_flag) systemInfo.powerMonitor.PowerOFF_Ensure = true;
+            if (systemInfo.powerMonitor.poweroff_flag) systemInfo.powerMonitor.ShutdownEnsure = true;
             break;
         case NM_PANEL_INFO3_ID:
             msg[NM_PROTOCOL_HEADER_LEN + 0]  = systemInfo.work_mode;
@@ -232,11 +232,11 @@ int message_decode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
     SEMP_CUSTOM_HEADER *messageHeader = (SEMP_CUSTOM_HEADER *)parse->buffer;
     uint16_t messageId                = *(uint16_t *)&messageHeader->messageId_L;
     uint8_t messageType               = messageHeader->messageType;
-    printf("messageId: %d, h:%d, l:%d,\n", messageId, messageHeader->messageId_H, messageHeader->messageId_L);
-    for (int i = 0; i < parse->length; i++) {
-        printf("%02x ", parse->buffer[i]);
-    }
-    printf("\n");
+//    CORE_DEBUG_PRINTF("messageId: %d, h:%d, l:%d,\n", messageId, messageHeader->messageId_H, messageHeader->messageId_L);
+//    for (int i = 0; i < parse->length; i++) {
+//        CORE_DEBUG_PRINTF("%02x ", parse->buffer[i]);
+//    }
+//    CORE_DEBUG_PRINTF("\n");
     digitalToggle(FUNCTION_LED_PIN);
     switch (messageId) {
         case NM_PANEL_INFO1_ID:

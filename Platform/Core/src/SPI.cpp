@@ -52,10 +52,10 @@ void SPIClass::begin(void)
 {
     SPI_DeInit(SPIx);
 
-    pinMode(sclk_pin, OUTPUT_AF_ALTER);
-    pinMode(mosi_pin, OUTPUT_AF_ALTER);
+    pinMode(sclk_pin, OUTPUT_AF_PP);
+    pinMode(mosi_pin, OUTPUT_AF_PP);
     if (miso_pin != -1)
-        pinMode(miso_pin, OUTPUT_AF_ALTER);
+        pinMode(miso_pin, OUTPUT_AF_PP);
 
     uint16_t sclk_function;
     uint16_t mosi_function;

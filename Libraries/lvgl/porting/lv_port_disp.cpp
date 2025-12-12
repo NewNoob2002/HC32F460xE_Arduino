@@ -95,7 +95,7 @@ void lv_port_disp_init()
     DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
 
     screen.init(CONFIG_SCREEN_VER_RES, CONFIG_SCREEN_HOR_RES);
-    screen.fillScreen(ST77XX_WHITE);
+    screen.fillScreen(ST77XX_BLACK);
 		#if defined(CONFIG_SCREEN_BLK_PIN)
     pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
     digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);

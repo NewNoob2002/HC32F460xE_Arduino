@@ -15,6 +15,9 @@ LR_IROM1 0x00000000 0x00080000  {    ; load region size_region
         .ANY (+RW +ZI)
         .ANY (RAMCODE)
     }
+;	RW_RTT_CB 0x1fff8210 UNINIT {
+;    *(.rtt_cb)
+;	}
     RW_IRAMB 0x200F0000 0x00001000  {  ; RW data
         .ANY (+RW +ZI)
     }

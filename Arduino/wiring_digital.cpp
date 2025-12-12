@@ -8,11 +8,6 @@
 void pinMode(gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State)
 {
     ASSERT_GPIO_PIN_VALID(dwPin, "pinMode");
-    if (dwPin >= BOARD_NR_GPIO_PINS)
-    {
-        return;
-    }
-
     // if pin has ADC channel, configure ADC according to pin mode
 //    pin_adc_info_t adc_info = PIN_MAP[dwPin].adc_info;
 //    adc_device_t *adc_device = adc_info.get_device();
@@ -95,8 +90,10 @@ void pinMode(gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State)
 		case OUTPUT_OPEN_DRAIN:
 				pinConf.u16PinDir = PIN_DIR_OUT;
 				pinConf.u16PinOutputType = PIN_OUT_TYPE_NMOS;
-		case OUTPUT_AF_ALTER:
+		case OUTPUT_AF_PP:
+		case OUTPUT_AF_OD:
 				pinConf.u16PinDrv = PIN_HIGH_DRV;
+				break;
     default:
         CORE_ASSERT_FAIL("pinMode: invalid pin mode. Must be INPUT, INPUT_PULLUP, INPUT_ANALOG or OUTPUT");
         return;
@@ -109,11 +106,6 @@ void pinMode(gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State)
 uint32_t getPinMode(gpio_pin_t dwPin)
 {
     ASSERT_GPIO_PIN_VALID(dwPin, "getPinMode");
-    if (dwPin >= BOARD_NR_GPIO_PINS)
-    {
-        return LL_ERR;
-    }
-
     // read pin configuration
     stc_gpio_init_t pinConf;
     CORE_ASSERT(GPIO_GetConfig(dwPin, &pinConf) == LL_OK, "getPinMode: GPIO_GetConfig failed");
@@ -161,10 +153,6 @@ uint32_t getPinMode(gpio_pin_t dwPin)
 void digitalWrite(gpio_pin_t dwPin, uint32_t dwVal)
 {
     ASSERT_GPIO_PIN_VALID(dwPin, "digitalWrite");
-    if (dwPin >= BOARD_NR_GPIO_PINS)
-    {
-        return;
-    }
 
     if (dwVal == HIGH)
     {
@@ -179,20 +167,11 @@ void digitalWrite(gpio_pin_t dwPin, uint32_t dwVal)
 int digitalRead(gpio_pin_t ulPin)
 {
     ASSERT_GPIO_PIN_VALID(ulPin, "digitalRead");
-    if (ulPin >= BOARD_NR_GPIO_PINS)
-    {
-        return LOW;
-    }
-
     return GPIO_GetBit(ulPin) ? HIGH : LOW;
 }
 
 void digitalToggle(gpio_pin_t ulPin)
 {
     ASSERT_GPIO_PIN_VALID(ulPin, "digitalToggle");
-    if (ulPin >= BOARD_NR_GPIO_PINS)
-    {
-        return;
-    }
     GPIO_Toggle(ulPin);
 }

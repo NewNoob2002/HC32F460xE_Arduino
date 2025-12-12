@@ -1,10 +1,8 @@
 #ifndef _CORE_DEBUG_H
 #define _CORE_DEBUG_H
 
-#include <stdio.h>
-
 #ifdef __CORE_DEBUG
-
+#include <stdio.h>
 // allow user to re-define the debug macros with custom ones
 // user macros are only active if __CORE_DEBUG is defined
 #ifndef CORE_DEBUG_INIT
@@ -19,8 +17,9 @@
 #define CORE_ASSERT(expression, message, ...) \
     if (!(expression))                        \
     {                                         \
-        panic("CORE_ASSERT:" message "\n\n"); \
+        printf("CORE_ASSERT:" message "%d,%s""\n\n", __LINE__, __FUNCTION__); \
         __VA_ARGS__;                          \
+				while(true);													\
     }
 #endif
 #else // !__CORE_DEBUG

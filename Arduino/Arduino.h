@@ -26,8 +26,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "HAL.h"
 #include "core_types.h"
-
+#include "core_debug.h"
+#include "yield.h"
+#include "delay.h"
+#include "dwt.h"
+#include "gpio.h"
+#include "mcu_config.h"
+#include "system.h"
 // some libraries and sketches depend on this AVR stuff,
 // assuming Arduino.h or WProgram.h automatically includes it...
 //
@@ -37,22 +44,6 @@
 #include "binary.h"
 #include "itoa.h"
 
-#ifdef __cplusplus
-extern "C"{
-#endif // __cplusplus
-#include "HAL.h"
-#include "yield.h"
-#include "delay.h"
-#include "dwt.h"
-#include "gpio.h"
-#include "mcu_config.h"
-  /* sketch */
-//void setup( void ) ;
-//void loop( void ) ;
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
 
 // The following headers are for C++ only compilation
 #ifdef __cplusplus

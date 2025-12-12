@@ -322,14 +322,14 @@
             <PlainCh>0</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
-            <wLevel>3</wLevel>
+            <wLevel>1</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
-            <v6Lang>3</v6Lang>
-            <v6LangP>3</v6LangP>
+            <v6Lang>5</v6Lang>
+            <v6LangP>8</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -337,9 +337,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111, __DEBUG</Define>
+              <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111, __DEBUG,__CORE_DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\App\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\HAL;..\Driver\inc;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include</IncludePath>
+              <IncludePath>..\..\App\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\HAL;..\Driver\inc;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\support;..\gui\font;..\gui\ui;..\gui\img</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -429,6 +429,11 @@
               <FilePath>..\Core\src\dwt.c</FilePath>
             </File>
             <File>
+              <FileName>Wire.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Core\src\Wire.cpp</FilePath>
+            </File>
+            <File>
               <FileName>SPI.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Core\src\SPI.cpp</FilePath>
@@ -469,9 +474,24 @@
           <GroupName>Platform/Hal</GroupName>
           <Files>
             <File>
-              <FileName>HAL.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HAL\HAL.c</FilePath>
+              <FileName>HAL.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\HAL\HAL.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_I2C.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\HAL\HAL_I2C.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_Key.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\HAL\HAL_Key.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_Power.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\HAL\HAL_Power.cpp</FilePath>
             </File>
             <File>
               <FileName>HAL_CORTEX.c</FileName>
@@ -701,6 +721,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Platform/Support</GroupName>
+          <Files>
+            <File>
+              <FileName>system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\support\system.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Arduino</GroupName>
           <Files>
             <File>
@@ -830,6 +860,26 @@
               <FileName>SparkFun_Extensible_Message_Parser.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\Libraries\Parser\src\SparkFun_Extensible_Message_Parser.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>bq40z50.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\Bq40z50\bq40z50.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ButtonEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\ButtonEvent\ButtonEvent.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>mp2762a.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\Mp2762a\mp2762a.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>MillisTaskManager.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1540,6 +1590,111 @@
               <FileName>lv_port_disp.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\Libraries\lvgl\porting\lv_port_disp.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lvgl/myFont</GroupName>
+          <Files>
+            <File>
+              <FileName>Oswald_Bold_12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\font\Oswald_Bold_12.c</FilePath>
+            </File>
+            <File>
+              <FileName>Oswald_Bold_18.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\font\Oswald_Bold_18.c</FilePath>
+            </File>
+            <File>
+              <FileName>Rajdhani_Bold_0_9_20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\font\Rajdhani_Bold_0_9_20.c</FilePath>
+            </File>
+            <File>
+              <FileName>Rajdhani_Bold_0_9_40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\font\Rajdhani_Bold_0_9_40.c</FilePath>
+            </File>
+            <File>
+              <FileName>main_symbol2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\font\main_symbol2.c</FilePath>
+            </File>
+            <File>
+              <FileName>main_symbol32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\font\main_symbol32.c</FilePath>
+            </File>
+            <File>
+              <FileName>symbol_radio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\font\symbol_radio.c</FilePath>
+            </File>
+            <File>
+              <FileName>symbol_satellite48.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\font\symbol_satellite48.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lvgl/gui</GroupName>
+          <Files>
+            <File>
+              <FileName>actions.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\ui\actions.c</FilePath>
+            </File>
+            <File>
+              <FileName>anim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\ui\anim.c</FilePath>
+            </File>
+            <File>
+              <FileName>images.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\ui\images.c</FilePath>
+            </File>
+            <File>
+              <FileName>screens.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\ui\screens.c</FilePath>
+            </File>
+            <File>
+              <FileName>styles.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\ui\styles.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\ui\ui.c</FilePath>
+            </File>
+            <File>
+              <FileName>vars.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\ui\vars.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>utils/lv_anim_label</GroupName>
+          <Files>
+            <File>
+              <FileName>lv_anim_label.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\utils\lv_anim_label\lv_anim_label.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>utils/lv_ext</GroupName>
+          <Files>
+            <File>
+              <FileName>lv_anim_timeline_wrapper.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\gui\utils\lv_ext\lv_anim_timeline_wrapper.c</FilePath>
             </File>
           </Files>
         </Group>

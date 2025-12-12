@@ -4,12 +4,22 @@
 #define  HW_VERSION    "V1.4"
 #define  SW_VERSION    "V1.26"
 
+#define FIRMWARE_NAME "PRO_Panel"
+#define SOFTWARE_VERSION "V2.0.2"
+// 2.0 修复X1pro充电问题， 增加强制关机机制防止卡死无法关机
+// 2.0.1 增加关机充电提示和开机按键提示动画，增加设备信息页面
+#define SOFTWARE_BUILD_DATE __DATE__
+#define SOFTWARE_BUILD_TIME __TIME__
 /*POWER*/
 #define POWER_CONTROL_PIN		PB3
 #define WATCHDOG_FEED_PIN		PA6
+#define WATCHDOG_FEED_TIME	5000
 
 /*Function Key*/
 #define FUNCTION_KEY_PIN PA15
+
+/*power_key_pin*/
+#define POWER_KEY_PIN PA0
 
 /*Status LED*/
 #define POWER_LED_PIN PC13

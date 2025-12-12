@@ -94,7 +94,7 @@ static const uint8_t PROGMEM
 		0x3A,		1,
 			0x05, 			//16 bit
 		0x11,	ST_CMD_DELAY,
-			150,
+			255,
 		0x29, ST_CMD_DELAY,
 			10,
 	};
