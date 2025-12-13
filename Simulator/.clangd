@@ -1,0 +1,25 @@
+CompileFlags:
+  Remove:
+    - '-std:c++17'
+  Add:
+    - '-Wno-implicit-int'
+    - '-std=c++17'
+    - '-fms-compatibility'
+    - '-fms-extensions'
+    - '-fdelayed-template-parsing'
+    - '-fms-compatibility-version=19'
+    - '-D_MSC_VER=1900'
+    - '-D_WIN32'
+    - '-D_WIN64'
+    - '-D_MSVC_LANG=201703L'
+  CompilationDatabase: build
+Diagnostics:
+  Suppress:
+    # - unused-includes
+    - unknown_typename
+    - unknown_typename_suggest
+    - typename_requires_specqual
+    - using_decl_conflict
+    - macro_redefined
+    - redefinition
+    - conflicting_types

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111, __DEBUG,__CORE_DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\HC32F460xE_Arduino;..\..\App;..\..\App\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\support</IncludePath>
+              <IncludePath>..\..\..\HC32F460xE_Arduino;..\..\Simulator\App;..\..\USER\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\support</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -386,17 +386,17 @@
             <File>
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\src\main.cpp</FilePath>
+              <FilePath>..\..\USER\main.cpp</FilePath>
             </File>
             <File>
               <FileName>message_decode.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\src\message_decode.cpp</FilePath>
+              <FilePath>..\..\USER\src\message_decode.cpp</FilePath>
             </File>
             <File>
               <FileName>slave_i2c.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\src\slave_i2c.cpp</FilePath>
+              <FilePath>..\..\USER\src\slave_i2c.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -406,17 +406,12 @@
             <File>
               <FileName>App.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\App.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\App.cpp</FilePath>
             </File>
             <File>
               <FileName>App.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\App.h</FilePath>
-            </File>
-            <File>
-              <FileName>Version.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\App\Version.h</FilePath>
+              <FilePath>..\..\Simulator\App\App.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -426,17 +421,17 @@
             <File>
               <FileName>APPFactory.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Pages\APPFactory.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Pages\APPFactory.cpp</FilePath>
             </File>
             <File>
               <FileName>AppFactory.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Pages\AppFactory.h</FilePath>
+              <FilePath>..\..\Simulator\App\Pages\AppFactory.h</FilePath>
             </File>
             <File>
               <FileName>Page.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Pages\Page.h</FilePath>
+              <FilePath>..\..\Simulator\App\Pages\Page.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -446,32 +441,32 @@
             <File>
               <FileName>Startup.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Pages\Startup\Startup.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Pages\Startup\Startup.cpp</FilePath>
             </File>
             <File>
               <FileName>Startup.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Pages\Startup\Startup.h</FilePath>
+              <FilePath>..\..\Simulator\App\Pages\Startup\Startup.h</FilePath>
             </File>
             <File>
               <FileName>StartupModel.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Pages\Startup\StartupModel.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Pages\Startup\StartupModel.cpp</FilePath>
             </File>
             <File>
               <FileName>StartupModel.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Pages\Startup\StartupModel.h</FilePath>
+              <FilePath>..\..\Simulator\App\Pages\Startup\StartupModel.h</FilePath>
             </File>
             <File>
               <FileName>StartupView.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Pages\Startup\StartupView.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Pages\Startup\StartupView.cpp</FilePath>
             </File>
             <File>
               <FileName>StartupView.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Pages\Startup\StartupView.h</FilePath>
+              <FilePath>..\..\Simulator\App\Pages\Startup\StartupView.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -481,12 +476,12 @@
             <File>
               <FileName>ResourcePool.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Resource\ResourcePool.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\ResourcePool.cpp</FilePath>
             </File>
             <File>
               <FileName>ResourcePool.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Resource\ResourcePool.h</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\ResourcePool.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -494,24 +489,24 @@
           <GroupName>Resource/Font</GroupName>
           <Files>
             <File>
-              <FileName>font_oswaldBold_12.c</FileName>
+              <FileName>font_oswaldBold_12 .c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\font\font_oswaldBold_12.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\font\font_oswaldBold_12 .c</FilePath>
             </File>
             <File>
-              <FileName>font_oswaldbold_18.c</FileName>
+              <FileName>font_oswaldBold_18.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\font\font_oswaldbold_18.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\font\font_oswaldBold_18.c</FilePath>
             </File>
             <File>
               <FileName>font_rajdhaniBold_20.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\font\font_rajdhaniBold_20.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\font\font_rajdhaniBold_20.c</FilePath>
             </File>
             <File>
               <FileName>font_rajdhaniBold_40.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\font\font_rajdhaniBold_40.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\font\font_rajdhaniBold_40.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -521,32 +516,32 @@
             <File>
               <FileName>img_src_battery.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\img\img_src_battery.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_battery.c</FilePath>
             </File>
             <File>
               <FileName>img_src_location.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\img\img_src_location.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_location.c</FilePath>
             </File>
             <File>
               <FileName>img_src_menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\img\img_src_menu.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_menu.c</FilePath>
             </File>
             <File>
               <FileName>img_src_pause.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\img\img_src_pause.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_pause.c</FilePath>
             </File>
             <File>
               <FileName>img_src_start.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\img\img_src_start.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_start.c</FilePath>
             </File>
             <File>
               <FileName>startUp_Logo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Resource\img\startUp_Logo.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\img\startUp_Logo.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -556,52 +551,52 @@
             <File>
               <FileName>PageBase.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PageBase.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PageBase.cpp</FilePath>
             </File>
             <File>
               <FileName>PageBase.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PageBase.h</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PageBase.h</FilePath>
             </File>
             <File>
               <FileName>PageFactory.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PageFactory.h</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PageFactory.h</FilePath>
             </File>
             <File>
               <FileName>PageManager.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PageManager.h</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PageManager.h</FilePath>
             </File>
             <File>
               <FileName>PageManager_Anim.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PageManager_Anim.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PageManager_Anim.cpp</FilePath>
             </File>
             <File>
               <FileName>PageManager_Base.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PageManager_Base.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PageManager_Base.cpp</FilePath>
             </File>
             <File>
               <FileName>PageManager_Drag.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PageManager_Drag.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PageManager_Drag.cpp</FilePath>
             </File>
             <File>
               <FileName>PageManager_Router.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PageManager_Router.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PageManager_Router.cpp</FilePath>
             </File>
             <File>
               <FileName>PageManager_State.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PageManager_State.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PageManager_State.cpp</FilePath>
             </File>
             <File>
               <FileName>PM_Log.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Utils\PageManager\PM_Log.h</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\PageManager\PM_Log.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -611,12 +606,12 @@
             <File>
               <FileName>ResourceManager.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\Utils\ResourceManager\ResourceManager.cpp</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\ResourceManager\ResourceManager.cpp</FilePath>
             </File>
             <File>
               <FileName>ResourceManager.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\App\Utils\ResourceManager\ResourceManager.h</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\ResourceManager\ResourceManager.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -626,12 +621,12 @@
             <File>
               <FileName>lv_anim_label.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Utils\lv_anim_label\lv_anim_label.c</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\lv_anim_label\lv_anim_label.c</FilePath>
             </File>
             <File>
               <FileName>lv_anim_timeline_wrapper.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\App\Utils\lv_ext\lv_anim_timeline_wrapper.c</FilePath>
+              <FilePath>..\..\Simulator\App\Utils\lv_ext\lv_anim_timeline_wrapper.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -676,7 +671,7 @@
             <File>
               <FileName>new.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Core\Src\new.cpp</FilePath>
+              <FilePath>..\Core\src\new.cpp</FilePath>
             </File>
             <File>
               <FileName>addon_gpio.c</FileName>
