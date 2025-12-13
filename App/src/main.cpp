@@ -3,21 +3,8 @@
  ******************************************************************************/
 #include "Arduino.h"
 #include "lv_port.h"
-#include "ui.h"
+#include "App/App.h"
 #include "slave_i2c.h"
-
-#include <random>
-
-int randint(int min, int max) {
-    // 使用 static 保证引擎只初始化一次，提高性能
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    
-    // 分布对象不能是 static 的，因为 min 和 max 可能会变
-    std::uniform_int_distribution<int> dis(min, max);
-    
-    return dis(gen);
-}
 
 void SystemClock_Config(void);
 
@@ -38,7 +25,7 @@ int main(void)
 	HAL::HAL_Init();
 	lv_init();
 	lv_port_init();
-	ui_init();
+	App_Init();
 	HAL::Power_Init();
   /* Configure BSP */
 	slave_i2c_init();
@@ -47,7 +34,7 @@ int main(void)
   while (1) {
 		HAL::HAL_Update();
 		slave_i2c_update();
-		ui_tick();
+		lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_HIDDEN);
 		lv_timer_handler();
 		__WFI();
   }

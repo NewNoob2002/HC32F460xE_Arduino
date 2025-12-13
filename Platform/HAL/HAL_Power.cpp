@@ -2,7 +2,6 @@
 #include "Arduino.h"
 #include "bq40z50.h"
 #include "mp2762a.h"
-#include "ui.h"
 
 void HAL::Power_Init()
 {
@@ -26,18 +25,16 @@ void HAL::Power_Init()
 	pinMode(WATCHDOG_FEED_PIN, OUTPUT);
 	
 	uint32_t _last = 0;
-	while(true)
-	{
-		if(softwareReset)
-			break;
-		Key_Update();
-		Power_Update();
-		ui_tick();
-		lv_timer_handler();
-		if(systemInfo.powerMonitor.panel_power_on)
-			break;
-	}
-	loadScreen(SCREEN_ID_MAIN);
+//	while(true)
+//	{
+//		if(softwareReset)
+//			break;
+//		Key_Update();
+//		Power_Update();
+//		lv_timer_handler();
+//		if(systemInfo.powerMonitor.panel_power_on)
+//			break;
+//	}
 	CORE_DEBUG_PRINTF("[%d] Power: Done\n", millis());
 	digitalWrite(POWER_LED_PIN, HIGH);
 	digitalWrite(POWER_CONTROL_PIN, HIGH);
@@ -56,10 +53,10 @@ void HAL::Power_Update()
     systemInfo.powerMonitor.BatteryLastHandleTime = millis();
     if (!systemInfo.online_device.bq40z50)
     {
-      while (1)
-      {
-				CM_EXECUTE_INTERVAL(digitalToggle(POWER_LED_PIN), 500);
-      }
+//      while (1)
+//      {
+//				CM_EXECUTE_INTERVAL(digitalToggle(POWER_LED_PIN), 500);
+//      }
     }
     else
     {
@@ -86,6 +83,7 @@ void HAL::WatchDog_Feed()
 	{
 		systemInfo.powerMonitor.WatchDogLastFeedTime = millis();
 		digitalToggle(WATCHDOG_FEED_PIN);
+		CORE_DEBUG_PRINTF("WatchDog Feed\n");
 	}
 }
 

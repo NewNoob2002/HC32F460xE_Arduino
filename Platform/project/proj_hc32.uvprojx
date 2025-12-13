@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>HC32F460JEUA</Device>
           <Vendor>HDSC</Vendor>
-          <PackID>HDSC.HC32F460.1.0.11</PackID>
+          <PackID>HDSC.HC32F460.1.0.12</PackID>
           <PackURL>https://raw.githubusercontent.com/hdscmcu/pack/master/</PackURL>
           <Cpu>IRAM(0x1FFF8000,0x2F000) IRAM2(0x200F0000,0x1000) IROM(0x00000000,0x80000) IROM2(0x03000C00,0x003FC) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111, __DEBUG,__CORE_DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\App\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\HAL;..\Driver\inc;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\support;..\gui\font;..\gui\ui;..\gui\img</IncludePath>
+              <IncludePath>..\..\..\HC32F460xE_Arduino;..\..\App;..\..\App\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\support</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -381,7 +381,7 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>App</GroupName>
+          <GroupName>USER</GroupName>
           <Files>
             <File>
               <FileName>main.cpp</FileName>
@@ -389,14 +389,249 @@
               <FilePath>..\..\App\src\main.cpp</FilePath>
             </File>
             <File>
+              <FileName>message_decode.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\src\message_decode.cpp</FilePath>
+            </File>
+            <File>
               <FileName>slave_i2c.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\App\src\slave_i2c.cpp</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>App</GroupName>
+          <Files>
             <File>
-              <FileName>message_decode.cpp</FileName>
+              <FileName>App.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\src\message_decode.cpp</FilePath>
+              <FilePath>..\..\App\App.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>App.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\App.h</FilePath>
+            </File>
+            <File>
+              <FileName>Version.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Version.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Pages</GroupName>
+          <Files>
+            <File>
+              <FileName>APPFactory.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Pages\APPFactory.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>AppFactory.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Pages\AppFactory.h</FilePath>
+            </File>
+            <File>
+              <FileName>Page.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Pages\Page.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Pages/Startup</GroupName>
+          <Files>
+            <File>
+              <FileName>Startup.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Pages\Startup\Startup.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Startup.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Pages\Startup\Startup.h</FilePath>
+            </File>
+            <File>
+              <FileName>StartupModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Pages\Startup\StartupModel.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>StartupModel.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Pages\Startup\StartupModel.h</FilePath>
+            </File>
+            <File>
+              <FileName>StartupView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Pages\Startup\StartupView.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>StartupView.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Pages\Startup\StartupView.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Resource</GroupName>
+          <Files>
+            <File>
+              <FileName>ResourcePool.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Resource\ResourcePool.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ResourcePool.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Resource\ResourcePool.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Resource/Font</GroupName>
+          <Files>
+            <File>
+              <FileName>font_oswaldBold_12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\font\font_oswaldBold_12.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_oswaldbold_18.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\font\font_oswaldbold_18.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_rajdhaniBold_20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\font\font_rajdhaniBold_20.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_rajdhaniBold_40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\font\font_rajdhaniBold_40.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Resource/Image</GroupName>
+          <Files>
+            <File>
+              <FileName>img_src_battery.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\img\img_src_battery.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_location.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\img\img_src_location.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\img\img_src_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_pause.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\img\img_src_pause.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_start.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\img\img_src_start.c</FilePath>
+            </File>
+            <File>
+              <FileName>startUp_Logo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Resource\img\startUp_Logo.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Utils/PageManager</GroupName>
+          <Files>
+            <File>
+              <FileName>PageBase.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PageBase.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PageBase.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PageBase.h</FilePath>
+            </File>
+            <File>
+              <FileName>PageFactory.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PageFactory.h</FilePath>
+            </File>
+            <File>
+              <FileName>PageManager.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PageManager.h</FilePath>
+            </File>
+            <File>
+              <FileName>PageManager_Anim.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PageManager_Anim.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PageManager_Base.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PageManager_Base.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PageManager_Drag.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PageManager_Drag.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PageManager_Router.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PageManager_Router.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PageManager_State.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PageManager_State.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PM_Log.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Utils\PageManager\PM_Log.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Utils/ResourceManager</GroupName>
+          <Files>
+            <File>
+              <FileName>ResourceManager.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\App\Utils\ResourceManager\ResourceManager.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ResourceManager.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\App\Utils\ResourceManager\ResourceManager.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Utils/lv_ext</GroupName>
+          <Files>
+            <File>
+              <FileName>lv_anim_label.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Utils\lv_anim_label\lv_anim_label.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_anim_timeline_wrapper.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\App\Utils\lv_ext\lv_anim_timeline_wrapper.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1590,111 +1825,6 @@
               <FileName>lv_port_disp.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\Libraries\lvgl\porting\lv_port_disp.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>lvgl/myFont</GroupName>
-          <Files>
-            <File>
-              <FileName>Oswald_Bold_12.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\Oswald_Bold_12.c</FilePath>
-            </File>
-            <File>
-              <FileName>Oswald_Bold_18.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\Oswald_Bold_18.c</FilePath>
-            </File>
-            <File>
-              <FileName>Rajdhani_Bold_0_9_20.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\Rajdhani_Bold_0_9_20.c</FilePath>
-            </File>
-            <File>
-              <FileName>Rajdhani_Bold_0_9_40.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\Rajdhani_Bold_0_9_40.c</FilePath>
-            </File>
-            <File>
-              <FileName>main_symbol2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\main_symbol2.c</FilePath>
-            </File>
-            <File>
-              <FileName>main_symbol32.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\main_symbol32.c</FilePath>
-            </File>
-            <File>
-              <FileName>symbol_radio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\symbol_radio.c</FilePath>
-            </File>
-            <File>
-              <FileName>symbol_satellite48.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\symbol_satellite48.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>lvgl/gui</GroupName>
-          <Files>
-            <File>
-              <FileName>actions.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\actions.c</FilePath>
-            </File>
-            <File>
-              <FileName>anim.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\anim.c</FilePath>
-            </File>
-            <File>
-              <FileName>images.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\images.c</FilePath>
-            </File>
-            <File>
-              <FileName>screens.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\screens.c</FilePath>
-            </File>
-            <File>
-              <FileName>styles.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\styles.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\ui.c</FilePath>
-            </File>
-            <File>
-              <FileName>vars.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\vars.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>utils/lv_anim_label</GroupName>
-          <Files>
-            <File>
-              <FileName>lv_anim_label.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\utils\lv_anim_label\lv_anim_label.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>utils/lv_ext</GroupName>
-          <Files>
-            <File>
-              <FileName>lv_anim_timeline_wrapper.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\utils\lv_ext\lv_anim_timeline_wrapper.c</FilePath>
             </File>
           </Files>
         </Group>
