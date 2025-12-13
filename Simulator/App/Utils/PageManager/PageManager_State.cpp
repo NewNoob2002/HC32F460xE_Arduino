@@ -146,8 +146,7 @@ PageBase::State_t PageManager::StateLoadExecute(PageBase* base)
   * @param  base: Pointer to the updated page
   * @retval Next state
   */
-PageBase::State_t PageManager::StateWillAppearExecute(PageBase* base)
-{
+PageBase::State_t PageManager::StateWillAppearExecute(PageBase* base) const {
     PM_LOG_INFO("Page(%s) state will appear", base->pageName);
     base->onViewWillAppear();
     lv_obj_clear_flag(base->_root, LV_OBJ_FLAG_HIDDEN);
@@ -172,8 +171,7 @@ PageBase::State_t PageManager::StateDidAppearExecute(PageBase* base)
   * @param  base: Pointer to the updated page
   * @retval Next state
   */
-PageBase::State_t PageManager::StateWillDisappearExecute(PageBase* base)
-{
+PageBase::State_t PageManager::StateWillDisappearExecute(PageBase* base) const {
     PM_LOG_INFO("Page(%s) state will disappear", base->pageName);
     base->onViewWillDisappear();
     SwitchAnimCreate(base);

@@ -142,12 +142,12 @@ void lv_anim_label_set_custom_exit_anim(lv_obj_t * obj, const lv_anim_t * a)
 }
 
 static void lv_anim_label_start_anim(
-    lv_obj_t * label, 
-    lv_dir_t dir, 
-    int32_t start, 
-    int32_t end,
-    uint32_t duration,
-    lv_anim_path_cb_t path_cb
+    lv_obj_t * label,
+    const lv_dir_t dir,
+    const int32_t start,
+    const int32_t end,
+    const uint32_t duration,
+    const lv_anim_path_cb_t path_cb
 )
 {
     lv_anim_exec_xcb_t exec_xcb;
@@ -195,8 +195,8 @@ void lv_anim_label_push_text(lv_obj_t * obj, const char * txt)
     /* enter */
     lv_coord_t label_enter_width = lv_obj_get_width(label_enter);
     lv_coord_t label_enter_height = lv_obj_get_height(label_enter);
-    lv_coord_t label_enter_end_x = (obj_width - label_enter_width) / 2;
-    lv_coord_t label_enter_end_y = (obj_height - label_enter_height) / 2;
+    const lv_coord_t label_enter_end_x = (obj_width - label_enter_width) / 2;
+    const lv_coord_t label_enter_end_y = (obj_height - label_enter_height) / 2;
 
     if (enter_dir & LV_DIR_HOR)
     {
@@ -289,7 +289,7 @@ lv_dir_t lv_anim_label_get_enter_dir(lv_obj_t * obj)
 {
     LV_ASSERT_OBJ(obj, MY_CLASS);
 
-    lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
+    const lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
 
     return alabel->enter_dir;
 }
@@ -298,7 +298,7 @@ lv_dir_t lv_anim_label_get_exit_dir(lv_obj_t * obj)
 {
     LV_ASSERT_OBJ(obj, MY_CLASS);
 
-    lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
+    const lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
 
     return alabel->exit_dir;
 }
@@ -307,7 +307,7 @@ uint32_t lv_anim_label_get_time(lv_obj_t * obj)
 {
     LV_ASSERT_OBJ(obj, MY_CLASS);
 
-    lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
+    const lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
 
     return alabel->duration;
 }
@@ -316,7 +316,7 @@ lv_anim_path_cb_t lv_anim_label_get_path(lv_obj_t * obj)
 {
     LV_ASSERT_OBJ(obj, MY_CLASS);
 
-    lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
+    const lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
 
     return alabel->path_cb;
 }
@@ -325,7 +325,7 @@ const char * lv_anim_label_get_text(lv_obj_t * obj)
 {
     LV_ASSERT_OBJ(obj, MY_CLASS);
 
-    lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
+    const lv_anim_label_t * alabel = (lv_anim_label_t *)obj;
 
     return lv_label_get_text(alabel->label_act);
 }
@@ -359,72 +359,80 @@ static void lv_anim_label_constructor(const lv_obj_class_t * class_p, lv_obj_t *
 
 static void lv_anim_label_set_x(void * obj, int32_t x)
 {
-    lv_obj_set_x(obj, x);
+    lv_obj_set_x((lv_obj_t *)obj, x);
 }
 
 static void lv_anim_label_set_y(void * obj, int32_t y)
 {
-    lv_obj_set_y(obj, y);
+    lv_obj_set_y((lv_obj_t *)obj, y);
 }
 
 /**
  * 创建一个滚动数字位
  * @param parent 父对象
  * @param font 使用的字体
+ * @param x    位置 x
+ * @param y    位置 y
  * @return 返回长条 label 对象，用于后续控制
  */
-lv_obj_t* create_odometer_digit(lv_obj_t * parent, const lv_font_t * font)
+lv_obj_t *create_odometer_digit(lv_obj_t *parent, const lv_font_t *font, const lv_coord_t x, const lv_coord_t y)
 {
     const lv_coord_t font_height = lv_font_get_line_height(font);
 
-    // 1. 创建容器（作为视窗/遮罩）
-    lv_obj_t * cont = lv_obj_create(parent);
-    lv_obj_set_size(cont, 50, font_height); // 宽度根据需要调整，高度设为字体行高
-    lv_obj_set_scrollbar_mode(cont, LV_SCROLLBAR_MODE_OFF); // 关闭滚动条
-    lv_obj_clear_flag(cont, LV_OBJ_FLAG_SCROLLABLE);        // 禁止手动滚动
-    
-    // 关键样式：去掉容器的填充、边框、背景，确保只显示文字
-    lv_obj_set_style_pad_all(cont, 0, 0);
-    lv_obj_set_style_border_width(cont, 0, 0);
-    lv_obj_set_style_bg_opa(cont, LV_OPA_TRANSP, 0);
-    // 关键：确保内容溢出被裁剪（类似 HTML 的 overflow: hidden）
-    lv_obj_set_style_clip_corner(cont, true, 0); 
+    // 创建容器 (用于裁剪)
+    lv_obj_t *container = lv_obj_create(parent);
+    // lv_obj_remove_style_all(container); // 移除所有默认样式，避免边框、padding等干扰
+    lv_obj_set_size(container, font_height, font_height); // 设定为单字大小
+    lv_obj_set_pos(container, x, y);
+    lv_obj_clear_flag(container, LV_OBJ_FLAG_SCROLLABLE);  // 禁止容器滚动
+    lv_obj_add_flag(container, LV_OBJ_FLAG_CLICKABLE); // 确保裁剪子对象(关键)
 
-    // 2. 创建长条标签
-    lv_obj_t * label = lv_label_create(cont);
+
+    // 创建长条 label
+    lv_obj_t *label = lv_label_create(container);
+    lv_obj_set_size(label, font_height, font_height * 10); // 高度为字体高度的3倍
     lv_obj_set_style_text_font(label, font, 0);
-    // 设置竖排数字
-    lv_label_set_text(label, "0\n1\n2\n3\n4\n5\n6\n7\n8\n9");
-    
-    // 居中对齐
-    lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_align_to(container, label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_y(label, 0);
+    // 设置文本
+    lv_label_set_text(label, "1\n2\n3");
 
-    return label;
+    return container;
 }
 
 /**
  * 滚动到指定数字
- * @param label 上一步创建的 label 对象
+ * @param label 滚动数字位的 label 对象
  * @param target_digit 目标数字 (0-9)
  */
-void roll_to(lv_obj_t * label, const int target_digit)
+void roll_to(lv_obj_t *label, int target_digit)
 {
-    // 获取字体高度用于计算偏移量
-    const lv_font_t * font = lv_obj_get_style_text_font(label, 0);
-    const lv_coord_t line_height = lv_font_get_line_height(font);
+    if (label == NULL || target_digit < 0 || target_digit > 9) return;
 
-    // 计算目标 Y 坐标 (负数，因为向上移动)
-    const int32_t start_y = lv_obj_get_y(label);
-    const int32_t end_y = -(target_digit * line_height);
+    const lv_font_t *font = lv_obj_get_style_text_font(label, 0);
+    const lv_coord_t font_height = lv_font_get_line_height(font);
 
-    // 创建动画
+    lv_coord_t current_y;
+    current_y = lv_obj_get_y(label);
+    
+    lv_coord_t target_y = -(target_digit * font_height);
+
+    // 如果已经在目标位置，直接返回
+    if (current_y == target_y) return;
+
+    // 逻辑优化：处理从 9 跳变到 0 的情况（可选）
+    // 如果你是做一个计数器，通常希望 9->0 是继续向下滚，而不是滚回去。
+    // 这里保持你的原始逻辑：绝对位置滚动。
+
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, label);
-    lv_anim_set_values(&a, start_y, end_y);
-    lv_anim_set_time(&a, 500); // 动画时长 500ms
+    lv_anim_set_values(&a, current_y, target_y);
+    lv_anim_set_time(&a, 500);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
+
+    // 关键修复：使用自定义的包装函数，确保类型安全
     lv_anim_set_exec_cb(&a, lv_anim_label_set_y);
-    lv_anim_set_path_cb(&a, lv_anim_path_ease_out); // 缓动效果：快进慢出
-    
+
     lv_anim_start(&a);
 }

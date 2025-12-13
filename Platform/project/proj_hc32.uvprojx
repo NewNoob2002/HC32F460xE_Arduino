@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111, __DEBUG,__CORE_DEBUG</Define>
+              <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111,__CORE_DEBUG, __DEBUG</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\HC32F460xE_Arduino;..\..\Simulator\App;..\..\USER\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\support</IncludePath>
             </VariousControls>
@@ -627,6 +627,31 @@
               <FileName>lv_anim_timeline_wrapper.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Utils\lv_ext\lv_anim_timeline_wrapper.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Utils/lvglcpp</GroupName>
+          <Files>
+            <File>
+              <FileName>lv_wrapper.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Simulator\App\Utils\lvglcpp\lv_wrapper.h</FilePath>
+            </File>
+            <File>
+              <FileName>obj.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Simulator\App\Utils\lvglcpp\obj.h</FilePath>
+            </File>
+            <File>
+              <FileName>signal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Simulator\App\Utils\lvglcpp\signal.h</FilePath>
+            </File>
+            <File>
+              <FileName>label.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Simulator\App\Utils\lvglcpp\label.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -76,15 +76,14 @@ PageBase* PageManager::FindPageInPool(const char* name) const
   */
 PageBase* PageManager::FindPageInStack(const char* name)
 {
-    decltype(PageStack) stk = PageStack;
-    while (!stk.empty())
+    while (!PageStack.empty())
     {
-        if (PageBase* base = stk.top(); strcmp(name, base->pageName) == 0)
+        if (PageBase* base = PageStack.top(); strcmp(name, base->pageName) == 0)
         {
             return base;
         }
 
-        stk.pop();
+        PageStack.pop();
     }
 
     return nullptr;

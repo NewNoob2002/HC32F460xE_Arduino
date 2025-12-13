@@ -23,7 +23,7 @@
 #pragma once
 #include "Utils/PageManager/PageManager.h"
 
-class AppFactory : public PageFactory
+class AppFactory final : public PageFactory
 {
 public:
     PageBase* CreatePage(const char* name) override;

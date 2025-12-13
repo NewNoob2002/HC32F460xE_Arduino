@@ -4,12 +4,13 @@
 #include "Arduino.h"
 #include "lv_port.h"
 #include "Simulator/App/App.h"
+#include "Utils/lvglcpp/label.h"
 #include "slave_i2c.h"
 
 void SystemClock_Config(void);
 
 SystemInfo_t systemInfo;
-
+extern "C" const lv_font_t font_oswaldBold_18;
 /**
  * @brief  Main function of SPI tx/rx dma project
  * @param  None
@@ -25,7 +26,11 @@ int main(void)
 	HAL::HAL_Init();
 	lv_init();
 	lv_port_init();
-	App_Init();
+//	App_Init();
+	auto label = new lvgl_cpp::Label(lv_scr_act());
+	label->setTextFont(&font_oswaldBold_18);
+	label->setPos(10, 10);
+	label->setText("1234567890");
 	HAL::Power_Init();
   /* Configure BSP */
 	slave_i2c_init();

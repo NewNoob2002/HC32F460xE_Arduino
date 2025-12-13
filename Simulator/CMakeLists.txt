@@ -17,6 +17,7 @@ file(GLOB_RECURSE SOURCES "lv_drivers/*.c" "lvgl/demos/*.c" "lvgl/src/*.c")
 file(GLOB_RECURSE UI_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/App/*.c
         ${CMAKE_CURRENT_LIST_DIR}/App/*.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/App/Utils/*.hpp
 )
 
 include_directories(

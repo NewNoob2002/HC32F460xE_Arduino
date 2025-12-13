@@ -22,7 +22,7 @@
  */
 #include "ResourceManager.h"
 #include <algorithm>
-#include <string.h>
+#include <cstring>
 #include "lvgl/src/misc/lv_log.h"
 
 #define RES_LOG_INFO  LV_LOG_INFO
@@ -35,8 +35,7 @@ ResourceManager::ResourceManager()
 }
 
 ResourceManager::~ResourceManager()
-{
-}
+= default;
 
 /**
   * @brief  Search resource node based on name
@@ -44,9 +43,8 @@ ResourceManager::~ResourceManager()
   * @param  node: Pointer to the resource node
   * @retval Return true if the search is successful
   */
-bool ResourceManager::SearchNode(const char* name, ResourceNode_t* node)
-{
-    for(auto iter : NodePool)
+bool ResourceManager::SearchNode(const char* name, ResourceNode_t* node) const {
+    for(const auto iter : NodePool)
     {
         if (strcmp(name, iter.name) == 0)
         {
@@ -115,8 +113,7 @@ bool ResourceManager::RemoveResource(const char* name)
   * @param  name: Resource Name
   * @retval If the acquisition is successful, return the address of the resource, otherwise return the default resource
   */
-void* ResourceManager::GetResource(const char* name)
-{
+void* ResourceManager::GetResource(const char* name) const {
     ResourceNode_t node;
 
     if(!SearchNode(name, &node))

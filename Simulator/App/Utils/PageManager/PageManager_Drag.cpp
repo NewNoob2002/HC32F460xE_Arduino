@@ -85,8 +85,8 @@ void PageManager::onRootDragEvent(lv_event_t* event)
     {
         lv_coord_t cur = animAttr.getter(root);
 
-        lv_coord_t max = std::max(animAttr.pop.exit.start, animAttr.pop.exit.end);
-        lv_coord_t min = std::min(animAttr.pop.exit.start, animAttr.pop.exit.end);
+        const lv_coord_t max = std::max(animAttr.pop.exit.start, animAttr.pop.exit.end);
+        const lv_coord_t min = std::min(animAttr.pop.exit.start, animAttr.pop.exit.end);
 
         lv_point_t offset;
         lv_indev_get_vect(lv_indev_get_act(), &offset);

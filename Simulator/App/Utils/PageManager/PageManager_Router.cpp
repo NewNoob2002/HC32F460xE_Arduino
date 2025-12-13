@@ -303,7 +303,7 @@ bool PageManager::ForceUnload(PageBase* base)
 
 /**
   * @brief  Back to the main page (the page at the bottom of the stack) 
-  * @param  None
+  * @param
   * @retval Return true if successful
   */
 bool PageManager::BackHome()
@@ -349,7 +349,7 @@ bool PageManager::SwitchAnimStateCheck() const
 
 /**
   * @brief  Page switching request check 
-  * @param  None
+  * @param
   * @retval Return true if all pages are executed
   */
 bool PageManager::SwitchReqCheck()
@@ -402,11 +402,10 @@ void PageManager::onSwitchAnimFinish(lv_anim_t* a)
 
 /**
   * @brief  Create page switching animation
-  * @param  a: Point to the animated page
+  * @param  base: Point to the animated page
   * @retval None
   */
-void PageManager::SwitchAnimCreate(PageBase* base)
-{
+void PageManager::SwitchAnimCreate(PageBase* base) const {
     LoadAnimAttr_t animAttr;
     if (!GetCurrentLoadAnimAttr(&animAttr))
     {

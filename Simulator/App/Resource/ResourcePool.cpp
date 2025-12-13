@@ -43,7 +43,7 @@ void ResourcePool::Init()
 
 lv_font_t* ResourcePool::GetFont(const char* name)
 {
-    return (lv_font_t*)Font_.GetResource(name);
+    return static_cast<lv_font_t *>(Font_.GetResource(name));
 }
 const void* ResourcePool::GetImage(const char* name)
 {

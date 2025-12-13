@@ -139,7 +139,7 @@ private:
     PageBase* GetStackTop();
     PageBase* GetStackTopAfter();
     void SetStackClear(bool keepBottom = false);
-    bool ForceUnload(PageBase* base);
+    static bool ForceUnload(PageBase* base);
 
     /* Animation */
     static bool GetLoadAnimAttr(uint8_t anim, LoadAnimAttr_t* attr);
@@ -171,16 +171,17 @@ private:
     /* Switch */
     bool SwitchTo(PageBase* newNode, bool isEnterAct, const PageBase::Stash_t* stash = nullptr);
     static void onSwitchAnimFinish(lv_anim_t* a);
-    void SwitchAnimCreate(PageBase* base);
+
+    void SwitchAnimCreate(PageBase *base) const;
     void SwitchAnimTypeUpdate(PageBase* base);
     bool SwitchReqCheck();
-    bool SwitchAnimStateCheck() const;
+    [[nodiscard]] bool SwitchAnimStateCheck() const;
 
     /* State */
     PageBase::State_t StateLoadExecute(PageBase* base);
-    PageBase::State_t StateWillAppearExecute(PageBase* base);
+    PageBase::State_t StateWillAppearExecute(PageBase* base) const;
     static PageBase::State_t StateDidAppearExecute(PageBase* base);
-    PageBase::State_t StateWillDisappearExecute(PageBase* base);
+    PageBase::State_t StateWillDisappearExecute(PageBase* base) const;
     static PageBase::State_t StateDidDisappearExecute(PageBase* base);
     static PageBase::State_t StateUnloadExecute(PageBase* base);
     void StateUpdate(PageBase* base);

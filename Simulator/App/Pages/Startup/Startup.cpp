@@ -54,7 +54,7 @@ void Startup::onViewDidUnload()
 
 void Startup::onTimer(lv_timer_t* timer)
 {
-    auto* instance = static_cast<Startup*>(timer->user_data);
+    const auto* instance = static_cast<Startup*>(timer->user_data);
     instance->View.Update();
 }
 

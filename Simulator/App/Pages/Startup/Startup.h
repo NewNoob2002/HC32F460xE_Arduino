@@ -7,7 +7,7 @@
 namespace Page
 {
 
-class Startup : public PageBase
+class Startup final : public PageBase
 {
 public:
 
@@ -30,7 +30,7 @@ private:
     static void onEvent(lv_event_t* event);
 
 private:
-    StartupView View;
+    StartupView View{};
     StartupModel Model;
 };
 

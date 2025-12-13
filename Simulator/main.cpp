@@ -1,9 +1,3 @@
-
-/**
- * @file main
- *
- */
-
 /*********************
  *      INCLUDES
  *********************/
@@ -14,7 +8,6 @@
 #include <unistd.h>
 #endif
 #define SDL_MAIN_HANDLED /*To fix SDL's "undefined reference to WinMain" issue*/
-#include <SDL.h>
 #include "lvgl/lvgl.h"
 #include "lv_drivers/sdl/sdl.h"
 
@@ -62,7 +55,7 @@ SystemInfo_t systemInfo;
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-
+extern "C" const lv_font_t font_oswaldBold_18;
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/

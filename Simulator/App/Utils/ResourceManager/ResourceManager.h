@@ -34,7 +34,7 @@ public:
 
     bool AddResource(const char* name, void* ptr);
     bool RemoveResource(const char* name);
-    void* GetResource(const char* name);
+    void* GetResource(const char* name) const;
     void SetDefault(void* ptr);
 
 private:
@@ -52,7 +52,7 @@ private:
 private:
     std::vector<ResourceNode_t> NodePool;
     void* DefaultPtr;
-    bool SearchNode(const char* name, ResourceNode_t* node);
+    bool SearchNode(const char* name, ResourceNode_t* node) const;
 };
 
 #endif

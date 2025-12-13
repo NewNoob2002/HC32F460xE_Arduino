@@ -66,7 +66,7 @@ lv_anim_path_cb_t lv_anim_label_get_path(lv_obj_t *obj);
 
 const char *lv_anim_label_get_text(lv_obj_t *obj);
 
-lv_obj_t *create_odometer_digit(lv_obj_t *parent, const lv_font_t *font);
+lv_obj_t *create_odometer_digit(lv_obj_t *parent, const lv_font_t *font, lv_coord_t x, lv_coord_t y);
 
 void roll_to(lv_obj_t *label, int target_digit);
 #ifdef __cplusplus

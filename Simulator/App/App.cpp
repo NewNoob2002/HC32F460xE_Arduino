@@ -53,11 +53,11 @@ void App_Init()
     // ACCOUNT_SEND_CMD(SysConfig, SYSCONFIG_CMD_LOAD);
 
     /* Set screen style */
-    lv_disp_t *dispp = lv_disp_get_default();
+    lv_disp_t *disp_p = lv_disp_get_default();
     lv_theme_t *theme = lv_theme_default_init(
-        dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
+        disp_p, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
         true, LV_FONT_DEFAULT);
-    lv_disp_set_theme(dispp, theme);
+    lv_disp_set_theme(disp_p, theme);
 
     /* Set root default style */
     static lv_style_t rootStyle;
@@ -88,7 +88,7 @@ void App_Init()
     manager.Push("Pages/Startup");
 }
 
-void App_Uninit()
+void App_Deinit()
 {
     // ACCOUNT_SEND_CMD(SysConfig, SYSCONFIG_CMD_SAVE);
     // ACCOUNT_SEND_CMD(Storage,   STORAGE_CMD_SAVE);
