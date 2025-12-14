@@ -1,4 +1,5 @@
 #include "StartupView.h"
+#include <cstdio>
 #include "../../Platform/Config/mcu_config.h"
 
 using namespace Page;
@@ -6,13 +7,23 @@ using namespace Page;
 #define COLOR_ORANGE lv_color_hex(0xff931e)
 
 void StartupView::Create(lv_obj_t *root) {
+    lv_font_t *font = ResourcePool::GetFont("oswaldBold_18");
+    uint16_t font_width = lv_font_get_glyph_width(font, '0', '\0');
+    printf("Height:%d, Width:%d\n", font->line_height, font_width);
+    lv_obj_t *cont = lv_obj_create(root);
+    lv_obj_remove_style_all(cont);
+    lv_obj_center(cont);
+    lv_obj_set_size(cont, font_width, font->line_height);
+    lv_obj_clear_flag(cont, LV_OBJ_FLAG_SCROLLABLE); // 禁用滚动
+    lv_obj_clear_flag(cont, LV_OBJ_FLAG_OVERFLOW_VISIBLE); // 确保裁剪子对象
 
-    lv_obj_t *time = lv_label_create(root);
-    lv_label_set_text(time, "1:23:45");
+    lv_obj_t *time = lv_label_create(cont);
+    lv_label_set_text(time, "0\n1\n2\n3\n4\n5\n6\n7\n8\n9");
     lv_obj_set_style_text_font(time,
                                ResourcePool::GetFont("oswaldBold_18"), 0);
     lv_obj_set_style_text_color(time, lv_color_hex(0xffffff), 0);
-    lv_obj_align(time, LV_ALIGN_TOP_LEFT, 10, 10);
+    lv_obj_set_align(time, LV_ALIGN_TOP_MID);
+    ui.time = time;
 
     lv_obj_t *img = lv_img_create(root);
     lv_img_set_src(img, ResourcePool::GetImage("battery"));
@@ -52,7 +63,7 @@ void StartupView::Delete() {
 }
 
 void StartupView::Update() const {
-    // static int i = 0;
-    // roll_to(ui.time, i++);
-    // if (i>=9)i=0;
+    static int i = 0;
+    roll_to(ui.time, i++);
+    if (i >= 10)i = 0;
 }

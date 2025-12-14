@@ -628,30 +628,10 @@
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Utils\lv_ext\lv_anim_timeline_wrapper.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Utils/lvglcpp</GroupName>
-          <Files>
             <File>
-              <FileName>lv_wrapper.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\Simulator\App\Utils\lvglcpp\lv_wrapper.h</FilePath>
-            </File>
-            <File>
-              <FileName>obj.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\Simulator\App\Utils\lvglcpp\obj.h</FilePath>
-            </File>
-            <File>
-              <FileName>signal.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\Simulator\App\Utils\lvglcpp\signal.h</FilePath>
-            </File>
-            <File>
-              <FileName>label.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\Simulator\App\Utils\lvglcpp\label.h</FilePath>
+              <FileName>numberFlow.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Utils\lv_anim_label\numberFlow.cpp</FilePath>
             </File>
           </Files>
         </Group>

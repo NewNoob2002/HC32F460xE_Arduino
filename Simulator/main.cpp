@@ -12,6 +12,8 @@
 #include "lv_drivers/sdl/sdl.h"
 
 #include "../App/App.h"
+
+#include "Utils/lv_anim_label/numberFlow.h"
 /*********************
  *      DEFINES
  *********************/
@@ -55,10 +57,17 @@ SystemInfo_t systemInfo;
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-extern "C" const lv_font_t font_oswaldBold_18;
+LV_FONT_DECLARE(font_rajdhaniBold_40);
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/
+numberFlow * hour = nullptr;
+
+static void lv_timer_callback(lv_timer_t *timer) {
+ // if (systemInfo.powerMonitor.PowerKey_PressCount >= 1000) systemInfo.powerMonitor.PowerKey_PressCount=0;
+  systemInfo.powerMonitor.PowerKey_PressCount ++;
+ hour->setValue(systemInfo.powerMonitor.PowerKey_PressCount);
+}
 
 [[noreturn]] int main(const int argc, char **argv)
 {
@@ -70,12 +79,22 @@ extern "C" const lv_font_t font_oswaldBold_18;
   /*Initialize the HAL (display, input devices, tick) for LVGL*/
   hal_init();
   // ui_init();
-  App_Init();
+ lv_disp_t *disp_p = lv_disp_get_default();
+ lv_theme_t *theme = lv_theme_default_init(
+     disp_p, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
+     true, LV_FONT_DEFAULT);
+ lv_disp_set_theme(disp_p, theme);
+ hour = new numberFlow(&font_rajdhaniBold_40, 3);
+ hour->create(lv_scr_act());
+ hour->setPos(LV_ALIGN_CENTER, 0, 0);
+
+ lv_timer_t* timer = lv_timer_create(lv_timer_callback, 100, nullptr);
+ lv_timer_ready(timer);
+  // App_Init();
   while(true) {
       /* Periodically call the lv_task handler.
        * It could be done in a timer interrupt or an OS task too.*/
       lv_timer_handler();
-      if (systemInfo.powerMonitor.PowerKey_PressCount < 100)systemInfo.powerMonitor.PowerKey_PressCount ++;
       #if defined(_WIN32)
         Sleep(5);
       #else
