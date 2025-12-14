@@ -9,7 +9,7 @@ public:
     explicit numberFlow(const lv_font_t *default_Font, const int NUMBER_SIZE) : cont(nullptr),
         font(default_Font),
         number_size(NUMBER_SIZE),
-        last_value(-1) // 初始化为-1，确保第一次会更新
+        last_value(0) // 初始化为-1，确保第一次会更新
     {
     };
 
@@ -25,7 +25,12 @@ public:
 
     void setPos(lv_align_t align, lv_coord_t x, lv_coord_t y) const;
 
+    void setAlignTo(const lv_obj_t *base, lv_align_t align, lv_coord_t x, lv_coord_t y) const;
+
     void setValue(int target_value) const;
+
+    // 获取容器指针，用于布局
+    lv_obj_t *getCont() const { return cont; }
 
 private:
     lv_obj_t *cont;

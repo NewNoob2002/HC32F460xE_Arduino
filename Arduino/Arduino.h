@@ -34,7 +34,6 @@
 #include "dwt.h"
 #include "gpio.h"
 #include "mcu_config.h"
-#include "system.h"
 // some libraries and sketches depend on this AVR stuff,
 // assuming Arduino.h or WProgram.h automatically includes it...
 //

@@ -21,6 +21,7 @@ static void PowerKey_callback(ButtonEvent *btn, int event)
 				{
 					systemInfo.powerMonitor.PowerKey_PressCount++;
 				}
+				CORE_DEBUG_PRINTF("[PowerKey] PRESSING\n");
 				break;
 			}
 	case ButtonEvent::EVENT_RELEASED:
@@ -71,6 +72,6 @@ void HAL::Key_Init()
 
 void HAL::Key_Update()
 {
-	PowerKey.EventMonitor(digitalRead(POWER_KEY_PIN) == HIGH);
+	PowerKey.EventMonitor(digitalRead(POWER_KEY_PIN) == LOW);
 	FuncKey.EventMonitor(digitalRead(FUNCTION_KEY_PIN) == LOW);
 }

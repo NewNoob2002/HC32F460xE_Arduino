@@ -52,6 +52,11 @@ void numberFlow::setPos(const lv_align_t align, const lv_coord_t x, const lv_coo
     lv_obj_align(cont, align, x, y);
 }
 
+void numberFlow::setAlignTo(const lv_obj_t *base, const lv_align_t align, const lv_coord_t x, const lv_coord_t y) const {
+    if (cont == nullptr) return;
+    lv_obj_align_to(cont, base, align, x, y);
+}
+
 // 内部辅助：只针对需要改变的位启动动画
 void numberFlow::animateDigit(const int digit_index, const int target_val) const {
     if (digit_index >= digit_labels.size() || digit_index < 0) return;

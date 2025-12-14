@@ -9,7 +9,6 @@ namespace Page
 
 class Startup final : public PageBase
 {
-public:
 
 public:
     Startup();
@@ -25,13 +24,11 @@ public:
     virtual void onViewUnload();
     virtual void onViewDidUnload();
 
+    StartupView View{};
+    StartupModel Model;
 private:
     static void onTimer(lv_timer_t* timer);
     static void onEvent(lv_event_t* event);
-
-private:
-    StartupView View{};
-    StartupModel Model;
 };
 
 }

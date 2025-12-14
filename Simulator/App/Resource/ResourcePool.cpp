@@ -31,6 +31,7 @@ do{\
         IMPORT_IMG(menu);
         IMPORT_IMG(pause);
         IMPORT_IMG(start);
+        IMPORT_IMG(startupLogo);
     }
 
 } /* extern "C" */

@@ -1,5 +1,6 @@
 #pragma once
 #include "mcu_define.h"
+#include "../support/support.h"
 
 #define  HW_VERSION    "V1.4"
 #define  SW_VERSION    "V1.26"

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111,__CORE_DEBUG, __DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\HC32F460xE_Arduino;..\..\Simulator\App;..\..\USER\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\support</IncludePath>
+              <IncludePath>..\..\..\HC32F460xE_Arduino;..\..\Simulator\App;..\..\USER\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Platform;..\support;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -539,9 +539,9 @@
               <FilePath>..\..\Simulator\App\Resource\img\img_src_start.c</FilePath>
             </File>
             <File>
-              <FileName>startUp_Logo.c</FileName>
+              <FileName>img_src_startupLogo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Simulator\App\Resource\img\startUp_Logo.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_startupLogo.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -632,6 +632,11 @@
               <FileName>numberFlow.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\Simulator\App\Utils\lv_anim_label\numberFlow.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>numberFlow_clock.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Utils\lv_anim_label\numberFlow_clock.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -959,9 +964,9 @@
           <GroupName>Platform/Support</GroupName>
           <Files>
             <File>
-              <FileName>system.c</FileName>
+              <FileName>support.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\support\system.c</FilePath>
+              <FilePath>..\support\support.c</FilePath>
             </File>
           </Files>
         </Group>
