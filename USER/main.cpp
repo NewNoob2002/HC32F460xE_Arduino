@@ -2,7 +2,6 @@
  * Include files
  ******************************************************************************/
 #include "Arduino.h"
-#include "lv_port.h"
 #include "Simulator/App/App.h"
 #include "Utils/lv_anim_label/numberFlow.h"
 #include "slave_i2c.h"
@@ -23,8 +22,7 @@ int main(void)
 	dwt_init();
 	SystemClock_Config();
 	HAL::HAL_Init();
-	lv_init();
-	lv_port_init();
+	HAL::Display_Init();
 	App_Init();
 	HAL::Power_Init();
   /* Configure BSP */
@@ -34,8 +32,7 @@ int main(void)
   while (1) {
 		HAL::HAL_Update();
 		slave_i2c_update();
-		lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_HIDDEN);
-		lv_timer_handler();
+		HAL::Dispaly_Update();
 		__WFI();
   }
 }

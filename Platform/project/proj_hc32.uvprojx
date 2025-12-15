@@ -416,6 +416,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Common</GroupName>
+          <Files>
+            <File>
+              <FileName>DataProc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Common\DataProc\DataProc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>DP_GPS.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Common\DataProc\DP_GPS.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>DP_LIST.inc</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\Simulator\App\Common\DataProc\DP_LIST.inc</FilePath>
+            </File>
+            <File>
+              <FileName>DP_Power.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Common\DataProc\DP_Power.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>DP_Recorder.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Common\DataProc\DP_Recorder.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Pages</GroupName>
           <Files>
             <File>
@@ -432,6 +462,16 @@
               <FileName>Page.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\Simulator\App\Pages\Page.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Pages/StausBar</GroupName>
+          <Files>
+            <File>
+              <FileName>StatusBar.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\StatusBar\StatusBar.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -467,6 +507,26 @@
               <FileName>StartupView.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\Simulator\App\Pages\Startup\StartupView.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Pages/HardwareCheck</GroupName>
+          <Files>
+            <File>
+              <FileName>HardwareCheck.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\HardwareCheckView\HardwareCheck.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HardwareCheckModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\HardwareCheckView\HardwareCheckModel.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HardwareCheckView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\HardwareCheckView\HardwareCheckView.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -511,6 +571,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Resource/Symbol</GroupName>
+          <Files>
+            <File>
+              <FileName>symbol_statusbar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\symbol\symbol_statusbar.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Resource/Image</GroupName>
           <Files>
             <File>
@@ -542,6 +612,11 @@
               <FileName>img_src_startupLogo.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\img\img_src_startupLogo.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_satellite.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_satellite.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -612,6 +687,26 @@
               <FileName>ResourceManager.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\Simulator\App\Utils\ResourceManager\ResourceManager.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Utils/DataCenter</GroupName>
+          <Files>
+            <File>
+              <FileName>Account.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Utils\DataCenter\Account.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>DataCenter.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Utils\DataCenter\DataCenter.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PingPongBuffer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Utils\DataCenter\PingPongBuffer\PingPongBuffer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -711,7 +806,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Platform/Hal</GroupName>
+          <GroupName>Platform/HAL</GroupName>
           <Files>
             <File>
               <FileName>HAL.cpp</FileName>
@@ -727,6 +822,11 @@
               <FileName>HAL_Key.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\HAL\HAL_Key.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_Display.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\HAL\HAL_Display.cpp</FilePath>
             </File>
             <File>
               <FileName>HAL_Power.cpp</FileName>

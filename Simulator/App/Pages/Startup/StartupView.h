@@ -14,21 +14,12 @@ namespace Page {
         void Update();
 
         struct {
-            numberFlow *satellite;
-            numberFlow_clock *clock;
-            struct {
-                lv_obj_t *img;
-                lv_obj_t *objUsage;
-                numberFlow *percent;
-            } battery;
             lv_obj_t *arc;
             lv_obj_t *arc_percent;
             lv_anim_t arc_anim;
         } ui;
     private:
         mutable makeTime_t time = {};
-
-    private:
     };
 }
 

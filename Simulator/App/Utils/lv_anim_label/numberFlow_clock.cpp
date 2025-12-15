@@ -94,7 +94,7 @@ void numberFlow_clock::setPos(const lv_align_t align, const lv_coord_t x, const 
     lv_obj_align(cont, align, x, y);
 }
 
-void numberFlow_clock::setTime(const int hour_val, const int minute_val, const int second_val) const {
+void numberFlow_clock::setTime(const uint32_t hour_val, const uint32_t minute_val, const uint32_t second_val) const {
     if (hour) {
         hour->setValue(hour_val);
     }

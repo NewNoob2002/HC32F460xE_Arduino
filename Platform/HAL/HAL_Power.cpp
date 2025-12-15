@@ -23,18 +23,18 @@ void HAL::Power_Init()
 	pinMode(CHARGE_LED_PIN, OUTPUT);
 	pinMode(POWER_CONTROL_PIN, OUTPUT);
 	pinMode(WATCHDOG_FEED_PIN, OUTPUT);
-	
+	digitalWrite(POWER_CONTROL_PIN, LOW);
 	uint32_t _last = 0;
-//	while(true)
-//	{
-//		if(softwareReset)
-//			break;
-//		Key_Update();
-//		Power_Update();
-//		lv_timer_handler();
-//		if(systemInfo.powerMonitor.panel_power_on)
-//			break;
-//	}
+	while(true)
+	{
+		if(softwareReset)
+			break;
+		Key_Update();
+		Power_Update();
+		HAL::Dispaly_Update();
+		if(systemInfo.powerMonitor.panel_power_on)
+			break;
+	}
 	CORE_DEBUG_PRINTF("[%d] Power: Done\n", millis());
 	digitalWrite(POWER_LED_PIN, HIGH);
 	digitalWrite(POWER_CONTROL_PIN, HIGH);
@@ -83,7 +83,7 @@ void HAL::WatchDog_Feed()
 	{
 		systemInfo.powerMonitor.WatchDogLastFeedTime = millis();
 		digitalToggle(WATCHDOG_FEED_PIN);
-		CORE_DEBUG_PRINTF("WatchDog Feed\n");
+		CORE_DEBUG_PRINTF("[%d] WatchDog Feed\n", millis());
 	}
 }
 

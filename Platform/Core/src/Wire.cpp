@@ -12,7 +12,7 @@ TwoWire Wire(&I2C2_config, PA9, PA8);
 #define REG_TO_I2Cx(reg) ((reg == CM_I2C1) ? "I2C1" : (reg == CM_I2C2) ? "I2C2" \
                                                   : (reg == CM_I2C3)   ? "I2C3" \
                                                                        : "Unknown")
-#define WIRE_ENABLE_DEBUG
+//#define WIRE_ENABLE_DEBUG
 #ifdef WIRE_ENABLE_DEBUG
 #define WIRE_DEBUG_PRINTF(fmt, ...) CORE_DEBUG_PRINTF("[%s] " fmt, REG_TO_I2Cx(this->_config->register_base), ##__VA_ARGS__)
 #else

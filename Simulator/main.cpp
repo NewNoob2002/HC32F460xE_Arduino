@@ -54,7 +54,7 @@ SystemInfo_t systemInfo;
 /**********************
  *      VARIABLES
  **********************/
-
+extern void StatusBar_Appear(bool en);
 /**********************
  *  STATIC PROTOTYPES
  **********************/
@@ -77,8 +77,10 @@ static void timer_callback(lv_timer_t *timer) {
     hal_init();
     // ui_init();
     App_Init();
-    lv_timer_t *timer = lv_timer_create(timer_callback, 100, nullptr);
+    lv_timer_t *timer = lv_timer_create(timer_callback, 50, nullptr);
     lv_timer_ready(timer);
+    systemInfo.powerMonitor.batteryInfo.chargeStatus = normalCharge;
+    systemInfo.powerMonitor.batteryInfo.Percent = 87;
     while (true) {
         /* Periodically call the lv_task handler.
          * It could be done in a timer interrupt or an OS task too.*/

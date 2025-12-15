@@ -3,7 +3,7 @@
 
 #include "HAL_CONFIG.h"
 #include "mcu_config.h"
-#include "core_debug.h"
+#include "../../../Arduino/core_debug.h"
 #include "CommonMacro.h"
 
 #ifdef __cplusplus
@@ -22,13 +22,18 @@ namespace HAL
 	void Power_Shutdown();
 	void Power_Update();
 	void Power_EventMonitor();
-	void Power_GetInfo(pPower_Monitor_t info);
+	inline void Power_GetInfo(pBatteryInfo_t info) {
+		info = &systemInfo.powerMonitor.batteryInfo;
+	}
 	typedef void(*Power_CallbackFunction_t)(void);
 	void Power_SetEventCallback(Power_CallbackFunction_t callback);
 	void WatchDog_Feed();
-	/* Encoder */
+	/* KEY */
 	void Key_Init();
 	void Key_Update();
+	/* Dispaly */
+	void Display_Init();
+	void Dispaly_Update();
 }
 #endif /*__cplusplus*/
 
@@ -62,7 +67,7 @@ typedef enum
 /** @addtogroup HAL_Exported_Variables
   * @{
   */
-extern __IO uint32_t uwTick;
+extern volatile uint32_t uwTick;
 extern uint32_t uwTickPrio;
 extern HAL_TickFreqTypeDef uwTickFreq;
 

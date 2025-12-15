@@ -134,13 +134,17 @@ bool PageManager::Pop()
     {
         return false;
     }
-
+    if (PageStack.size() <= 1)
+    {
+        PM_LOG_WARN("Only root page remains, can't pop");
+        return false;
+    }
     /* Get the top page of the stack */
     PageBase* top = GetStackTop();
 
     if (top == nullptr)
     {
-        PM_LOG_WARN("Page stack is empty, cat't pop");
+        PM_LOG_WARN("Page stack is empty, can't pop");
         return false;
     }
 

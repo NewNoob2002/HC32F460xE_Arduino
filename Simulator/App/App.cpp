@@ -21,10 +21,10 @@
 * SOFTWARE.
 */
 #include "App.h"
-// #include "Common/DataProc/DataProc.h"
+#include "Common/DataProc/DataProc.h"
 #include "Resource/ResourcePool.h"
 #include "Pages/AppFactory.h"
-// #include "Pages/StatusBar/StatusBar.h"
+#include "Pages/StatusBar/StatusBar.h"
 #include "Utils/PageManager/PageManager.h"
 
 #define ACCOUNT_SEND_CMD(ACT, CMD) \
@@ -48,9 +48,7 @@ void App_Init()
     }
 
     /* Initialize the data processing node */
-    // DataProc_Init();
-    // ACCOUNT_SEND_CMD(Storage, STORAGE_CMD_LOAD);
-    // ACCOUNT_SEND_CMD(SysConfig, SYSCONFIG_CMD_LOAD);
+    DataProc_Init();
 
     /* Set screen style */
     lv_disp_t *disp_p = lv_disp_get_default();
@@ -73,15 +71,16 @@ void App_Init()
     /* Initialize resource pool */
     ResourcePool::Init();
 
-    // /* Initialize status bar */
-    // Page::StatusBar_Create(lv_layer_top());
+    /* Initialize status bar */
+    Page::StatusBar_Create(lv_layer_top());
 
     /* Initialize pages */
     // manager.Install("Template",    "Pages/_Template");
     // manager.Install("LiveMap",     "Pages/LiveMap");
-    // manager.Install("Dialplate",   "Pages/Dialplate");
+    manager.Install("Dialplate",   "Pages/Dialplate");
     // manager.Install("SystemInfos", "Pages/SystemInfos");
     manager.Install("Startup",     "Pages/Startup");
+    manager.Install("HardwareCheck", "Pages/HardwareCheck");
 
     manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP);
 

@@ -4,29 +4,33 @@
 #include "StartupView.h"
 #include "StartupModel.h"
 
+
 namespace Page
 {
 
 class Startup final : public PageBase
 {
-
 public:
-    Startup();
-    ~Startup() override;
+    Startup()
+    = default;
+    ~Startup() override = default;
 
-    virtual void onCustomAttrConfig();
-    virtual void onViewLoad();
-    virtual void onViewDidLoad();
-    virtual void onViewWillAppear();
-    virtual void onViewDidAppear();
-    virtual void onViewWillDisappear();
-    virtual void onViewDidDisappear();
-    virtual void onViewUnload();
-    virtual void onViewDidUnload();
+    void onCustomAttrConfig() override;
+    void onViewLoad() override;
+    void onViewDidLoad() override;
+    void onViewWillAppear() override;
+    void onViewDidAppear() override;
+    void onViewWillDisappear() override;
+    void onViewDidDisappear() override;
+    void onViewUnload() override;
+    void onViewDidUnload() override;
 
     StartupView View{};
     StartupModel Model;
+
+    static bool StatusBarAppear;
 private:
+    lv_timer_t* timer{};
     static void onTimer(lv_timer_t* timer);
     static void onEvent(lv_event_t* event);
 };

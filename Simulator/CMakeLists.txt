@@ -28,6 +28,8 @@ include_directories(
         ${CMAKE_CURRENT_LIST_DIR}/App/Resource
         ${CMAKE_CURRENT_LIST_DIR}/App/config
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/support
+        ${CMAKE_CURRENT_LIST_DIR}/../Platform/Config
+        ${CMAKE_CURRENT_LIST_DIR}/../Platform/HAL
 )
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -44,7 +46,9 @@ set(SDL2_LIBRARIES ${SDL2_LIB_DIR}/SDL2.lib)
 include_directories(${SDL2_INCLUDE_DIRS} ${CMAKE_CURRENT_LIST_DIR}/lvgl)
 link_directories(${SDL2_LIB_DIR})
 
-add_executable(main main.cpp mouse_cursor_icon.c ${SOURCES} ${INCLUDES} ${UI_SOURCES})
+add_executable(main main.cpp mouse_cursor_icon.c ${SOURCES} ${INCLUDES} ${UI_SOURCES}
+        ../Platform/Config/mcu_define.h
+        ../Platform/Config/mcu_define.h)
 add_compile_definitions(LV_CONF_INCLUDE_SIMPLE LV_INCLUDE_SIMPLE)
 
 # 抑制 MSVC 编译器的警告

@@ -1,5 +1,6 @@
 #pragma once
 #include "lvgl/src/font/lv_font.h"
+#include "symbol/symbol_unicode.h"
 
 namespace ResourcePool
 {

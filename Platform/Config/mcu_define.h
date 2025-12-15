@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "../../Simulator/App/Common/DataProc/DataProc_Def.h"
 
 typedef struct ledState_t {
     uint32_t lastToggleTime;
@@ -26,16 +27,15 @@ typedef struct BatteryInfo_t {
     uint16_t Percent;
     uint16_t Temp;
     uint16_t Voltage;
-		float Percent_f;
-		float Voltage_f;
-		float	Temp_f;
+    float Percent_f;
+    float Voltage_f;
+    float Temp_f;
     Charger_Status_t chargeStatus;
 } BatteryInfo_t, *pBatteryInfo_t;
 
 typedef struct Power_Monitor_t {
-	
-		BatteryInfo_t batteryInfo;
-		uint32_t WatchDogLastFeedTime;
+    BatteryInfo_t batteryInfo;
+    uint32_t WatchDogLastFeedTime;
     uint32_t BatteryLastHandleTime;
     uint32_t ChargerLastHandleTime;
     uint32_t PowerOffRequeset_time;
@@ -69,10 +69,13 @@ typedef struct PositionInfo_t {
 typedef struct RecordInfo_t {
     uint8_t record_status; // 0-off, 1-on
     float record_leftspace;
-    uint8_t record_type;     // 1-xyz 2-Rinex3.02
+    uint8_t record_type; // 1-xyz 2-Rinex3.02
     uint8_t record_interval; // 0x00-15min, 0x01-60min, 0x02-120min, 0x04-240min, 0x18- 24hour
     uint8_t record_op;
     uint8_t record_name[16];
+#if defined(__cplusplus)
+    DataProc::Recorder_Cmd_t cmd;
+#endif
 } RecordInfo_t;
 
 typedef struct RadioInfo_t {
@@ -109,10 +112,10 @@ typedef enum work_mode_t {
 typedef struct SystemInfo_t {
     bool eg25_overtime;
     uint8_t panel_operation_flag;
-		uint8_t work_status;
-		uint16_t i2c_communicate_err_count;
-		
-		online_device_t online_device;
+    uint8_t work_status;
+    uint16_t i2c_communicate_err_count;
+
+    online_device_t online_device;
     WifiInfo_t wifiInfo;
     RecordInfo_t recordInfo;
     PositionInfo_t positionInfo;

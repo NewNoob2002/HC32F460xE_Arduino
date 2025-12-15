@@ -4,42 +4,6 @@ using namespace Page;
 
 void StartupView::Create(lv_obj_t *root) {
     const lv_font_t *font = ResourcePool::GetFont("oswaldBold_18");
-    lv_obj_t *satellite_img = lv_img_create(root);
-    lv_img_set_src(satellite_img, ResourcePool::GetImage("satellite"));
-    const auto *img_satellite_ext = reinterpret_cast<lv_img_t *>(satellite_img);
-    lv_obj_set_size(satellite_img, img_satellite_ext->w, img_satellite_ext->h);
-    lv_obj_align(satellite_img, LV_ALIGN_TOP_LEFT, 10, 5);
-
-    ui.satellite = new numberFlow(font, 2, true);
-    ui.satellite->create(root);
-    ui.satellite->setAlignTo(satellite_img, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
-    ui.satellite->setValue(0);
-
-    ui.clock = new numberFlow_clock(font);
-    ui.clock->create(root);
-    ui.clock->setPos(LV_ALIGN_TOP_MID, 0, 0);
-    ui.clock->setTime(0, 0, 0);
-
-    lv_obj_t *img = lv_img_create(root);
-    lv_img_set_src(img, ResourcePool::GetImage("battery"));
-    const auto *img_ext = reinterpret_cast<lv_img_t *>(img);
-    lv_obj_set_size(img, img_ext->w, img_ext->h);
-    lv_obj_align(img, LV_ALIGN_TOP_RIGHT, -40, 5);
-    ui.battery.img = img;
-
-    lv_obj_t *obj = lv_obj_create(img);
-    lv_obj_remove_style_all(obj);
-    lv_obj_set_style_bg_color(obj, lv_color_hex(0x4CAF50), 0);
-    lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
-    lv_obj_set_style_opa(obj, LV_OPA_COVER, 0);
-    lv_obj_set_size(obj, 16, 8);
-    lv_obj_align(obj, LV_ALIGN_BOTTOM_MID, 0, -4);
-    ui.battery.objUsage = obj;
-
-    ui.battery.percent = new numberFlow(font, 3, true);
-    ui.battery.percent->create(root);
-    ui.battery.percent->setAlignTo(img, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
-    ui.battery.percent->setValue(0);
 
     constexpr lv_coord_t arc_size = 126 * 0.6;
     lv_obj_t *arc = lv_arc_create(root);
@@ -91,14 +55,6 @@ void StartupView::Delete() const {
 }
 
 void StartupView::Update() {
-
-    static uint32_t last_update = 0;
-    if (lv_tick_get() - last_update >= 1000) {
-        last_update = lv_tick_get();
-        MakeTime(last_update, &time);
-        ui.clock->setTime(time.hour, time.minute, time.second);
-        ui.battery.percent->setValue(systemInfo.powerMonitor.batteryInfo.Percent);
-    }
     /*ARC*/
     uint8_t target_percent = (systemInfo.powerMonitor.PowerKey_PressCount * 2);
     target_percent = target_percent > 100 ? 100 : target_percent;

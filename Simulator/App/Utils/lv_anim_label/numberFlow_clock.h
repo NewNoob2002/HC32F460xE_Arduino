@@ -17,8 +17,11 @@ public:
 
     void setPos(lv_align_t align, lv_coord_t x, lv_coord_t y) const;
 
-    void setTime(int hour_val, int minute_val, int second_val) const;
+    void setTime(uint32_t hour_val, uint32_t minute_val, uint32_t second_val) const;
 
+    [[nodiscard]] lv_obj_t *getCont() const {
+        return cont;
+    };
 private:
     const lv_font_t *font;
     lv_obj_t *cont; // 主容器

@@ -171,8 +171,6 @@ static int message_set_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
             break;
         case NM_PANEL_SET3_ID:
             systemInfo.positionInfo.coordinate_status = parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
-            // systemInfo.designation_ew = pMsg[NM_PROTOCOL_HEADER_LEN + 1];
-            //  systemInfo.designation_sn = pMsg[NM_PROTOCOL_HEADER_LEN + 2];
             memcpy(&systemInfo.positionInfo.coordinate_lon, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 8);
             memcpy(&systemInfo.positionInfo.coordinate_lat, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 12], 8);
             memcpy(&systemInfo.positionInfo.coordinate_alt, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 20], 8);

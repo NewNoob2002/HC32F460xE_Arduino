@@ -29,7 +29,7 @@ public:
 
     void setAlignTo(const lv_obj_t *base, lv_align_t align, lv_coord_t x, lv_coord_t y) const;
 
-    void setValue(int target_value) const;
+    void setValue(uint32_t target_value) const;
 
     // 获取容器指针，用于布局
     lv_obj_t *getCont() const { return cont; }
@@ -39,13 +39,13 @@ private:
     const lv_font_t *font;
     uint16_t number_size;
     std::vector<lv_obj_t *> digit_labels;
-    mutable int last_value; // 记录上一次的值，避免重复动画
-    mutable std::vector<int> last_digits; // 记录每个数字位的上一次值
+    mutable uint32_t last_value; // 记录上一次的值，避免重复动画
+    mutable std::vector<uint32_t> last_digits; // 记录每个数字位的上一次值
     bool Hidden_high_position;
     // 内部辅助函数：执行动画
-    void animateDigit(int digit_index, int target_val) const;
+    void animateDigit(uint32_t digit_index, uint32_t target_val) const;
     // 内部辅助函数：隐藏/显示数字位
-    void setDigitVisibility(int digit_index, bool visible) const;
+    void setDigitVisibility(uint32_t digit_index, bool visible) const;
 };
 
 #endif //LVGL_NUMBER_FLOW_H

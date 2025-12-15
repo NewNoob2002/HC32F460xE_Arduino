@@ -1,25 +1,27 @@
-#ifndef __STARTUP_MODEL_H
-#define __STARTUP_MODEL_H
+#ifndef STARTUP_MODEL_H
+#define STARTUP_MODEL_H
 
-// #include "Common/DataProc/DataProc.h"
-// #include "Common/HAL/HAL.h"
+#include "Common/DataProc/DataProc.h"
 
-namespace Page
-{
+namespace Page {
+    class StartupModel {
+    public:
+        StartupModel() : account(nullptr) {
+        }
 
-class StartupModel
-{
-public:
-    void Init();
-    void Deinit();
-    void PlayMusic(const char* music);
-    void SetEncoderEnable(bool en);
-    void SetStatusBarAppear(bool en);
+        ~StartupModel() {
+            delete account;
+        }
 
-private:
-    // Account* account;
-};
+        void Init();
 
+        void Deinit();
+
+        void SetStatusBarAppear(bool en, bool delay) const;
+
+    private:
+        Account *account;
+    };
 }
 
 #endif

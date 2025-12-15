@@ -59,7 +59,7 @@ void numberFlow::setAlignTo(const lv_obj_t *base, const lv_align_t align, const 
 }
 
 // 内部辅助：只针对需要改变的位启动动画
-void numberFlow::animateDigit(const int digit_index, const int target_val) const {
+void numberFlow::animateDigit(const uint32_t digit_index, const uint32_t target_val) const {
     if (digit_index >= digit_labels.size()) return;
     if (digit_labels[digit_index] == nullptr) return;
 
@@ -87,7 +87,7 @@ void numberFlow::animateDigit(const int digit_index, const int target_val) const
 }
 
 // 内部辅助：隐藏/显示数字位
-void numberFlow::setDigitVisibility(const int digit_index, const bool visible) const {
+void numberFlow::setDigitVisibility(const uint32_t digit_index, const bool visible) const {
     if (digit_index >= digit_labels.size()) return;
     if (digit_labels[digit_index] == nullptr) return;
 
@@ -102,7 +102,7 @@ void numberFlow::setDigitVisibility(const int digit_index, const bool visible) c
     }
 }
 
-void numberFlow::setValue(const int target_value) const {
+void numberFlow::setValue(const uint32_t target_value) const {
     if (digit_labels.empty()) return;
 
     // 如果值没有改变，直接返回，避免频繁启动动画
@@ -117,7 +117,7 @@ void numberFlow::setValue(const int target_value) const {
     // 根据位数拆分数字，只对改变的数字位启动动画
     switch (number_size) {
         case 1: {
-            if (const int units = target_value % 10; last_digits[0] != units) {
+            if (const uint32_t units = target_value % 10; last_digits[0] != units) {
                 animateDigit(0, units);
                 last_digits[0] = units;
             }
@@ -126,8 +126,8 @@ void numberFlow::setValue(const int target_value) const {
         case 2: {
             // digit_labels[0] 是左边的（十位）
             // digit_labels[1] 是右边的（个位）
-            const int tens = (target_value / 10) % 10;
-            const int units = target_value % 10;
+            const uint32_t tens = (target_value / 10) % 10;
+            const uint32_t units = target_value % 10;
 
             if (Hidden_high_position) {
                 // 如果十位是0，隐藏十位；否则显示十位
@@ -157,9 +157,9 @@ void numberFlow::setValue(const int target_value) const {
             break;
         }
         case 3: {
-            const int hundreds = (target_value / 100) % 10;
-            const int tens = (target_value / 10) % 10;
-            const int units = target_value % 10;
+            const uint32_t hundreds = (target_value / 100) % 10;
+            const uint32_t tens = (target_value / 10) % 10;
+            const uint32_t units = target_value % 10;
 
             if (Hidden_high_position) {
                 // 如果百位是0，隐藏百位；否则显示百位
