@@ -99,12 +99,14 @@ void Adafruit_ST77xx::displayInit(const uint8_t *addr) {
 	
   uint8_t numCommands, cmd, numArgs;
   uint16_t ms;
-	digitalWrite(_rst, HIGH);
-	delay(50);
-	digitalWrite(_rst, LOW);
-	delay(50);
-	digitalWrite(_rst, HIGH);
-	delay(150);
+  if (_rst >= 0) {
+    digitalWrite(_rst, HIGH);
+    delay(50);
+    digitalWrite(_rst, LOW);
+    delay(50);
+    digitalWrite(_rst, HIGH);
+    delay(150);
+  }
 	
   numCommands = pgm_read_byte(addr++); // Number of commands to follow
   while (numCommands--) {              // For each command...

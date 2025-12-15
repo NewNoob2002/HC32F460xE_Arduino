@@ -14,12 +14,11 @@
 #endif
 
 #ifndef CORE_ASSERT
-#define CORE_ASSERT(expression, message, ...) \
-    if (!(expression))                        \
-    {                                         \
-        printf("CORE_ASSERT:" message "%d,%s""\n\n", __LINE__, __FUNCTION__); \
-        __VA_ARGS__;                          \
-				while(true);													\
+#define CORE_ASSERT(expression, message, ...)                                           \
+    if (!(expression)) {                                                                \
+        CORE_DEBUG_PRINTF("CORE_ASSERT:%s %d,%s\n\n", message, __LINE__, __FUNCTION__); \
+        __VA_ARGS__;                                                                    \
+        while (true);                                                                   \
     }
 #endif
 #else // !__CORE_DEBUG
@@ -31,8 +30,7 @@
 #define CORE_DEBUG_PRINTF(fmt, ...)
 #define CORE_DEBUG_INIT()
 #define CORE_ASSERT(expression, message, ...) \
-    if (!(expression))                        \
-    {                                         \
+    if (!(expression)) {                      \
         __VA_ARGS__;                          \
     }
 #endif // __CORE_DEBUG

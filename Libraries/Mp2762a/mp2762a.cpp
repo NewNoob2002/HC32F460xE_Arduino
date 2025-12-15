@@ -218,7 +218,7 @@ float mp2762getInputCurrentMa()
 {
     uint8_t CurrentL = 0, CurrentH = 0;
     CurrentL = mp2762aReadRegister8(MP2762A_INPUT_CURRENT_L);
-    CurrentH = mp2762aReadRegister8(MP2762A_INPUT_CURRENT_L);
+    CurrentH = mp2762aReadRegister8(MP2762A_INPUT_CURRENT_H);
 
     uint16_t Current = (CurrentH << 8) | CurrentL;
     Current = (Current >> 6) & 0x03FF;
