@@ -5,7 +5,6 @@
 #include "StatusBar.h"
 #include "../Page.h"
 #include "Common/DataProc/DataProc.h"
-#include "Utils/lv_anim_label/lv_anim_label.h"
 
 #define BATT_USAGE_HEIGHT (8)
 #define BATT_USAGE_WIDTH  (16)
@@ -256,7 +255,7 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
     ui.battery.percent->setAlignTo(img, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
     ui.battery.percent->setValue(0);
 
-    StatusBar_SetStyle(DataProc::STATUS_BAR_STYLE_BLACK);
+    StatusBar_SetStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
 
     lv_timer_t* timer = lv_timer_create(StatusBar_Update, 1000, nullptr);
     lv_timer_ready(timer);

@@ -7,8 +7,8 @@ using namespace Page;
 
 void DialplateView::Create(lv_obj_t* root)
 {
-    BottomInfo_Create(root);
     TopInfo_Create(root);
+    // BottomInfo_Create(root);
     BtnCont_Create(root);
 
     ui.anim_timeline = lv_anim_timeline_create();
@@ -20,15 +20,15 @@ void DialplateView::Create(lv_obj_t* root)
     ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
     lv_coord_t y_tar_top = lv_obj_get_y(ui.topInfo.cont);
-    lv_coord_t y_tar_bottom = lv_obj_get_y(ui.bottomInfo.cont);
+    // lv_coord_t y_tar_bottom = lv_obj_get_y(ui.bottomInfo.cont);
     lv_coord_t h_tar_btn = lv_obj_get_height(ui.btnCont.btnRec);
 
     lv_anim_timeline_wrapper_t wrapper[] =
     {
         ANIM_DEF(0, ui.topInfo.cont, y, -lv_obj_get_height(ui.topInfo.cont), y_tar_top),
 
-        ANIM_DEF(200, ui.bottomInfo.cont, y, -lv_obj_get_height(ui.bottomInfo.cont), y_tar_bottom),
-        ANIM_OPA_DEF(200, ui.bottomInfo.cont),
+        // ANIM_DEF(200, ui.bottomInfo.cont, y, -lv_obj_get_height(ui.bottomInfo.cont), y_tar_bottom),
+        // ANIM_OPA_DEF(200, ui.bottomInfo.cont),
 
         ANIM_DEF(500, ui.btnCont.btnMap, height, 0, h_tar_btn),
         ANIM_DEF(600, ui.btnCont.btnRec, height, 0, h_tar_btn),
@@ -51,66 +51,59 @@ void DialplateView::TopInfo_Create(lv_obj_t* par)
 {
     lv_obj_t* cont = lv_obj_create(par);
     lv_obj_remove_style_all(cont);
-    lv_obj_set_size(cont, LV_HOR_RES, 142);
+    lv_obj_set_size(cont, LV_HOR_RES, 60);
 
     lv_obj_set_style_bg_opa(cont, LV_OPA_COVER, 0);
     lv_obj_set_style_bg_color(cont, lv_color_hex(0x333333), 0);
 
     lv_obj_set_style_radius(cont, 27, 0);
-    lv_obj_set_y(cont, -36);
+    lv_obj_set_y(cont, 26);
     ui.topInfo.cont = cont;
 
     lv_obj_t* label = lv_label_create(cont);
-    lv_obj_set_style_text_font(label, ResourcePool::GetFont("bahnschrift_65"), 0);
+    lv_obj_set_style_text_font(label, ResourcePool::GetFont("rajdhaniBold_40"), 0);
     lv_obj_set_style_text_color(label, lv_color_white(), 0);
     lv_label_set_text(label, "00");
-    lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 63);
+    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
     ui.topInfo.labelSpeed = label;
-
-    label = lv_label_create(cont);
-    lv_obj_set_style_text_font(label, ResourcePool::GetFont("bahnschrift_17"), 0);
-    lv_obj_set_style_text_color(label, lv_color_white(), 0);
-    lv_label_set_text(label, "km/h");
-    lv_obj_align_to(label, ui.topInfo.labelSpeed, LV_ALIGN_OUT_BOTTOM_MID, 0, 8);
-    ui.topInfo.labelUint = label;
 }
 
-void DialplateView::BottomInfo_Create(lv_obj_t* par)
-{
-    lv_obj_t* cont = lv_obj_create(par);
-    lv_obj_remove_style_all(cont);
-    lv_obj_set_style_bg_color(cont, lv_color_black(), 0);
-    lv_obj_set_size(cont, LV_HOR_RES, 90);
-    lv_obj_align(cont, LV_ALIGN_TOP_MID, 0, 106);
-
-    lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW_WRAP);
-
-    lv_obj_set_flex_align(
-        cont,
-        LV_FLEX_ALIGN_SPACE_EVENLY,
-        LV_FLEX_ALIGN_CENTER,
-        LV_FLEX_ALIGN_CENTER
-    );
-
-    ui.bottomInfo.cont = cont;
-
-    const char* unitText[4] =
-    {
-        "AVG",
-        "Time",
-        "Trip",
-        "Calorie"
-    };
-
-    for (int i = 0; i < ARRAY_SIZE(ui.bottomInfo.labelInfoGrp); i++)
-    {
-        SubInfoGrp_Create(
-            cont,
-            &(ui.bottomInfo.labelInfoGrp[i]),
-            unitText[i]
-        );
-    }
-}
+// void DialplateView::BottomInfo_Create(lv_obj_t* par)
+// {
+//     lv_obj_t* cont = lv_obj_create(par);
+//     lv_obj_remove_style_all(cont);
+//     lv_obj_set_style_bg_color(cont, lv_color_black(), 0);
+//     lv_obj_set_size(cont, LV_HOR_RES, 90);
+//     lv_obj_align(cont, LV_ALIGN_TOP_MID, 0, 106);
+//
+//     lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW_WRAP);
+//
+//     lv_obj_set_flex_align(
+//         cont,
+//         LV_FLEX_ALIGN_SPACE_EVENLY,
+//         LV_FLEX_ALIGN_CENTER,
+//         LV_FLEX_ALIGN_CENTER
+//     );
+//
+//     ui.bottomInfo.cont = cont;
+//
+//     const char* unitText[4] =
+//     {
+//         "AVG",
+//         "Time",
+//         "Trip",
+//         "Calorie"
+//     };
+//
+//     for (int i = 0; i < ARRAY_SIZE(ui.bottomInfo.labelInfoGrp); i++)
+//     {
+//         SubInfoGrp_Create(
+//             cont,
+//             &(ui.bottomInfo.labelInfoGrp[i]),
+//             unitText[i]
+//         );
+//     }
+// }
 
 void DialplateView::SubInfoGrp_Create(lv_obj_t* par, SubInfo_t* info, const char* unitText)
 {
@@ -145,7 +138,7 @@ void DialplateView::BtnCont_Create(lv_obj_t* par)
     lv_obj_t* cont = lv_obj_create(par);
     lv_obj_remove_style_all(cont);
     lv_obj_set_size(cont, LV_HOR_RES, 40);
-    lv_obj_align_to(cont, ui.bottomInfo.cont, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
+    lv_obj_align_to(cont, ui.topInfo.cont, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
 
     /*lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_place(
@@ -181,7 +174,7 @@ lv_obj_t* DialplateView::Btn_Create(lv_obj_t* par, const void* img_src, lv_coord
     lv_obj_set_style_radius(obj, 9, 0);
 
     static lv_style_transition_dsc_t tran;
-    static const lv_style_prop_t prop[] = { LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
+    static constexpr lv_style_prop_t prop[] = { LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
     lv_style_transition_dsc_init(
         &tran,
         prop,

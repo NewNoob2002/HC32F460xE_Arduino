@@ -12,12 +12,17 @@ namespace Page
 
     class HardwareCheckModel {
     public:
+        HardwareCheckModel() {
+            account = nullptr;
+        }
+        ~HardwareCheckModel() = default;
         void Init();
         void Deinit();
-        void SetStatusBarAppear(bool en);
+        void SetStatusBarAppear(bool en) const;
+        void SetStatusBarStyle(DataProc::StatusBar_Style_t style) const;
 
     private:
-        // Account* account;
+        Account* account;
     };
 };
 

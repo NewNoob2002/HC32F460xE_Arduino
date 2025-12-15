@@ -34,10 +34,11 @@ static void Resource_Init() {
     IMPORT_SYMBOL(statusbar);
     // /* Import Images */
     IMPORT_IMG(battery);
-    IMPORT_IMG(location);
+    IMPORT_IMG(locate);
     IMPORT_IMG(menu);
     IMPORT_IMG(pause);
     IMPORT_IMG(start);
+    IMPORT_IMG(stop);
     IMPORT_IMG(satellite);
     IMPORT_IMG(startupLogo);
 }

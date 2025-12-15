@@ -35,15 +35,20 @@ void HardwareCheck::onViewDidAppear() {
 }
 
 void HardwareCheck::onViewWillDisappear() {
-    PageBase::onViewWillDisappear();
+    if (timer) {
+        lv_timer_del(timer);
+    }
 }
 
 void HardwareCheck::onViewDidDisappear() {
-    PageBase::onViewDidDisappear();
+    // Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
+    Model.SetStatusBarAppear(true);
 }
 
 void HardwareCheck::onViewUnload() {
-    PageBase::onViewUnload();
+    View.Delete();
+    // Model.SetEncoderEnable(true);
+    Model.Deinit();
 }
 
 void HardwareCheck::onViewDidUnload() {
@@ -53,7 +58,7 @@ void HardwareCheck::onViewDidUnload() {
 void HardwareCheck::onTimer(lv_timer_t *timer) {
     const auto* instance = static_cast<HardwareCheck *>(timer->user_data);
     instance->View.Update();
-    if (lv_tick_get() - last_check_time >= 30000) {
+    if (lv_tick_get() - last_check_time >= 3000) {
         instance->pageManager->Push("Pages/Dialplate");
     }
 }
