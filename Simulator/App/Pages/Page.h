@@ -26,15 +26,12 @@
 #include "lvgl/lvgl.h"
 #include "Utils/PageManager/PageManager.h"
 #include "../../Platform/Config/mcu_config.h"
-#if defined(HC32F460)
-#include "../../Platform/Core/inc/delay.h"
-#endif
 #include "Utils/lv_ext/lv_obj_ext_func.h"
 #include "Utils/lv_anim_label/numberFlow.h"
 #include "Utils/lv_anim_label/numberFlow_clock.h"
 #include "Utils/lv_anim_label/lv_anim_label.h"
 #include "Utils/lv_ext/lv_anim_timeline_wrapper.h"
 #include "Resource/ResourcePool.h"
-// #include "StatusBar/StatusBar.h"
+#include "StatusBar/StatusBar.h"
 
 #endif

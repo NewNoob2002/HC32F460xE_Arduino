@@ -18,6 +18,7 @@ file(GLOB_RECURSE UI_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/App/*.c
         ${CMAKE_CURRENT_LIST_DIR}/App/*.cpp
         ${CMAKE_CURRENT_LIST_DIR}/App/Utils/*.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/../Platform/support/support.c
 )
 
 include_directories(
@@ -26,12 +27,13 @@ include_directories(
         ${CMAKE_CURRENT_LIST_DIR}/App/Utils
         ${CMAKE_CURRENT_LIST_DIR}/App/Resource
         ${CMAKE_CURRENT_LIST_DIR}/App/config
+        ${CMAKE_CURRENT_LIST_DIR}/../Platform/support
 )
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # SDL2 配置
-set(SDL2_ROOT D:/SDL2-2.32.10)
+set(SDL2_ROOT E:/SDL2-2.32.10)
 set(SDL2_INCLUDE_DIR ${SDL2_ROOT}/include)
 set(SDL2_LIB_DIR ${SDL2_ROOT}/lib/x64)
 

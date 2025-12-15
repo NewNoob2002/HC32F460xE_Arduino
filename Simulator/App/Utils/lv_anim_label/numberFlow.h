@@ -6,10 +6,12 @@
 
 class numberFlow {
 public:
-    explicit numberFlow(const lv_font_t *default_Font, const int NUMBER_SIZE) : cont(nullptr),
+    explicit numberFlow(const lv_font_t *default_Font, const int NUMBER_SIZE, const bool hide = false) :
+        cont(nullptr),
         font(default_Font),
         number_size(NUMBER_SIZE),
-        last_value(0) // 初始化为-1，确保第一次会更新
+        last_value(-1),
+        Hidden_high_position(hide)
     {
     };
 
@@ -39,9 +41,11 @@ private:
     std::vector<lv_obj_t *> digit_labels;
     mutable int last_value; // 记录上一次的值，避免重复动画
     mutable std::vector<int> last_digits; // 记录每个数字位的上一次值
-
+    bool Hidden_high_position;
     // 内部辅助函数：执行动画
     void animateDigit(int digit_index, int target_val) const;
+    // 内部辅助函数：隐藏/显示数字位
+    void setDigitVisibility(int digit_index, bool visible) const;
 };
 
 #endif //LVGL_NUMBER_FLOW_H

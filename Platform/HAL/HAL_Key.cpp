@@ -72,6 +72,6 @@ void HAL::Key_Init()
 
 void HAL::Key_Update()
 {
-	PowerKey.EventMonitor(digitalRead(POWER_KEY_PIN) == LOW);
+	PowerKey.EventMonitor(digitalRead(POWER_KEY_PIN) == HIGH);
 	FuncKey.EventMonitor(digitalRead(FUNCTION_KEY_PIN) == LOW);
 }

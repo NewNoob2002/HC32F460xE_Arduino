@@ -9,18 +9,18 @@ namespace Page {
 
         void Create(lv_obj_t *root);
 
-        void Delete();
+        void Delete() const;
 
         void Update();
 
         struct {
+            numberFlow *satellite;
+            numberFlow_clock *clock;
             struct {
                 lv_obj_t *img;
                 lv_obj_t *objUsage;
                 numberFlow *percent;
             } battery;
-
-            numberFlow_clock *clock;
             lv_obj_t *arc;
             lv_obj_t *arc_percent;
             lv_anim_t arc_anim;

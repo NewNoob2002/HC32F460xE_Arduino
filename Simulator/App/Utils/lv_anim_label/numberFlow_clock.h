@@ -17,7 +17,7 @@ public:
 
     void setPos(lv_align_t align, lv_coord_t x, lv_coord_t y) const;
 
-    void setTime(int hour, int minute, int second) const;
+    void setTime(int hour_val, int minute_val, int second_val) const;
 
 private:
     const lv_font_t *font;

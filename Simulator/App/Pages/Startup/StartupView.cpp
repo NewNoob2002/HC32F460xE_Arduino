@@ -4,7 +4,17 @@ using namespace Page;
 
 void StartupView::Create(lv_obj_t *root) {
     const lv_font_t *font = ResourcePool::GetFont("oswaldBold_18");
-    const uint16_t font_width = lv_font_get_glyph_width(font, '0', '\0');
+    lv_obj_t *satellite_img = lv_img_create(root);
+    lv_img_set_src(satellite_img, ResourcePool::GetImage("satellite"));
+    const auto *img_satellite_ext = reinterpret_cast<lv_img_t *>(satellite_img);
+    lv_obj_set_size(satellite_img, img_satellite_ext->w, img_satellite_ext->h);
+    lv_obj_align(satellite_img, LV_ALIGN_TOP_LEFT, 10, 5);
+
+    ui.satellite = new numberFlow(font, 2, true);
+    ui.satellite->create(root);
+    ui.satellite->setAlignTo(satellite_img, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
+    ui.satellite->setValue(0);
+
     ui.clock = new numberFlow_clock(font);
     ui.clock->create(root);
     ui.clock->setPos(LV_ALIGN_TOP_MID, 0, 0);
@@ -26,9 +36,9 @@ void StartupView::Create(lv_obj_t *root) {
     lv_obj_align(obj, LV_ALIGN_BOTTOM_MID, 0, -4);
     ui.battery.objUsage = obj;
 
-    ui.battery.percent = new numberFlow(font, 3);
+    ui.battery.percent = new numberFlow(font, 3, true);
     ui.battery.percent->create(root);
-    ui.battery.percent->setAlignTo(img, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
+    ui.battery.percent->setAlignTo(img, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
     ui.battery.percent->setValue(0);
 
     constexpr lv_coord_t arc_size = 126 * 0.6;
@@ -76,21 +86,24 @@ void StartupView::Create(lv_obj_t *root) {
     lv_obj_align(label_compile_time, LV_ALIGN_BOTTOM_RIGHT, -10, 0);
 }
 
-void StartupView::Delete() {
+void StartupView::Delete() const {
+    lv_anim_del(ui.arc, nullptr);
 }
 
-void StartupView::Update(){
-#if defined(HC32F460)
-    MakeTime(millis(), &time);
-		ui.clock->setTime(time.hour, time.minute, time.second);
-#endif
+void StartupView::Update() {
+
+    static uint32_t last_update = 0;
+    if (lv_tick_get() - last_update >= 1000) {
+        last_update = lv_tick_get();
+        MakeTime(last_update, &time);
+        ui.clock->setTime(time.hour, time.minute, time.second);
+        ui.battery.percent->setValue(systemInfo.powerMonitor.batteryInfo.Percent);
+    }
     /*ARC*/
     uint8_t target_percent = (systemInfo.powerMonitor.PowerKey_PressCount * 2);
     target_percent = target_percent > 100 ? 100 : target_percent;
-    ui.battery.percent->setValue(target_percent);
     static uint8_t last_target_percent = 0;
-    if (target_percent != last_target_percent)
-    {
+    if (target_percent != last_target_percent) {
         last_target_percent = target_percent;
         const int16_t current_value = lv_arc_get_value(ui.arc);
         lv_anim_set_values(&ui.arc_anim, current_value, target_percent);

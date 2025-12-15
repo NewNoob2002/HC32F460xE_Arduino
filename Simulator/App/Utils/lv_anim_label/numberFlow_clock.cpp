@@ -5,12 +5,12 @@
 #include "numberFlow_clock.h"
 
 numberFlow_clock::numberFlow_clock(const lv_font_t *font) : font(font),
-    cont(nullptr),
-    hour(nullptr),
-    minute(nullptr),
-    second(nullptr),
-    separator1(nullptr),
-    separator2(nullptr) {
+                                                            cont(nullptr),
+                                                            hour(nullptr),
+                                                            minute(nullptr),
+                                                            second(nullptr),
+                                                            separator1(nullptr),
+                                                            separator2(nullptr) {
     // 创建三个数字流组件
     hour = new numberFlow(font, 2);
     minute = new numberFlow(font, 2);

@@ -52,14 +52,15 @@ void numberFlow::setPos(const lv_align_t align, const lv_coord_t x, const lv_coo
     lv_obj_align(cont, align, x, y);
 }
 
-void numberFlow::setAlignTo(const lv_obj_t *base, const lv_align_t align, const lv_coord_t x, const lv_coord_t y) const {
+void numberFlow::setAlignTo(const lv_obj_t *base, const lv_align_t align, const lv_coord_t x,
+                            const lv_coord_t y) const {
     if (cont == nullptr) return;
     lv_obj_align_to(cont, base, align, x, y);
 }
 
 // 内部辅助：只针对需要改变的位启动动画
 void numberFlow::animateDigit(const int digit_index, const int target_val) const {
-    if (digit_index >= digit_labels.size() || digit_index < 0) return;
+    if (digit_index >= digit_labels.size()) return;
     if (digit_labels[digit_index] == nullptr) return;
 
     lv_obj_t *label = digit_labels[digit_index];
@@ -85,6 +86,22 @@ void numberFlow::animateDigit(const int digit_index, const int target_val) const
     lv_anim_start(&a);
 }
 
+// 内部辅助：隐藏/显示数字位
+void numberFlow::setDigitVisibility(const int digit_index, const bool visible) const {
+    if (digit_index >= digit_labels.size()) return;
+    if (digit_labels[digit_index] == nullptr) return;
+
+    // 获取数字位的容器（label 的父对象）
+    lv_obj_t *digit_cont = lv_obj_get_parent(digit_labels[digit_index]);
+    if (digit_cont == nullptr) return;
+
+    if (visible) {
+        lv_obj_clear_flag(digit_cont, LV_OBJ_FLAG_HIDDEN);
+    } else {
+        lv_obj_add_flag(digit_cont, LV_OBJ_FLAG_HIDDEN);
+    }
+}
+
 void numberFlow::setValue(const int target_value) const {
     if (digit_labels.empty()) return;
 
@@ -100,24 +117,39 @@ void numberFlow::setValue(const int target_value) const {
     // 根据位数拆分数字，只对改变的数字位启动动画
     switch (number_size) {
         case 1: {
-            int units = target_value % 10;
-            if (last_digits[0] != units) {
+            if (const int units = target_value % 10; last_digits[0] != units) {
                 animateDigit(0, units);
                 last_digits[0] = units;
             }
             break;
         }
         case 2: {
-            // 【修正数学逻辑】
             // digit_labels[0] 是左边的（十位）
             // digit_labels[1] 是右边的（个位）
             const int tens = (target_value / 10) % 10;
             const int units = target_value % 10;
 
-            if (last_digits[0] != tens) {
-                animateDigit(0, tens);
-                last_digits[0] = tens;
+            if (Hidden_high_position) {
+                // 如果十位是0，隐藏十位；否则显示十位
+                if (tens == 0) {
+                    setDigitVisibility(0, false);
+                } else {
+                    setDigitVisibility(0, true);
+                    if (last_digits[0] != tens) {
+                        animateDigit(0, tens);
+                        last_digits[0] = tens;
+                    }
+                }
+            } else {
+                // 正常显示所有位
+                setDigitVisibility(0, true);
+                if (last_digits[0] != tens) {
+                    animateDigit(0, tens);
+                    last_digits[0] = tens;
+                }
             }
+
+            // 个位始终更新
             if (last_digits[1] != units) {
                 animateDigit(1, units);
                 last_digits[1] = units;
@@ -129,14 +161,45 @@ void numberFlow::setValue(const int target_value) const {
             const int tens = (target_value / 10) % 10;
             const int units = target_value % 10;
 
-            if (last_digits[0] != hundreds) {
-                animateDigit(0, hundreds);
-                last_digits[0] = hundreds;
+            if (Hidden_high_position) {
+                // 如果百位是0，隐藏百位；否则显示百位
+                if (hundreds == 0) {
+                    setDigitVisibility(0, false);
+                    // 如果百位和十位都是0，也隐藏十位
+                    if (tens == 0) {
+                        setDigitVisibility(1, false);
+                    } else {
+                        setDigitVisibility(1, true);
+                        if (last_digits[1] != tens) {
+                            animateDigit(1, tens);
+                            last_digits[1] = tens;
+                        }
+                    }
+                } else {
+                    // 百位不为0，显示百位和十位
+                    setDigitVisibility(0, true);
+                    setDigitVisibility(1, true);
+                    if (last_digits[0] != hundreds) {
+                        animateDigit(0, hundreds);
+                        last_digits[0] = hundreds;
+                    }
+                    if (last_digits[1] != tens) {
+                        animateDigit(1, tens);
+                        last_digits[1] = tens;
+                    }
+                }
+            } else {
+                if (last_digits[0] != hundreds) {
+                    animateDigit(0, hundreds);
+                    last_digits[0] = hundreds;
+                }
+                if (last_digits[1] != tens) {
+                    animateDigit(1, tens);
+                    last_digits[1] = tens;
+                }
             }
-            if (last_digits[1] != tens) {
-                animateDigit(1, tens);
-                last_digits[1] = tens;
-            }
+
+            // 个位始终更新
             if (last_digits[2] != units) {
                 animateDigit(2, units);
                 last_digits[2] = units;
