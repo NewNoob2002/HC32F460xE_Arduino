@@ -44,9 +44,11 @@ static void FuncKey_callback(ButtonEvent *btn, int event)
     switch (event)
     {
     case ButtonEvent::EVENT_DOUBLE_CLICKED:
+				CORE_DEBUG_PRINTF("[FuncKey] Double Click\n");
         break;
     case ButtonEvent::EVENT_CLICKED:
-
+				CORE_DEBUG_PRINTF("[FuncKey] Single Click\n");
+				break;
     case ButtonEvent::EVENT_RELEASED:
         CORE_DEBUG_PRINTF("[FuncKey] Realse\n");
 				ForceShutdown_funckey = 0;

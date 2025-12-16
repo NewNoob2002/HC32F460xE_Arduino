@@ -32,6 +32,8 @@ static void Resource_Init() {
     IMPORT_FONT(rajdhaniBold_40);
     /* Import Fonts */
     IMPORT_SYMBOL(statusbar);
+    IMPORT_SYMBOL(dialplate);
+    IMPORT_SYMBOL(satellite);
     // /* Import Images */
     IMPORT_IMG(battery);
     IMPORT_IMG(locate);
@@ -40,6 +42,7 @@ static void Resource_Init() {
     IMPORT_IMG(start);
     IMPORT_IMG(stop);
     IMPORT_IMG(satellite);
+    IMPORT_IMG(device);
     IMPORT_IMG(startupLogo);
 }
 } /* extern "C" */

@@ -11,17 +11,17 @@ class Dialplate final : public PageBase
 {
 public:
     Dialplate();
-    virtual ~Dialplate();
+    ~Dialplate() override;
 
-    virtual void onCustomAttrConfig();
-    virtual void onViewLoad();
-    virtual void onViewDidLoad();
-    virtual void onViewWillAppear();
-    virtual void onViewDidAppear();
-    virtual void onViewWillDisappear();
-    virtual void onViewDidDisappear();
-    virtual void onViewUnload();
-    virtual void onViewDidUnload();
+    void onCustomAttrConfig() override;
+    void onViewLoad() override;
+    void onViewDidLoad() override;
+    void onViewWillAppear() override;
+    void onViewDidAppear() override;
+    void onViewWillDisappear() override;
+    void onViewDidDisappear() override;
+    void onViewUnload() override;
+    void onViewDidUnload() override;
 
 private:
     typedef enum
@@ -35,15 +35,16 @@ private:
     void AttachEvent(lv_obj_t* obj);
     static void onTimerUpdate(lv_timer_t* timer);
     static void onEvent(lv_event_t* event);
-    void onBtnClicked(lv_obj_t* btn);
+    void onBtnClicked(lv_obj_t* btn) const;
     void onRecord(bool longPress);
     void SetBtnRecImgSrc(const char* srcName);
 
 private:
-    DialplateView View;
+    DialplateView View{};
     DialplateModel Model;
-    lv_timer_t* timer;
+    lv_timer_t* timer{};
     RecordState_t recState;
+    PositionInfo_t positionInfo;
     lv_obj_t* lastFocus;
 };
 

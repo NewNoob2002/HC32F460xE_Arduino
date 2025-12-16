@@ -531,6 +531,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Pages/Dialplate</GroupName>
+          <Files>
+            <File>
+              <FileName>Dialplate.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\Dialplate\Dialplate.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>DialplateModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\Dialplate\DialplateModel.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>DialplateView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\Dialplate\DialplateView.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Resource</GroupName>
           <Files>
             <File>
@@ -589,11 +609,6 @@
               <FilePath>..\..\Simulator\App\Resource\img\img_src_battery.c</FilePath>
             </File>
             <File>
-              <FileName>img_src_location.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Simulator\App\Resource\img\img_src_location.c</FilePath>
-            </File>
-            <File>
               <FileName>img_src_menu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\img\img_src_menu.c</FilePath>
@@ -609,6 +624,11 @@
               <FilePath>..\..\Simulator\App\Resource\img\img_src_start.c</FilePath>
             </File>
             <File>
+              <FileName>img_src_stop.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_stop.c</FilePath>
+            </File>
+            <File>
               <FileName>img_src_startupLogo.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\img\img_src_startupLogo.c</FilePath>
@@ -617,6 +637,11 @@
               <FileName>img_src_satellite.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\img\img_src_satellite.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_locate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_locate.c</FilePath>
             </File>
           </Files>
         </Group>

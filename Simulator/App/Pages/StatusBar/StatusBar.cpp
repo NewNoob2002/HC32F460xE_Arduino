@@ -3,6 +3,9 @@
 //
 
 #include "StatusBar.h"
+
+#include <cstdio>
+
 #include "../Page.h"
 #include "Common/DataProc/DataProc.h"
 
@@ -12,6 +15,7 @@
 #define STATUS_BAR_HEIGHT 26
 
 static Account* actStatusBar;
+static bool StatusBarAppear = false;
 
 struct {
     lv_obj_t *cont;
@@ -267,7 +271,12 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
 void StatusBar_Appear(const bool en, const bool delay) {
     int32_t start = -STATUS_BAR_HEIGHT;
     int32_t end = 0;
+    if ((en && StatusBarAppear) || (!en && !StatusBarAppear)) {
+        return;
+    }
 
+    StatusBarAppear = en;
+    en? printf("StatusBarAppear\n"):printf("StatusBarDisAppear\n");
     if (!en) {
         const int32_t temp = start;
         start = end;
@@ -284,7 +293,10 @@ void StatusBar_Appear(const bool en, const bool delay) {
     else
         lv_anim_set_delay(&a, 0);
     lv_anim_set_exec_cb(&a, LV_ANIM_EXEC(y));
-    lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
+    if (en)
+        lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
+    else
+        lv_anim_set_path_cb(&a, lv_anim_path_overshoot);
     lv_anim_set_early_apply(&a, true);
     lv_anim_start(&a);
 }

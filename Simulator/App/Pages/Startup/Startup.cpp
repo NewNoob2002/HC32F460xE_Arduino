@@ -35,8 +35,6 @@ static void arc_angle_anim(void *obj, const int32_t v) {
 }
 
 
-bool Startup::StatusBarAppear = false;
-
 void Startup::onCustomAttrConfig() {
     SetCustomCacheEnable(false);
     SetCustomLoadAnimType(PageManager::LOAD_ANIM_NONE);
@@ -62,13 +60,11 @@ void Startup::onViewDidAppear() {
 }
 
 void Startup::onViewWillDisappear() {
+    lv_timer_del(timer);
+    Model.SetStatusBarAppear(false, false);
 }
 
 void Startup::onViewDidDisappear() {
-    lv_timer_del(timer);
-    if (StatusBarAppear) {
-        Model.SetStatusBarAppear(false, false);
-    }
 }
 
 void Startup::onViewUnload() {
@@ -83,10 +79,7 @@ void Startup::onTimer(lv_timer_t *timer) {
     auto *instance = static_cast<Startup *>(timer->user_data);
     instance->View.Update();
     if (lv_tick_get() >= 10000) {
-        if (!StatusBarAppear) {
-            instance->Model.SetStatusBarAppear(true, true);
-            StatusBarAppear = true;
-        }
+        instance->Model.SetStatusBarAppear(true, true);
     }
 }
 

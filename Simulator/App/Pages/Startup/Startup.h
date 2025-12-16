@@ -28,7 +28,6 @@ public:
     StartupView View{};
     StartupModel Model;
 
-    static bool StatusBarAppear;
 private:
     lv_timer_t* timer{};
     static void onTimer(lv_timer_t* timer);

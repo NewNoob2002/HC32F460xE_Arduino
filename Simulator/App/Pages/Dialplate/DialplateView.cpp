@@ -8,7 +8,6 @@ using namespace Page;
 void DialplateView::Create(lv_obj_t* root)
 {
     TopInfo_Create(root);
-    // BottomInfo_Create(root);
     BtnCont_Create(root);
 
     ui.anim_timeline = lv_anim_timeline_create();
@@ -19,16 +18,17 @@ void DialplateView::Create(lv_obj_t* root)
 #define ANIM_OPA_DEF(start_time, obj) \
     ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
-    lv_coord_t y_tar_top = lv_obj_get_y(ui.topInfo.cont);
-    // lv_coord_t y_tar_bottom = lv_obj_get_y(ui.bottomInfo.cont);
-    lv_coord_t h_tar_btn = lv_obj_get_height(ui.btnCont.btnRec);
+    const lv_coord_t y_tar_top = lv_obj_get_y(ui.topInfo.cont);
+    // const lv_coord_t h_satellite_icon = lv_obj_get_height(ui.topInfo.icon_satellite);
+    // const lv_coord_t h_number_cont = lv_obj_get_height(ui.topInfo.satellite_used->getCont());
+    const lv_coord_t h_tar_btn = lv_obj_get_height(ui.btnCont.btnRec);
 
-    lv_anim_timeline_wrapper_t wrapper[] =
+    const lv_anim_timeline_wrapper_t wrapper[] =
     {
         ANIM_DEF(0, ui.topInfo.cont, y, -lv_obj_get_height(ui.topInfo.cont), y_tar_top),
 
-        // ANIM_DEF(200, ui.bottomInfo.cont, y, -lv_obj_get_height(ui.bottomInfo.cont), y_tar_bottom),
-        // ANIM_OPA_DEF(200, ui.bottomInfo.cont),
+        // ANIM_DEF(200, ui.topInfo.icon_satellite, height, 0, h_satellite_icon),
+        // ANIM_DEF(300, ui.topInfo.satellite_used->getCont(), height, 0, h_number_cont),
 
         ANIM_DEF(500, ui.btnCont.btnMap, height, 0, h_tar_btn),
         ANIM_DEF(600, ui.btnCont.btnRec, height, 0, h_tar_btn),
@@ -60,77 +60,38 @@ void DialplateView::TopInfo_Create(lv_obj_t* par)
     lv_obj_set_y(cont, 26);
     ui.topInfo.cont = cont;
 
-    lv_obj_t* label = lv_label_create(cont);
-    lv_obj_set_style_text_font(label, ResourcePool::GetFont("rajdhaniBold_40"), 0);
-    lv_obj_set_style_text_color(label, lv_color_white(), 0);
-    lv_label_set_text(label, "00");
-    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
-    ui.topInfo.labelSpeed = label;
-}
 
-// void DialplateView::BottomInfo_Create(lv_obj_t* par)
-// {
-//     lv_obj_t* cont = lv_obj_create(par);
-//     lv_obj_remove_style_all(cont);
-//     lv_obj_set_style_bg_color(cont, lv_color_black(), 0);
-//     lv_obj_set_size(cont, LV_HOR_RES, 90);
-//     lv_obj_align(cont, LV_ALIGN_TOP_MID, 0, 106);
-//
-//     lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW_WRAP);
-//
-//     lv_obj_set_flex_align(
-//         cont,
-//         LV_FLEX_ALIGN_SPACE_EVENLY,
-//         LV_FLEX_ALIGN_CENTER,
-//         LV_FLEX_ALIGN_CENTER
-//     );
-//
-//     ui.bottomInfo.cont = cont;
-//
-//     const char* unitText[4] =
-//     {
-//         "AVG",
-//         "Time",
-//         "Trip",
-//         "Calorie"
-//     };
-//
-//     for (int i = 0; i < ARRAY_SIZE(ui.bottomInfo.labelInfoGrp); i++)
-//     {
-//         SubInfoGrp_Create(
-//             cont,
-//             &(ui.bottomInfo.labelInfoGrp[i]),
-//             unitText[i]
-//         );
-//     }
-// }
+    lv_obj_t *icon_satellite = lv_label_create(cont);
+    lv_obj_set_style_text_font(icon_satellite, ResourcePool::GetFont("satellite"), 0);
+    lv_obj_set_style_text_color(icon_satellite, lv_palette_main(LV_PALETTE_BLUE), 0);
+    lv_label_set_text(icon_satellite, CUSTOM_SYMBOL_SATELLITE);
+    lv_obj_align(icon_satellite, LV_ALIGN_LEFT_MID, 20, 0);
+    ui.topInfo.icon_satellite = icon_satellite;
 
-void DialplateView::SubInfoGrp_Create(lv_obj_t* par, SubInfo_t* info, const char* unitText)
-{
-    lv_obj_t* cont = lv_obj_create(par);
-    lv_obj_remove_style_all(cont);
-    lv_obj_set_size(cont, 93, 39);
+    const lv_font_t *font_large = ResourcePool::GetFont("rajdhaniBold_40");
+    const lv_font_t *font_small = ResourcePool::GetFont("rajdhaniBold_20");
 
-    lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(
-        cont,
-        LV_FLEX_ALIGN_SPACE_EVENLY,
-        LV_FLEX_ALIGN_CENTER,
-        LV_FLEX_ALIGN_CENTER
-    );
+    ui.topInfo.satellite_used = new numberFlow(font_large, 2);
+    ui.topInfo.satellite_used->create(cont);
+    ui.topInfo.satellite_used->setValue(0);
+    ui.topInfo.satellite_used->setAlignTo(icon_satellite, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
 
-    lv_obj_t* label = lv_label_create(cont);
-    lv_obj_set_style_text_font(label, ResourcePool::GetFont("bahnschrift_17"), 0);
-    lv_obj_set_style_text_color(label, lv_color_white(), 0);
-    info->lableValue = label;
+    lv_obj_t *separator = lv_label_create(cont);
+    lv_obj_remove_style_all(separator);
+    lv_obj_set_style_text_font(separator, ResourcePool::GetFont("oswaldBold_18"), 0);
+    lv_label_set_text(separator, "/");
+    lv_obj_align_to(separator, ui.topInfo.satellite_used->getCont(), LV_ALIGN_OUT_RIGHT_MID, 0, 10);
 
-    label = lv_label_create(cont);
-    lv_obj_set_style_text_font(label, ResourcePool::GetFont("bahnschrift_13"), 0);
-    lv_obj_set_style_text_color(label, lv_color_hex(0xb3b3b3), 0);
-    lv_label_set_text(label, unitText);
-    info->lableUnit = label;
+    ui.topInfo.satellite_tacked =  new numberFlow(font_small, 2);
+    ui.topInfo.satellite_tacked->create(cont);
+    ui.topInfo.satellite_tacked->setValue(0);
+    ui.topInfo.satellite_tacked->setAlignTo(separator, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
 
-    info->cont = cont;
+    lv_obj_t *icon_mode = lv_label_create(cont);
+    lv_obj_set_style_text_font(icon_mode, ResourcePool::GetFont("dialplate"), 0);
+    lv_obj_set_style_text_color(icon_mode, lv_palette_main(LV_PALETTE_BLUE), 0);
+    lv_label_set_text(icon_mode, CUSTOM_SYMBOL_ROVER);
+    lv_obj_align(icon_mode, LV_ALIGN_RIGHT_MID, -20, 0);
 }
 
 void DialplateView::BtnCont_Create(lv_obj_t* par)
@@ -155,7 +116,7 @@ void DialplateView::BtnCont_Create(lv_obj_t* par)
     ui.btnCont.btnMenu = Btn_Create(cont, ResourcePool::GetImage("menu"), 80);
 }
 
-lv_obj_t* DialplateView::Btn_Create(lv_obj_t* par, const void* img_src, lv_coord_t x_ofs)
+lv_obj_t* DialplateView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_t x_ofs)
 {
     lv_obj_t* obj = lv_obj_create(par);
     lv_obj_remove_style_all(obj);
@@ -191,7 +152,7 @@ lv_obj_t* DialplateView::Btn_Create(lv_obj_t* par, const void* img_src, lv_coord
     return obj;
 }
 
-void DialplateView::AppearAnimStart(bool reverse)
+void DialplateView::AppearAnimStart(const bool reverse) const
 {
     lv_anim_timeline_set_reverse(ui.anim_timeline, reverse);
     lv_anim_timeline_start(ui.anim_timeline);

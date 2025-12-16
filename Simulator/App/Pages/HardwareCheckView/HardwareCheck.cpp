@@ -58,7 +58,7 @@ void HardwareCheck::onViewDidUnload() {
 void HardwareCheck::onTimer(lv_timer_t *timer) {
     const auto* instance = static_cast<HardwareCheck *>(timer->user_data);
     instance->View.Update();
-    if (lv_tick_get() - last_check_time >= 3000) {
+    if (lv_tick_get() - last_check_time >= 25000) {
         instance->pageManager->Push("Pages/Dialplate");
     }
 }

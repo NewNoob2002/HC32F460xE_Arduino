@@ -1,5 +1,5 @@
-#ifndef __DIALPLATE_VIEW_H
-#define __DIALPLATE_VIEW_H
+#ifndef DIALPLATE_VIEW_H
+#define DIALPLATE_VIEW_H
 
 #include "../Page.h"
 
@@ -10,28 +10,15 @@ class DialplateView
 {
 
 public:
-    typedef struct
-    {
-        lv_obj_t* cont;
-        lv_obj_t* lableValue;
-        lv_obj_t* lableUnit;
-    } SubInfo_t;
-
-public:
     struct
     {
         struct
         {
             lv_obj_t* cont;
-            lv_obj_t* labelSpeed;
-            lv_obj_t* labelUint;
+            lv_obj_t* icon_satellite;
+            numberFlow* satellite_used;
+            numberFlow* satellite_tacked;
         } topInfo;
-
-        // struct
-        // {
-        //     lv_obj_t* cont;
-        //     SubInfo_t labelInfoGrp[4];
-        // } bottomInfo;
 
         struct
         {
@@ -46,16 +33,14 @@ public:
 
     void Create(lv_obj_t* root);
     void Delete();
-    void AppearAnimStart(bool reverse = false);
+    void AppearAnimStart(bool reverse = false) const;
 
 private:
     void TopInfo_Create(lv_obj_t* par);
-    // void BottomInfo_Create(lv_obj_t* par);
-    void SubInfoGrp_Create(lv_obj_t* par, SubInfo_t* info, const char* unitText);
     void BtnCont_Create(lv_obj_t* par);
-    lv_obj_t* Btn_Create(lv_obj_t* par, const void* img_src, lv_coord_t x_ofs);
+    static lv_obj_t* Btn_Create(lv_obj_t* par, const void* img_src, lv_coord_t x_ofs);
 };
 
 }
 
-#endif // !__VIEW_H
+#endif // DIALPLATE_VIEW_H

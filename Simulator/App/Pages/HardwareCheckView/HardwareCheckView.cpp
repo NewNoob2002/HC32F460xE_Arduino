@@ -3,6 +3,7 @@
 //
 
 #include "HardwareCheckView.h"
+#include <cstdlib>
 
 #define BAR_WIDTH   100
 
@@ -19,17 +20,17 @@ void HardwareCheckView::Create(lv_obj_t *root) {
     lv_obj_t* cont = lv_obj_create(cont_screen);
     lv_obj_remove_style_all(cont);
     lv_obj_clear_flag(cont, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_size(cont, 150, 50);
+    lv_obj_set_size(cont, 150, 70);
     lv_obj_set_style_border_color(cont, lv_color_hex(0x8BCA93), 0);
     lv_obj_set_style_border_side(cont, LV_BORDER_SIDE_BOTTOM, 0);
     lv_obj_set_style_border_width(cont, 3, 0);
     lv_obj_set_style_border_post(cont, true, 0);
-    lv_obj_center(cont);
+    lv_obj_align(cont, LV_ALIGN_TOP_MID, 0, 10);
 
     lv_obj_t* label = lv_label_create(cont);
-    lv_obj_set_style_text_font(label, ResourcePool::GetFont("oswaldBold_18"), 0);
-    lv_obj_set_style_text_color(label, lv_color_white(), 0);
-    lv_label_set_text(label, "SINGULARXYZ");
+    lv_obj_set_style_text_font(label, ResourcePool::GetFont("oswaldBold_12"), 0);
+    lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_RED), 0);
+    lv_label_set_text(label, "Warming: Don't Shutdown Now");
     lv_obj_center(label);
     ui.logo_label = label;
 
@@ -63,7 +64,7 @@ void HardwareCheckView::Create(lv_obj_t *root) {
 #define ANIM_DEF(start_time, obj, attr, start, end) \
 {start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
 
-    lv_anim_timeline_wrapper_t wrapper[] =
+    const lv_anim_timeline_wrapper_t wrapper[] =
     {
         ANIM_DEF(0, cont, width, 0, lv_obj_get_style_width(cont, 0)),
         ANIM_DEF(500, ui.logo_label, y, lv_obj_get_style_height(ui.cont, 0), lv_obj_get_y(ui.logo_label)),
@@ -87,6 +88,7 @@ void HardwareCheckView::Delete() {
         lv_anim_timeline_del(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
+    lv_anim_del(&ui.bar_anim, nullptr);
 }
 
 void HardwareCheckView::Update() const {
@@ -98,4 +100,7 @@ void HardwareCheckView::Update() const {
         lv_anim_timeline_start(ui.anim_timeline);
         lv_anim_start(&ui.bar_anim);
     }
+    static uint8_t check_time = 1;
+    check_time += 8;
+    lv_label_set_text_fmt(ui.bar_percent, "%d%%", check_time);
 }

@@ -9,11 +9,8 @@ namespace Page
 class DialplateModel
 {
 public:
-    DialplateModel() {
-
-    }
-    ~DialplateModel(){
-    }
+    DialplateModel() = default;
+    ~DialplateModel()= default;
     typedef enum
     {
         REC_START    = DataProc::RECORDER_CMD_START,
@@ -24,14 +21,13 @@ public:
     void Init();
     void Deinit();
 
-    bool GetGPSReady();
+    bool GetGPSInfo(PositionInfo_t* gps) const;
 
-    void RecorderCommand(RecCmd_t cmd);
-    void PlayMusic(const char* music);
-    void SetStatusBarStyle(DataProc::StatusBar_Style_t style);
+    void RecorderCommand(RecCmd_t cmd) const;
+    void SetStatusBarStyle(DataProc::StatusBar_Style_t style) const;
 
 private:
-    Account* account;
+    Account* account{};
 
 private:
     static int onEvent(Account* account, Account::EventParam_t* param);

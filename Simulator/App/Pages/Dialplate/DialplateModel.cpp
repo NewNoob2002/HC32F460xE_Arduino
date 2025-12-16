@@ -4,11 +4,9 @@ using namespace Page;
 
 void DialplateModel::Init() {
     account = new Account("DialplateModel", DataProc::Center(), 0, this);
-    account->Subscribe("SportStatus");
     account->Subscribe("Recorder");
     account->Subscribe("StatusBar");
     account->Subscribe("GPS");
-    account->Subscribe("MusicPlayer");
     account->SetEventCallback(onEvent);
 }
 
@@ -19,12 +17,11 @@ void DialplateModel::Deinit() {
     }
 }
 
-bool DialplateModel::GetGPSReady() {
-    PositionInfo_t gps;
-    if (account->Pull("GPS", &gps, sizeof(gps)) != Account::RES_OK) {
+bool DialplateModel::GetGPSInfo(PositionInfo_t* gps) const {
+    if (account->Pull("GPS", &gps, sizeof(PositionInfo_t)) != Account::RES_OK) {
         return false;
     }
-    return (gps.satellite_number_track > 0);
+    return (gps->satellite_number_track > 0);
 }
 
 int DialplateModel::onEvent(Account *account, Account::EventParam_t *param) {
@@ -32,12 +29,12 @@ int DialplateModel::onEvent(Account *account, Account::EventParam_t *param) {
         return Account::RES_UNSUPPORTED_REQUEST;
     }
 
-    DialplateModel *instance = (DialplateModel *) account->UserData;
+    auto *instance = (DialplateModel *) account->UserData;
 
     return Account::RES_OK;
 }
 
-void DialplateModel::RecorderCommand(RecCmd_t cmd) {
+void DialplateModel::RecorderCommand(RecCmd_t cmd) const {
     RecordInfo_t recInfo;
     DATA_PROC_INIT_STRUCT(recInfo);
     recInfo.cmd = static_cast<DataProc::Recorder_Cmd_t>(cmd);
@@ -61,15 +58,7 @@ void DialplateModel::RecorderCommand(RecCmd_t cmd) {
     account->Notify("StatusBar", &statInfo, sizeof(statInfo));
 }
 
-void DialplateModel::PlayMusic(const char *music) {
-    DataProc::MusicPlayer_Info_t info;
-    DATA_PROC_INIT_STRUCT(info);
-
-    info.music = music;
-    account->Notify("MusicPlayer", &info, sizeof(info));
-}
-
-void DialplateModel::SetStatusBarStyle(DataProc::StatusBar_Style_t style) {
+void DialplateModel::SetStatusBarStyle(const DataProc::StatusBar_Style_t style) const {
     DataProc::StatusBar_Info_t info;
     DATA_PROC_INIT_STRUCT(info);
 

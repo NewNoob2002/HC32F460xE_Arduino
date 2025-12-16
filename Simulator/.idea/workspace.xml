@@ -6,9 +6,9 @@
   <component name="BackendCodeEditorMiscSettings">
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
   </component>
-  <component name="CMakePresetLoader"><![CDATA[{
-  "useNewFormat": true
-}]]></component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
   <component name="CMakeProjectFlavorService">
     <option name="flavorId" value="CMakePlainProjectFlavor" />
   </component>
@@ -17,8 +17,8 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="lvgl" targetName="main" />
       <config projectName="lvgl" targetName="run" />
+      <config projectName="lvgl" targetName="main" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -28,22 +28,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb9296b5-62c7-49bf-9405-3d779f01f962" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL_Key.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL_Key.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/project/Listings/proj_hc32.map" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/Listings/proj_hc32.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvguix.gtc" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvguix.gtc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvoptx" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvoptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvprojx" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvprojx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Simulator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Simulator.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/App.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/App.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Startup/Startup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/Startup.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Startup/Startup.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/Startup.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/StatusBar/StatusBar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/StatusBar/StatusBar.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Resource/ResourcePool.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/ResourcePool.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_location.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_menu.c" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/img/img_src_menu.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_pause.c" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/img/img_src_pause.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_start.c" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/img/img_src_start.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/ResourcePool.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/ResourcePool.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/symbol/symbol_unicode.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/symbol/symbol_unicode.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lv_conf.h" beforeDir="false" afterPath="$PROJECT_DIR$/lv_conf.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,33 +66,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "NewNoob2002"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;NewNoob2002&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/NewNoob2002/HC32F460xE_Arduino.git",
-    "accountId": "27ede44c-cdc9-4a6d-82ed-7b9595df28d0"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/NewNoob2002/HC32F460xE_Arduino.git&quot;,
+    &quot;accountId&quot;: &quot;27ede44c-cdc9-4a6d-82ed-7b9595df28d0&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="lZJZHI7q" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -91,10 +93,10 @@
     <option name="minorVersion" value="2.5" />
     <option name="productBranch" value="Classic" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="36sqQUqvOfC5dJqYFRJcvca92h0" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -110,12 +112,14 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "RunOnceActivity.west.config.association.type.startup.service": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "newFramework",
     "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "D:/workspace/HC32F460xE_Arduino/Simulator/App/Resource/symbol",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -125,10 +129,19 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\symbol" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\symbol" />
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\img" />
+    </key>
+  </component>
   <component name="RunManager" selected="CMake 应用程序.main">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration name="main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="lvgl" TARGET_NAME="main" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="lvgl" RUN_TARGET_NAME="main">
@@ -154,6 +167,7 @@
       <option name="presentableId" value="Default" />
       <updated>1765805611682</updated>
       <workItem from="1765805613160" duration="3318000" />
+      <workItem from="1765847160226" duration="10321000" />
     </task>
     <servers />
   </component>

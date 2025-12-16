@@ -52,6 +52,7 @@ void App_Init()
 
     /* Set screen style */
     lv_disp_t *disp_p = lv_disp_get_default();
+    // lv_theme_t *theme = lv_theme_basic_init(disp_p);
     lv_theme_t *theme = lv_theme_default_init(
         disp_p, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
         true, LV_FONT_DEFAULT);
@@ -75,7 +76,6 @@ void App_Init()
     Page::StatusBar_Create(lv_layer_top());
 
     /* Initialize pages */
-    // manager.Install("Template",    "Pages/_Template");
     // manager.Install("LiveMap",     "Pages/LiveMap");
     manager.Install("Dialplate",   "Pages/Dialplate");
     // manager.Install("SystemInfos", "Pages/SystemInfos");

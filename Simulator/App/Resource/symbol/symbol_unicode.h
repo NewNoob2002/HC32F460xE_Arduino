@@ -21,6 +21,17 @@ extern "C" {
 #define CUSTOM_SYMBOL_SD_CARD "\xEE\xAD\x98"
 #endif
 
+#if !defined CUSTOM_SYMBOL_SATELLITE
+#define CUSTOM_SYMBOL_SATELLITE "\xEE\x99\xBA"
+#endif
+
+#if !defined CUSTOM_SYMBOL_ROVER
+#define CUSTOM_SYMBOL_ROVER "\xEE\xBB\x94"
+#endif
+
+#if !defined CUSTOM_SYMBOL_BASE
+#define CUSTOM_SYMBOL_BASE "\xEE\xA3\xAD"
+#endif
 #ifdef __cplusplus
 }
 #endif

@@ -1,5 +1,8 @@
 #include "Dialplate.h"
 
+#include <cstdio>
+#include <cstdlib>
+
 using namespace Page;
 
 Dialplate::Dialplate()
@@ -9,8 +12,7 @@ Dialplate::Dialplate()
 }
 
 Dialplate::~Dialplate()
-{
-}
+= default;
 
 void Dialplate::onCustomAttrConfig()
 {
@@ -72,7 +74,7 @@ void Dialplate::onViewWillDisappear()
     lastFocus = lv_group_get_focused(group);
     lv_group_remove_all_objs(group);
     lv_timer_del(timer);
-    //View.AppearAnimStart(true);
+    View.AppearAnimStart(true);
 }
 
 void Dialplate::onViewDidDisappear()
@@ -97,43 +99,31 @@ void Dialplate::AttachEvent(lv_obj_t* obj)
 
 void Dialplate::Update()
 {
-    // char buf[16];
-    // lv_label_set_text_fmt(View.ui.topInfo.labelSpeed, "%02d", (int)Model.GetSpeed());
-    //
-    // lv_label_set_text_fmt(View.ui.bottomInfo.labelInfoGrp[0].lableValue, "%0.1f km/h", Model.GetAvgSpeed());
-    // lv_label_set_text(
-    //     View.ui.bottomInfo.labelInfoGrp[1].lableValue,
-    //     DataProc::MakeTimeString(Model.sportStatusInfo.singleTime, buf, sizeof(buf))
-    // );
-    // lv_label_set_text_fmt(
-    //     View.ui.bottomInfo.labelInfoGrp[2].lableValue,
-    //     "%0.1f km",
-    //     Model.sportStatusInfo.singleDistance / 1000
-    // );
-    // lv_label_set_text_fmt(
-    //     View.ui.bottomInfo.labelInfoGrp[3].lableValue,
-    //     "%d k",
-    //     int(Model.sportStatusInfo.singleCalorie)
-    // );
+    Model.GetGPSInfo(&positionInfo);
+    View.ui.topInfo.satellite_used->setValue(positionInfo.satellite_number_used);
+    View.ui.topInfo.satellite_tacked->setValue(positionInfo.satellite_number_track);
+
 }
 
 void Dialplate::onTimerUpdate(lv_timer_t* timer)
 {
-    Dialplate* instance = (Dialplate*)timer->user_data;
+    auto* instance = static_cast<Dialplate *>(timer->user_data);
 
     instance->Update();
 }
 
-void Dialplate::onBtnClicked(lv_obj_t* btn)
+void Dialplate::onBtnClicked(lv_obj_t* btn) const
 {
-    // if (btn == View.ui.btnCont.btnMap)
-    // {
-    //     _Manager->Push("Pages/LiveMap");
-    // }
-    // else if (btn == View.ui.btnCont.btnMenu)
-    // {
-    //     _Manager->Push("Pages/SystemInfos");
-    // }
+    if (btn == View.ui.btnCont.btnMap)
+    {
+        printf("btnMap\n");
+        // pageManager->Push("Pages/LiveMap");
+    }
+    else if (btn == View.ui.btnCont.btnMenu)
+    {
+        printf("btnMenu\n");
+        // pageManager->Push("Pages/SystemInfos");
+    }
 }
 
 void Dialplate::onRecord(bool longPress)
@@ -143,18 +133,19 @@ void Dialplate::onRecord(bool longPress)
     case RECORD_STATE_START:
         if (!longPress)
         {
-            Model.RecorderCommand(Model.REC_START);
+            Model.RecorderCommand(Model.REC_STOP);
             SetBtnRecImgSrc("start");
-            recState = RECORD_STATE_START;
+            printf("stop record\n");
+            recState = RECORD_STATE_STOP;
         }
         break;
     case RECORD_STATE_STOP:
         if (longPress)
         {
-            Model.PlayMusic("Disconnect");
-            Model.RecorderCommand(Model.REC_STOP);
-            SetBtnRecImgSrc("start");
-            recState = RECORD_STATE_STOP;
+            Model.RecorderCommand(Model.REC_START);
+            SetBtnRecImgSrc("stop");
+            printf("start record\n");
+            recState = RECORD_STATE_START;
         }
         break;
     default:
@@ -169,11 +160,11 @@ void Dialplate::SetBtnRecImgSrc(const char* srcName)
 
 void Dialplate::onEvent(lv_event_t* event)
 {
-    Dialplate* instance = (Dialplate*)lv_event_get_user_data(event);
+    auto* instance = static_cast<Dialplate *>(lv_event_get_user_data(event));
     LV_ASSERT_NULL(instance);
 
     lv_obj_t* obj = lv_event_get_current_target(event);
-    lv_event_code_t code = lv_event_get_code(event);
+    const lv_event_code_t code = lv_event_get_code(event);
 
 
     if (code == LV_EVENT_SHORT_CLICKED)
