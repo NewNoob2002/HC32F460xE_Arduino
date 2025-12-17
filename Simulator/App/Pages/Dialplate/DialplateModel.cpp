@@ -4,9 +4,7 @@ using namespace Page;
 
 void DialplateModel::Init() {
     account = new Account("DialplateModel", DataProc::Center(), 0, this);
-    account->Subscribe("Recorder");
     account->Subscribe("StatusBar");
-    account->Subscribe("GPS");
     account->SetEventCallback(onEvent);
 }
 
@@ -17,19 +15,10 @@ void DialplateModel::Deinit() {
     }
 }
 
-bool DialplateModel::GetGPSInfo(PositionInfo_t* gps) const {
-    if (account->Pull("GPS", &gps, sizeof(PositionInfo_t)) != Account::RES_OK) {
-        return false;
-    }
-    return (gps->satellite_number_track > 0);
-}
-
 int DialplateModel::onEvent(Account *account, Account::EventParam_t *param) {
     if (param->event != Account::EVENT_PUB_PUBLISH) {
         return Account::RES_UNSUPPORTED_REQUEST;
     }
-
-    auto *instance = (DialplateModel *) account->UserData;
 
     return Account::RES_OK;
 }

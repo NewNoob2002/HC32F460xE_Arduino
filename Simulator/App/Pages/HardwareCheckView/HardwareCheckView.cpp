@@ -20,7 +20,7 @@ void HardwareCheckView::Create(lv_obj_t *root) {
     lv_obj_t* cont = lv_obj_create(cont_screen);
     lv_obj_remove_style_all(cont);
     lv_obj_clear_flag(cont, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_size(cont, 150, 70);
+    lv_obj_set_size(cont, 240, 70);
     lv_obj_set_style_border_color(cont, lv_color_hex(0x8BCA93), 0);
     lv_obj_set_style_border_side(cont, LV_BORDER_SIDE_BOTTOM, 0);
     lv_obj_set_style_border_width(cont, 3, 0);
@@ -28,9 +28,9 @@ void HardwareCheckView::Create(lv_obj_t *root) {
     lv_obj_align(cont, LV_ALIGN_TOP_MID, 0, 10);
 
     lv_obj_t* label = lv_label_create(cont);
-    lv_obj_set_style_text_font(label, ResourcePool::GetFont("oswaldBold_12"), 0);
+    lv_obj_set_style_text_font(label, ResourcePool::GetFont("oswaldBold_18"), 0);
     lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_RED), 0);
-    lv_label_set_text(label, "Warming: Don't Shutdown Now");
+    lv_label_set_text(label, "!Warming: Don't Shutdown Now");
     lv_obj_center(label);
     ui.logo_label = label;
 

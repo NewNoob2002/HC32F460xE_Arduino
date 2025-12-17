@@ -8,27 +8,24 @@ typedef enum
     GPS_STATUS_CONNECT,
 } GPS_Status_t;
 
+static GPS_Status_t nowStatus = GPS_STATUS_DISCONNECT;
+
 static void onTimer(Account* account)
 {
     const PositionInfo_t gpsInfo = systemInfo.positionInfo;
 
-    const int coordinate_status = gpsInfo.coordinate_status;
-
-    static GPS_Status_t nowStatus = GPS_STATUS_DISCONNECT;
-    static GPS_Status_t lastStatus = GPS_STATUS_DISCONNECT;
-
-    if (coordinate_status >= 4)
-    {
-        nowStatus = GPS_STATUS_CONNECT;
-    }
-    else if (coordinate_status == 1)
-    {
-        nowStatus = GPS_STATUS_UNSTABLE;
-    }
-    else if (coordinate_status == 0)
-    {
-        nowStatus = GPS_STATUS_DISCONNECT;
-    }
+    // if (const int coordinate_status = gpsInfo.coordinate_status; coordinate_status >= 4)
+    // {
+    //     nowStatus = GPS_STATUS_CONNECT;
+    // }
+    // else if (coordinate_status == 1)
+    // {
+    //     nowStatus = GPS_STATUS_UNSTABLE;
+    // }
+    // else if (coordinate_status == 0)
+    // {
+    //     nowStatus = GPS_STATUS_DISCONNECT;
+    // }
     account->Commit(&gpsInfo, sizeof(gpsInfo));
     account->Publish();
 }

@@ -35,15 +35,13 @@ do{ \
     DataProc::Center()->AccountMain.Notify(#ACT, &info, sizeof(info)); \
 }while(0)
 
-void App_Init()
-{
-    static AppFactory factory;
-    static PageManager manager(&factory);
+static AppFactory factory;
+static PageManager manager(&factory);
 
+void App_Init() {
     /* Make sure the default group exists */
-    if(!lv_group_get_default())
-    {
-        lv_group_t* group = lv_group_create();
+    if (!lv_group_get_default()) {
+        lv_group_t *group = lv_group_create();
         lv_group_set_default(group);
     }
 
@@ -76,10 +74,11 @@ void App_Init()
     Page::StatusBar_Create(lv_layer_top());
 
     /* Initialize pages */
-    // manager.Install("LiveMap",     "Pages/LiveMap");
-    manager.Install("Dialplate",   "Pages/Dialplate");
-    // manager.Install("SystemInfos", "Pages/SystemInfos");
-    manager.Install("Startup",     "Pages/Startup");
+    manager.Install("WorkSettings", "Pages/WorkSettings");
+    manager.Install("Dialplate", "Pages/Dialplate");
+    manager.Install("SystemInfos", "Pages/SystemInfos");
+    manager.Install("Shutdown", "Pages/Shutdown");
+    manager.Install("Startup", "Pages/Startup");
     manager.Install("HardwareCheck", "Pages/HardwareCheck");
 
     manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP);
@@ -87,9 +86,5 @@ void App_Init()
     manager.Push("Pages/Startup");
 }
 
-void App_Deinit()
-{
-    // ACCOUNT_SEND_CMD(SysConfig, SYSCONFIG_CMD_SAVE);
-    // ACCOUNT_SEND_CMD(Storage,   STORAGE_CMD_SAVE);
-    // ACCOUNT_SEND_CMD(Recorder,  RECORDER_CMD_STOP);
+void App_SecondInit() {
 }

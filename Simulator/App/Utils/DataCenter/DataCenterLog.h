@@ -23,14 +23,13 @@
 #ifndef __DATA_CENTER_LOG_H
 #define __DATA_CENTER_LOG_H
 
-#define DATA_CENTER_USE_LOG 0
+#define DATA_CENTER_USE_LOG 1
 
 #if DATA_CENTER_USE_LOG
-#include <cstdio>
-#  define DC_LOG(format, ...)       printf("[DC]" format "\r\n", ##__VA_ARGS__)
-#  define DC_LOG_INFO(format, ...)  DC_LOG("[Info] " format, ##__VA_ARGS__)
-#  define DC_LOG_WARN(format, ...)  DC_LOG("[Warn] " format, ##__VA_ARGS__)
-#  define DC_LOG_ERROR(format, ...) DC_LOG("[Error] " format, ##__VA_ARGS__)
+#include <elog.h>
+#  define DC_LOG_INFO(format, ...)  log_i("[DC] [Info] " format, ##__VA_ARGS__)
+#  define DC_LOG_WARN(format, ...)  log_w("[DC] [Warn] " format, ##__VA_ARGS__)
+#  define DC_LOG_ERROR(format, ...) log_e("[DC] [Error] " format, ##__VA_ARGS__)
 #else
 #  define DC_LOG_INFO(...)
 #  define DC_LOG_WARN(...)

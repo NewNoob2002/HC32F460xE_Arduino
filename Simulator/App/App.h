@@ -25,6 +25,6 @@
 #include "../Platform/Config/mcu_config.h"
 
 void App_Init(void);
-void App_Uninit(void);
+void App_SecondInit(void);
 
 #endif

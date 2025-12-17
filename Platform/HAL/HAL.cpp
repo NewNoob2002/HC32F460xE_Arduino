@@ -1,7 +1,7 @@
 #include "HAL.h"
 #include "Arduino.h"
 #include "MillisTaskManager/MillisTaskManager.h"
-#include "SEGGER_RTT.h"
+#include "elog.h"
 
 static MillisTaskManager taskManager;
 
@@ -20,7 +20,18 @@ void HAL::HAL_Init()
 		/* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
 		HAL_InitTick(TICK_INT_PRIORITY);
 
-		SEGGER_RTT_Init();
+			/* set EasyLogger log format */
+    elog_init();
+    /* set EasyLogger log format */
+    elog_set_fmt(ELOG_LVL_ASSERT, ELOG_FMT_ALL);
+    elog_set_fmt(ELOG_LVL_ERROR, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_WARN, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_INFO, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_DEBUG, ELOG_FMT_ALL & ~(ELOG_FMT_FUNC | ELOG_FMT_T_INFO | ELOG_FMT_P_INFO));
+    elog_set_fmt(ELOG_LVL_VERBOSE, ELOG_FMT_ALL & ~(ELOG_FMT_FUNC | ELOG_FMT_T_INFO | ELOG_FMT_P_INFO));
+    /* start EasyLogger */
+    elog_start();
+	
 		I2C_Scan();
 		Key_Init();
 	

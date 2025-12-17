@@ -30,8 +30,14 @@ extern "C" {
 #endif
 
 #if !defined CUSTOM_SYMBOL_BASE
-#define CUSTOM_SYMBOL_BASE "\xEE\xA3\xAD"
+#define CUSTOM_SYMBOL_BASE "\xEE\x99\x97"
 #endif
+
+#if !defined CUSTOM_SYMBOL_RADIO
+#define CUSTOM_SYMBOL_RADIO "\xEE\x98\x85"
+#endif
+
+
 #ifdef __cplusplus
 }
 #endif

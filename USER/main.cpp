@@ -15,7 +15,7 @@ SystemInfo_t systemInfo;
  * @retval int32_t return value, if needed
  */
 int main(void)
-{
+                                                     {
 	/* Peripheral registers write unprotected */
   LL_PERIPH_WE(EXAMPLE_PERIPH_WE);
 	disable_JTAG();
@@ -25,6 +25,7 @@ int main(void)
 	HAL::Display_Init();
 	App_Init();
 	HAL::Power_Init();
+//	App_SecondInit();
   /* Configure BSP */
 	slave_i2c_init();
 	/* Peripheral registers write protected */

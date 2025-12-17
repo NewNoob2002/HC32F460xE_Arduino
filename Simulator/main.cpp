@@ -12,8 +12,7 @@
 #include "lv_drivers/sdl/sdl.h"
 
 #include "../App/App.h"
-
-#include "Utils/lv_anim_label/numberFlow.h"
+#include "elog.h"
 /*********************
  *      DEFINES
  *********************/
@@ -55,14 +54,16 @@ SystemInfo_t systemInfo;
  *      VARIABLES
  **********************/
 extern void StatusBar_Appear(bool en);
+
 /**********************
  *  STATIC PROTOTYPES
  **********************/
 static void timer_callback(lv_timer_t *timer) {
- if (systemInfo.powerMonitor.PowerKey_PressCount < 100) {
-     systemInfo.powerMonitor.PowerKey_PressCount++;
- }
+    if (systemInfo.powerMonitor.PowerKey_PressCount < 100) {
+        systemInfo.powerMonitor.PowerKey_PressCount++;
+    }
 }
+
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/
@@ -75,12 +76,25 @@ static void timer_callback(lv_timer_t *timer) {
     lv_init();
     /*Initialize the HAL (display, input devices, tick) for LVGL*/
     hal_init();
-    // ui_init();
+    memset(&systemInfo, 0, sizeof(systemInfo));
+    /* set EasyLogger log format */
+    elog_init();
+    /* set EasyLogger log format */
+    elog_set_fmt(ELOG_LVL_ASSERT, ELOG_FMT_ALL);
+    elog_set_fmt(ELOG_LVL_ERROR, ELOG_FMT_LVL | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_WARN, ELOG_FMT_LVL | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_INFO, ELOG_FMT_LVL | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_DEBUG, ELOG_FMT_ALL & ~(ELOG_FMT_FUNC | ELOG_FMT_T_INFO | ELOG_FMT_P_INFO));
+    elog_set_fmt(ELOG_LVL_VERBOSE, ELOG_FMT_ALL & ~(ELOG_FMT_FUNC | ELOG_FMT_T_INFO | ELOG_FMT_P_INFO));
+    /* start EasyLogger */
+    elog_start();
     App_Init();
-    lv_timer_t *timer = lv_timer_create(timer_callback, 50, nullptr);
-    lv_timer_ready(timer);
-    systemInfo.powerMonitor.batteryInfo.chargeStatus = normalCharge;
-    systemInfo.powerMonitor.batteryInfo.Percent = 87;
+ systemInfo.powerMonitor.panel_power_on = true;
+ App_SecondInit();
+    // lv_timer_t *timer = lv_timer_create(timer_callback, 50, nullptr);
+    // lv_timer_ready(timer);
+    // systemInfo.powerMonitor.batteryInfo.chargeStatus = normalCharge;
+    systemInfo.powerMonitor.batteryInfo.Percent = 18;
     while (true) {
         /* Periodically call the lv_task handler.
          * It could be done in a timer interrupt or an OS task too.*/

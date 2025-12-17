@@ -16,6 +16,8 @@ public:
         {
             lv_obj_t* cont;
             lv_obj_t* icon_satellite;
+            lv_obj_t* icon_radio;
+            lv_obj_t* icon_mode;
             numberFlow* satellite_used;
             numberFlow* satellite_tacked;
         } topInfo;
@@ -26,6 +28,7 @@ public:
             lv_obj_t* btnMap;
             lv_obj_t* btnRec;
             lv_obj_t* btnMenu;
+            lv_obj_t* btnShutdown;
         } btnCont;
 
         lv_anim_timeline_t* anim_timeline;

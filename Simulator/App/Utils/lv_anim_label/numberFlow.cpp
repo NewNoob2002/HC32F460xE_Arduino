@@ -67,7 +67,7 @@ void numberFlow::animateDigit(const uint32_t digit_index, const uint32_t target_
     const lv_coord_t font_height = font->line_height;
 
     // 先删除该 label 上可能存在的旧动画，避免冲突
-    lv_anim_del(label, (lv_anim_exec_xcb_t) lv_anim_label_set_y);
+    lv_anim_del(label, lv_anim_label_set_y);
 
     // 删除动画后，获取当前实际位置
     const lv_coord_t current_y = lv_obj_get_y(label);

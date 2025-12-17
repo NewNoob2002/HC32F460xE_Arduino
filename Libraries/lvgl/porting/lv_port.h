@@ -9,6 +9,7 @@ extern "C" {
 void lv_port_init();
 	
 void lv_port_disp_init();
+void lv_port_indev_init();
 void spi_dma_trans(void *buf, uint16_t len);
 #ifdef __cplusplus
 }

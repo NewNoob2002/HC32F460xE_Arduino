@@ -102,12 +102,12 @@ typedef struct NtripInfo_t {
     uint8_t NtripClient_Mountpoint[32];
 } NtripInfo_t;
 
-typedef enum work_mode_t {
+typedef enum WorkMode_t {
     rover_mode = 0,
     base_mode,
     single_mode,
     autobase_mode
-} work_mode_t;
+} WorkMode_t;
 
 typedef struct SystemInfo_t {
     bool eg25_overtime;
@@ -122,7 +122,7 @@ typedef struct SystemInfo_t {
     RadioInfo_t radioInfo;
     Power_Monitor_t powerMonitor;
     NtripInfo_t ntripInfo;
-    work_mode_t work_mode;
+    WorkMode_t work_mode;
 } SystemInfo_t, *pSystemInfo_t;
 
 extern SystemInfo_t systemInfo;

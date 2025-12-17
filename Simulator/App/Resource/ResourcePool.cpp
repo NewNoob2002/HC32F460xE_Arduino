@@ -36,13 +36,24 @@ static void Resource_Init() {
     IMPORT_SYMBOL(satellite);
     // /* Import Images */
     IMPORT_IMG(battery);
-    IMPORT_IMG(locate);
+    IMPORT_IMG(battery_info);
+    IMPORT_IMG(setting);
     IMPORT_IMG(menu);
-    IMPORT_IMG(pause);
     IMPORT_IMG(start);
     IMPORT_IMG(stop);
     IMPORT_IMG(satellite);
-    IMPORT_IMG(device);
+    IMPORT_IMG(map_location);
+    IMPORT_IMG(battery_info);
+    IMPORT_IMG(storage);
+    IMPORT_IMG(system_info);
+    IMPORT_IMG(wifi);
+    IMPORT_IMG(workmode);
+    IMPORT_IMG(up);
+    IMPORT_IMG(down);
+    IMPORT_IMG(reset);
+    IMPORT_IMG(back);
+    IMPORT_IMG(shutdown);
+
     IMPORT_IMG(startupLogo);
 }
 } /* extern "C" */

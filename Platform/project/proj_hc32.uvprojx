@@ -337,9 +337,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111,__CORE_DEBUG, __DEBUG</Define>
+              <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\HC32F460xE_Arduino;..\..\Simulator\App;..\..\USER\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Platform;..\support;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50</IncludePath>
+              <IncludePath>..\..\..\HC32F460xE_Arduino;..\..\Simulator\App;..\..\USER\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Platform;..\support;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\..\Libraries\easylogger\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -424,11 +424,6 @@
               <FilePath>..\..\Simulator\App\Common\DataProc\DataProc.cpp</FilePath>
             </File>
             <File>
-              <FileName>DP_GPS.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\..\Simulator\App\Common\DataProc\DP_GPS.cpp</FilePath>
-            </File>
-            <File>
               <FileName>DP_LIST.inc</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\Simulator\App\Common\DataProc\DP_LIST.inc</FilePath>
@@ -437,11 +432,6 @@
               <FileName>DP_Power.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\Simulator\App\Common\DataProc\DP_Power.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>DP_Recorder.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\..\Simulator\App\Common\DataProc\DP_Recorder.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -551,6 +541,66 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Pages/SystemInfos</GroupName>
+          <Files>
+            <File>
+              <FileName>SystemInfos.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\SystemInfos\SystemInfos.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SystemInfosModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\SystemInfos\SystemInfosModel.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SystemInfosView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\SystemInfos\SystemInfosView.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Pages/WorkSettings</GroupName>
+          <Files>
+            <File>
+              <FileName>WorkSettings.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\WorkSettings\WorkSettings.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WorkSettingsModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\WorkSettings\WorkSettingsModel.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WorkSettingsView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\WorkSettings\WorkSettingsView.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Pages/Shutdown</GroupName>
+          <Files>
+            <File>
+              <FileName>Shutdown.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\Shutdown\Shutdown.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ShutdownModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\Shutdown\ShutdownModel.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ShutdownView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\Shutdown\ShutdownView.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Resource</GroupName>
           <Files>
             <File>
@@ -569,9 +619,9 @@
           <GroupName>Resource/Font</GroupName>
           <Files>
             <File>
-              <FileName>font_oswaldBold_12 .c</FileName>
+              <FileName>font_oswaldBold_12.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Simulator\App\Resource\font\font_oswaldBold_12 .c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\font\font_oswaldBold_12.c</FilePath>
             </File>
             <File>
               <FileName>font_oswaldBold_18.c</FileName>
@@ -598,15 +648,45 @@
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\symbol\symbol_statusbar.c</FilePath>
             </File>
+            <File>
+              <FileName>symbol_dialplate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\symbol\symbol_dialplate.c</FilePath>
+            </File>
+            <File>
+              <FileName>symbol_satellite.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\symbol\symbol_satellite.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Resource/Image</GroupName>
           <Files>
             <File>
+              <FileName>img_src_back.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_back.c</FilePath>
+            </File>
+            <File>
               <FileName>img_src_battery.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\img\img_src_battery.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_battery_info.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_battery_info.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_down.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_down.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_map_location.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_map_location.c</FilePath>
             </File>
             <File>
               <FileName>img_src_menu.c</FileName>
@@ -614,24 +694,9 @@
               <FilePath>..\..\Simulator\App\Resource\img\img_src_menu.c</FilePath>
             </File>
             <File>
-              <FileName>img_src_pause.c</FileName>
+              <FileName>img_src_reset.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Simulator\App\Resource\img\img_src_pause.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_start.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Simulator\App\Resource\img\img_src_start.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_stop.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Simulator\App\Resource\img\img_src_stop.c</FilePath>
-            </File>
-            <File>
-              <FileName>img_src_startupLogo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Simulator\App\Resource\img\img_src_startupLogo.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_reset.c</FilePath>
             </File>
             <File>
               <FileName>img_src_satellite.c</FileName>
@@ -639,9 +704,59 @@
               <FilePath>..\..\Simulator\App\Resource\img\img_src_satellite.c</FilePath>
             </File>
             <File>
-              <FileName>img_src_locate.c</FileName>
+              <FileName>img_src_sd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Simulator\App\Resource\img\img_src_locate.c</FilePath>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_sd.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_setting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_setting.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_start.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_start.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_startupLogo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_startupLogo.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_stop.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_stop.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_storage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_storage.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_system_info.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_system_info.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_up.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_up.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_wifi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_wifi.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_workmode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_workmode.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_shutdown.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_shutdown.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1245,6 +1360,26 @@
               <FileName>MillisTaskManager.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>elog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\easylogger\src\elog.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\easylogger\src\elog_utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\easylogger\port\elog_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>elog_buf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Libraries\easylogger\src\elog_buf.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1955,6 +2090,11 @@
               <FileName>lv_port_disp.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\Libraries\lvgl\porting\lv_port_disp.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>lv_port_indev.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\lvgl\porting\lv_port_indev.cpp</FilePath>
             </File>
           </Files>
         </Group>

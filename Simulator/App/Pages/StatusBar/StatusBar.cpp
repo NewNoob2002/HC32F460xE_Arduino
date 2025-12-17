@@ -136,17 +136,18 @@ static void StatusBar_Update(lv_timer_t *timer) {
     //     lv_label_set_text_fmt(ui.satellite.label, "%d", gps.satellites);
     // }
     //
+    /* record */
+    // if (systemInfo.recordInfo.record_status == 1)
+    //     lv_obj_set_style_text_color(ui.sd_icon, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
+    // else
+    //     lv_obj_set_style_text_color(ui.sd_icon, lv_color_white(), LV_STATE_DEFAULT);
 
-    if (systemInfo.recordInfo.record_status == 1)
-        lv_obj_set_style_text_color(ui.sd_icon, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
+    /* record */
+    if (systemInfo.wifiInfo.wifi_status == 1)
+        lv_obj_set_style_text_color(ui.wifi_icon, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
     else
-        lv_obj_set_style_text_color(ui.sd_icon, lv_palette_main(LV_PALETTE_GREY), LV_STATE_DEFAULT);
-    // DataProc::Storage_Basic_Info_t sdInfo;
-    // if(actStatusBar->Pull("Storage", &sdInfo, sizeof(sdInfo)) == Account::RES_OK)
-    // {
-    //     sdInfo.isDetect ? lv_obj_clear_state(ui.imgSD, LV_STATE_DISABLED) : lv_obj_add_state(ui.imgSD, LV_STATE_DISABLED);
-    // }
-    //
+        lv_obj_set_style_text_color(ui.wifi_icon, lv_color_white(), LV_STATE_DEFAULT);
+
     /* clock */
     makeTime_t clock;
     MakeTime(lv_tick_get(), &clock);
@@ -165,6 +166,7 @@ static void StatusBar_Update(lv_timer_t *timer) {
     static bool Is_BattChargingAnimActive = false;
     if (Is_BattCharging) {
         if (!Is_BattChargingAnimActive) {
+            lv_obj_set_style_bg_color(contBatt,  lv_color_hex(0x4CAF50), 0);
             StatusBar_AnimCreate(contBatt);
             Is_BattChargingAnimActive = true;
         }
@@ -174,6 +176,15 @@ static void StatusBar_Update(lv_timer_t *timer) {
             StatusBar_ConBattSetOpa(contBatt, LV_OPA_COVER);
             Is_BattChargingAnimActive = false;
         }
+        lv_color_t battery_color;
+        if (const uint16_t battery_percentage = systemInfo.powerMonitor.batteryInfo.Percent; battery_percentage > 50) {
+            battery_color = lv_color_hex(0x4CAF50); // 绿色
+        } else if (battery_percentage > 20 && battery_percentage <= 50) {
+            battery_color = lv_color_hex(0xFF9800); // 橙色
+        } else if (battery_percentage <= 20) {
+            battery_color = lv_color_hex(0xF44336); // 红色
+        }
+        lv_obj_set_style_bg_color(contBatt,  battery_color, 0);
         const lv_coord_t width = lv_map(systemInfo.powerMonitor.batteryInfo.Percent, 0, 100, 0, BATT_USAGE_WIDTH);
         lv_obj_set_width(contBatt, width);
     }
@@ -225,7 +236,7 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
     lv_obj_t *sd_icon = lv_label_create(cont);
     lv_obj_remove_style_all(sd_icon);
     lv_obj_set_style_text_font(sd_icon, statusBar_font, 0);
-    lv_obj_set_style_text_color(sd_icon, lv_palette_main(LV_PALETTE_GREY), LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(sd_icon, lv_color_white(), LV_STATE_DEFAULT);
     lv_label_set_text(sd_icon, CUSTOM_SYMBOL_SD_CARD);
     lv_obj_align_to(sd_icon, ui.clock->getCont(), LV_ALIGN_OUT_RIGHT_MID, 5, 0);
     ui.sd_icon = sd_icon;
@@ -233,7 +244,7 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
     lv_obj_t *wifi_icon = lv_label_create(cont);
     lv_obj_remove_style_all(wifi_icon);
     lv_obj_set_style_text_font(wifi_icon, statusBar_font, 0);
-    lv_obj_set_style_text_color(wifi_icon, lv_palette_main(LV_PALETTE_GREY), LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(wifi_icon, lv_color_white(), LV_STATE_DEFAULT);
     lv_label_set_text(wifi_icon, CUSTOM_SYMBOL_WIFI);
     lv_obj_align_to(wifi_icon, sd_icon, LV_ALIGN_OUT_RIGHT_MID, 2, 0);
     ui.wifi_icon = wifi_icon;
@@ -276,7 +287,6 @@ void StatusBar_Appear(const bool en, const bool delay) {
     }
 
     StatusBarAppear = en;
-    en? printf("StatusBarAppear\n"):printf("StatusBarDisAppear\n");
     if (!en) {
         const int32_t temp = start;
         start = end;
@@ -301,6 +311,19 @@ void StatusBar_Appear(const bool en, const bool delay) {
     lv_anim_start(&a);
 }
 
+static void StatusBar_SetRecord(const bool active) {
+    if (active) {
+        lv_obj_set_style_text_color(ui.sd_icon, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
+        systemInfo.recordInfo.record_status = 1;
+        systemInfo.panel_operation_flag = 1;
+    }else {
+        lv_obj_set_style_text_color(ui.sd_icon, lv_color_white(), LV_STATE_DEFAULT);
+        systemInfo.recordInfo.record_status = 1;
+        systemInfo.panel_operation_flag = 1;
+    }
+
+}
+
 static int onEvent(Account* account, Account::EventParam_t* param)
 {
     if (param->event != Account::EVENT_NOTIFY)
@@ -322,6 +345,7 @@ static int onEvent(Account* account, Account::EventParam_t* param)
             StatusBar_SetStyle(info->param.style);
             break;
         case DataProc::STATUS_BAR_CMD_SET_LABEL_REC:
+            StatusBar_SetRecord(info->param.record_active);
             break;
         default:
             return Account::RES_PARAM_ERROR;
@@ -332,7 +356,7 @@ static int onEvent(Account* account, Account::EventParam_t* param)
 
 DATA_PROC_INIT_DEF(StatusBar)
 {
-    account->Subscribe("GPS");
+//    account->Subscribe("GPS");
     account->Subscribe("Power");
     account->SetEventCallback(onEvent);
 

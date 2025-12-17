@@ -37,14 +37,13 @@ private:
     static void onEvent(lv_event_t* event);
     void onBtnClicked(lv_obj_t* btn) const;
     void onRecord(bool longPress);
-    void SetBtnRecImgSrc(const char* srcName);
+    void SetBtnRecImgSrc(const char* srcName) const;
 
 private:
     DialplateView View{};
     DialplateModel Model;
     lv_timer_t* timer{};
     RecordState_t recState;
-    PositionInfo_t positionInfo;
     lv_obj_t* lastFocus;
 };
 

@@ -28,15 +28,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb9296b5-62c7-49bf-9405-3d779f01f962" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/../Arduino/core_debug.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino/core_debug.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/ButtonEvent/ButtonEvent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/ButtonEvent/ButtonEvent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/ButtonEvent/ButtonEvent.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/ButtonEvent/ButtonEvent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/lvgl/lv_conf.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/lvgl/lv_conf.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/lvgl/porting/lv_port.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/lvgl/porting/lv_port.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/lvgl/porting/lv_port.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/lvgl/porting/lv_port.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/lvgl/porting/lv_port_disp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/lvgl/porting/lv_port_disp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/Config/mcu_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/Config/mcu_config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/Config/mcu_define.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/Config/mcu_define.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL_Key.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL_Key.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL_Power.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL_Power.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/project/JLinkLog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/JLinkLog.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Platform/project/Listings/proj_hc32.map" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/Listings/proj_hc32.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvguix.gtc" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvguix.gtc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvoptx" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvoptx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvprojx" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvprojx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Simulator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Simulator.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/App.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/App.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/App.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/App.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Common/DataProc/DP_GPS.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Common/DataProc/DP_GPS.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Common/DataProc/DP_LIST.inc" beforeDir="false" afterPath="$PROJECT_DIR$/App/Common/DataProc/DP_LIST.inc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/APPFactory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/APPFactory.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.cpp" afterDir="false" />
@@ -44,15 +59,30 @@
       <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Page.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Page.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/Startup/Startup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/Startup.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App/Pages/Startup/Startup.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/Startup.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Pages/StatusBar/StatusBar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/StatusBar/StatusBar.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Resource/ResourcePool.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/ResourcePool.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Resource/ResourcePool.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/ResourcePool.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/font/font_oswaldBold_12 .c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_device.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_locate.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_pause.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_satellite.c" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/img/img_src_satellite.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/symbol/symbol_dialplate.c" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/App/Resource/symbol/symbol_unicode.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/symbol/symbol_unicode.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Utils/DataCenter/DataCenterLog.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Utils/DataCenter/DataCenterLog.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Utils/PageManager/PM_Log.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Utils/PageManager/PM_Log.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Utils/PageManager/PageManager_Base.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Utils/PageManager/PageManager_Base.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Utils/lv_anim_label/numberFlow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Utils/lv_anim_label/numberFlow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lv_conf.h" beforeDir="false" afterPath="$PROJECT_DIR$/lv_conf.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../USER/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../USER/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../USER/src/message_decode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../USER/src/message_decode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../USER/src/slave_i2c.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../USER/src/slave_i2c.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +113,33 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/App/Resource/img/img_src_startupLogo.c" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="lZJZHI7q" />
@@ -104,7 +161,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "CMake 应用程序.main.executor": "Run",
+    "CMake 应用程序.main.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -114,12 +171,13 @@
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "RunOnceActivity.west.config.association.type.startup.service": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "newFramework",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "D:/workspace/HC32F460xE_Arduino/Simulator/App/Resource/symbol",
+    "last_opened_file_path": "D:/workspace/HC32F460xE_Arduino/Simulator/App/Pages",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -131,6 +189,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Pages" />
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\img" />
       <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\symbol" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -168,6 +228,8 @@
       <updated>1765805611682</updated>
       <workItem from="1765805613160" duration="3318000" />
       <workItem from="1765847160226" duration="10321000" />
+      <workItem from="1765857634489" duration="36739000" />
+      <workItem from="1765963949134" duration="5799000" />
     </task>
     <servers />
   </component>
@@ -178,6 +240,27 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/App/Pages/Shutdown/Shutdown.cpp</url>
+          <line>12</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.cpp</url>
+          <line>26</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="CMakeRunConfiguration">
+        <watch expression="@ ALREADY PREPROCESSED @manager" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

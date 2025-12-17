@@ -5,12 +5,17 @@
 using namespace Page;
 
 static std::function<void(void *e)> completion_callback = nullptr;
-
+static bool arc_complement_callback_do = false;
 
 static void arc_complement_callback(void *e) {
     systemInfo.powerMonitor.panel_power_on = true;
-    const auto *instance = static_cast<Startup *>(e);
-    instance->pageManager->Push("Pages/HardwareCheck");
+		if(!arc_complement_callback_do)
+    {
+			arc_complement_callback_do = true;
+			systemInfo.powerMonitor.panel_power_on = true;
+			const auto *instance = static_cast<Startup *>(e);
+			instance->pageManager->Push("Pages/HardwareCheck");
+		}
 }
 
 static void arc_angle_anim(void *obj, const int32_t v) {
@@ -78,7 +83,9 @@ void Startup::onViewDidUnload() {
 void Startup::onTimer(lv_timer_t *timer) {
     auto *instance = static_cast<Startup *>(timer->user_data);
     instance->View.Update();
-    if (lv_tick_get() >= 10000) {
+		static bool StatusBarAppear = false;
+    if (lv_tick_get() >= 10000 && !StatusBarAppear) {
+				StatusBarAppear = true;
         instance->Model.SetStatusBarAppear(true, true);
     }
 }

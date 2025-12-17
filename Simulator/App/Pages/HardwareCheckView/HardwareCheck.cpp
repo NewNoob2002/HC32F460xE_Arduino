@@ -16,6 +16,7 @@ void HardwareCheck::onCustomAttrConfig() {
 void HardwareCheck::onViewLoad() {
     Model.Init();
     View.Create(_root);
+    lv_obj_fade_in(_root, 300, 0);
     timer = lv_timer_create(onTimer, 2000, this);
     lv_timer_resume(timer);
     last_check_time = lv_tick_get();
@@ -58,7 +59,7 @@ void HardwareCheck::onViewDidUnload() {
 void HardwareCheck::onTimer(lv_timer_t *timer) {
     const auto* instance = static_cast<HardwareCheck *>(timer->user_data);
     instance->View.Update();
-    if (lv_tick_get() - last_check_time >= 25000) {
+    if (lv_tick_get() - last_check_time >= 2500) {
         instance->pageManager->Push("Pages/Dialplate");
     }
 }

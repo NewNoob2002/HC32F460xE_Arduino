@@ -25,10 +25,11 @@ void spi_dma_trans(void *buf, uint16_t len)
     DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
 
     SPI_Cmd(SPI_CLASS_3_SPI, ENABLE);
-    //	while(DMA_GetTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0) == RESET)
-    //	{
-    //	}
-    //	DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
+//    while(DMA_GetTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0) == RESET)
+//    {
+//    }
+//    DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
+//		lv_disp_flush_ready(disp_drv_p);
 }
 static inline uint16_t LCD_PointConv(const uint32_t point) {
     return ( ((point >> 16 & 0xF8) << 8)   // 高8位分量

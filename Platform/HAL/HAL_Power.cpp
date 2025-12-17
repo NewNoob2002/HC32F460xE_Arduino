@@ -43,6 +43,7 @@ void HAL::Power_Init()
 void HAL::Power_Shutdown()
 {
     CM_EXECUTE_ONCE(systemInfo.powerMonitor.ShutdownReq = true);
+		digitalWrite(POWER_CONTROL_PIN, LOW);
 }
 
 void HAL::Power_Update()
@@ -83,7 +84,7 @@ void HAL::WatchDog_Feed()
 	{
 		systemInfo.powerMonitor.WatchDogLastFeedTime = millis();
 		digitalToggle(WATCHDOG_FEED_PIN);
-		CORE_DEBUG_PRINTF("[%d] WatchDog Feed\n", millis());
+//		CORE_DEBUG_PRINTF("[%d] WatchDog Feed\n", millis());
 	}
 }
 

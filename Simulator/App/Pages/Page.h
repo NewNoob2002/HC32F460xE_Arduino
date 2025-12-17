@@ -25,7 +25,9 @@
 
 #include "lvgl/lvgl.h"
 #include "Utils/PageManager/PageManager.h"
+#include "Utils/PageManager/PM_Log.h"
 #include "../../Platform/Config/mcu_config.h"
+#include "../../Platform/HAL/HAL.h"
 #include "Utils/lv_ext/lv_obj_ext_func.h"
 #include "Utils/lv_anim_label/numberFlow.h"
 #include "Utils/lv_anim_label/numberFlow_clock.h"

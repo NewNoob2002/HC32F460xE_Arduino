@@ -19,6 +19,10 @@ file(GLOB_RECURSE UI_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/App/*.cpp
         ${CMAKE_CURRENT_LIST_DIR}/App/Utils/*.hpp
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/support/support.c
+        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog.c
+        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog_utils.c
+        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog_async.c
+        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/port/*.c
 )
 
 include_directories(
@@ -30,6 +34,7 @@ include_directories(
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/support
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/Config
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/HAL
+        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/inc
 )
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)

@@ -7,7 +7,7 @@
 using namespace Page;
 
 void HardwareCheckModel::Init() {
-    account = new Account("StartupModel", DataProc::Center(), 0, this);
+    account = new Account("HardwareCheck", DataProc::Center(), 0, this);
     account->Subscribe("StatusBar");
 }
 

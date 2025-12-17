@@ -21,8 +21,6 @@ public:
     void Init();
     void Deinit();
 
-    bool GetGPSInfo(PositionInfo_t* gps) const;
-
     void RecorderCommand(RecCmd_t cmd) const;
     void SetStatusBarStyle(DataProc::StatusBar_Style_t style) const;
 
