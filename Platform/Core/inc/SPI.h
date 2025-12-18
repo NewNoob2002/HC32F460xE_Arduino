@@ -36,6 +36,11 @@
     do {                                               \
         while (SPI_I2S_GET_FLAG(spix, SPI_FLAG_IDLE)); \
     } while (0)
+		
+#define SPI_I2S_WAIT_IDLE(spix)                        \
+    do {                                               \
+        while (!SPI_I2S_GET_FLAG(spix, SPI_FLAG_IDLE)); \
+    } while (0)
 
 typedef enum {
     SPI_MODE0,

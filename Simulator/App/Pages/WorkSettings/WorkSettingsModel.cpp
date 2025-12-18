@@ -3,9 +3,7 @@
 using namespace Page;
 
 WorkSettingsModel::WorkSettingsModel()
-{
-
-}
+= default;
 
 void WorkSettingsModel::Init()
 {

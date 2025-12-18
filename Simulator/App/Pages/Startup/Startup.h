@@ -28,8 +28,9 @@ public:
     StartupView View{};
     StartupModel Model;
 
+    void AttachEvent(lv_obj_t *obj);
 private:
-    lv_timer_t* timer{};
+    mutable lv_timer_t* timer{};
     static void onTimer(lv_timer_t* timer);
     static void onEvent(lv_event_t* event);
 };

@@ -15,19 +15,13 @@ static void PowerKey_callback(ButtonEvent *btn, int event)
 {
     switch (event) {
         case ButtonEvent::EVENT_PRESSING:
-            if (!systemInfo.powerMonitor.panel_power_on) {
-                systemInfo.powerMonitor.PowerKey_PressCount++;
-            } else if ((systemInfo.online_device.eg25_board || systemInfo.eg25_overtime) && !systemInfo.powerMonitor.Force_ShutDown_Funckey) {
-                systemInfo.powerMonitor.PowerKey_PressCount++;
-            }
             CORE_DEBUG_PRINTF("[PowerKey] PRESSING\n");
             break;
         case ButtonEvent::EVENT_CLICKED:
-            EncoderDiff++;
+
 						CORE_DEBUG_PRINTF("[PowerKey] Single Click\n");
 						break;
 				case ButtonEvent::EVENT_DOUBLE_CLICKED:
-						EncoderDiff--;
 						CORE_DEBUG_PRINTF("[PowerKey] Double Click\n");
 						break;
         case ButtonEvent::EVENT_LONG_PRESSED_REPEAT:
@@ -49,9 +43,11 @@ static void FuncKey_callback(ButtonEvent *btn, int event)
 {
     switch (event) {
         case ButtonEvent::EVENT_DOUBLE_CLICKED:
+						EncoderDiff++;
             CORE_DEBUG_PRINTF("[FuncKey] Double Click\n");
             break;
         case ButtonEvent::EVENT_CLICKED:
+						EncoderDiff--;
             CORE_DEBUG_PRINTF("[FuncKey] Single Click\n");
             break;
         case ButtonEvent::EVENT_RELEASED:
@@ -79,8 +75,8 @@ void HAL::Key_Init()
 
 void HAL::Key_Update()
 {
-    PowerKey.EventMonitor(digitalRead(POWER_KEY_PIN) == HIGH);
-//    FuncKey.EventMonitor(digitalRead(FUNCTION_KEY_PIN) == LOW);
+//    PowerKey.EventMonitor(digitalRead(POWER_KEY_PIN) == HIGH);
+    FuncKey.EventMonitor(digitalRead(FUNCTION_KEY_PIN) == LOW);
 }
 
 int32_t HAL::Encoder_GetDiff()
@@ -96,5 +92,5 @@ bool HAL::Encoder_GetIsPush()
         return false;
     }
 
-    return digitalRead(FUNCTION_KEY_PIN) == LOW;
+    return digitalRead(POWER_KEY_PIN) == HIGH;
 }

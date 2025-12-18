@@ -136,7 +136,7 @@ private:
 
     /* Page Stack */
     PageBase* FindPageInStack(const char* name);
-    PageBase* GetStackTop();
+    [[nodiscard]] PageBase* GetStackTop() const;
     PageBase* GetStackTopAfter();
     void SetStackClear(bool keepBottom = false);
     static bool ForceUnload(PageBase* base);

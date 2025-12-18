@@ -31,6 +31,7 @@ void HAL::Power_Init()
 			break;
 		Key_Update();
 		Power_Update();
+		lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_HIDDEN);
 		HAL::Dispaly_Update();
 		if(systemInfo.powerMonitor.panel_power_on)
 			break;

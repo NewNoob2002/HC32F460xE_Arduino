@@ -110,9 +110,7 @@ PageBase::State_t PageManager::StateLoadExecute(PageBase* base)
 
     if (GetIsOverAnim(GetCurrentLoadAnimType()))
     {
-        PageBase* bottomPage = GetStackTopAfter();
-
-        if (bottomPage != nullptr && bottomPage->priv.IsCached)
+        if (const PageBase* bottomPage = GetStackTopAfter(); bottomPage != nullptr && bottomPage->priv.IsCached)
         {
             LoadAnimAttr_t animAttr;
             if (GetCurrentLoadAnimAttr(&animAttr))

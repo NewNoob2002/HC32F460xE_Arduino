@@ -158,7 +158,9 @@ bool PageManager::Pop()
     PM_LOG_INFO("Page(%s) pop << [Screen]", top->pageName);
 
     /* Page popup */
-    PageStack.pop();
+    if (!PageStack.empty()) {
+        PageStack.pop();
+    }
 
     /* Get the next page */
     top = GetStackTop();
@@ -299,8 +301,12 @@ bool PageManager::ForceUnload(PageBase* base)
         base->onViewWillDisappear();
         base->onViewDidDisappear();
     }
-
-    base->priv.State = StateUnloadExecute(base);
+    // if (base->priv.IsCached) {
+    //     PM_LOG_INFO("Page has Cached, Not unload");
+    // }
+    // else {
+        base->priv.State = StateUnloadExecute(base);
+    // }
 
     return true;
 }

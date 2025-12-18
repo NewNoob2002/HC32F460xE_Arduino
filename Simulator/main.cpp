@@ -89,8 +89,6 @@ static void timer_callback(lv_timer_t *timer) {
     /* start EasyLogger */
     elog_start();
     App_Init();
- systemInfo.powerMonitor.panel_power_on = true;
- App_SecondInit();
     // lv_timer_t *timer = lv_timer_create(timer_callback, 50, nullptr);
     // lv_timer_ready(timer);
     // systemInfo.powerMonitor.batteryInfo.chargeStatus = normalCharge;

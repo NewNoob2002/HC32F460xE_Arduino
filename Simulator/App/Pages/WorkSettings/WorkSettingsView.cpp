@@ -168,9 +168,9 @@ void WorkSettingsView::BtnCont_Create(lv_obj_t *par) {
 
     ui.btnCont.cont = cont;
 
-    ui.btnCont.btnBase = Btn_Create(cont, ResourcePool::GetImage("setting"), 0, -33);
-    ui.btnCont.btnRover = Btn_Create(cont, ResourcePool::GetImage("start"), 0, 0);
-    ui.btnCont.btnNtrip = Btn_Create(cont, ResourcePool::GetImage("menu"), 0, 33);
+    ui.btnCont.btnBase = Btn_Create(cont, ResourcePool::GetImage("base"), 0, -33);
+    ui.btnCont.btnRover = Btn_Create(cont, ResourcePool::GetImage("rover"), 0, 0);
+    ui.btnCont.btnNtrip = Btn_Create(cont, ResourcePool::GetImage("ntrip"), 0, 33);
 }
 
 lv_obj_t *WorkSettingsView::Btn_Create(lv_obj_t *par, const void *img_src, const lv_coord_t x_ofs,

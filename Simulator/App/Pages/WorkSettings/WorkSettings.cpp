@@ -9,13 +9,18 @@ WorkSettings::WorkSettings() = default;
 WorkSettings::~WorkSettings() = default;
 
 void WorkSettings::onCustomAttrConfig() {
+    SetCustomCacheEnable(true);
+    SetCustomLoadAnimType(PageManager::LOAD_ANIM_NONE);
     PageBase::onCustomAttrConfig();
 }
 
 void WorkSettings::onViewLoad() {
     PageBase::onViewLoad();
     View.Create(_root);
+}
 
+void WorkSettings::onViewDidLoad() {
+    PageBase::onViewDidLoad();
     AttachEvent(View.ui.roller.left_roller.btnUp);
     AttachEvent(View.ui.roller.left_roller.btnDown);
     AttachEvent(View.ui.roller.mid_roller.btnUp);
@@ -24,10 +29,6 @@ void WorkSettings::onViewLoad() {
     AttachEvent(View.ui.btnCont.btnBase);
     AttachEvent(View.ui.btnCont.btnRover);
     AttachEvent(View.ui.btnCont.btnNtrip);
-}
-
-void WorkSettings::onViewDidLoad() {
-    PageBase::onViewDidLoad();
 }
 
 void WorkSettings::onViewWillAppear() {
@@ -74,8 +75,11 @@ void WorkSettings::onViewDidDisappear() {
 
 void WorkSettings::onViewUnload() {
     PageBase::onViewUnload();
-    Model.Deinit();
+    // Model.Deinit();
     View.Delete();
+    if (lastFocus) {
+        lastFocus = nullptr;
+    }
 }
 
 void WorkSettings::onViewDidUnload() {
@@ -93,13 +97,13 @@ void WorkSettings::onBtnClicked(lv_obj_t *btn) const {
         systemInfo.radioInfo.radio_protocol = protocol_index;
         systemInfo.radioInfo.radio_channel =channel_index;
         systemInfo.panel_operation_flag = 1;
-        pageManager->Push("Pages/Dialplate");
+        pageManager->Pop();
     } else if (btn == View.ui.btnCont.btnRover) {
         PM_LOG_INFO("btnRover");
-        pageManager->Push("Pages/Dialplate");
+        pageManager->Pop();
     }else if (btn == View.ui.btnCont.btnNtrip) {
         PM_LOG_INFO("btnNtrip");
-        pageManager->Push("Pages/Dialplate");
+        pageManager->Pop();
     }else if (btn == View.ui.roller.left_roller.btnUp) {
         PM_LOG_INFO("left.btnUp");
         WorkSettingsView::Roller_UpDown(View.ui.roller.left_roller.label, false);

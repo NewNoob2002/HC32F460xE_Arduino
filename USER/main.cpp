@@ -34,6 +34,11 @@ int main(void)
 		HAL::HAL_Update();
 		slave_i2c_update();
 		HAL::Dispaly_Update();
+		if (systemInfo.powerMonitor.reset_flag)
+		{
+			delay_ms(1200);
+			NVIC_SystemReset();
+		}
 		__WFI();
   }
 }

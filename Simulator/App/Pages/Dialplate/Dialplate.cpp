@@ -14,6 +14,7 @@ Dialplate::~Dialplate()
 = default;
 
 void Dialplate::onCustomAttrConfig() {
+    SetCustomCacheEnable(true);
     SetCustomLoadAnimType(PageManager::LOAD_ANIM_NONE);
 }
 
@@ -74,6 +75,9 @@ void Dialplate::onViewDidDisappear() {
 void Dialplate::onViewUnload() {
     Model.Deinit();
     View.Delete();
+    if (lastFocus) {
+        lastFocus = nullptr;
+    }
 }
 
 void Dialplate::onViewDidUnload() {
@@ -128,7 +132,7 @@ void Dialplate::onBtnClicked(lv_obj_t *btn) const {
 #if defined(HC32F460)
         HAL::Power_Shutdown();
 #endif
-        //        pageManager->Push("Pages/Shutdown");
+        pageManager->Push("Pages/Shutdown");
     }
 }
 

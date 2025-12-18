@@ -53,6 +53,9 @@ static void Resource_Init() {
     IMPORT_IMG(reset);
     IMPORT_IMG(back);
     IMPORT_IMG(shutdown);
+    IMPORT_IMG(rover);
+    IMPORT_IMG(base);
+    IMPORT_IMG(ntrip);
 
     IMPORT_IMG(startupLogo);
 }

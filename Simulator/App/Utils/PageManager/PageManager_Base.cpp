@@ -31,12 +31,11 @@
   * @param  factory: Pointer to the page factory
   * @retval None
   */
-PageManager::PageManager(PageFactory* factory)
+PageManager::PageManager(PageFactory *factory)
     : pageFactory(factory)
-    , PagePrev(nullptr)
-    , PageCurrent(nullptr)
-    , RootDefaultStyle(nullptr)
-{
+      , PagePrev(nullptr)
+      , PageCurrent(nullptr)
+      , RootDefaultStyle(nullptr) {
     lv_memset(&AnimState, 0, sizeof(AnimState));
 
     SetGlobalLoadAnimType();
@@ -47,8 +46,7 @@ PageManager::PageManager(PageFactory* factory)
   * @param
   * @retval None
   */
-PageManager::~PageManager()
-{
+PageManager::~PageManager() {
     SetStackClear();
 }
 
@@ -57,12 +55,9 @@ PageManager::~PageManager()
   * @param  name: Page name
   * @retval A pointer to the base class of the page, or nullptr if not found
   */
-PageBase* PageManager::FindPageInPool(const char* name) const
-{
-    for (const auto iter : PagePool)
-    {
-        if (strcmp(name, iter->pageName) == 0)
-        {
+PageBase *PageManager::FindPageInPool(const char *name) const {
+    for (const auto iter: PagePool) {
+        if (strcmp(name, iter->pageName) == 0) {
             return iter;
         }
     }
@@ -74,24 +69,18 @@ PageBase* PageManager::FindPageInPool(const char* name) const
   * @param  name: Page name
   * @retval A pointer to the base class of the page, or nullptr if not found
   */
-PageBase* PageManager::FindPageInStack(const char* name)
-{
-    // while (!PageStack.empty())
-    // {
-    //     if (PageBase* base = PageStack.top(); strcmp(name, base->pageName) == 0)
-    //     {
-    //         return base;
-    //     }
-    //
-    //     PageStack.pop();
-    // }
-    PageBase* base = nullptr;
-    for (int i = 0 ; i < PageStack.size(); i++) {
-        if (base = PageStack.top(); strcmp(name, base->pageName) == 0)
+PageBase *PageManager::FindPageInStack(const char *name) {
+    decltype(PageStack) stk = PageStack;
+    while (!stk.empty())
+    {
+        if (PageBase* base = stk.top(); strcmp(name, base->pageName) == 0)
         {
             return base;
         }
+
+        stk.pop();
     }
+
     return nullptr;
 }
 
@@ -101,29 +90,24 @@ PageBase* PageManager::FindPageInStack(const char* name)
   * @param  appName: Page application name, no duplicates allowed
   * @retval Return true if successful
   */
-bool PageManager::Install(const char* className, const char* appName)
-{
-    if (pageFactory == nullptr)
-    {
+bool PageManager::Install(const char *className, const char *appName) {
+    if (pageFactory == nullptr) {
         PM_LOG_ERROR("Factory was not registered, can't install page");
         return false;
     }
 
-    if (appName == nullptr)
-    {
+    if (appName == nullptr) {
         PM_LOG_WARN("appName has not set");
         appName = className;
     }
 
-    if (FindPageInPool(appName) != nullptr)
-    {
+    if (FindPageInPool(appName) != nullptr) {
         PM_LOG_ERROR("Page(%s) was registered", appName);
         return false;
     }
 
-    PageBase* base = pageFactory->CreatePage(className);
-    if (base == nullptr)
-    {
+    PageBase *base = pageFactory->CreatePage(className);
+    if (base == nullptr) {
         PM_LOG_ERROR("Factory has not %s", className);
         return false;
     }
@@ -147,31 +131,25 @@ bool PageManager::Install(const char* className, const char* appName)
   * @param  appName: Page application name, no duplicates allowed
   * @retval Return true if the uninstallation is successful
   */
-bool PageManager::Uninstall(const char* appName)
-{
+bool PageManager::Uninstall(const char *appName) {
     PM_LOG_INFO("Page(%s) uninstall...", appName);
 
-    PageBase* base = FindPageInPool(appName);
-    if (base == nullptr)
-    {
+    PageBase *base = FindPageInPool(appName);
+    if (base == nullptr) {
         PM_LOG_ERROR("Page(%s) was not found", appName);
         return false;
     }
 
-    if (!Unregister(appName))
-    {
+    if (!Unregister(appName)) {
         PM_LOG_ERROR("Page(%s) unregister failed", appName);
         return false;
     }
 
-    if (base->priv.IsCached)
-    {
+    if (base->priv.IsCached) {
         PM_LOG_WARN("Page(%s) has cached, unloading...", appName);
         base->priv.State = PageBase::PAGE_STATE_UNLOAD;
         StateUpdate(base);
-    }
-    else
-    {
+    } else {
         PM_LOG_INFO("Page(%s) has not cache", appName);
     }
 
@@ -186,10 +164,8 @@ bool PageManager::Uninstall(const char* appName)
   * @param  name: Page application name, duplicate registration is not allowed
   * @retval Return true if the registration is successful
   */
-bool PageManager::Register(PageBase* base, const char* name)
-{
-    if (FindPageInPool(name) != nullptr)
-    {
+bool PageManager::Register(PageBase *base, const char *name) {
+    if (FindPageInPool(name) != nullptr) {
         PM_LOG_ERROR("Page(%s) was multi registered", name);
         return false;
     }
@@ -207,29 +183,25 @@ bool PageManager::Register(PageBase* base, const char* name)
   * @param  name: Page application name
   * @retval Return true if the logout is successful
   */
-bool PageManager::Unregister(const char* name)
-{
+bool PageManager::Unregister(const char *name) {
     PM_LOG_INFO("Page(%s) unregister...", name);
 
-    PageBase* base = FindPageInStack(name);
+    PageBase *base = FindPageInStack(name);
 
-    if (base != nullptr)
-    {
+    if (base != nullptr) {
         PM_LOG_ERROR("Page(%s) was in stack", name);
         return false;
     }
 
     base = FindPageInPool(name);
-    if (base == nullptr)
-    {
+    if (base == nullptr) {
         PM_LOG_ERROR("Page(%s) was not found", name);
         return false;
     }
 
     const auto iter = std::find(PagePool.begin(), PagePool.end(), base);
 
-    if (iter == PagePool.end())
-    {
+    if (iter == PagePool.end()) {
         PM_LOG_ERROR("Page(%s) was not found in PagePool", name);
         return false;
     }
@@ -245,8 +217,7 @@ bool PageManager::Unregister(const char* name)
   * @param
   * @retval A pointer to the base class of the page
   */
-PageBase* PageManager::GetStackTop()
-{
+PageBase *PageManager::GetStackTop() const {
     return PageStack.empty() ? nullptr : PageStack.top();
 }
 
@@ -255,18 +226,19 @@ PageBase* PageManager::GetStackTop()
   * @param
   * @retval A pointer to the base class of the page
   */
-PageBase* PageManager::GetStackTopAfter()
-{
-    PageBase* top = GetStackTop();
+PageBase *PageManager::GetStackTopAfter() {
+    PageBase *top = GetStackTop();
 
-    if (top == nullptr)
-    {
+    if (top == nullptr) {
         return nullptr;
     }
 
-    PageStack.pop();
+    /* Remove current page */
+    if (!PageStack.empty()) {
+        PageStack.pop();
+    }
 
-    PageBase* topAfter = GetStackTop();
+    PageBase *topAfter = GetStackTop();
 
     PageStack.push(top);
 
@@ -278,34 +250,27 @@ PageBase* PageManager::GetStackTopAfter()
   * @param  keepBottom: Whether to keep the bottom page of the stack
   * @retval None
   */
-void PageManager::SetStackClear(const bool keepBottom)
-{
-    while (true)
-    {
-        PageBase* top = GetStackTop();
+void PageManager::SetStackClear(const bool keepBottom) {
+    while (true) {
+        PageBase *top = GetStackTop();
 
-        if (top == nullptr)
-        {
+        if (top == nullptr) {
             PM_LOG_INFO("Page stack is empty, breaking...");
             break;
         }
 
-        if (const PageBase* topAfter = GetStackTopAfter(); topAfter == nullptr)
-        {
-            if (keepBottom)
-            {
+        if (const PageBase *topAfter = GetStackTopAfter(); topAfter == nullptr) {
+            if (keepBottom) {
                 PagePrev = top;
                 PM_LOG_INFO("Keep page stack bottom(%s), breaking...", top->pageName);
                 break;
             }
-            else
-            {
-                PagePrev = nullptr;
-            }
+            PagePrev = nullptr;
         }
 
         ForceUnload(top);
 
+        /* Remove current page */
         PageStack.pop();
     }
     PM_LOG_INFO("Stack clear done");
@@ -316,7 +281,6 @@ void PageManager::SetStackClear(const bool keepBottom)
   * @param
   * @retval The name of the previous page, if it does not exist, return PM_EMPTY_PAGE_NAME
   */
-const char* PageManager::GetPagePrevName() const
-{
+const char *PageManager::GetPagePrevName() const {
     return PagePrev ? PagePrev->pageName : PM_EMPTY_PAGE_NAME;
 }

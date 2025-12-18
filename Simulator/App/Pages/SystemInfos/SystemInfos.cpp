@@ -18,18 +18,16 @@ void SystemInfos::onViewLoad()
     Model.Init();
     View.Create(_root);
     AttachEvent(_root);
+}
 
+void SystemInfos::onViewDidLoad()
+{
     const auto item_grp = reinterpret_cast<SystemInfosView::item_t *>(&View.ui);
 
     for (int i = 0; i < sizeof(View.ui) / sizeof(SystemInfosView::item_t); i++)
     {
         AttachEvent(item_grp[i].icon);
     }
-}
-
-void SystemInfos::onViewDidLoad()
-{
-
 }
 
 void SystemInfos::onViewWillAppear()

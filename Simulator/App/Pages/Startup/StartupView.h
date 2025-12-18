@@ -17,6 +17,8 @@ namespace Page {
             lv_obj_t *arc;
             lv_obj_t *arc_percent;
             lv_anim_t arc_anim;
+
+            lv_obj_t *btnPress;
         } ui;
     private:
         mutable makeTime_t time = {};

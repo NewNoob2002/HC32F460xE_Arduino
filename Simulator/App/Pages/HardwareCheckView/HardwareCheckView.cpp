@@ -30,7 +30,7 @@ void HardwareCheckView::Create(lv_obj_t *root) {
     lv_obj_t* label = lv_label_create(cont);
     lv_obj_set_style_text_font(label, ResourcePool::GetFont("oswaldBold_18"), 0);
     lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_RED), 0);
-    lv_label_set_text(label, "!Warming: Don't Shutdown Now");
+    lv_label_set_text(label, "Warming: Don't Shutdown Now");
     lv_obj_center(label);
     ui.logo_label = label;
 
@@ -46,7 +46,7 @@ void HardwareCheckView::Create(lv_obj_t *root) {
     lv_obj_t* bar_percent = lv_label_create(cont_screen);
     lv_obj_remove_style_all(bar_percent);
     lv_obj_set_style_text_font(bar_percent, ResourcePool::GetFont("oswaldBold_12"), 0);
-    lv_label_set_text(bar_percent, "100%");
+    lv_label_set_text(bar_percent, "0%");
     lv_obj_align_to(bar_percent, bar, LV_ALIGN_OUT_RIGHT_MID, 80, 0);
     ui.bar_percent = bar_percent;
 

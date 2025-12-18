@@ -78,7 +78,7 @@ typedef enum
 typedef struct
 {
     StatusBar_Cmd_t cmd;
-    union
+    struct
     {
         bool appear;
         bool delay;

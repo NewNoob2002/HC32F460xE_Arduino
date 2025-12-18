@@ -34,6 +34,8 @@ namespace Page {
 
         void onViewDidUnload() override;
 
+        ShutdownView View{};
+        ShutdownModel Model{};
     private:
         void Update();
 
@@ -43,8 +45,6 @@ namespace Page {
 
         static void onEvent(lv_event_t *event);
 
-        ShutdownView View{};
-        ShutdownModel Model{};
         lv_timer_t *timer{};
     };
 }
