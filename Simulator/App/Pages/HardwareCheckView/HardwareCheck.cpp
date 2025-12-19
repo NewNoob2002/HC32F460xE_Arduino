@@ -6,7 +6,7 @@
 
 using namespace Page;
 
-uint32_t HardwareCheck::last_check_time = 0;
+uint32_t HardwareCheck::first_check_time = 0;
 
 void HardwareCheck::onCustomAttrConfig() {
     SetCustomCacheEnable(false);
@@ -19,8 +19,7 @@ void HardwareCheck::onViewLoad() {
     lv_obj_fade_in(_root, 300, 0);
     timer = lv_timer_create(onTimer, 2000, this);
     lv_timer_resume(timer);
-    last_check_time = lv_tick_get();
-
+    first_check_time = lv_tick_get();
 }
 
 void HardwareCheck::onViewDidLoad() {
@@ -57,9 +56,10 @@ void HardwareCheck::onViewDidUnload() {
 }
 
 void HardwareCheck::onTimer(lv_timer_t *timer) {
-    const auto* instance = static_cast<HardwareCheck *>(timer->user_data);
+    const auto *instance = static_cast<HardwareCheck *>(timer->user_data);
     instance->View.Update();
-    if (lv_tick_get() - last_check_time >= 2500) {
+    if (lv_tick_get() - first_check_time >= 30000 || systemInfo.online_device.eg25_board) {
+        PM_LOG_INFO("push main page, [%ld]", lv_tick_get() - first_check_time);
         instance->pageManager->Push("Pages/Dialplate");
     }
 }

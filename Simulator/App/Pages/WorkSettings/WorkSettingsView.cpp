@@ -3,6 +3,12 @@
 
 using namespace Page;
 
+const uint8_t RadioProtocol[PROTOCOL_MAX] = {1, 2, 4, 5, 9, 10, 13, 16};
+constexpr lv_coord_t font_height = 26;
+
+int8_t WorkSettingsView::left_roller_index = 0;
+int8_t WorkSettingsView::mid_roller_index = 0;
+
 static void lv_anim_label_set_y(void *obj, const int32_t y) {
     lv_obj_set_y(static_cast<lv_obj_t *>(obj), y);
 }
@@ -47,6 +53,25 @@ void WorkSettingsView::Delete() {
         lv_anim_timeline_del(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
+}
+
+void WorkSettingsView::Update() const {
+    const uint8_t p = systemInfo.radioInfo.radio_protocol;
+
+    int8_t Protocol = 0;
+    for (int8_t i = 0; i <= sizeof(RadioProtocol); i++) {
+        if (RadioProtocol[i] == p) {
+            Protocol = i;
+            break;
+        }
+    }
+    left_roller_index = Protocol;
+    mid_roller_index = systemInfo.radioInfo.radio_channel==0?0: systemInfo.radioInfo.radio_channel - 1;
+
+    Roller_toIndex(ui.roller.left_roller.label, left_roller_index);
+    Roller_toIndex(ui.roller.mid_roller.label, mid_roller_index);
+
+
 }
 
 void WorkSettingsView::Roller_Create(lv_obj_t *par) {
@@ -209,32 +234,77 @@ lv_obj_t *WorkSettingsView::Btn_Create(lv_obj_t *par, const void *img_src, const
     return obj;
 }
 
-void WorkSettingsView::Roller_UpDown(lv_obj_t *obj, const bool down) {
-    constexpr lv_coord_t font_height = 26;
+void WorkSettingsView::Roller_toIndex(lv_obj_t* obj, const uint8_t index) {
 
-    // 先删除该 label 上可能存在的旧动画，避免冲突
     lv_anim_del(obj, lv_anim_label_set_y);
 
     const lv_coord_t current_y = lv_obj_get_y(obj);
-    const lv_coord_t max_y = lv_obj_get_height(obj);
 
-    lv_coord_t target_y = 0;
-
-    if (!down) {
-        target_y = current_y + font_height;
-        if (target_y > 0) {
-            target_y = -max_y + font_height;
-        }
-    } else {
-        target_y = current_y - font_height;
-        if (target_y <= -max_y) {
-            target_y = 0;
-        }
-    }
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, obj);
-    lv_anim_set_values(&a, current_y, target_y);
+    lv_anim_set_values(&a, current_y, -index*font_height);
+    lv_anim_set_time(&a, 300);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
+    lv_anim_set_exec_cb(&a, lv_anim_label_set_y);
+    lv_anim_start(&a);
+}
+
+void WorkSettingsView::Roller_up(lv_obj_t *obj) const {
+    LV_ASSERT_NULL(obj);
+    lv_anim_del(obj, lv_anim_label_set_y);
+    const lv_coord_t current_y = lv_obj_get_y(obj);
+    lv_anim_t a;
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, obj);
+    lv_anim_set_time(&a, 300);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
+    lv_anim_set_exec_cb(&a, lv_anim_label_set_y);
+    if (obj == ui.roller.left_roller.label) {
+        left_roller_index--;
+        CM_SET_VALUE_IN_RANGE_WRAP(left_roller_index, TRIMTALK, CCS);
+        lv_anim_set_values(&a, current_y, -left_roller_index*font_height);
+    }
+    else if(obj == ui.roller.mid_roller.label){
+        mid_roller_index--;
+        CM_SET_VALUE_IN_RANGE_WRAP(mid_roller_index, Channel1, Channel9);
+        lv_anim_set_values(&a, current_y, -mid_roller_index*font_height);
+    }
+    lv_anim_start(&a);
+}
+
+void WorkSettingsView::Roller_down(lv_obj_t *obj) const {
+    LV_ASSERT_NULL(obj);
+    lv_anim_del(obj, lv_anim_label_set_y);
+    const lv_coord_t current_y = lv_obj_get_y(obj);
+    lv_anim_t a;
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, obj);
+    lv_anim_set_time(&a, 300);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
+    lv_anim_set_exec_cb(&a, lv_anim_label_set_y);
+    if (obj == ui.roller.left_roller.label) {
+        left_roller_index++;
+        CM_SET_VALUE_IN_RANGE_WRAP(left_roller_index, TRIMTALK, CCS);
+        lv_anim_set_values(&a, current_y, -left_roller_index*font_height);
+    }
+    else if (obj == ui.roller.mid_roller.label){
+        mid_roller_index++;
+        CM_SET_VALUE_IN_RANGE_WRAP(mid_roller_index, Channel1, Channel9);
+        lv_anim_set_values(&a, current_y, -mid_roller_index*font_height);
+    }
+    lv_anim_start(&a);
+}
+
+void WorkSettingsView::Roller_Reset(lv_obj_t *label) {
+    lv_anim_del(label, lv_anim_label_set_y);
+
+    const lv_coord_t current_y = lv_obj_get_y(label);
+
+    lv_anim_t a;
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, label);
+    lv_anim_set_values(&a, current_y, 0);
     lv_anim_set_time(&a, 300);
     lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
     lv_anim_set_exec_cb(&a, lv_anim_label_set_y);

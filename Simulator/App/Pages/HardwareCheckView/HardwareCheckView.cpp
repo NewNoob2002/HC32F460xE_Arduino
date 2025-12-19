@@ -9,6 +9,9 @@
 
 using namespace Page;
 
+bool HardwareCheckView::do_it_once = false;
+uint8_t HardwareCheckView::check_time = 0;
+
 void HardwareCheckView::Create(lv_obj_t *root) {
 
     lv_obj_t* cont_screen = lv_obj_create(root);
@@ -89,10 +92,12 @@ void HardwareCheckView::Delete() {
         ui.anim_timeline = nullptr;
     }
     lv_anim_del(&ui.bar_anim, nullptr);
+    if (do_it_once)
+        do_it_once = false;
+    check_time = 0;
 }
 
 void HardwareCheckView::Update() const {
-    static bool do_it_once = false;
     if(!do_it_once) {
         do_it_once = true;
         lv_obj_fade_out(ui.img_logo, 200, 0);
@@ -100,7 +105,6 @@ void HardwareCheckView::Update() const {
         lv_anim_timeline_start(ui.anim_timeline);
         lv_anim_start(&ui.bar_anim);
     }
-    static uint8_t check_time = 1;
-    check_time += 8;
+    check_time += 5;
     lv_label_set_text_fmt(ui.bar_percent, "%d%%", check_time);
 }

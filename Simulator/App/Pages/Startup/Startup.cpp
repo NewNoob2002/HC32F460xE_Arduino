@@ -13,7 +13,6 @@ static void lv_anim_arc_set_value(void * obj, int32_t value)
     const auto *instance = static_cast<Startup *>(lv_anim_get_user_data(anim));
     LV_ASSERT_NULL(instance);
 
-    // 更新 ARC
     lv_arc_set_value(static_cast<lv_obj_t *>(obj), value);
 
     // 更新百分比文字 (放在这里可以让文字跟随动画平滑变化)
@@ -21,13 +20,13 @@ static void lv_anim_arc_set_value(void * obj, int32_t value)
         lv_label_set_text_fmt(instance->View.ui.arc_percent, "%d%%", value);
     }
 
-    // 达到 100% 触发逻辑
     if (value >= 100) {
         lv_obj_set_style_arc_color(static_cast<lv_obj_t *>(obj), lv_color_hex(0x70e958), LV_PART_MAIN);
 
         if(!systemInfo.powerMonitor.panel_power_on)
         {
             systemInfo.powerMonitor.panel_power_on = true;
+						systemInfo.powerMonitor.pannel_power_on_time = lv_tick_get();
             instance->pageManager->Push("Pages/HardwareCheck");
         }
     }

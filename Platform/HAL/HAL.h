@@ -18,15 +18,11 @@ namespace HAL
 	
 	/* Power */
 	void Power_Init();
-	void Power_HandleTimeUpdate();
-	void Power_Shutdown();
+	void Power_Shutdown(bool en);
+	void Power_PowerOffMonitor();
 	void Power_Update();
-	void Power_EventMonitor();
-	inline void Power_GetInfo(pBatteryInfo_t info) {
-		info = &systemInfo.powerMonitor.batteryInfo;
-	}
-	typedef void(*Power_CallbackFunction_t)(void);
-	void Power_SetEventCallback(Power_CallbackFunction_t callback);
+	void Power_GetInfo(Power_Monitor_t *info);
+	const char *Power_GetPowerOffCause();
 	void WatchDog_Feed();
 	/* KEY */
 	void Key_Init();

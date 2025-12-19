@@ -27,9 +27,9 @@
                                 VERSION_NUM_TO_STR(__GNUC_MINOR__)\
                                 "."\
                                 VERSION_NUM_TO_STR(__GNUC_PATCHLEVEL__)
-                                #else
-                                #  define VERSION_COMPILER      "UNKNOW"
-                                #endif
+#else
+#  define VERSION_COMPILER      "UNKNOW"
+#endif
 /*POWER*/
 #define POWER_CONTROL_PIN		PB3
 #define WATCHDOG_FEED_PIN		PA6

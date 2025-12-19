@@ -4,12 +4,13 @@ using namespace Page;
 
 void ShutdownModel::Init() {
     account = new Account("ShutdownModel", DataProc::Center(), 0, this);
+    account->SetEventCallback(onEvent);
     account->Subscribe("StatusBar");
+//    account->Subscribe("Power");
 }
 
 void ShutdownModel::Deinit() {
-    if (account)
-    {
+    if (account) {
         delete account;
         account = nullptr;
     }
@@ -31,4 +32,19 @@ void ShutdownModel::SetStatusBarDisappear(const bool delay) const {
     info.param.appear = false;
     info.param.delay = delay;
     account->Notify("StatusBar", &info, sizeof(info));
+}
+
+int ShutdownModel::onEvent(Account *account, Account::EventParam_t *param) {
+    if (param->event != Account::EVENT_PUB_PUBLISH) {
+        return Account::RES_UNSUPPORTED_REQUEST;
+    }
+
+    if (param->size != sizeof(Power_Monitor_t))
+    {
+        return Account::RES_SIZE_MISMATCH;
+    }
+
+    auto *instance = static_cast<ShutdownModel *>(account->UserData);
+    LV_ASSERT_NULL(instance);
+    return Account::RES_OK;
 }

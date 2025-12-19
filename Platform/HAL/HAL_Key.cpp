@@ -4,8 +4,7 @@
 
 static ButtonEvent PowerKey;
 static ButtonEvent FuncKey;
-static volatile uint8_t ForceShutdown_powerkey = 0;
-static volatile uint8_t ForceShutdown_funckey  = 0;
+static volatile uint8_t ForceShutdown_count= 0;
 
 static bool EncoderEnable           = true;
 static volatile int32_t EncoderDiff = 0;
@@ -15,26 +14,16 @@ static void PowerKey_callback(ButtonEvent *btn, int event)
 {
     switch (event) {
         case ButtonEvent::EVENT_PRESSING:
-            CORE_DEBUG_PRINTF("[PowerKey] PRESSING\n");
+//            CORE_DEBUG_PRINTF("[PowerKey] PRESSING\n");
             break;
         case ButtonEvent::EVENT_CLICKED:
 
-						CORE_DEBUG_PRINTF("[PowerKey] Single Click\n");
+//						CORE_DEBUG_PRINTF("[PowerKey] Single Click\n");
 						break;
 				case ButtonEvent::EVENT_DOUBLE_CLICKED:
-						CORE_DEBUG_PRINTF("[PowerKey] Double Click\n");
+//						CORE_DEBUG_PRINTF("[PowerKey] Double Click\n");
 						break;
         case ButtonEvent::EVENT_LONG_PRESSED_REPEAT:
-            ForceShutdown_powerkey++;
-						CORE_DEBUG_PRINTF("[PowerKey] Long_Repeat, %d\n", ForceShutdown_powerkey);
-            if (ForceShutdown_powerkey >= 4)
-                systemInfo.powerMonitor.Force_ShutDown_Powerkey = true;
-            break;
-        case ButtonEvent::EVENT_RELEASED:
-            systemInfo.powerMonitor.PowerKey_PressCount     = 0;
-            ForceShutdown_powerkey                          = 0;
-            systemInfo.powerMonitor.Force_ShutDown_Powerkey = false;
-						CORE_DEBUG_PRINTF("[PowerKey] Realse\n");
             break;
     }
 }
@@ -44,21 +33,20 @@ static void FuncKey_callback(ButtonEvent *btn, int event)
     switch (event) {
         case ButtonEvent::EVENT_DOUBLE_CLICKED:
 						EncoderDiff++;
-            CORE_DEBUG_PRINTF("[FuncKey] Double Click\n");
+//            CORE_DEBUG_PRINTF("[FuncKey] Double Click\n");
             break;
         case ButtonEvent::EVENT_CLICKED:
 						EncoderDiff--;
-            CORE_DEBUG_PRINTF("[FuncKey] Single Click\n");
+//            CORE_DEBUG_PRINTF("[FuncKey] Single Click\n");
             break;
         case ButtonEvent::EVENT_RELEASED:
-            CORE_DEBUG_PRINTF("[FuncKey] Realse\n");
-            ForceShutdown_funckey                          = 0;
-            systemInfo.powerMonitor.Force_ShutDown_Funckey = false;
+//            CORE_DEBUG_PRINTF("[FuncKey] Realse\n");
+						ForceShutdown_count = 0;
             break;
         case ButtonEvent::EVENT_LONG_PRESSED_REPEAT:
-            ForceShutdown_funckey++;
-            CORE_DEBUG_PRINTF("[FuncKey] Long_Repeat, %d\n", ForceShutdown_funckey);
-            if (ForceShutdown_funckey >= 5) systemInfo.powerMonitor.Force_ShutDown_Funckey = true;
+					  ForceShutdown_count++;
+            if (ForceShutdown_count >= 5)
+                systemInfo.powerMonitor.Force_ShutDown = true;
             break;
     }
 }

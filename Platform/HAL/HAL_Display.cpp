@@ -4,6 +4,7 @@
 
 void HAL::Display_Init()
 {
+		CORE_DEBUG_PRINTF("Disaply Init");
     if (!lv_is_initialized()) {
         lv_init();
     }
@@ -12,6 +13,5 @@ void HAL::Display_Init()
 
 void HAL::Dispaly_Update()
 {
-//    lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_HIDDEN);
     lv_timer_handler();
 }

@@ -243,7 +243,7 @@ void slave_i2c_update()
     if (systemInfo.i2c_communicate_err_count >= 2000) {
         systemInfo.i2c_communicate_err_count = 0;
         I2C_Cmd(I2C_UNIT, DISABLE);
-        log_e("I2cSLave crash\n");
+//        log_e("I2cSLave crash\n");
         I2C_Cmd(I2C_UNIT, ENABLE);
         I2C_IntCmd(I2C_UNIT, I2C_INT_MATCH_ADDR0 | I2C_INT_RX_FULL, ENABLE);
     }

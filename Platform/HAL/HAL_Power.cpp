@@ -3,80 +3,120 @@
 #include "bq40z50.h"
 #include "mp2762a.h"
 
+#define FORCE_SHUTDOWN() (systemInfo.powerMonitor.Force_ShutDown)
+
 void HAL::Power_Init()
 {
-	CORE_DEBUG_PRINTF("Power: GetResetause:");
 	uint16_t reg_rmu = READ_REG16(CM_RMU->RSTF0);
 	bool softwareReset = reg_rmu & RMU_FLAG_SW;
 	bool powerOnReset = reg_rmu & RMU_FLAG_PWR_ON;
 	if(softwareReset)
 	{
-		CORE_DEBUG_PRINTF("Software Reset\n");
+		CORE_DEBUG_PRINTF("Power: GetResetause:Software Reset");
 	}
 	else if(powerOnReset)
 	{
-		CORE_DEBUG_PRINTF("PowerOn Reset\n");
+		CORE_DEBUG_PRINTF("Power: GetResetause:PowerOn Reset");
 	}
-	CORE_DEBUG_PRINTF("[%d] Power: Waiting Keep Press...\r\n", millis());
+	else{
+		CORE_DEBUG_PRINTF("Power: GetResetause: other");
+	}
+	CORE_DEBUG_PRINTF("Power: Waiting Keep Press...");
 	pinMode(POWER_LED_PIN, OUTPUT);
 	pinMode(FUNCTION_LED_PIN, OUTPUT);
 	pinMode(CHARGE_LED_PIN, OUTPUT);
+	
 	pinMode(POWER_CONTROL_PIN, OUTPUT);
 	pinMode(WATCHDOG_FEED_PIN, OUTPUT);
 	digitalWrite(POWER_CONTROL_PIN, LOW);
-	uint32_t _last = 0;
 	while(true)
 	{
-		if(softwareReset)
-			break;
 		Key_Update();
 		Power_Update();
 		lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_HIDDEN);
 		HAL::Dispaly_Update();
 		if(systemInfo.powerMonitor.panel_power_on)
+		{
+			CORE_DEBUG_PRINTF("MCU PowerDone");
 			break;
+		}
+		if(softwareReset)
+		{
+			CORE_DEBUG_PRINTF("softwareRst PowerDone");
+			break;
+		}
 	}
-	CORE_DEBUG_PRINTF("[%d] Power: Done\n", millis());
+	CORE_DEBUG_PRINTF("Power: Done");
 	digitalWrite(POWER_LED_PIN, HIGH);
+	digitalWrite(FUNCTION_LED_PIN, HIGH);
 	digitalWrite(POWER_CONTROL_PIN, HIGH);
 }
 
-void HAL::Power_Shutdown()
+void HAL::Power_Shutdown(bool en)
 {
-    CM_EXECUTE_ONCE(systemInfo.powerMonitor.ShutdownReq = true);
-		digitalWrite(POWER_CONTROL_PIN, LOW);
+		if(!en)
+		{
+			CORE_DEBUG_PRINTF("Shutdown Req");
+			systemInfo.powerMonitor.ShutdownReq = true;
+		}
+		else
+		{
+			CORE_DEBUG_PRINTF("Shutdown Do");
+			digitalWrite(POWER_CONTROL_PIN, LOW);
+		}
+}
+
+void HAL::Power_PowerOffMonitor()
+{
+	if ((systemInfo.powerMonitor.ShutdownEnsure) || FORCE_SHUTDOWN()|| systemInfo.powerMonitor.LowBatteryPowerOff)
+	{
+		CM_EXECUTE_ONCE(CORE_DEBUG_PRINTF("POWER OFF .................， Power Off Cause: %s", Power_GetPowerOffCause()));
+   
+		if(FORCE_SHUTDOWN()|| systemInfo.powerMonitor.LowBatteryPowerOff)
+		{
+			Power_Shutdown(true);
+		}
+	}
+	if(systemInfo.powerMonitor.ShutdownReq || systemInfo.powerMonitor.LowBatteryPowerOff)
+	{
+		digitalWrite(CHARGE_LED_PIN, LOW);
+		digitalWrite(POWER_LED_PIN, HIGH);
+		digitalWrite(FUNCTION_LED_PIN, HIGH);
+		systemInfo.powerMonitor.poweroff_flag = 1;
+		systemInfo.powerMonitor.ShutdownReq = 0;	
+	}
 }
 
 void HAL::Power_Update()
 {
 	WatchDog_Feed();
-  if (millis() - systemInfo.powerMonitor.BatteryLastHandleTime >= 3000)
+}
+
+void HAL::Power_GetInfo(Power_Monitor_t *info)
+{
+	if (millis() - systemInfo.powerMonitor.BatteryLastHandleTime >= 3000)
   {
     systemInfo.powerMonitor.BatteryLastHandleTime = millis();
     if (!systemInfo.online_device.bq40z50)
     {
-//      while (1)
-//      {
-//				CM_EXECUTE_INTERVAL(digitalToggle(POWER_LED_PIN), 500);
-//      }
+			
     }
     else
     {
       checkBatteryInfo(&systemInfo.powerMonitor.batteryInfo);
     }
   }
-  if (millis() - systemInfo.powerMonitor.ChargerLastHandleTime >= 500)
-  {
-    systemInfo.powerMonitor.ChargerLastHandleTime = millis();
     if (!systemInfo.online_device.mp2762)
     {
-//      Charger_Control_Monitor(&batteryState);
+			/*
+			*V1.3 Board do
+			*/
     }
     else
     {
       charger_update(&systemInfo.powerMonitor.batteryInfo);
     }
-  }
+		info = &systemInfo.powerMonitor;
 }
 
 void HAL::WatchDog_Feed()
@@ -85,7 +125,6 @@ void HAL::WatchDog_Feed()
 	{
 		systemInfo.powerMonitor.WatchDogLastFeedTime = millis();
 		digitalToggle(WATCHDOG_FEED_PIN);
-//		CORE_DEBUG_PRINTF("[%d] WatchDog Feed\n", millis());
 	}
 }
 
@@ -136,4 +175,19 @@ void checkBatteryInfo(pBatteryInfo_t p_batteryState)
 				p_batteryState->Percent_f = CM_SET_VALUE_IN_RANGE(batteryLevelPercent_f, 0.0, 100.0);
 				p_batteryState->Voltage_f = CM_SET_VALUE_IN_RANGE(batteryVoltage_f, 6.0, 8.4);
 				p_batteryState->Temp_f = CM_SET_VALUE_IN_RANGE(batteryTempC_f, 0.0, 100.0);
+}
+
+const char *HAL::Power_GetPowerOffCause()
+{
+  if (systemInfo.powerMonitor.LinuxPowerOff)
+  {
+    return "LinuxPowerOff";
+  }
+  else if (systemInfo.powerMonitor.LowBatteryPowerOff)
+  {
+    return "LowBatteryPowerOff";
+  }
+  else if (FORCE_SHUTDOWN())
+    return "Force_ShutDown";
+  return "PowerKey_ShutDown";
 }

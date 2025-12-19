@@ -4,18 +4,6 @@
 #include "WorkSettingsView.h"
 #include "WorkSettingsModel.h"
 
-enum Protocol_index {
-    TRIMTALK,
-    TRIMMK3,
-    TT450S,
-    TRANSEOT,
-    SOUTH,
-    HUACE,
-    SATEL,
-    CCS,
-    PROTOCOL_MAX
-};
-
 namespace Page
 {
 
@@ -35,7 +23,7 @@ public:
     void onViewUnload() override;
     void onViewDidUnload() override;
 
-    void onBtnClicked(lv_obj_t* btn) const;
+    void onBtnClicked(const lv_obj_t* btn) const;
 
 private:
     WorkSettingsView View{};

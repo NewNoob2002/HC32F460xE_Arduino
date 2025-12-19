@@ -118,8 +118,8 @@ void ShutdownView::Create(lv_obj_t* root)
 
     lv_anim_init(&ui.sync.bar.anim);
     lv_anim_set_var(&ui.sync.bar.anim, sync_bar);
+		lv_anim_set_exec_cb(&ui.sync.bar.anim, LV_ANIM_EXEC(width));
     lv_anim_set_values(&ui.sync.bar.anim, 0, 100);
-    lv_anim_set_exec_cb(&ui.sync.bar.anim, LV_ANIM_EXEC(width));
     lv_anim_set_time(&ui.sync.bar.anim, 8000);
     lv_anim_set_playback_time(&ui.sync.bar.anim, 0);
     lv_anim_set_repeat_count(&ui.sync.bar.anim, 0);

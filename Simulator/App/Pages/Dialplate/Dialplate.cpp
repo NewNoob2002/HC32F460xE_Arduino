@@ -129,9 +129,6 @@ void Dialplate::onBtnClicked(lv_obj_t *btn) const {
     } else if (btn == View.ui.btnCont.btnMenu) {
         pageManager->Push("Pages/SystemInfos");
     } else if (btn == View.ui.btnCont.btnShutdown) {
-#if defined(HC32F460)
-        HAL::Power_Shutdown();
-#endif
         pageManager->Push("Pages/Shutdown");
     }
 }
@@ -142,8 +139,6 @@ void Dialplate::onRecord(const bool longPress) {
             if (!longPress) {
                 Model.RecorderCommand(DialplateModel::REC_STOP);
                 SetBtnRecImgSrc("start");
-                systemInfo.recordInfo.record_status = 0;
-                systemInfo.panel_operation_flag = 1;
                 recState = RECORD_STATE_STOP;
             }
             break;
@@ -151,8 +146,6 @@ void Dialplate::onRecord(const bool longPress) {
             if (longPress) {
                 Model.RecorderCommand(DialplateModel::REC_START);
                 SetBtnRecImgSrc("stop");
-                systemInfo.recordInfo.record_status = 1;
-                systemInfo.panel_operation_flag = 1;
                 recState = RECORD_STATE_START;
             }
             break;

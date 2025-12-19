@@ -27,6 +27,9 @@ namespace Page {
 
             lv_obj_t *img_logo;
         } ui;
+    private:
+        static bool do_it_once;
+        static uint8_t check_time;
     };
 }
 

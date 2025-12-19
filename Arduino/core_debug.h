@@ -1,10 +1,10 @@
 #ifndef _CORE_DEBUG_H
 #define _CORE_DEBUG_H
 
-//#define __CORE_DEBUG
+#define __CORE_DEBUG
 
 #ifdef __CORE_DEBUG
-
+#include "elog.h"
 // allow user to re-define the debug macros with custom ones
 // user macros are only active if __CORE_DEBUG is defined
 #ifndef CORE_DEBUG_INIT
@@ -24,7 +24,6 @@
     }
 #endif
 #else // !__CORE_DEBUG
-#include "elog.h"
 // no debug, dummy macros and user-macros are undefined
 #undef CORE_DEBUG_INIT
 #undef CORE_DEBUG_PRINTF

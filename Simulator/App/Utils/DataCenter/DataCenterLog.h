@@ -23,7 +23,7 @@
 #ifndef __DATA_CENTER_LOG_H
 #define __DATA_CENTER_LOG_H
 
-#define DATA_CENTER_USE_LOG 1
+#define DATA_CENTER_USE_LOG 0
 
 #if DATA_CENTER_USE_LOG
 #include <elog.h>

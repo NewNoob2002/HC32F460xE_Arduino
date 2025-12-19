@@ -14,7 +14,7 @@
 
 #define STATUS_BAR_HEIGHT 26
 
-static Account* actStatusBar;
+static Account *actStatusBar;
 static bool StatusBarAppear = false;
 
 struct {
@@ -110,11 +110,9 @@ static void StatusBar_StyleInit(lv_obj_t *cont) {
     lv_obj_set_style_transition(cont, &tran, LV_STATE_USER_1);
 }
 
-static void StatusBar_SetStyle(const DataProc::StatusBar_Style_t style)
-{
-    lv_obj_t* cont = ui.cont;
-    switch(style)
-    {
+static void StatusBar_SetStyle(const DataProc::StatusBar_Style_t style) {
+    lv_obj_t *cont = ui.cont;
+    switch (style) {
         case DataProc::STATUS_BAR_STYLE_TRANSP:
             lv_obj_add_state(cont, LV_STATE_DEFAULT);
             lv_obj_clear_state(cont, LV_STATE_USER_1);
@@ -128,13 +126,43 @@ static void StatusBar_SetStyle(const DataProc::StatusBar_Style_t style)
 }
 
 static void StatusBar_Update(lv_timer_t *timer) {
-    /* satellite */
-    ui.position.satellite_num->setValue(systemInfo.positionInfo.satellite_number_used);
     // HAL::GPS_Info_t gps;
     // if(actStatusBar->Pull("GPS", &gps, sizeof(gps)) == Account::RES_OK)
     // {
     //     lv_label_set_text_fmt(ui.satellite.label, "%d", gps.satellites);
     // }
+    /* satellite */
+    ui.position.satellite_num->setValue(systemInfo.positionInfo.satellite_number_used);
+    // Position
+    if (systemInfo.work_mode == base_mode ||
+        systemInfo.work_mode == autobase_mode) {
+        lv_obj_set_style_text_color(ui.position.position_icon, lv_palette_main(LV_PALETTE_BLUE), 0);
+        lv_label_set_text(ui.position.position_label, "BASE");
+    } else {
+        switch (systemInfo.positionInfo.coordinate_status) {
+            case position_none: // NONE
+                lv_obj_set_style_text_color(ui.position.position_icon,
+                                            lv_palette_main(LV_PALETTE_RED), 0);
+                lv_label_set_text(ui.position.position_label, "NONE");
+                break;
+            case position_single: // Single
+                lv_obj_set_style_text_color(ui.position.position_icon,
+                                            lv_palette_main(LV_PALETTE_YELLOW), 0);
+                lv_label_set_text(ui.position.position_label, "SINGLE");
+                break;
+            case position_fix: // FIX
+                lv_obj_set_style_text_color(ui.position.position_icon,
+                                            lv_palette_main(LV_PALETTE_GREEN), 0);
+                lv_label_set_text(ui.position.position_label, "FIX");
+                break;
+            case position_float: // FLOAT
+                lv_obj_set_style_text_color(ui.position.position_icon,
+                                            lv_palette_main(LV_PALETTE_YELLOW), 0);
+                lv_label_set_text(ui.position.position_label, "FLOAT");
+                break;
+            default: ;
+        }
+    }
     //
     /* record */
     // if (systemInfo.recordInfo.record_status == 1)
@@ -155,18 +183,13 @@ static void StatusBar_Update(lv_timer_t *timer) {
 
     // /* battery */
     ui.battery.percent->setValue(systemInfo.powerMonitor.batteryInfo.Percent);
-    // HAL::Power_Info_t power;
-    // if(actStatusBar->Pull("Power", &power, sizeof(power)) == Account::RES_OK)
-    // {
-    //     lv_label_set_text_fmt(ui.battery.label, "%d", power.usage);
-    // }
-
+		
     const bool Is_BattCharging = systemInfo.powerMonitor.batteryInfo.chargeStatus != notCharge;
     lv_obj_t *contBatt = ui.battery.objUsage;
     static bool Is_BattChargingAnimActive = false;
     if (Is_BattCharging) {
         if (!Is_BattChargingAnimActive) {
-            lv_obj_set_style_bg_color(contBatt,  lv_color_hex(0x4CAF50), 0);
+            lv_obj_set_style_bg_color(contBatt, lv_color_hex(0x4CAF50), 0);
             StatusBar_AnimCreate(contBatt);
             Is_BattChargingAnimActive = true;
         }
@@ -184,7 +207,7 @@ static void StatusBar_Update(lv_timer_t *timer) {
         } else if (battery_percentage <= 20) {
             battery_color = lv_color_hex(0xF44336); // 红色
         }
-        lv_obj_set_style_bg_color(contBatt,  battery_color, 0);
+        lv_obj_set_style_bg_color(contBatt, battery_color, 0);
         const lv_coord_t width = lv_map(systemInfo.powerMonitor.batteryInfo.Percent, 0, 100, 0, BATT_USAGE_WIDTH);
         lv_obj_set_width(contBatt, width);
     }
@@ -227,6 +250,7 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
     lv_obj_set_style_text_color(position_label, lv_color_white(), LV_STATE_DEFAULT);
     lv_label_set_text(position_label, "FLOAT");
     lv_obj_align_to(position_label, position_icon, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
+    ui.position.position_label = position_label;
 
     ui.clock = new numberFlow_clock(font);
     ui.clock->create(cont);
@@ -272,7 +296,7 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
 
     StatusBar_SetStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
 
-    lv_timer_t* timer = lv_timer_create(StatusBar_Update, 1000, nullptr);
+    lv_timer_t *timer = lv_timer_create(StatusBar_Update, 1000, nullptr);
     lv_timer_ready(timer);
 
     return ui.cont;
@@ -314,30 +338,27 @@ void StatusBar_Appear(const bool en, const bool delay) {
 static void StatusBar_SetRecord(const bool active) {
     if (active) {
         lv_obj_set_style_text_color(ui.sd_icon, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
-        systemInfo.recordInfo.record_status = 1;
-        systemInfo.panel_operation_flag = 1;
-    }else {
+        systemInfo.recordInfo.record_status = On_Off_Status_ON;
+        systemInfo.recordInfo.record_op = 1;
+        systemInfo.recordInfo.record_change_flag = 1;
+    } else {
         lv_obj_set_style_text_color(ui.sd_icon, lv_color_white(), LV_STATE_DEFAULT);
-        systemInfo.recordInfo.record_status = 1;
-        systemInfo.panel_operation_flag = 1;
+        systemInfo.recordInfo.record_status = On_Off_Status_OFF;
+        systemInfo.recordInfo.record_op = 1;
+        systemInfo.recordInfo.record_change_flag = 1;
     }
-
 }
 
-static int onEvent(Account* account, Account::EventParam_t* param)
-{
-    if (param->event != Account::EVENT_NOTIFY)
-    {
+static int onEvent(Account *account, Account::EventParam_t *param) {
+    if (param->event != Account::EVENT_NOTIFY) {
         return Account::RES_UNSUPPORTED_REQUEST;
     }
 
-    if (param->size != sizeof(DataProc::StatusBar_Info_t))
-    {
+    if (param->size != sizeof(DataProc::StatusBar_Info_t)) {
         return Account::RES_SIZE_MISMATCH;
     }
 
-    switch(const auto* info = static_cast<DataProc::StatusBar_Info_t *>(param->data_p); info->cmd)
-    {
+    switch (const auto *info = static_cast<DataProc::StatusBar_Info_t *>(param->data_p); info->cmd) {
         case DataProc::STATUS_BAR_CMD_APPEAR:
             StatusBar_Appear(info->param.appear, info->param.delay);
             break;
@@ -354,9 +375,7 @@ static int onEvent(Account* account, Account::EventParam_t* param)
     return Account::RES_OK;
 }
 
-DATA_PROC_INIT_DEF(StatusBar)
-{
-//    account->Subscribe("GPS");
+DATA_PROC_INIT_DEF(StatusBar) {
     account->Subscribe("Power");
     account->SetEventCallback(onEvent);
 

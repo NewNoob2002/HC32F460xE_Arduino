@@ -23,12 +23,7 @@ int DialplateModel::onEvent(Account *account, Account::EventParam_t *param) {
     return Account::RES_OK;
 }
 
-void DialplateModel::RecorderCommand(RecCmd_t cmd) const {
-    RecordInfo_t recInfo;
-    DATA_PROC_INIT_STRUCT(recInfo);
-    recInfo.cmd = static_cast<DataProc::Recorder_Cmd_t>(cmd);
-    account->Notify("Recorder", &recInfo, sizeof(recInfo));
-
+void DialplateModel::RecorderCommand(const RecCmd_t cmd) const {
     DataProc::StatusBar_Info_t statInfo;
     DATA_PROC_INIT_STRUCT(statInfo);
     statInfo.cmd = DataProc::STATUS_BAR_CMD_SET_LABEL_REC;

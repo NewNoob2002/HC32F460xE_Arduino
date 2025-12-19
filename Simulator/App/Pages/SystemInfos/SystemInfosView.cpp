@@ -84,6 +84,7 @@ void SystemInfosView::Create(lv_obj_t *root) {
         "system_info",
         "Firmware\n"
         "RunTime\n"
+        "Compiler\n"
         "Build\n"
     );
 
@@ -184,8 +185,7 @@ void SystemInfosView::Item_Create(
     lv_obj_t *cont = lv_obj_create(par);
     lv_obj_enable_style_refresh(false);
     lv_obj_remove_style_all(cont);
-    lv_obj_set_size(cont, 260, 100);
-    // lv_obj_align(cont, LV_ALIGN_BOTTOM_MID, 0, 0);
+    lv_obj_set_size(cont, 294, 100);
 
     lv_obj_clear_flag(cont, LV_OBJ_FLAG_SCROLLABLE);
     item->cont = cont;
@@ -219,19 +219,21 @@ void SystemInfosView::Item_Create(
 
     /* infos */
     lv_obj_t *info_label = lv_label_create(cont);
+    lv_obj_remove_style_all(info_label);
     lv_obj_enable_style_refresh(false);
     lv_label_set_text(info_label, infos);
     lv_obj_add_style(info_label, &style.info, 0);
-    // lv_obj_align(label, LV_ALIGN_LEFT_MID, 75, 15);
     lv_obj_align(info_label, LV_ALIGN_LEFT_MID, 75, 12);
     item->labelInfo = info_label;
 
     /* datas */
     lv_obj_t *data_label = lv_label_create(cont);
+    lv_obj_remove_style_all(data_label);
     lv_obj_enable_style_refresh(false);
     lv_label_set_text(data_label, "-");
     lv_obj_add_style(data_label, &style.data, 0);
-    lv_obj_align(data_label, LV_ALIGN_LEFT_MID, 145, 12);
+    lv_obj_align_to(data_label, info_label, LV_ALIGN_TOP_RIGHT, 30, 0);
+    // lv_obj_align(data_label, LV_ALIGN_LEFT_MID, 145, 10);
     item->labelData = data_label;
 
     lv_obj_move_foreground(icon);
@@ -308,12 +310,12 @@ void SystemInfosView::SetStorage(const RecordInfo_t &recordInfo) const {
         "%s\n"
         "%0.1f M\n"
         "%s\n"
-        "%d Hour",
+        "%0.2f Hour",
         recordInfo.record_status ? "On" : "Off",
         recordInfo.record_name,
-        recordInfo.record_leftspace,
+        recordInfo.record_leftspace>0.0? 0.0:recordInfo.record_leftspace,
         recordInfo.record_type == 1 ? "xyz" : "Rinex3.02",
-        recordInfo.record_interval
+        recordInfo.record_interval > 0x01? recordInfo.record_interval: 0.25
     );
 }
 
@@ -327,9 +329,11 @@ void SystemInfosView::SetSystem(
         ui.system.labelData,
         "%s\n"
         "%s\n"
+        "%s\n"
         "%s",
         firmVer,
         bootTime,
+        compilerName,
         buildTime
     );
 }

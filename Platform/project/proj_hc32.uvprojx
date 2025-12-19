@@ -758,6 +758,21 @@
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\img\img_src_shutdown.c</FilePath>
             </File>
+            <File>
+              <FileName>img_src_base.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_base.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_rover.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_rover.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_ntrip.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_ntrip.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -977,6 +992,11 @@
               <FileName>HAL_CORTEX.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HAL\HAL_CORTEX.c</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_Led.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\HAL\HAL_Led.cpp</FilePath>
             </File>
           </Files>
         </Group>

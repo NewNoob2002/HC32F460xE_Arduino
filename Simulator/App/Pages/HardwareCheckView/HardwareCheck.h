@@ -37,7 +37,7 @@ namespace Page {
 
     private:
         lv_timer_t *timer{};
-        static uint32_t last_check_time;
+        static uint32_t first_check_time;
         static void onTimer(lv_timer_t *timer);
 
         static void onEvent(lv_event_t *event);

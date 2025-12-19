@@ -187,4 +187,20 @@ do{\
 * @retval 是否在范围内
 */
 #define CM_SET_VALUE_IN_RANGE(value,min,max) ((value) < (min) ? (min) : ((value) > (max) ? (max) : (value)))
+
+/**
+@brief  将一个值限制在一个环形范围内
+@param  value: 要设置的值（必须是可修改的左值）
+@param  min: 最小值
+@param  max: 最大值
+@note   当值超出范围时，会环形循环到另一端
+*/
+#define CM_SET_VALUE_IN_RANGE_WRAP(value, min, max) \
+do { \
+if ((value) < (min)) { \
+(value) = (max); \
+} else if ((value) > (max)) { \
+(value) = (min); \
+} \
+} while(0)
 #endif
