@@ -35,32 +35,29 @@
   * @retval None
   */
 Account::Account(
-    const char* id,
-    DataCenter* center,
+    const char *id,
+    DataCenter *center,
     const uint32_t bufSize,
-    void* userData
-)
-{
+    void *userData
+) {
     memset(&priv, 0, sizeof(priv));
 
     ID = id;
     Center = center;
     UserData = userData;
 
-    if (bufSize != 0)
-    {
-        auto* buffer = static_cast<uint8_t *>(lv_mem_alloc(bufSize * sizeof(uint8_t) * 2));
+    if (bufSize != 0) {
+        auto *buffer = static_cast<uint8_t *>(lv_mem_alloc(bufSize * sizeof(uint8_t) * 2));
 
-        if (!buffer)
-        {
+        if (!buffer) {
             DC_LOG_ERROR("Account[%s] buffer malloc failed!", ID);
             return;
         }
 
         memset(buffer, 0, bufSize * sizeof(uint8_t) * 2);
 
-        uint8_t* buf0 = buffer;
-        uint8_t* buf1 = buffer + bufSize;
+        uint8_t *buf0 = buffer;
+        uint8_t *buf1 = buffer + bufSize;
 
         PingPongBuffer_Init(&priv.BufferManager, buf0, buf1);
         DC_LOG_INFO("Account[%s] cached %d x2 bytes", ID, bufSize);
@@ -74,37 +71,36 @@ Account::Account(
 
 /**
   * @brief  Account destructor
-  * @param  None
+  * @param
   * @retval None
   */
-Account::~Account()
-{
+Account::~Account() {
     DC_LOG_INFO("Account[%s] deleting...", ID);
 
     /* Release cache */
-    if(priv.BufferSize)
-    {
+    if (priv.BufferSize) {
         lv_mem_free(priv.BufferManager.buffer[0]);
     }
 
     /* Delete timer */
-    if (priv.timer)
-    {
+    if (priv.timer) {
         lv_timer_del(priv.timer);
         DC_LOG_INFO("Account[%s] task deleted", ID);
     }
 
     /* Let subscribers unfollow */
-    for(auto iter : subscribers)
-    {
+    // 复制 subscribers 以避免在遍历时修改导致迭代器失效
+    const AccountVector_t subscribers_copy = subscribers;
+    for (const auto iter: subscribers_copy) {
         iter->Unsubscribe(ID);
         DC_LOG_INFO("sub[%s] unsubscribed pub[%s]", iter->ID, ID);
     }
 
     /* Ask the publisher to delete this subscriber */
-    for (auto iter : publishers)
-    {
-        Center->Remove(&iter->subscribers, this);
+    // 复制 publishers 以避免在遍历时修改导致迭代器失效
+    const AccountVector_t publishers_copy = publishers;
+    for (const auto iter: publishers_copy) {
+        DataCenter::Remove(&iter->subscribers, this);
         DC_LOG_INFO("pub[%s] removed sub[%s]", iter->ID, ID);
     }
 
@@ -118,27 +114,23 @@ Account::~Account()
   * @param  pubID: Publisher ID
   * @retval Pointer to publisher
   */
-Account* Account::Subscribe(const char* pubID)
-{
+Account *Account::Subscribe(const char *pubID) {
     /* Not allowed to subscribe to yourself */
-    if (strcmp(pubID, ID) == 0)
-    {
+    if (strcmp(pubID, ID) == 0) {
         DC_LOG_ERROR("Account[%s] try to subscribe to it itself", ID);
         return nullptr;
     }
 
     /* Whether to subscribe repeatedly */
-    Account* pub = Center->Find(&publishers, pubID);
-    if(pub != nullptr)
-    {
+    Account *pub = DataCenter::Find(&publishers, pubID);
+    if (pub != nullptr) {
         DC_LOG_ERROR("Multi subscribe pub[%s]", pubID);
         return nullptr;
     }
 
     /* BWhether the account is created */
     pub = Center->SearchAccount(pubID);
-    if (pub == nullptr)
-    {
+    if (pub == nullptr) {
         DC_LOG_ERROR("pub[%s] was not found", pubID);
         return nullptr;
     }
@@ -159,21 +151,19 @@ Account* Account::Subscribe(const char* pubID)
   * @param  pubID: Publisher ID
   * @retval Return true if unsubscribe is successful
   */
-bool Account::Unsubscribe(const char* pubID)
-{
+bool Account::Unsubscribe(const char *pubID) {
     /* Whether to subscribe to the publisher */
-    Account* pub = Center->Find(&publishers, pubID);
-    if (pub == nullptr)
-    {
+    Account *pub = DataCenter::Find(&publishers, pubID);
+    if (pub == nullptr) {
         DC_LOG_WARN("sub[%s] was not subscribe pub[%s]", ID, pubID);
         return false;
     }
 
     /* Remove the publisher from the subscription list */
-    Center->Remove(&publishers, pub);
+    DataCenter::Remove(&publishers, pub);
 
     /* Let the publisher add this subscriber */
-    Center->Remove(&pub->subscribers, this);
+    DataCenter::Remove(&pub->subscribers, this);
 
     return true;
 }
@@ -184,15 +174,13 @@ bool Account::Unsubscribe(const char* pubID)
   * @param  size:   The size of the data
   * @retval Return true if the submission is successful
   */
-bool Account::Commit(const void* data_p, uint32_t size)
-{
-    if (!size || size != priv.BufferSize)
-    {
+bool Account::Commit(const void *data_p, uint32_t size) {
+    if (!size || size != priv.BufferSize) {
         DC_LOG_ERROR("pub[%s] has not cache", ID);
         return false;
     }
 
-    void* wBuf;
+    void *wBuf;
     PingPongBuffer_GetWriteBuf(&priv.BufferManager, &wBuf);
 
     memcpy(wBuf, data_p, size);
@@ -210,19 +198,16 @@ bool Account::Commit(const void* data_p, uint32_t size)
   * @param
   * @retval error code
   */
-int Account::Publish()
-{
+int Account::Publish() {
     int retval = RES_UNKNOW;
 
-    if (priv.BufferSize == 0)
-    {
+    if (priv.BufferSize == 0) {
         DC_LOG_ERROR("pub[%s] has not cache", ID);
         return RES_NO_CACHE;
     }
 
-    void* rBuf;
-    if (!PingPongBuffer_GetReadBuf(&priv.BufferManager, &rBuf))
-    {
+    void *rBuf;
+    if (!PingPongBuffer_GetReadBuf(&priv.BufferManager, &rBuf)) {
         DC_LOG_WARN("pub[%s] data was not commit", ID);
         return RES_NO_COMMITED;
     }
@@ -235,24 +220,20 @@ int Account::Publish()
     param.size = priv.BufferSize;
 
     /* Publish messages to subscribers */
-    for(const auto iter : subscribers)
-    {
-        Account* sub = iter;
+    for (const auto iter: subscribers) {
+        Account *sub = iter;
         const EventCallback_t callback = sub->priv.eventCallback;
 
         DC_LOG_INFO("pub[%s] publish >> data(0x%p)[%d] >> sub[%s]...",
                     ID, param.data_p, param.size, sub->ID);
 
-        if (callback != nullptr)
-        {
+        if (callback != nullptr) {
             param.recv = sub;
             const int ret = callback(sub, &param);
 
             DC_LOG_INFO("publish done: %s", GetResString(ret));
             retval = ret;
-        }
-        else
-        {
+        } else {
             DC_LOG_INFO("sub[%s] not register callback", sub->ID);
         }
     }
@@ -271,31 +252,26 @@ int Account::Publish()
   * @param  size:   The size of the data
   * @retval error code
   */
-int Account::Pull(const char* pubID, void* data_p, uint32_t size)
-{
-    Account* pub = Center->Find(&publishers, pubID);
-    if (pub == nullptr)
-    {
+int Account::Pull(const char *pubID, void *data_p, uint32_t size) {
+    Account *pub = DataCenter::Find(&publishers, pubID);
+    if (pub == nullptr) {
         DC_LOG_ERROR("sub[%s] was not subscribe pub[%s]", ID, pubID);
         return RES_NOT_FOUND;
     }
     return Pull(pub, data_p, size);
 }
 
-int Account::Pull(Account* pub, void* data_p, uint32_t size)
-{
+int Account::Pull(Account *pub, void *data_p, uint32_t size) {
     int retval = RES_UNKNOW;
 
-    if (pub == nullptr)
-    {
+    if (pub == nullptr) {
         return RES_NOT_FOUND;
     }
 
     DC_LOG_INFO("sub[%s] pull << data(0x%p)[%d] << pub[%s] ...",
                 ID, data_p, size, pub->ID);
 
-    if (const EventCallback_t callback = pub->priv.eventCallback; callback != nullptr)
-    {
+    if (const EventCallback_t callback = pub->priv.eventCallback; callback != nullptr) {
         EventParam_t param;
         param.event = EVENT_SUB_PULL;
         param.tran = this;
@@ -307,30 +283,22 @@ int Account::Pull(Account* pub, void* data_p, uint32_t size)
 
         DC_LOG_INFO("pull done: %s", GetResString(ret));
         retval = ret;
-    }
-    else
-    {
+    } else {
         DC_LOG_INFO("pub[%s] not register pull callback, read commit cache...", pub->ID);
 
-        if (pub->priv.BufferSize == size)
-        {
-            void* rBuf;
-            if (PingPongBuffer_GetReadBuf(&pub->priv.BufferManager, &rBuf))
-            {
+        if (pub->priv.BufferSize == size) {
+            void *rBuf;
+            if (PingPongBuffer_GetReadBuf(&pub->priv.BufferManager, &rBuf)) {
                 memcpy(data_p, rBuf, size);
 #if ACCOUNT_DISCARD_READ_DATA
                 PingPongBuffer_SetReadDone(&pub->priv.BufferManager);
 #endif
                 DC_LOG_INFO("read done");
                 retval = 0;
-            }
-            else
-            {
+            } else {
                 DC_LOG_WARN("pub[%s] data was not commit!", pub->ID);
             }
-        }
-        else
-        {
+        } else {
             DC_LOG_ERROR(
                 "Data size pub[%s]:%d != sub[%s]:%d",
                 pub->ID,
@@ -351,11 +319,9 @@ int Account::Pull(Account* pub, void* data_p, uint32_t size)
   * @param  size:   The size of the data
   * @retval error code
   */
-int Account::Notify(const char* pubID, const void* data_p, uint32_t size)
-{
-    Account* pub = Center->Find(&publishers, pubID);
-    if (pub == nullptr)
-    {
+int Account::Notify(const char *pubID, const void *data_p, uint32_t size) {
+    Account *pub = DataCenter::Find(&publishers, pubID);
+    if (pub == nullptr) {
         DC_LOG_ERROR("sub[%s] was not subscribe pub[%s]", ID, pubID);
         return RES_NOT_FOUND;
     }
@@ -369,20 +335,17 @@ int Account::Notify(const char* pubID, const void* data_p, uint32_t size)
   * @param  size:   The size of the data
   * @retval error code
   */
-int Account::Notify(Account* pub, const void* data_p, const uint32_t size)
-{
+int Account::Notify(Account *pub, const void *data_p, const uint32_t size) {
     int retval;
 
-    if (pub == nullptr)
-    {
+    if (pub == nullptr) {
         return RES_NOT_FOUND;
     }
 
     DC_LOG_INFO("sub[%s] notify >> data(0x%p)[%d] >> pub[%s] ...",
                 ID, data_p, size, pub->ID);
 
-    if (const EventCallback_t callback = pub->priv.eventCallback; callback != nullptr)
-    {
+    if (const EventCallback_t callback = pub->priv.eventCallback; callback != nullptr) {
         EventParam_t param;
         param.event = EVENT_NOTIFY;
         param.tran = this;
@@ -394,9 +357,7 @@ int Account::Notify(Account* pub, const void* data_p, const uint32_t size)
 
         DC_LOG_INFO("send done: %s", GetResString(ret));
         retval = ret;
-    }
-    else
-    {
+    } else {
         DC_LOG_WARN("pub[%s] not register callback", pub->ID);
         retval = RES_NO_CALLBACK;
     }
@@ -409,8 +370,7 @@ int Account::Notify(Account* pub, const void* data_p, const uint32_t size)
   * @param  callback: Callback function pointer
   * @retval None
   */
-void Account::SetEventCallback(EventCallback_t callback)
-{
+void Account::SetEventCallback(EventCallback_t callback) {
     priv.eventCallback = callback;
 }
 
@@ -419,11 +379,9 @@ void Account::SetEventCallback(EventCallback_t callback)
   * @param  timer: Pointer to timer
   * @retval None
   */
-void Account::TimerCallbackHandler(lv_timer_t* timer)
-{
-    auto* instance = static_cast<Account *>(timer->user_data);
-    if(const EventCallback_t callback = instance->priv.eventCallback)
-    {
+void Account::TimerCallbackHandler(lv_timer_t *timer) {
+    auto *instance = static_cast<Account *>(timer->user_data);
+    if (const EventCallback_t callback = instance->priv.eventCallback) {
         EventParam_t param;
         param.event = EVENT_TIMER;
         param.tran = instance;
@@ -440,24 +398,21 @@ void Account::TimerCallbackHandler(lv_timer_t* timer)
   * @param  period: Timing period
   * @retval None
   */
-void Account::SetTimerPeriod(uint32_t period)
-{
-    if(priv.timer)
-    {
+void Account::SetTimerPeriod(uint32_t period) {
+    if (priv.timer) {
         lv_timer_del(priv.timer);
         priv.timer = nullptr;
     }
 
-    if(period == 0)
-    {
+    if (period == 0) {
         return;
     }
 
     priv.timer = lv_timer_create(
-                     TimerCallbackHandler,
-                     period,
-                     this
-                 );
+        TimerCallbackHandler,
+        period,
+        this
+    );
 }
 
 /**
@@ -465,12 +420,10 @@ void Account::SetTimerPeriod(uint32_t period)
   * @param  en: Whether to enable
   * @retval None
   */
-void Account::SetTimerEnable(const bool en) const
-{
-    lv_timer_t* timer = priv.timer;
+void Account::SetTimerEnable(const bool en) const {
+    lv_timer_t *timer = priv.timer;
 
-    if (timer == nullptr)
-    {
+    if (timer == nullptr) {
         return;
     }
 
@@ -481,8 +434,7 @@ void Account::SetTimerEnable(const bool en) const
   * @brief  Get the number of publishers
   * @retval number of publishers
   */
-size_t Account::GetPublishersSize() const
-{
+size_t Account::GetPublishersSize() const {
     return publishers.size();
 }
 
@@ -490,7 +442,6 @@ size_t Account::GetPublishersSize() const
   * @brief  Get the number of subscribes
   * @retval number of subscribes
   */
-size_t Account::GetSubscribersSize() const
-{
+size_t Account::GetSubscribersSize() const {
     return subscribers.size();
 }

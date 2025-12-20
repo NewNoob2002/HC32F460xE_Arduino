@@ -13,6 +13,14 @@ CompileFlags:
     - '-D_WIN64'
     - '-D_MSVC_LANG=201703L'
   CompilationDatabase: build
+QueryDriver:
+  - 'C:\Program Files\LLVM\bin\clang.exe'
+  - 'C:\Program Files\LLVM\bin\clang++.exe'
+  - 'C:\PROGRA~1\LLVM\bin\clang.exe'
+  - 'C:\PROGRA~1\LLVM\bin\clang++.exe'
+  - 'C:\Program Files\LLVM\bin\CLANG_~1.EXE'
+Index:
+  Background: Build
 Diagnostics:
   Suppress:
     # - unused-includes

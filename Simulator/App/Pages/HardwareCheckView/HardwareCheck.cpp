@@ -58,10 +58,14 @@ void HardwareCheck::onViewDidUnload() {
 void HardwareCheck::onTimer(lv_timer_t *timer) {
     const auto *instance = static_cast<HardwareCheck *>(timer->user_data);
     instance->View.Update();
+#if defined (HC32F460)
     if (lv_tick_get() - first_check_time >= 30000 || systemInfo.online_device.eg25_board) {
         PM_LOG_INFO("push main page, [%ld]", lv_tick_get() - first_check_time);
         instance->pageManager->Push("Pages/Dialplate");
     }
+    #else
+    instance->pageManager->Push("Pages/Dialplate");
+    #endif
 }
 
 void HardwareCheck::onEvent(lv_event_t *event) {

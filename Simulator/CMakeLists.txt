@@ -18,10 +18,10 @@ file(GLOB_RECURSE UI_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/App/*.c
         ${CMAKE_CURRENT_LIST_DIR}/App/*.cpp
         ${CMAKE_CURRENT_LIST_DIR}/App/Utils/*.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/HAL/*.cpp
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/support/support.c
         ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog.c
         ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog_utils.c
-        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog_async.c
         ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/port/*.c
 )
 
@@ -33,7 +33,7 @@ include_directories(
         ${CMAKE_CURRENT_LIST_DIR}/App/config
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/support
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/Config
-        ${CMAKE_CURRENT_LIST_DIR}/../Platform/HAL
+        ${CMAKE_CURRENT_LIST_DIR}/HAL
         ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/inc
 )
 
@@ -56,6 +56,8 @@ add_executable(main main.cpp mouse_cursor_icon.c ${SOURCES} ${INCLUDES} ${UI_SOU
         ../Platform/Config/mcu_define.h)
 add_compile_definitions(LV_CONF_INCLUDE_SIMPLE LV_INCLUDE_SIMPLE)
 
+
+add_compile_options(-Wno-deprecated-declarations)
 # 抑制 MSVC 编译器的警告
 if(MSVC)
     # C5287: 不同枚举类型位运算警告

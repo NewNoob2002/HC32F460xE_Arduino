@@ -16,7 +16,7 @@
 
 /* Compiler Version */
 #if defined(_MSC_FULL_VER)
-#  define VERSION_COMPILER      "MSVC\nv" VERSION_NUM_TO_STR(_MSC_FULL_VER)
+#  define VERSION_COMPILER      "MSVCv" VERSION_NUM_TO_STR(_MSC_FULL_VER)
 #elif defined(__ARMCC_VERSION)
 #  define VERSION_COMPILER      "ARMCCv" VERSION_NUM_TO_STR(__ARMCC_VERSION)
 #elif defined(__GNUC__)

@@ -11,7 +11,7 @@
 #include "lvgl/lvgl.h"
 #include "lv_drivers/sdl/sdl.h"
 
-#include "../App/App.h"
+#include "App/App.h"
 #include "elog.h"
 /*********************
  *      DEFINES
@@ -58,11 +58,6 @@ extern void StatusBar_Appear(bool en);
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static void timer_callback(lv_timer_t *timer) {
-    if (systemInfo.powerMonitor.PowerKey_PressCount < 100) {
-        systemInfo.powerMonitor.PowerKey_PressCount++;
-    }
-}
 
 /**********************
  *   GLOBAL FUNCTIONS

@@ -92,8 +92,7 @@ void HardwareCheckView::Delete() {
         ui.anim_timeline = nullptr;
     }
     lv_anim_del(&ui.bar_anim, nullptr);
-    if (do_it_once)
-        do_it_once = false;
+    do_it_once = false;
     check_time = 0;
 }
 

@@ -30,7 +30,6 @@
 #include <stdio.h>
 
 #include "lvgl/lvgl.h"
-#include "../../../Platform/support/support.h"
 #if defined(HC32F460)
 #include "SEGGER_RTT.h"
 #else
@@ -79,7 +78,7 @@ void elog_port_output(const char *log, size_t size) {
     /* add your code here */
     SEGGER_RTT_Write(0, log, size);
 #else
-    printf("%.*s", size, log);
+    printf("%.*s", (int)size, log);
 #endif
 
 }

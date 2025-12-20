@@ -28,7 +28,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb9296b5-62c7-49bf-9405-3d779f01f962" name="更改" comment="update">
+      <change beforePath="$PROJECT_DIR$/../Libraries/easylogger/inc/elog.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/easylogger/inc/elog.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/easylogger/inc/elog_cfg.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/easylogger/inc/elog_cfg.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/easylogger/port/elog_port.c" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/easylogger/port/elog_port.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/Config/mcu_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/Config/mcu_config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.clangd" beforeDir="false" afterPath="$PROJECT_DIR$/.clangd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Common/DataProc/DP_Power.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Common/DataProc/DP_Power.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Utils/DataCenter/Account.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Utils/DataCenter/Account.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lvgl/src/extra/libs/fsdrv/lv_fs_stdio.c" beforeDir="false" afterPath="$PROJECT_DIR$/lvgl/src/extra/libs/fsdrv/lv_fs_stdio.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -576,8 +589,9 @@
     "cidr.known.project.marker": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "newFramework",
+    "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "D:/workspace/BackUp/HC32F460xE_Arduino_copy/Simulator",
+    "last_opened_file_path": "C:/Users/guoti/Desktop/workspace/HC32F460xE_Arduino/Simulator/HAL",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -589,6 +603,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\guoti\Desktop\workspace\HC32F460xE_Arduino\Simulator\HAL" />
       <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Pages" />
       <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\img" />
       <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\symbol" />
@@ -600,6 +615,11 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake 应用程序.main">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="lvgl" TARGET_NAME="main" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="lvgl" RUN_TARGET_NAME="main">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -630,6 +650,7 @@
       <workItem from="1766052425613" duration="3616000" />
       <workItem from="1766109027047" duration="2975000" />
       <workItem from="1766113233684" duration="18988000" />
+      <workItem from="1766230115939" duration="3362000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
