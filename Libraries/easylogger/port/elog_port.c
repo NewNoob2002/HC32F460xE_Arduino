@@ -30,11 +30,11 @@
 #include <stdio.h>
 
 #include "lvgl/lvgl.h"
-#if defined(HC32F460)
-#include "SEGGER_RTT.h"
-#else
+#if defined(_WIN32)
 #include <windows.h>
 static HANDLE output_lock = NULL;
+#else
+#include "SEGGER_RTT.h"
 #endif
 char buf[32];
 /**
@@ -42,15 +42,15 @@ char buf[32];
  *
  * @return result
  */
-ElogErrCode elog_port_init(void) {
+ElogErrCode elog_port_init(void)
+{
     ElogErrCode result = ELOG_NO_ERR;
-#if defined(HC32F460)
+#if defined(_WIN32)
+    output_lock = CreateMutex(NULL, FALSE, NULL);
+#else
     /* add your code here */
     SEGGER_RTT_Init();
-#else
-    output_lock = CreateMutex(NULL, FALSE, NULL);
 #endif
-
     return result;
 }
 
@@ -58,12 +58,14 @@ ElogErrCode elog_port_init(void) {
  * EasyLogger port deinitialize
  *
  */
-void elog_port_deinit(void) {
-    /* add your code here */
-	#if defined(HC32F460)
-	#else
+void elog_port_deinit(void)
+{
+/* add your code here */
+#if defined(_WIN32)
     CloseHandle(output_lock);
-	#endif
+#else
+
+#endif
 }
 
 /**
@@ -72,38 +74,40 @@ void elog_port_deinit(void) {
  * @param log output of log
  * @param size log size
  */
-void elog_port_output(const char *log, size_t size) {
+void elog_port_output(const char *log, size_t size)
+{
     /* add your code here */
-#if defined(HC32F460)
-    /* add your code here */
-    SEGGER_RTT_Write(0, log, size);
-#else
+#if defined(_WIN32)
     printf("%.*s", (int)size, log);
+    /* add your code here */
+#else
+    SEGGER_RTT_Write(0, log, size);
 #endif
-
 }
 
 /**
  * output lock
  */
-void elog_port_output_lock(void) {
+void elog_port_output_lock(void)
+{
     /* add your code here */
-#if defined(HC32F460)
-
-#else
+#if defined(_WIN32)
     WaitForSingleObject(output_lock, INFINITE);
+#else
+
 #endif
 }
 
 /**
  * output unlock
  */
-void elog_port_output_unlock(void) {
+void elog_port_output_unlock(void)
+{
     /* add your code here */
-#if defined(HC32F460)
-
+#if defined(_WIN32)
+    ReleaseMutex(output_lock);
 #else
-    ReleaseMutex( output_lock );
+
 #endif
 }
 
@@ -112,21 +116,23 @@ void elog_port_output_unlock(void) {
  *
  * @return current time
  */
-const char *elog_port_get_time(void) {
+const char *elog_port_get_time(void)
+{
     /* add your code here */
     //		MakeTimeString(lv_tick_get(), buf, 32);
-#if defined(HC32F460)
-    lv_snprintf(buf, 32, "%d", lv_tick_get());
-    return buf;
-#else
-    static char cur_system_time[24] = { 0 };
+#if defined(_WIN32)
+    static char cur_system_time[24] = {0};
     static SYSTEMTIME currTime;
 
     GetLocalTime(&currTime);
     snprintf(cur_system_time, 24, "%02d-%02d %02d:%02d:%02d.%03d", currTime.wMonth, currTime.wDay,
-            currTime.wHour, currTime.wMinute, currTime.wSecond, currTime.wMilliseconds);
+             currTime.wHour, currTime.wMinute, currTime.wSecond, currTime.wMilliseconds);
 
     return cur_system_time;
+#else
+
+    lv_snprintf(buf, 32, "%d", lv_tick_get());
+    return buf;
 #endif
 }
 
@@ -135,15 +141,17 @@ const char *elog_port_get_time(void) {
  *
  * @return current process name
  */
-const char *elog_port_get_p_info(void) {
+const char *elog_port_get_p_info(void)
+{
     /* add your code here */
-#if defined(HC32F460)
-    return "";
-#else
-    static char cur_process_info[10] = { 0 };
+#if defined(_WIN32)
+    static char cur_process_info[10] = {0};
     snprintf(cur_process_info, 10, "pid:%04ld", GetCurrentProcessId());
 
     return cur_process_info;
+
+#else
+    return "";
 #endif
 }
 
@@ -152,15 +160,17 @@ const char *elog_port_get_p_info(void) {
  *
  * @return current thread name
  */
-const char *elog_port_get_t_info(void) {
+const char *elog_port_get_t_info(void)
+{
     /* add your code here */
-#if defined(HC32F460)
-    return "";
-#else
-    static char cur_thread_info[10] = { 0 };
+#if defined(_WIN32)
+    static char cur_thread_info[10] = {0};
 
     snprintf(cur_thread_info, 10, "tid:%04ld", GetCurrentThreadId());
 
     return cur_thread_info;
+
+#else
+    return "";
 #endif
 }

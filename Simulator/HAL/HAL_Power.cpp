@@ -34,6 +34,42 @@ void HAL::Power_PowerOffMonitor() {
     // }
 }
 
+bool HAL::Power_ShutdownEnsure(){
+    if(systemInfo.powerMonitor.ShutdownEnsure)
+    {
+        systemInfo.powerMonitor.ShutdownEnsure = false;
+        return true;
+    }
+    return false;
+}
+
+bool HAL::Power_ShutdownForce() {
+    if(systemInfo.powerMonitor.Force_ShutDown)
+    {
+        systemInfo.powerMonitor.Force_ShutDown = false;
+        return true;
+    }
+    return false;
+}
+
+bool HAL::Power_ShutdownLowBattery() {
+    if(systemInfo.powerMonitor.LowBatteryPowerOff)
+    {
+        systemInfo.powerMonitor.LowBatteryPowerOff = false;
+        return true;
+    }
+    return false;
+}
+
+bool HAL::Power_ShutdownSoftReset() {
+    if(systemInfo.powerMonitor.reset_flag)
+    {
+        systemInfo.powerMonitor.reset_flag = false;
+        return true;
+    }
+    return false;
+}
+
 void HAL::Power_Update() {
     WatchDog_Feed();
 }

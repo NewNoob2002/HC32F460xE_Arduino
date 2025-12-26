@@ -75,6 +75,7 @@ void Startup::onViewDidDisappear() {
 void Startup::onViewUnload() {
     View.Delete();
     Model.Deinit();
+		Model.SetEncoderEnable(false);
 }
 
 void Startup::onViewDidUnload() {

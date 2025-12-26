@@ -78,6 +78,7 @@ typedef struct BatteryInfo_t {
     uint16_t Percent;
     uint16_t Temp;
     uint16_t Voltage;
+		uint16_t LowBatteryCount;
     float Percent_f;
     float Voltage_f;
     float Temp_f;

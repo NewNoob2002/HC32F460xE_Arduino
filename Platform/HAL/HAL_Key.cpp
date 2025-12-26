@@ -45,7 +45,7 @@ static void FuncKey_callback(ButtonEvent *btn, int event)
             break;
         case ButtonEvent::EVENT_LONG_PRESSED_REPEAT:
 					  ForceShutdown_count++;
-            if (ForceShutdown_count >= 5)
+            if (ForceShutdown_count >= 10)
                 systemInfo.powerMonitor.Force_ShutDown = true;
             break;
     }
@@ -53,7 +53,7 @@ static void FuncKey_callback(ButtonEvent *btn, int event)
 
 void HAL::Key_Init()
 {
-    CORE_DEBUG_PRINTF("KEY: Init\n");
+    CORE_DEBUG_PRINTF("KEY: Init");
     pinMode(POWER_KEY_PIN, INPUT_PULLUP);
     pinMode(FUNCTION_KEY_PIN, INPUT_PULLUP);
 
@@ -81,4 +81,9 @@ bool HAL::Encoder_GetIsPush()
     }
 
     return digitalRead(POWER_KEY_PIN) == HIGH;
+}
+
+void HAL::Encoder_SetEnable(bool en)
+{
+    EncoderEnable = en;
 }

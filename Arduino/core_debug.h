@@ -1,7 +1,7 @@
 #ifndef _CORE_DEBUG_H
 #define _CORE_DEBUG_H
 
-#define __CORE_DEBUG
+//#define __CORE_DEBUG
 
 #ifdef __CORE_DEBUG
 #include "elog.h"
@@ -18,8 +18,7 @@
 #ifndef CORE_ASSERT
 #define CORE_ASSERT(expression, message, ...)                                           \
     if (!(expression)) {                                                                \
-        CORE_DEBUG_PRINTF("CORE_ASSERT:%s %d,%s\n\n", message, __LINE__, __FUNCTION__); \
-        __VA_ARGS__;                                                                    \
+        CORE_DEBUG_PRINTF("CORE_ASSERT:" message " (Line: %d, Function: %s)\n\n", ##__VA_ARGS__, __LINE__, __FUNCTION__); \
         while (true);                                                                   \
     }
 #endif
@@ -40,6 +39,6 @@
 
 #include "WVariant.h"
 #define ASSERT_GPIO_PIN_VALID(gpio_pin, fn_name, ...) \
-    CORE_ASSERT(IS_GPIO_PIN(gpio_pin), "invalid GPIO pin supplied to " fn_name, ##__VA_ARGS__)
+    // CORE_ASSERT(IS_GPIO_PIN(gpio_pin), "invalid GPIO pin supplied to " fn_name " (Pin: %d)", gpio_pin, ##__VA_ARGS__)
 
 #endif // _CORE_DEBUG_H

@@ -5,27 +5,38 @@
 
 static MillisTaskManager taskManager;
 
-static void HAL_TimerInterrputUpdate(void *e)
+static void HAL_MONITOR_TASK(void *e)
+{
+    HAL::Power_PowerOffMonitor();
+    HAL::Key_Update();
+}
+
+static void HAL_POWER_TASK(void *e)
 {
     HAL::Power_Update();
-    HAL::Key_Update();
+}
+
+static void HAL_LED_TASK(void *e)
+{
+    HAL::Led_Update();
 }
 
 void SystemClock_Config(void);
 
-//namesapce HAL
+// namesapce HAL
 void HAL::HAL_Init()
 {
-		disable_JTAG();
-		dwt_init();
-		SystemClock_Config();
-		/* Set Interrupt Group Priority */
-		HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-		memset(&systemInfo, 0, sizeof(systemInfo));
-		/* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
-		HAL_InitTick(TICK_INT_PRIORITY);
+    disable_JTAG();
+    dwt_init();
+    SystemClock_Config();
+    /* Set Interrupt Group Priority */
+    HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+    memset(&systemInfo, 0, sizeof(systemInfo));
+    Power_Init();
+    /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
+    HAL_InitTick(TICK_INT_PRIORITY);
 #ifdef __CORE_DEBUG
-			/* set EasyLogger log format */
+    /* set EasyLogger log format */
     elog_init();
     /* set EasyLogger log format */
     elog_set_fmt(ELOG_LVL_ASSERT, ELOG_FMT_ALL);
@@ -37,74 +48,66 @@ void HAL::HAL_Init()
     /* start EasyLogger */
     elog_start();
 #endif
-	
-		I2C_Scan();
-		Key_Init();
-	
-		taskManager.Register(HAL_TimerInterrputUpdate, 15);
+
+    I2C_Scan();
+    Key_Init();
+
+    taskManager.Register(HAL_MONITOR_TASK, 15);
+    taskManager.Register(HAL_LED_TASK, 100);
+    taskManager.Register(HAL_POWER_TASK, 500);
 }
 
 void HAL::HAL_Update()
 {
-	taskManager.Running(millis());
-	if (systemInfo.powerMonitor.reset_flag)
-	{
-		delay_ms(1200);
-		NVIC_SystemReset();
-	}
-	if(lv_tick_get() - systemInfo.powerMonitor.pannel_power_on_time >= 30000 && !systemInfo.online_device.eg25_board)
-	{
-		systemInfo.eg25_overtime = true;
-	}
+    taskManager.Running(millis());
+    if (lv_tick_get() - systemInfo.powerMonitor.pannel_power_on_time >= 30000 && !systemInfo.online_device.eg25_board) {
+        systemInfo.eg25_overtime = true;
+    }
 }
 
 /** @addtogroup HAL_Private_Variables
-  * @{
-  */
+ * @{
+ */
 __IO uint32_t uwTick;
-uint32_t uwTickPrio   = (1UL << __NVIC_PRIO_BITS); /* Invalid PRIO */
-HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;  /* 1KHz */
+uint32_t uwTickPrio            = (1UL << __NVIC_PRIO_BITS); /* Invalid PRIO */
+HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;     /* 1KHz */
 
 /**
-  * @brief This function configures the source of the time base.
-  *        The time source is configured  to have 1ms time base with a dedicated 
-  *        Tick interrupt priority.
-  * @note This function is called  automatically at the beginning of program after
-  *       reset by HAL_Init() or at any time when clock is reconfigured  by HAL_RCC_ClockConfig().
-  * @note In the default implementation, SysTick timer is the source of time base. 
-  *       It is used to generate interrupts at regular time intervals. 
-  *       Care must be taken if HAL_Delay() is called from a peripheral ISR process, 
-  *       The SysTick interrupt must have higher priority (numerically lower)
-  *       than the peripheral interrupt. Otherwise the caller ISR process will be blocked.
-  *       The function is declared as __weak  to be overwritten  in case of other
-  *       implementation  in user file.
-  * @param TickPriority Tick interrupt priority.
-  * @retval HAL status
-  */
+ * @brief This function configures the source of the time base.
+ *        The time source is configured  to have 1ms time base with a dedicated
+ *        Tick interrupt priority.
+ * @note This function is called  automatically at the beginning of program after
+ *       reset by HAL_Init() or at any time when clock is reconfigured  by HAL_RCC_ClockConfig().
+ * @note In the default implementation, SysTick timer is the source of time base.
+ *       It is used to generate interrupts at regular time intervals.
+ *       Care must be taken if HAL_Delay() is called from a peripheral ISR process,
+ *       The SysTick interrupt must have higher priority (numerically lower)
+ *       than the peripheral interrupt. Otherwise the caller ISR process will be blocked.
+ *       The function is declared as __weak  to be overwritten  in case of other
+ *       implementation  in user file.
+ * @param TickPriority Tick interrupt priority.
+ * @retval HAL status
+ */
 __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
 {
-  /* Configure the SysTick to have interrupt in 1ms time basis*/
-  if (HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq)) > 0U)
-  {
-    return HAL_ERROR;
-  }
+    /* Configure the SysTick to have interrupt in 1ms time basis*/
+    if (HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq)) > 0U) {
+        return HAL_ERROR;
+    }
 
-  /* Configure the SysTick IRQ priority */
-  if (TickPriority < (1UL << __NVIC_PRIO_BITS))
-  {
-    HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority, 0U);
-    uwTickPrio = TickPriority;
-  }
-  else
-  {
-    return HAL_ERROR;
-  }
+    /* Configure the SysTick IRQ priority */
+    if (TickPriority < (1UL << __NVIC_PRIO_BITS)) {
+        HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority, 0U);
+        uwTickPrio = TickPriority;
+    } else {
+        return HAL_ERROR;
+    }
 
-  /* Return function status */
-  return HAL_OK;
+    /* Return function status */
+    return HAL_OK;
 }
 
-/** @defgroup HAL_Exported_Functions_Group2 HAL Control functions 
+/** @defgroup HAL_Exported_Functions_Group2 HAL Control functions
  *  @brief    HAL Control functions
  *
 @verbatim
@@ -128,146 +131,144 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   */
 
 /**
-  * @brief This function is called to increment  a global variable "uwTick"
-  *        used as application time base.
-  * @note In the default implementation, this variable is incremented each 1ms
-  *       in SysTick ISR.
- * @note This function is declared as __weak to be overwritten in case of other 
-  *      implementations in user file.
-  * @retval None
-  */
+ * @brief This function is called to increment  a global variable "uwTick"
+ *        used as application time base.
+ * @note In the default implementation, this variable is incremented each 1ms
+ *       in SysTick ISR.
+ * @note This function is declared as __weak to be overwritten in case of other
+ *      implementations in user file.
+ * @retval None
+ */
 __weak void HAL_IncTick(void)
 {
-  uwTick += uwTickFreq;
+    uwTick += uwTickFreq;
 }
 
 /**
-  * @brief Provides a tick value in millisecond.
-  * @note This function is declared as __weak to be overwritten in case of other 
-  *       implementations in user file.
-  * @retval tick value
-  */
+ * @brief Provides a tick value in millisecond.
+ * @note This function is declared as __weak to be overwritten in case of other
+ *       implementations in user file.
+ * @retval tick value
+ */
 __weak uint32_t HAL_GetTick(void)
 {
-  return uwTick;
+    return uwTick;
 }
 
 /**
-  * @brief This function returns a tick priority.
-  * @retval tick priority
-  */
+ * @brief This function returns a tick priority.
+ * @retval tick priority
+ */
 uint32_t HAL_GetTickPrio(void)
 {
-  return uwTickPrio;
+    return uwTickPrio;
 }
 
 /**
-  * @brief Set new tick Freq.
-  * @retval Status
-  */
+ * @brief Set new tick Freq.
+ * @retval Status
+ */
 HAL_StatusTypeDef HAL_SetTickFreq(HAL_TickFreqTypeDef Freq)
 {
-  HAL_StatusTypeDef status  = HAL_OK;
-  HAL_TickFreqTypeDef prevTickFreq;
+    HAL_StatusTypeDef status = HAL_OK;
+    HAL_TickFreqTypeDef prevTickFreq;
 
-  DDL_ASSERT(IS_TICKFREQ(Freq));
+    DDL_ASSERT(IS_TICKFREQ(Freq));
 
-  if (uwTickFreq != Freq)
-  {
-    /* Back up uwTickFreq frequency */
-    prevTickFreq = uwTickFreq;
+    if (uwTickFreq != Freq) {
+        /* Back up uwTickFreq frequency */
+        prevTickFreq = uwTickFreq;
 
-    /* Update uwTickFreq global variable used by HAL_InitTick() */
-    uwTickFreq = Freq;
+        /* Update uwTickFreq global variable used by HAL_InitTick() */
+        uwTickFreq = Freq;
 
-    /* Apply the new tick Freq  */
-    status = HAL_InitTick(uwTickPrio);
+        /* Apply the new tick Freq  */
+        status = HAL_InitTick(uwTickPrio);
 
-    if (status != HAL_OK)
-    {
-      /* Restore previous tick frequency */
-      uwTickFreq = prevTickFreq;
+        if (status != HAL_OK) {
+            /* Restore previous tick frequency */
+            uwTickFreq = prevTickFreq;
+        }
     }
-  }
 
-  return status;
+    return status;
 }
 
 /**
-  * @brief Return tick frequency.
-  * @retval Tick frequency.
-  *         Value of @ref HAL_TickFreqTypeDef.
-  */
+ * @brief Return tick frequency.
+ * @retval Tick frequency.
+ *         Value of @ref HAL_TickFreqTypeDef.
+ */
 HAL_TickFreqTypeDef HAL_GetTickFreq(void)
 {
-  return uwTickFreq;
+    return uwTickFreq;
 }
 
 /**
-  * @brief Suspend Tick increment.
-  * @note In the default implementation , SysTick timer is the source of time base. It is
-  *       used to generate interrupts at regular time intervals. Once HAL_SuspendTick()
-  *       is called, the SysTick interrupt will be disabled and so Tick increment 
-  *       is suspended.
-  * @note This function is declared as __weak to be overwritten in case of other
-  *       implementations in user file.
-  * @retval None
-  */
+ * @brief Suspend Tick increment.
+ * @note In the default implementation , SysTick timer is the source of time base. It is
+ *       used to generate interrupts at regular time intervals. Once HAL_SuspendTick()
+ *       is called, the SysTick interrupt will be disabled and so Tick increment
+ *       is suspended.
+ * @note This function is declared as __weak to be overwritten in case of other
+ *       implementations in user file.
+ * @retval None
+ */
 __weak void HAL_SuspendTick(void)
 {
-  /* Disable SysTick Interrupt */
-  SysTick->CTRL &= ~SysTick_CTRL_TICKINT_Msk;
+    /* Disable SysTick Interrupt */
+    SysTick->CTRL &= ~SysTick_CTRL_TICKINT_Msk;
 }
 
 /**
-  * @brief Resume Tick increment.
-  * @note In the default implementation , SysTick timer is the source of time base. It is
-  *       used to generate interrupts at regular time intervals. Once HAL_ResumeTick()
-  *       is called, the SysTick interrupt will be enabled and so Tick increment 
-  *       is resumed.
-  * @note This function is declared as __weak to be overwritten in case of other
-  *       implementations in user file.
-  * @retval None
-  */
+ * @brief Resume Tick increment.
+ * @note In the default implementation , SysTick timer is the source of time base. It is
+ *       used to generate interrupts at regular time intervals. Once HAL_ResumeTick()
+ *       is called, the SysTick interrupt will be enabled and so Tick increment
+ *       is resumed.
+ * @note This function is declared as __weak to be overwritten in case of other
+ *       implementations in user file.
+ * @retval None
+ */
 __weak void HAL_ResumeTick(void)
 {
-  /* Enable SysTick Interrupt */
-  SysTick->CTRL  |= SysTick_CTRL_TICKINT_Msk;
+    /* Enable SysTick Interrupt */
+    SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
-	
-    stc_clock_xtal_init_t     stcXtalInit;
-    stc_clock_pll_init_t      stcMpllInit;
+
+    stc_clock_xtal_init_t stcXtalInit;
+    stc_clock_pll_init_t stcMpllInit;
 
     GPIO_AnalogCmd(XTAL_PORT, XTAL_PIN, ENABLE);
     (void)CLK_XtalStructInit(&stcXtalInit);
     (void)CLK_PLLStructInit(&stcMpllInit);
 
     /* Set bus clk div. */
-    CLK_SetClockDiv(CLK_BUS_CLK_ALL, (CLK_HCLK_DIV1 | CLK_EXCLK_DIV2 | CLK_PCLK0_DIV1 | CLK_PCLK1_DIV2 | \
+    CLK_SetClockDiv(CLK_BUS_CLK_ALL, (CLK_HCLK_DIV1 | CLK_EXCLK_DIV2 | CLK_PCLK0_DIV1 | CLK_PCLK1_DIV2 |
                                       CLK_PCLK2_DIV4 | CLK_PCLK3_DIV4 | CLK_PCLK4_DIV2));
 
     /* Config Xtal and enable Xtal */
-    stcXtalInit.u8Mode = CLK_XTAL_MD_OSC;
-    stcXtalInit.u8Drv = CLK_XTAL_DRV_ULOW;
-    stcXtalInit.u8State = CLK_XTAL_ON;
+    stcXtalInit.u8Mode       = CLK_XTAL_MD_OSC;
+    stcXtalInit.u8Drv        = CLK_XTAL_DRV_ULOW;
+    stcXtalInit.u8State      = CLK_XTAL_ON;
     stcXtalInit.u8StableTime = CLK_XTAL_STB_2MS;
     (void)CLK_XtalInit(&stcXtalInit);
 
     /* MPLL config (XTAL / pllmDiv * plln / PllpDiv = 200M). */
-    stcMpllInit.PLLCFGR = 0UL;
-    stcMpllInit.PLLCFGR_f.PLLM = 1UL - 1UL;
-    stcMpllInit.PLLCFGR_f.PLLN = 50UL - 1UL;
-    stcMpllInit.PLLCFGR_f.PLLP = 2UL - 1UL;
-    stcMpllInit.PLLCFGR_f.PLLQ = 2UL - 1UL;
-    stcMpllInit.PLLCFGR_f.PLLR = 2UL - 1UL;
-    stcMpllInit.u8PLLState = CLK_PLL_ON;
+    stcMpllInit.PLLCFGR          = 0UL;
+    stcMpllInit.PLLCFGR_f.PLLM   = 1UL - 1UL;
+    stcMpllInit.PLLCFGR_f.PLLN   = 50UL - 1UL;
+    stcMpllInit.PLLCFGR_f.PLLP   = 2UL - 1UL;
+    stcMpllInit.PLLCFGR_f.PLLQ   = 2UL - 1UL;
+    stcMpllInit.PLLCFGR_f.PLLR   = 2UL - 1UL;
+    stcMpllInit.u8PLLState       = CLK_PLL_ON;
     stcMpllInit.PLLCFGR_f.PLLSRC = CLK_PLL_SRC_XTAL;
     (void)CLK_PLLInit(&stcMpllInit);
     /* Wait MPLL ready. */
@@ -292,6 +293,6 @@ void SystemClock_Config(void)
     EFM_CacheRamReset(DISABLE);
     /* Enable cache */
     EFM_CacheCmd(ENABLE);
-		
-		SystemCoreClockUpdate();
+
+    SystemCoreClockUpdate();
 }

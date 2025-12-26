@@ -47,7 +47,7 @@ void HardwareCheck::onViewDidDisappear() {
 
 void HardwareCheck::onViewUnload() {
     View.Delete();
-    // Model.SetEncoderEnable(true);
+    Model.SetEncoderEnable(true);
     Model.Deinit();
 }
 
@@ -63,9 +63,9 @@ void HardwareCheck::onTimer(lv_timer_t *timer) {
         PM_LOG_INFO("push main page, [%ld]", lv_tick_get() - first_check_time);
         instance->pageManager->Push("Pages/Dialplate");
     }
-    #else
+#else
     instance->pageManager->Push("Pages/Dialplate");
-    #endif
+#endif
 }
 
 void HardwareCheck::onEvent(lv_event_t *event) {

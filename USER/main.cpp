@@ -18,15 +18,15 @@ int main(void)
 	HAL::HAL_Init();
 	HAL::Display_Init();
 	App_Init();
-	HAL::Power_Init();
+	HAL::Power_OnCheck();
   /* Configure BSP */
 	slave_i2c_init();
 	/* Peripheral registers write protected */
   LL_PERIPH_WP(EXAMPLE_PERIPH_WP);
   while (1) {
-		HAL::HAL_Update();
 		slave_i2c_update();
-		HAL::Dispaly_Update();
-		__WFI();
+		HAL::HAL_Update();
+		App_Update();
+		lv_timer_handler();
   }
 }

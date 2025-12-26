@@ -62,8 +62,9 @@ static int message_info_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
             msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.recordInfo.record_status;   // 静态记录状态
             msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.recordInfo.record_op;       // 静态记录开关
             msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus;   // 充电电源接入
+						if(systemInfo.recordInfo.record_change_flag)systemInfo.recordInfo.record_change_flag  = 0;
             systemInfo.recordInfo.record_op = 0;
-            if (systemInfo.powerMonitor.poweroff_flag) 
+            if (systemInfo.powerMonitor.poweroff_flag == 1) 
 						{
 							systemInfo.powerMonitor.poweroff_flag = 0;
 							systemInfo.powerMonitor.ShutdownEnsure = true;
@@ -118,7 +119,7 @@ static int message_reset_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
 {
     uint8_t *msg = txBuffer;
 
-    systemInfo.powerMonitor.reset_flag = msg[NM_PROTOCOL_HEADER_LEN];
+    systemInfo.powerMonitor.reset_flag = parse->buffer[NM_PROTOCOL_HEADER_LEN];
 
     const uint16_t messageLength      = NM_PROTOCOL_RST_RESP_MSG_LEN;
     msg[0]                            = NM_PROTOCOL_SYN_BYTE1;
@@ -185,7 +186,7 @@ static int message_set_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
                 memcpy(&systemInfo.recordInfo.record_name, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 8], 16);
                 systemInfo.recordInfo.record_type     = parse->buffer[NM_PROTOCOL_HEADER_LEN + 24];
                 systemInfo.recordInfo.record_interval = parse->buffer[NM_PROTOCOL_HEADER_LEN + 25];
-                systemInfo.recordInfo.record_change_flag  = parse->buffer[NM_PROTOCOL_HEADER_LEN + 26];
+								systemInfo.recordInfo.record_change_flag = parse->buffer[NM_PROTOCOL_HEADER_LEN + 26];
             }
             break;
         case NM_PANEL_SET7_ID:
@@ -233,16 +234,17 @@ int message_decode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
     //log_i("messageId: %d, h:%d, l:%d", messageId, messageHeader->messageId_H, messageHeader->messageId_L);
 		if(!systemInfo.online_device.eg25_board)
 			systemInfo.online_device.eg25_board = true;
-    digitalToggle(FUNCTION_LED_PIN);
+//    digitalToggle(FUNCTION_LED_PIN);
     switch (messageId) {
         case NM_PANEL_INFO1_ID:
         case NM_PANEL_INFO2_ID:
         case NM_PANEL_INFO3_ID:
-        case NM_PANEL_INFO4_ID: {
+        case NM_PANEL_INFO4_ID:
+//						log_i("[%d] Info Panel", messageId);
             return message_info_encode(parse, txBuffer);
             break;
-        }
         case NM_PANEL_RST_ID:
+						CORE_DEBUG_PRINTF("[%d] Reset Panel", messageId);
             return message_reset_encode(parse, txBuffer);
             break;
         case NM_PANEL_SET1_ID:
@@ -250,6 +252,7 @@ int message_decode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
         case NM_PANEL_SET6_ID:
         case NM_PANEL_SET7_ID:
         case NM_PANEL_SET3_1_ID:
+//						log_i("[%d] Set Panel", messageId);
             return message_set_encode(parse, txBuffer);
             break;
         default:

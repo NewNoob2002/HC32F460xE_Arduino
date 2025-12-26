@@ -2,12 +2,11 @@
 
 using namespace Page;
 
-void ShutdownView::Create(lv_obj_t* root)
-{
+void ShutdownView::Create(lv_obj_t *root) {
     const lv_font_t *font = ResourcePool::GetFont("oswaldBold_18");
     const lv_font_t *font_small = ResourcePool::GetFont("oswaldBold_12");
 
-    lv_obj_t* main_cont = lv_obj_create(root);
+    lv_obj_t *main_cont = lv_obj_create(root);
     lv_obj_remove_style_all(main_cont);
     lv_obj_set_size(main_cont, LV_HOR_RES, LV_VER_RES);
     lv_obj_center(main_cont);
@@ -47,7 +46,7 @@ void ShutdownView::Create(lv_obj_t* root)
     lv_obj_align(barPercent, LV_ALIGN_CENTER, 70, 10);
     ui.shutdown.bar.label = barPercent;
 
-    lv_obj_t* btnPress = lv_obj_create(main_cont);
+    lv_obj_t *btnPress = lv_obj_create(main_cont);
     lv_obj_remove_style_all(btnPress);
     lv_obj_set_size(btnPress, 50, 30);
     lv_obj_clear_flag(btnPress, LV_OBJ_FLAG_SCROLLABLE);
@@ -63,7 +62,7 @@ void ShutdownView::Create(lv_obj_t* root)
     lv_obj_set_style_radius(btnPress, 9, 0);
 
     static lv_style_transition_dsc_t tran;
-    static constexpr lv_style_prop_t prop[] = { LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
+    static constexpr lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
     lv_style_transition_dsc_init(
         &tran,
         prop,
@@ -86,17 +85,17 @@ void ShutdownView::Create(lv_obj_t* root)
     /*
      * Second screen;
      */
-    lv_obj_t* second_cont = lv_obj_create(root);
+    lv_obj_t *second_cont = lv_obj_create(root);
     lv_obj_remove_style_all(second_cont);
     lv_obj_set_size(second_cont, LV_HOR_RES, LV_VER_RES);
     lv_obj_center(second_cont);
     lv_obj_add_flag(second_cont, LV_OBJ_FLAG_HIDDEN);
     ui.sync.cont = second_cont;
 
-    lv_obj_t* sync_label = lv_label_create(second_cont);
+    lv_obj_t *sync_label = lv_label_create(second_cont);
     lv_obj_set_style_text_font(sync_label, ResourcePool::GetFont("oswaldBold_18"), 0);
-    lv_obj_set_style_text_color(sync_label, lv_palette_main(LV_PALETTE_RED), 0);
-    lv_label_set_text(sync_label, "Warming: Sync Now Please Wait");
+    lv_obj_set_style_text_color(sync_label, lv_palette_main(LV_PALETTE_GREEN), 0);
+    lv_label_set_text(sync_label, "Warming: Saving SystemConfig");
     lv_obj_center(sync_label);
     ui.sync.label = sync_label;
 
@@ -107,7 +106,7 @@ void ShutdownView::Create(lv_obj_t* root)
     lv_obj_set_size(bar_cont, 102, 12);
     lv_obj_align(bar_cont, LV_ALIGN_CENTER, 0, 40);
 
-    lv_obj_t* sync_bar = lv_obj_create(bar_cont);
+    lv_obj_t *sync_bar = lv_obj_create(bar_cont);
     lv_obj_remove_style_all(sync_bar);
     lv_obj_set_size(sync_bar, 0, 10);
     lv_obj_set_style_bg_color(sync_bar, lv_color_hex(0x8BCA93), 0);
@@ -118,7 +117,7 @@ void ShutdownView::Create(lv_obj_t* root)
 
     lv_anim_init(&ui.sync.bar.anim);
     lv_anim_set_var(&ui.sync.bar.anim, sync_bar);
-		lv_anim_set_exec_cb(&ui.sync.bar.anim, LV_ANIM_EXEC(width));
+    lv_anim_set_exec_cb(&ui.sync.bar.anim, LV_ANIM_EXEC(width));
     lv_anim_set_values(&ui.sync.bar.anim, 0, 100);
     lv_anim_set_time(&ui.sync.bar.anim, 8000);
     lv_anim_set_playback_time(&ui.sync.bar.anim, 0);
@@ -139,8 +138,7 @@ void ShutdownView::Create(lv_obj_t* root)
 }
 
 void ShutdownView::Delete() {
-    if(ui.anim_timeline)
-    {
+    if (ui.anim_timeline) {
         lv_anim_timeline_del(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }

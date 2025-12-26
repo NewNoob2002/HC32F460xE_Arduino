@@ -6,23 +6,34 @@
 #define LVGL_HARDWARE_CHECK_MODEL_H
 
 #include "Common/DataProc/DataProc.h"
+#include "HAL/HAL.h"
 
-namespace Page
-{
-
+namespace Page {
     class HardwareCheckModel {
     public:
         HardwareCheckModel() {
             account = nullptr;
         }
+
         ~HardwareCheckModel() = default;
+
         void Init();
+
         void Deinit();
+
         void SetStatusBarAppear(bool en) const;
+
         void SetStatusBarStyle(DataProc::StatusBar_Style_t style) const;
 
+        static void SetEncoderEnable(const bool en) {
+#if defined(_WIN32)
+#else
+            HAL::Encoder_SetEnable(en);
+#endif
+        }
+
     private:
-        Account* account;
+        Account *account;
     };
 };
 

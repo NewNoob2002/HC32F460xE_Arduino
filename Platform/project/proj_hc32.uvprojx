@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>HC32F460JEUA</Device>
           <Vendor>HDSC</Vendor>
-          <PackID>HDSC.HC32F460.1.0.12</PackID>
+          <PackID>HDSC.HC32F460.1.0.11</PackID>
           <PackURL>https://raw.githubusercontent.com/hdscmcu/pack/master/</PackURL>
           <Cpu>IRAM(0x1FFF8000,0x2F000) IRAM2(0x200F0000,0x1000) IROM(0x00000000,0x80000) IROM2(0x03000C00,0x003FC) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -337,9 +337,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111</Define>
+              <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111,__CORE_DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\HC32F460xE_Arduino;..\..\Simulator\App;..\..\USER\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Platform;..\support;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\..\Libraries\easylogger\inc</IncludePath>
+              <IncludePath>..\..\USER\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\Driver\inc;..\HAL;..\..\Platform;..\support;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\..\Libraries\easylogger\inc;..\..\..\HC32F460xE_Arduino_copy;..\..\Simulator\App</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -408,11 +408,6 @@
               <FileType>8</FileType>
               <FilePath>..\..\Simulator\App\App.cpp</FilePath>
             </File>
-            <File>
-              <FileName>App.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\Simulator\App\App.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -432,6 +427,57 @@
               <FileName>DP_Power.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\Simulator\App\Common\DataProc\DP_Power.cpp</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
           </Files>
         </Group>
@@ -567,11 +613,6 @@
               <FileName>WorkSettings.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\Simulator\App\Pages\WorkSettings\WorkSettings.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>WorkSettingsModel.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\..\Simulator\App\Pages\WorkSettings\WorkSettingsModel.cpp</FilePath>
             </File>
             <File>
               <FileName>WorkSettingsView.cpp</FileName>
@@ -1451,6 +1492,57 @@
               <FileName>elog_buf.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Libraries\easylogger\src\elog_buf.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <uGnu>2</uGnu>
+                    <useXO>2</useXO>
+                    <v6Lang>0</v6Lang>
+                    <v6LangP>0</v6LangP>
+                    <vShortEn>2</vShortEn>
+                    <vShortWch>2</vShortWch>
+                    <v6Lto>2</v6Lto>
+                    <v6WtE>2</v6WtE>
+                    <v6Rtti>2</v6Rtti>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
           </Files>
         </Group>

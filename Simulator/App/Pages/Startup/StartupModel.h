@@ -2,6 +2,7 @@
 #define STARTUP_MODEL_H
 
 #include "Common/DataProc/DataProc.h"
+#include "HAL/HAL.h"
 
 namespace Page {
     class StartupModel {
@@ -18,6 +19,13 @@ namespace Page {
         void Deinit();
 
         void SetStatusBarAppear(bool en, bool delay) const;
+
+        static void SetEncoderEnable(const bool en) {
+#if defined(_WIN32)
+#else
+            HAL::Encoder_SetEnable(en);
+#endif
+        }
 
     private:
         Account *account;

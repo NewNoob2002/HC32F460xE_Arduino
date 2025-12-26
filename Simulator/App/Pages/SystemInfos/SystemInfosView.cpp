@@ -272,7 +272,7 @@ void SystemInfosView::SetGPS(
         ui.gps.labelData,
         "%0.6f\n"
         "%0.6f\n"
-        "%0.2fm\n",
+        "%0.6fm\n",
         lat,
         lng,
         alt
@@ -283,7 +283,7 @@ void SystemInfosView::SetWifi(const WifiInfo_t &wifiInfo) const {
     lv_label_set_text_fmt(
         ui.wifi.labelData,
         "%s-%s\n"
-        "%c.%c.%c.%c\n",
+        "%d.%d.%d.%d",
         wifiInfo.wifi_mode ? "STA" : "AP", wifiInfo.wifi_ssid,
         wifiInfo.wifi_ip[0], wifiInfo.wifi_ip[1], wifiInfo.wifi_ip[2], wifiInfo.wifi_ip[3]
     );
@@ -304,19 +304,30 @@ void SystemInfosView::SetBattery(const BatteryInfo_t &batteryInfo) const {
 }
 
 void SystemInfosView::SetStorage(const RecordInfo_t &recordInfo) const {
-    lv_label_set_text_fmt(
-        ui.storage.labelData,
-        "%s\n"
-        "%s\n"
-        "%0.1f M\n"
-        "%s\n"
-        "%0.2f Hour",
-        recordInfo.record_status ? "On" : "Off",
-        recordInfo.record_name,
-        recordInfo.record_leftspace>0.0? 0.0:recordInfo.record_leftspace,
-        recordInfo.record_type == 1 ? "xyz" : "Rinex3.02",
-        recordInfo.record_interval > 0x01? recordInfo.record_interval: 0.25
-    );
+    if (recordInfo.record_status) {
+        lv_label_set_text_fmt(
+            ui.storage.labelData,
+            "On\n"
+            "%s\n"
+            "%0.1f M\n"
+            "%s\n"
+            "%0.2f Hour",
+            recordInfo.record_name,
+            recordInfo.record_leftspace,
+            recordInfo.record_type == 1 ? "xyz" : "Rinex3.02",
+            recordInfo.record_interval > 0x01? recordInfo.record_interval: 0.25
+        );
+    }
+    else {
+        lv_label_set_text_fmt(
+            ui.storage.labelData,
+            "Off\n"
+            "-\n"
+            "-\n"
+            "-\n"
+            "-");
+    }
+
 }
 
 void SystemInfosView::SetSystem(

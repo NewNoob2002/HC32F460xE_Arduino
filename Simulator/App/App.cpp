@@ -37,6 +37,7 @@ do{ \
 
 static AppFactory factory;
 static PageManager manager(&factory);
+static bool Shutdown_pushed = false;
 
 void App_Init() {
     /* Make sure the default group exists */
@@ -86,5 +87,13 @@ void App_Init() {
     manager.Push("Pages/Startup");
 }
 
-void App_SecondInit() {
+void App_Update() {
+    if (systemInfo.powerMonitor.Force_ShutDown || systemInfo.powerMonitor.LowBatteryPowerOff 
+			|| systemInfo.powerMonitor.reset_flag || systemInfo.powerMonitor.LinuxPowerOff) {
+      if(!Shutdown_pushed)
+			{
+				Shutdown_pushed = true;
+				manager.Push("Pages/Shutdown");
+			}
+    }
 }

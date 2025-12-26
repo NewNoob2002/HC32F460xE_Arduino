@@ -4,14 +4,9 @@
 
 void HAL::Display_Init()
 {
-		CORE_DEBUG_PRINTF("Disaply Init");
-    if (!lv_is_initialized()) {
+		if (!lv_is_initialized()) {
         lv_init();
     }
+		CORE_DEBUG_PRINTF("Disaply Init");
     lv_port_init();
-}
-
-void HAL::Dispaly_Update()
-{
-    lv_timer_handler();
 }

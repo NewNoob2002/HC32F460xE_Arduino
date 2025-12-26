@@ -91,6 +91,7 @@ extern void StatusBar_Appear(bool en);
     while (true) {
         /* Periodically call the lv_task handler.
          * It could be done in a timer interrupt or an OS task too.*/
+        App_Update();
         lv_timer_handler();
         // if (systemInfo.powerMonitor.PowerKey_PressCount < 100) {
         //     systemInfo.powerMonitor.PowerKey_PressCount++;

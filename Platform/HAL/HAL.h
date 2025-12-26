@@ -18,8 +18,14 @@ namespace HAL
 	
 	/* Power */
 	void Power_Init();
+	void Power_OnCheck();
 	void Power_Shutdown(bool en);
 	void Power_PowerOffMonitor();
+	bool Power_ShutdownEnsure();
+	bool Power_ShutdownForce();
+	bool Power_ShutdownLinux();
+	bool Power_ShutdownLowBattery();
+	bool Power_ShutdownSoftReset();
 	void Power_Update();
 	void Power_GetInfo(Power_Monitor_t *info);
 	const char *Power_GetPowerOffCause();
@@ -30,9 +36,10 @@ namespace HAL
 	int32_t Encoder_GetDiff();
 	bool Encoder_GetIsPush();
 	void Encoder_SetEnable(bool en);
+	/* LED */
+	void Led_Update();
 	/* Dispaly */
 	void Display_Init();
-	void Dispaly_Update();
 }
 #endif /*__cplusplus*/
 

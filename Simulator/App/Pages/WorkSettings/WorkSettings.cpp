@@ -7,8 +7,8 @@ WorkSettings::WorkSettings() = default;
 WorkSettings::~WorkSettings() = default;
 
 void WorkSettings::onCustomAttrConfig() {
-    SetCustomCacheEnable(true);
     SetCustomLoadAnimType(PageManager::LOAD_ANIM_NONE);
+    SetCustomCacheEnable(true);
     PageBase::onCustomAttrConfig();
 }
 
@@ -32,7 +32,15 @@ void WorkSettings::onViewDidLoad() {
 
 void WorkSettings::onViewWillAppear() {
     PageBase::onViewWillAppear();
-    View.Update();
+    if (timer == nullptr) {
+        PM_LOG_INFO("WorkSettings::Create");
+        timer = lv_timer_create(onTimerUpdate, 1000, this);
+    }
+    else {
+        PM_LOG_INFO("WorkSettings::Resume");
+        lv_timer_resume(timer);
+    }
+
     lv_indev_wait_release(lv_indev_get_act());
     lv_group_t *group = lv_group_get_default();
     LV_ASSERT_NULL(group);
@@ -71,11 +79,14 @@ void WorkSettings::onViewWillDisappear() {
 
 void WorkSettings::onViewDidDisappear() {
     PageBase::onViewDidDisappear();
+    if (timer) {
+        PM_LOG_INFO("WorkSettings::Pause");
+        lv_timer_pause(timer);
+    }
 }
 
 void WorkSettings::onViewUnload() {
     PageBase::onViewUnload();
-    // Model.Deinit();
     View.Delete();
     if (lastFocus) {
         lastFocus = nullptr;
@@ -112,10 +123,6 @@ void WorkSettings::onBtnClicked(const lv_obj_t *btn) const {
         systemInfo.radioInfo.radio_change_flag = 1;
         pageManager->Pop();
     } else if (btn == View.ui.btnCont.btnNtrip) {
-        const uint8_t protocol_index = RadioProtocol[
-            WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
-        const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.mid_roller.label) + 1;
-        PM_LOG_INFO("btnNtrip, pro:%d, freq:%d", protocol_index, channel_index);
         systemInfo.work_mode = autobase_mode;
         systemInfo.radioInfo.radio_status = On_Off_Status_OFF;
         systemInfo.ntripInfo.gprs_status = On_Off_Status_ON;
@@ -138,6 +145,12 @@ void WorkSettings::onBtnClicked(const lv_obj_t *btn) const {
 
 void WorkSettings::AttachEvent(lv_obj_t *obj) {
     lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
+}
+
+void WorkSettings::onTimerUpdate(lv_timer_t *timer) {
+    const auto *instance = static_cast<WorkSettings *>(timer->user_data);
+    instance->View.Update();
+    PM_LOG_INFO("WorkSettings::onTimerUpdate");
 }
 
 void WorkSettings::onEvent(lv_event_t *event) {

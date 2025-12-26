@@ -23,7 +23,11 @@
 #ifndef __PM_LOG_H
 #define __PM_LOG_H
 
+#if defined(_WIN32)
 #define PAGE_MANAGER_USE_LOG 1
+#else
+#define PAGE_MANAGER_USE_LOG 0
+#endif
 
 #if PAGE_MANAGER_USE_LOG
 #include <elog.h>

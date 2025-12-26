@@ -57,7 +57,14 @@ void Dialplate::onViewWillAppear() {
 }
 
 void Dialplate::onViewDidAppear() {
-    timer = lv_timer_create(onTimerUpdate, 1000, this);
+    if (timer == nullptr) {
+        PM_LOG_INFO("Dialplate::Create");
+        timer = lv_timer_create(onTimerUpdate, 1000, this);
+    }
+    else {
+        PM_LOG_INFO("Dialplate::Resume");
+        lv_timer_resume(timer);
+    }
 }
 
 void Dialplate::onViewWillDisappear() {
@@ -65,8 +72,10 @@ void Dialplate::onViewWillDisappear() {
     LV_ASSERT_NULL(group);
     lastFocus = lv_group_get_focused(group);
     lv_group_remove_all_objs(group);
-    lv_timer_del(timer);
-    // View.AppearAnimStart(true);
+    if (timer) {
+        PM_LOG_INFO("Dialplate::Pause");
+        lv_timer_pause(timer);
+    }
 }
 
 void Dialplate::onViewDidDisappear() {
@@ -91,9 +100,9 @@ void Dialplate::Update() {
     const PositionInfo_t positionInfo = systemInfo.positionInfo;
     View.ui.topInfo.satellite_used->setValue(positionInfo.satellite_number_used);
     View.ui.topInfo.satellite_tacked->setValue(positionInfo.satellite_number_track);
-    if (systemInfo.recordInfo.record_status == 0 && recState == RECORD_STATE_START) {
+    if (systemInfo.recordInfo.record_status == On_Off_Status_OFF && recState == RECORD_STATE_START) {
         onRecord(false);
-    } else if (systemInfo.recordInfo.record_status == 1 && recState == RECORD_STATE_STOP) {
+    } else if (systemInfo.recordInfo.record_status == On_Off_Status_ON && recState == RECORD_STATE_STOP) {
         onRecord(true);
     }
     switch (systemInfo.work_mode) {
@@ -121,6 +130,7 @@ void Dialplate::Update() {
 void Dialplate::onTimerUpdate(lv_timer_t *timer) {
     auto *instance = static_cast<Dialplate *>(timer->user_data);
     instance->Update();
+    PM_LOG_INFO("Dialplate::onTimerUpdate");
 }
 
 void Dialplate::onBtnClicked(lv_obj_t *btn) const {

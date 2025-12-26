@@ -13,17 +13,17 @@ public:
 
 public:
     SystemInfos();
-    virtual ~SystemInfos();
+    ~SystemInfos() override;
 
-    virtual void onCustomAttrConfig();
-    virtual void onViewLoad();
-    virtual void onViewDidLoad();
-    virtual void onViewWillAppear();
-    virtual void onViewDidAppear();
-    virtual void onViewWillDisappear();
-    virtual void onViewDidDisappear();
-    virtual void onViewUnload();
-    virtual void onViewDidUnload();
+    void onCustomAttrConfig() override;
+    void onViewLoad() override;
+    void onViewDidLoad() override;
+    void onViewWillAppear() override;
+    void onViewDidAppear() override;
+    void onViewWillDisappear() override;
+    void onViewDidDisappear() override;
+    void onViewUnload() override;
+    void onViewDidUnload() override;
 
 private:
     void Update() const;

@@ -1,5 +1,7 @@
 #include "Shutdown.h"
 
+#include "HAL.h"
+
 using namespace Page;
 
 static bool anim_complement_callback_do = false;
@@ -19,16 +21,12 @@ static void lv_anim_obj_set_width(void *obj, int32_t width) {
     if (width >= 100) {
         if (!anim_complement_callback_do) {
             anim_complement_callback_do = true;
-            lv_obj_set_style_arc_color(static_cast<lv_obj_t *>(obj), lv_color_hex(0x70e958), LV_PART_MAIN);
-            if (instance->View.ui.shutdown.cont) {
-                lv_obj_fade_out(instance->View.ui.shutdown.cont, 300, 0);
-            }
+            lv_obj_fade_out(instance->View.ui.shutdown.cont, 300, 0);
             instance->Model.SetStatusBarDisappear(false);
             lv_obj_clear_flag(instance->View.ui.sync.cont, LV_OBJ_FLAG_HIDDEN);
             lv_obj_fade_in(instance->View.ui.sync.cont, 300, 0);
-
             lv_anim_timeline_start(instance->View.ui.anim_timeline);
-						lv_anim_start(&instance->View.ui.sync.bar.anim);
+
             HAL::Power_Shutdown(false);
         }
     }
@@ -44,11 +42,17 @@ static void syncbar_timer_callback(lv_timer_t *timer) {
 static void syncbar_anim_done_callback(lv_anim_t *a) {
     auto *instance = static_cast<Shutdown *>(lv_anim_get_user_data(a));
     LV_ASSERT_NULL(instance);
-    lv_label_set_text(instance->View.ui.sync.label, "Sync Done");
-    lv_timer_handler();
     HAL::Power_Shutdown(true);
     lv_timer_t *timer = lv_timer_create(syncbar_timer_callback, 1000, instance);
     lv_timer_set_repeat_count(timer, 1);
+}
+
+static void softreset_anim_done_callback(lv_anim_t *a) {
+#if defined(_WIN32)
+    PM_LOG_INFO("SoftReset");
+#else
+    NVIC_SystemReset();
+#endif
 }
 
 void Shutdown::onCustomAttrConfig() {
@@ -114,6 +118,45 @@ void Shutdown::AttachEvent(lv_obj_t *obj) {
 }
 
 void Shutdown::Update() {
+		if (HAL::Power_ShutdownForce()) {
+        lv_obj_fade_out(View.ui.shutdown.cont, 100, 0);
+        Model.SetStatusBarDisappear(false);
+        lv_obj_set_style_text_color(View.ui.sync.label, lv_palette_main(LV_PALETTE_RED), 0);
+        lv_label_set_text(View.ui.sync.label, "Warming: Force Shutdown");
+        lv_obj_clear_flag(View.ui.sync.cont, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_fade_in(View.ui.sync.cont, 300, 0);
+        lv_anim_timeline_start(View.ui.anim_timeline);
+        lv_anim_start(&View.ui.sync.bar.anim);
+    } else if(HAL::Power_ShutdownLinux()){
+			  lv_obj_fade_out(View.ui.shutdown.cont, 100, 0);
+        Model.SetStatusBarDisappear(false);
+        lv_label_set_text(View.ui.sync.label, "Info: Linux Shutdown");
+        lv_obj_clear_flag(View.ui.sync.cont, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_fade_in(View.ui.sync.cont, 300, 0);
+        lv_anim_timeline_start(View.ui.anim_timeline);
+        lv_anim_start(&View.ui.sync.bar.anim);
+		}
+		else if (HAL::Power_ShutdownLowBattery()) {
+        lv_obj_fade_out(View.ui.shutdown.cont, 100, 0);
+        Model.SetStatusBarDisappear(false);
+        lv_obj_set_style_text_color(View.ui.sync.label, lv_palette_main(LV_PALETTE_RED), 0);
+        lv_label_set_text(View.ui.sync.label, "Warming: LowBattery Shutdown");
+        lv_obj_clear_flag(View.ui.sync.cont, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_fade_in(View.ui.sync.cont, 300, 0);
+        lv_anim_timeline_start(View.ui.anim_timeline);
+    } else if (HAL::Power_ShutdownSoftReset()) {
+        lv_anim_set_deleted_cb(&View.ui.sync.bar.anim, softreset_anim_done_callback);
+        lv_obj_fade_out(View.ui.shutdown.cont, 100, 0);
+        Model.SetStatusBarDisappear(false);
+        lv_label_set_text(View.ui.sync.label, "Info: NVICReset Shutdown");
+        lv_obj_clear_flag(View.ui.sync.cont, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_fade_in(View.ui.sync.cont, 300, 0);
+        lv_anim_timeline_start(View.ui.anim_timeline);
+        lv_anim_set_time(&View.ui.sync.bar.anim, 1000);
+        lv_anim_start(&View.ui.sync.bar.anim);
+    } else if (HAL::Power_ShutdownEnsure()) {
+        lv_anim_start(&View.ui.sync.bar.anim);
+    }
 }
 
 void Shutdown::onTimerUpdate(lv_timer_t *timer) {

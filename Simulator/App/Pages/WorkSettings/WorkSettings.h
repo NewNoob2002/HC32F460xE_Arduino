@@ -1,38 +1,46 @@
-#ifndef __LIVEMAP_PRESENTER_H
-#define __LIVEMAP_PRESENTER_H
+#ifndef LIVEMAP_PRESENTER_H
+#define LIVEMAP_PRESENTER_H
 
 #include "WorkSettingsView.h"
-#include "WorkSettingsModel.h"
 
-namespace Page
-{
+namespace Page {
+    class WorkSettings : public PageBase {
+    public:
+        WorkSettings();
 
-class WorkSettings : public PageBase
-{
-public:
-    WorkSettings();
-    ~WorkSettings() override;
+        ~WorkSettings() override;
 
-    void onCustomAttrConfig() override;
-    void onViewLoad() override;
-    void onViewDidLoad() override;
-    void onViewWillAppear() override;
-    void onViewDidAppear() override;
-    void onViewWillDisappear() override;
-    void onViewDidDisappear() override;
-    void onViewUnload() override;
-    void onViewDidUnload() override;
+        void onCustomAttrConfig() override;
 
-    void onBtnClicked(const lv_obj_t* btn) const;
+        void onViewLoad() override;
 
-private:
-    WorkSettingsView View{};
-    WorkSettingsModel Model;
-    lv_obj_t* lastFocus{};
-    void AttachEvent(lv_obj_t* obj);
-    static void onEvent(lv_event_t* event);
-};
+        void onViewDidLoad() override;
 
+        void onViewWillAppear() override;
+
+        void onViewDidAppear() override;
+
+        void onViewWillDisappear() override;
+
+        void onViewDidDisappear() override;
+
+        void onViewUnload() override;
+
+        void onViewDidUnload() override;
+
+        void onBtnClicked(const lv_obj_t *btn) const;
+
+    private:
+        WorkSettingsView View{};
+        lv_obj_t *lastFocus{};
+        lv_timer_t *timer{};
+
+        void AttachEvent(lv_obj_t *obj);
+
+        static void onTimerUpdate(lv_timer_t *timer);
+
+        static void onEvent(lv_event_t *event);
+    };
 }
 
 #endif

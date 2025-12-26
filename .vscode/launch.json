@@ -8,11 +8,24 @@
         {
             "name": "Cortex Debug",
             "cwd": "${workspaceFolder}",
-            "executable": "${workspaceFolder}/build/HC32F460xE.elf",
+            "executable": "${workspaceFolder}/build/debug/proj_hc32.axf",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",
-            "servertype": "jlink"
+            "servertype": "jlink",
+            "device" : "HC32F460xE",
+            "serverpath": "C:\\Program Files\\SEGGER\\JLink_V812g\\JLinkGDBServerCL.exe",
+            "rttConfig": {
+                "enabled": true,
+                "address": "auto",
+                "decoders": [
+                    {
+                        "label": "",
+                        "port": 0,
+                        "type": "console"
+                    }
+                ]
+            }
         }
     ]
 }

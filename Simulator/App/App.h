@@ -24,7 +24,7 @@
 #define __APP_H
 #include "../Platform/Config/mcu_config.h"
 
-void App_Init(void);
-void App_SecondInit(void);
+void App_Init();
+void App_Update();
 
 #endif
