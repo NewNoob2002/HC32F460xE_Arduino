@@ -28,7 +28,8 @@ const char *const CustomParserNames[] = {
 const int CustomParserNameCount = sizeof(CustomParserNames) / sizeof(CustomParserNames[0]);
 
 #if defined(__DEBUG)
-static void PRINT_ERROR(const char * format, ...){
+static void PRINT_ERROR(const char *format, ...)
+{
     va_list args;
     va_start(args, format);
     vprintf(format, args);
@@ -36,7 +37,8 @@ static void PRINT_ERROR(const char * format, ...){
     log_e(format);
 }
 
-static void PRINT_DEBUG(const char * format, ...){
+static void PRINT_DEBUG(const char *format, ...)
+{
     va_list args;
     va_start(args, format);
     vprintf(format, args);
@@ -44,7 +46,8 @@ static void PRINT_DEBUG(const char * format, ...){
     log_d(format);
 }
 
-static bool BAD_CRC_CALLBACK(P_SEMP_PARSE_STATE parse){
+static bool BAD_CRC_CALLBACK(P_SEMP_PARSE_STATE parse)
+{
     PRINT_ERROR("Bad CRC: 0x%08x--0x%08x, %s", parse->computeCrc, parse->crc, parse->buffer);
     return false;
 }
@@ -117,7 +120,7 @@ static void I2C_EEI_Callback(void)
             /* Enable tx end interrupt function*/
             I2C_IntCmd(I2C_UNIT, I2C_INT_TX_CPLT, ENABLE);
             /* Write the first data to DTR immediately */
-						I2C_WriteData(I2C_UNIT, txBufferRead());
+            I2C_WriteData(I2C_UNIT, txBufferRead());
         } else {
             slave_state = SLAVE_RX;
         }
@@ -148,7 +151,7 @@ static void I2C_EEI_Callback(void)
         } else if (slave_state == SLAVE_TX) {
             systemInfo.i2c_communicate_err_count = 0;
             _txBufferHead                        = 0;
-						_txBufferTail												 = 0;
+            _txBufferTail                        = 0;
             slave_state                          = SLAVE_TX_DONE;
         }
     } else {
@@ -159,7 +162,7 @@ static void I2C_TEI_Callback(void)
 {
     if ((SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_TX_CPLT)) &&
         (RESET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_NACKF))) {
-            I2C_WriteData(I2C_UNIT, txBufferRead());
+        I2C_WriteData(I2C_UNIT, txBufferRead());
     }
 }
 
@@ -234,14 +237,15 @@ int32_t slave_i2c_init()
 void slave_i2c_update()
 {
     if (rxBufferAvailable() > 0 && slave_state == SLAVE_RX_DONE) {
-				noInterrupts();
+        noInterrupts();
         for (int i = 0; i <= rxBufferAvailable(); i++) {
             sempParseNextByte(CustomParse, rxBufferRead());
         }
-				interrupts();
+        interrupts();
     }
     if (systemInfo.i2c_communicate_err_count >= 2000) {
         systemInfo.i2c_communicate_err_count = 0;
-				slave_i2c_init();
+        systemInfo.i2c__err_count++;
+        slave_i2c_init();
     }
 }

@@ -11,27 +11,27 @@ void HAL::Power_Init()
 {
     uint16_t reg_rmu   = *((unsigned short *)(CM_RMU_BASE));
     bool softwareReset = reg_rmu & RMU_RSTF0_SWRF;
-		pinMode(POWER_LED_PIN, OUTPUT);
+    pinMode(POWER_LED_PIN, OUTPUT);
     pinMode(FUNCTION_LED_PIN, OUTPUT);
     pinMode(CHARGE_LED_PIN, OUTPUT);
 
     pinMode(WATCHDOG_FEED_PIN, OUTPUT);
     if (softwareReset) {
-				pinMode(POWER_CONTROL_PIN, OUTPUT, HIGH);
+        pinMode(POWER_CONTROL_PIN, OUTPUT, HIGH);
         CORE_DEBUG_PRINTF("Power: GetResetause:Software Reset");
-    } else{
-				pinMode(POWER_CONTROL_PIN, OUTPUT);
+    } else {
+        pinMode(POWER_CONTROL_PIN, OUTPUT);
         CORE_DEBUG_PRINTF("Power: GetResetause:PowerOn Reset");
-			  CORE_DEBUG_PRINTF("Power: Waiting Keep Press...");
+        CORE_DEBUG_PRINTF("Power: Waiting Keep Press...");
     }
 }
 
 void HAL::Power_OnCheck()
 {
-		uint16_t reg_rmu   = *((unsigned short *)(CM_RMU_BASE));
+    uint16_t reg_rmu   = *((unsigned short *)(CM_RMU_BASE));
     bool softwareReset = reg_rmu & RMU_RSTF0_SWRF;
-	  while (true) {
-				HAL_Update();
+    while (true) {
+        HAL_Update();
         lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_HIDDEN);
         lv_timer_handler();
         if (systemInfo.powerMonitor.panel_power_on) {
@@ -62,8 +62,6 @@ void HAL::Power_Shutdown(bool en)
 
 void HAL::Power_PowerOffMonitor()
 {
-		if(POWER_GET_REASON)
-			return;
     if (systemInfo.powerMonitor.ShutdownReq || systemInfo.powerMonitor.LowBatteryPowerOff) {
         digitalWrite(CHARGE_LED_PIN, LOW);
         digitalWrite(POWER_LED_PIN, HIGH);
@@ -71,27 +69,26 @@ void HAL::Power_PowerOffMonitor()
         systemInfo.powerMonitor.poweroff_flag = 1;
         systemInfo.powerMonitor.ShutdownReq   = false;
     }
-		if ((systemInfo.powerMonitor.ShutdownEnsure) || FORCE_SHUTDOWN() || systemInfo.powerMonitor.LowBatteryPowerOff) {
-        if(!POWER_GET_REASON)
-				{
-					POWER_GET_REASON = true;
-					CORE_DEBUG_PRINTF("POWER OFF .................Power Off Cause: %s", Power_GetPowerOffCause());
-				}
+    if ((systemInfo.powerMonitor.ShutdownEnsure) || FORCE_SHUTDOWN() || systemInfo.powerMonitor.LowBatteryPowerOff) {
+        if (!POWER_GET_REASON) {
+            POWER_GET_REASON = true;
+            CORE_DEBUG_PRINTF("POWER OFF .................Power Off Cause: %s", Power_GetPowerOffCause());
+        }
     }
 }
 
-bool HAL::Power_ShutdownEnsure(){
-	if(systemInfo.powerMonitor.ShutdownEnsure)
-	{
-		systemInfo.powerMonitor.ShutdownEnsure = false;
-		return true;
-	}
-	return false;
+bool HAL::Power_ShutdownEnsure()
+{
+    if (systemInfo.powerMonitor.ShutdownEnsure) {
+        systemInfo.powerMonitor.ShutdownEnsure = false;
+        return true;
+    }
+    return false;
 }
 
-bool HAL::Power_ShutdownForce() {
-    if(systemInfo.powerMonitor.Force_ShutDown)
-    {
+bool HAL::Power_ShutdownForce()
+{
+    if (systemInfo.powerMonitor.Force_ShutDown) {
         systemInfo.powerMonitor.Force_ShutDown = false;
         return true;
     }
@@ -100,17 +97,16 @@ bool HAL::Power_ShutdownForce() {
 
 bool HAL::Power_ShutdownLinux()
 {
-	if(systemInfo.powerMonitor.LinuxPowerOff)
-  {
-		systemInfo.powerMonitor.LinuxPowerOff = false;
-		return true;
-  }
-	return false;
+    if (systemInfo.powerMonitor.LinuxPowerOff) {
+        systemInfo.powerMonitor.LinuxPowerOff = false;
+        return true;
+    }
+    return false;
 }
 
-bool HAL::Power_ShutdownLowBattery() {
-    if(systemInfo.powerMonitor.LowBatteryPowerOff)
-    {
+bool HAL::Power_ShutdownLowBattery()
+{
+    if (systemInfo.powerMonitor.LowBatteryPowerOff) {
         systemInfo.powerMonitor.LowBatteryPowerOff = false;
         return true;
     }
@@ -119,8 +115,7 @@ bool HAL::Power_ShutdownLowBattery() {
 
 bool HAL::Power_ShutdownSoftReset()
 {
-		if(systemInfo.powerMonitor.reset_flag)
-    {
+    if (systemInfo.powerMonitor.reset_flag) {
         systemInfo.powerMonitor.reset_flag = false;
         return true;
     }
@@ -130,7 +125,7 @@ bool HAL::Power_ShutdownSoftReset()
 void HAL::Power_Update()
 {
     WatchDog_Feed();
-		Power_GetInfo(&systemInfo.powerMonitor);
+    Power_GetInfo(&systemInfo.powerMonitor);
 }
 
 void HAL::Power_GetInfo(Power_Monitor_t *info)

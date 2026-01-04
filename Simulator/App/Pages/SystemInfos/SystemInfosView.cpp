@@ -2,10 +2,11 @@
 
 using namespace Page;
 
-#define ITEM_HEIGHT_MIN   100
-#define ITEM_PAD          ((LV_VER_RES - ITEM_HEIGHT_MIN) / 2)
+#define ITEM_HEIGHT_MIN 100
+#define ITEM_PAD        ((LV_VER_RES - ITEM_HEIGHT_MIN) / 2)
 
-void SystemInfosView::Create(lv_obj_t *root) {
+void SystemInfosView::Create(lv_obj_t *root)
+{
     lv_obj_set_style_pad_ver(root, ITEM_PAD, 0);
 
     lv_obj_set_flex_flow(root, LV_FLEX_FLOW_COLUMN);
@@ -13,8 +14,7 @@ void SystemInfosView::Create(lv_obj_t *root) {
         root,
         LV_FLEX_ALIGN_START,
         LV_FLEX_ALIGN_START,
-        LV_FLEX_ALIGN_CENTER
-    );
+        LV_FLEX_ALIGN_CENTER);
 
     Style_Init();
 
@@ -27,8 +27,7 @@ void SystemInfosView::Create(lv_obj_t *root) {
 
         "Mode\n"
         "Radio\n"
-        "Ntrip"
-    );
+        "Ntrip");
 
     /* Item GPS */
     Item_Create(
@@ -38,8 +37,7 @@ void SystemInfosView::Create(lv_obj_t *root) {
         "map_location",
         "Latitude\n"
         "Longitude\n"
-        "Altitude\n"
-    );
+        "Altitude\n");
 
     /* Item Wi-Fi */
     Item_Create(
@@ -48,8 +46,7 @@ void SystemInfosView::Create(lv_obj_t *root) {
         "WIFI",
         "wifi",
         "Mode\n"
-        "Ip"
-    );
+        "Ip");
 
     /* Item Battery */
     Item_Create(
@@ -60,8 +57,7 @@ void SystemInfosView::Create(lv_obj_t *root) {
         "Usage\n"
         "Voltage\n"
         "Temperature\n"
-        "Status"
-    );
+        "Status");
 
     /* Item Storage */
     Item_Create(
@@ -73,8 +69,7 @@ void SystemInfosView::Create(lv_obj_t *root) {
         "Name\n"
         "Size\n"
         "Type\n"
-        "Interval"
-    );
+        "Interval");
 
     /* Item System */
     Item_Create(
@@ -84,14 +79,14 @@ void SystemInfosView::Create(lv_obj_t *root) {
         "system_info",
         "Firmware\n"
         "RunTime\n"
-        "Compiler\n"
-        "Build\n"
-    );
+        "ErrorCount\n"
+        "Build\n");
 
     Group_Init();
 }
 
-void SystemInfosView::Group_Init() {
+void SystemInfosView::Group_Init()
+{
     lv_group_t *group = lv_group_get_default();
     lv_group_set_wrap(group, true);
     lv_group_set_focus_cb(group, onFocus);
@@ -106,26 +101,30 @@ void SystemInfosView::Group_Init() {
     lv_group_focus_obj(item_grp[0].icon);
 }
 
-void SystemInfosView::Delete() {
+void SystemInfosView::Delete()
+{
     lv_group_set_focus_cb(lv_group_get_default(), nullptr);
     Style_Reset();
 }
 
-void SystemInfosView::SetScrollToY(lv_obj_t *obj, lv_coord_t y, lv_anim_enable_t en) {
+void SystemInfosView::SetScrollToY(lv_obj_t *obj, lv_coord_t y, lv_anim_enable_t en)
+{
     const lv_coord_t scroll_y = lv_obj_get_scroll_y(obj);
-    const lv_coord_t diff = -y + scroll_y;
+    const lv_coord_t diff     = -y + scroll_y;
 
     lv_obj_scroll_by(obj, 0, diff, en);
 }
 
-void SystemInfosView::onFocus(lv_group_t *g) {
+void SystemInfosView::onFocus(lv_group_t *g)
+{
     const lv_obj_t *icon = lv_group_get_focused(g);
     const lv_obj_t *cont = lv_obj_get_parent(icon);
-    const lv_coord_t y = lv_obj_get_y(cont);
+    const lv_coord_t y   = lv_obj_get_y(cont);
     lv_obj_scroll_to_y(lv_obj_get_parent(cont), y, LV_ANIM_ON);
 }
 
-void SystemInfosView::Style_Init() {
+void SystemInfosView::Style_Init()
+{
     lv_style_init(&style.icon);
     lv_style_set_width(&style.icon, 260);
     lv_style_set_height(&style.icon, 100);
@@ -142,10 +141,9 @@ void SystemInfosView::Style_Init() {
     lv_style_set_border_color(&style.focus, lv_color_hex(0xff931e));
 
     static constexpr lv_style_prop_t style_prop[] =
-    {
-        LV_STYLE_WIDTH,
-        LV_STYLE_PROP_INV
-    };
+        {
+            LV_STYLE_WIDTH,
+            LV_STYLE_PROP_INV};
 
     static lv_style_transition_dsc_t trans;
     lv_style_transition_dsc_init(
@@ -154,8 +152,7 @@ void SystemInfosView::Style_Init() {
         lv_anim_path_overshoot,
         200,
         0,
-        nullptr
-    );
+        nullptr);
     lv_style_set_transition(&style.focus, &trans);
     lv_style_set_transition(&style.icon, &trans);
 
@@ -168,7 +165,8 @@ void SystemInfosView::Style_Init() {
     lv_style_set_text_color(&style.data, lv_color_white());
 }
 
-void SystemInfosView::Style_Reset() {
+void SystemInfosView::Style_Reset()
+{
     lv_style_reset(&style.icon);
     lv_style_reset(&style.info);
     lv_style_reset(&style.data);
@@ -180,8 +178,8 @@ void SystemInfosView::Item_Create(
     lv_obj_t *par,
     const char *name,
     const char *img_src,
-    const char *infos
-) {
+    const char *infos)
+{
     lv_obj_t *cont = lv_obj_create(par);
     lv_obj_enable_style_refresh(false);
     lv_obj_remove_style_all(cont);
@@ -205,8 +203,7 @@ void SystemInfosView::Item_Create(
         icon,
         LV_FLEX_ALIGN_SPACE_AROUND,
         LV_FLEX_ALIGN_CENTER,
-        LV_FLEX_ALIGN_CENTER
-    );
+        LV_FLEX_ALIGN_CENTER);
 
     lv_obj_t *img = lv_img_create(icon);
     lv_obj_enable_style_refresh(false);
@@ -242,7 +239,7 @@ void SystemInfosView::Item_Create(
     /* get real max height */
     lv_obj_update_layout(item->labelInfo);
     lv_coord_t height = lv_obj_get_height(item->labelInfo);
-    height = LV_MAX(height, ITEM_HEIGHT_MIN);
+    height            = LV_MAX(height, ITEM_HEIGHT_MIN);
     lv_obj_set_height(cont, height);
     lv_obj_set_height(icon, height);
 }
@@ -250,8 +247,8 @@ void SystemInfosView::Item_Create(
 void SystemInfosView::SetWork(
     const WorkMode_t workMode,
     const RadioInfo_t radioInfo,
-    const NtripInfo_t &ntripInfo
-) const {
+    const NtripInfo_t &ntripInfo) const
+{
     lv_label_set_text_fmt(
         ui.work.labelData,
         "%s\n"
@@ -259,15 +256,15 @@ void SystemInfosView::SetWork(
         "%s",
         workMode == rover_mode ? "Rover" : "Base",
         radioInfo.radio_status ? "On" : "Off",
-        ntripInfo.NtripServer_status ? "Server" : ntripInfo.NtripClient_status ? "Client" : "N/A"
-    );
+        ntripInfo.NtripServer_status ? "Server" : ntripInfo.NtripClient_status ? "Client"
+                                                                               : "N/A");
 }
 
 void SystemInfosView::SetGPS(
     const double lat,
     const double lng,
-    const double alt
-) const {
+    const double alt) const
+{
     lv_label_set_text_fmt(
         ui.gps.labelData,
         "%0.6f\n"
@@ -275,21 +272,21 @@ void SystemInfosView::SetGPS(
         "%0.6fm\n",
         lat,
         lng,
-        alt
-    );
+        alt);
 }
 
-void SystemInfosView::SetWifi(const WifiInfo_t &wifiInfo) const {
+void SystemInfosView::SetWifi(const WifiInfo_t &wifiInfo) const
+{
     lv_label_set_text_fmt(
         ui.wifi.labelData,
         "%s-%s\n"
         "%d.%d.%d.%d",
         wifiInfo.wifi_mode ? "STA" : "AP", wifiInfo.wifi_ssid,
-        wifiInfo.wifi_ip[0], wifiInfo.wifi_ip[1], wifiInfo.wifi_ip[2], wifiInfo.wifi_ip[3]
-    );
+        wifiInfo.wifi_ip[0], wifiInfo.wifi_ip[1], wifiInfo.wifi_ip[2], wifiInfo.wifi_ip[3]);
 }
 
-void SystemInfosView::SetBattery(const BatteryInfo_t &batteryInfo) const {
+void SystemInfosView::SetBattery(const BatteryInfo_t &batteryInfo) const
+{
     lv_label_set_text_fmt(
         ui.battery.labelData,
         "%0.2f%%\n"
@@ -299,11 +296,11 @@ void SystemInfosView::SetBattery(const BatteryInfo_t &batteryInfo) const {
         batteryInfo.Percent_f,
         batteryInfo.Voltage_f,
         batteryInfo.Temp_f,
-        batteryInfo.chargeStatus == notCharge ? "notCharge" : "Charging"
-    );
+        batteryInfo.chargeStatus == notCharge ? "notCharge" : "Charging");
 }
 
-void SystemInfosView::SetStorage(const RecordInfo_t &recordInfo) const {
+void SystemInfosView::SetStorage(const RecordInfo_t &recordInfo) const
+{
     if (recordInfo.record_status) {
         lv_label_set_text_fmt(
             ui.storage.labelData,
@@ -315,10 +312,8 @@ void SystemInfosView::SetStorage(const RecordInfo_t &recordInfo) const {
             recordInfo.record_name,
             recordInfo.record_leftspace,
             recordInfo.record_type == 1 ? "xyz" : "Rinex3.02",
-            recordInfo.record_interval > 0x01? recordInfo.record_interval: 0.25
-        );
-    }
-    else {
+            recordInfo.record_interval > 0x01 ? recordInfo.record_interval : 0.25);
+    } else {
         lv_label_set_text_fmt(
             ui.storage.labelData,
             "Off\n"
@@ -327,24 +322,22 @@ void SystemInfosView::SetStorage(const RecordInfo_t &recordInfo) const {
             "-\n"
             "-");
     }
-
 }
 
 void SystemInfosView::SetSystem(
     const char *firmVer,
     const char *bootTime,
-    const char *compilerName,
-    const char *buildTime
-) const {
+    const uint16_t error,
+    const char *buildTime) const
+{
     lv_label_set_text_fmt(
         ui.system.labelData,
         "%s\n"
         "%s\n"
-        "%s\n"
+        "%04x\n"
         "%s",
         firmVer,
         bootTime,
-        compilerName,
-        buildTime
-    );
+        error,
+        buildTime);
 }

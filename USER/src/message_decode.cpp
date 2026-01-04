@@ -233,7 +233,10 @@ int message_decode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
     uint8_t messageType               = messageHeader->messageType;
     //log_i("messageId: %d, h:%d, l:%d", messageId, messageHeader->messageId_H, messageHeader->messageId_L);
 		if(!systemInfo.online_device.eg25_board)
+		{
 			systemInfo.online_device.eg25_board = true;
+			systemInfo.i2c__err_count = 0;
+		}
 //    digitalToggle(FUNCTION_LED_PIN);
     switch (messageId) {
         case NM_PANEL_INFO1_ID:

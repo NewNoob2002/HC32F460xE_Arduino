@@ -7,7 +7,7 @@
 typedef struct ledState_t {
     uint32_t lastToggleTime;
     uint16_t currentRate;
-		bool usedByOtherTask;
+    bool usedByOtherTask;
 } ledState_t;
 
 typedef struct online_device_t {
@@ -24,14 +24,14 @@ typedef enum Charger_Status_t {
 
 typedef enum On_Off_Status_t {
     On_Off_Status_OFF = 0,
-    On_Off_Status_ON = 1,
-}On_Off_Status_t;
+    On_Off_Status_ON  = 1,
+} On_Off_Status_t;
 
 typedef enum RadioMode_t {
-    radio_mode_tx = 0,
-    radio_mode_rx = 1,
+    radio_mode_tx     = 0,
+    radio_mode_rx     = 1,
     radio_mode_bridge = 2,
-}RadioMode_t;
+} RadioMode_t;
 
 typedef enum Protocol_index_t {
     TRIMTALK,
@@ -43,7 +43,7 @@ typedef enum Protocol_index_t {
     SATEL,
     CCS,
     PROTOCOL_MAX
-}Protocol_index_t;
+} Protocol_index_t;
 
 typedef enum Channel_index_t {
     Channel1,
@@ -56,7 +56,7 @@ typedef enum Channel_index_t {
     Channel8,
     Channel9,
     ChannelMax
-}Channel_index_t;
+} Channel_index_t;
 
 typedef enum WorkMode_t {
     rover_mode = 0,
@@ -66,10 +66,10 @@ typedef enum WorkMode_t {
 } WorkMode_t;
 
 typedef enum PositionStatus_t {
-    position_none = 0,
+    position_none   = 0,
     position_single = 1,
-    position_fix = 4,
-    position_float = 5,
+    position_fix    = 4,
+    position_float  = 5,
 } PositionStatus_t;
 
 typedef struct BatteryInfo_t {
@@ -78,7 +78,7 @@ typedef struct BatteryInfo_t {
     uint16_t Percent;
     uint16_t Temp;
     uint16_t Voltage;
-		uint16_t LowBatteryCount;
+    uint16_t LowBatteryCount;
     float Percent_f;
     float Voltage_f;
     float Temp_f;
@@ -101,7 +101,7 @@ typedef struct Power_Monitor_t {
     uint8_t poweroff_flag;
     uint8_t ExternalPower;
     bool panel_power_on;
-		uint32_t pannel_power_on_time;
+    uint32_t pannel_power_on_time;
 } Power_Monitor_t, *pPower_Monitor_t;
 
 typedef struct PositionInfo_t {
@@ -116,7 +116,7 @@ typedef struct PositionInfo_t {
 typedef struct RecordInfo_t {
     On_Off_Status_t record_status; // 0-off, 1-on
     float record_leftspace;
-    uint8_t record_type; // 1-xyz 2-Rinex3.02
+    uint8_t record_type;     // 1-xyz 2-Rinex3.02
     uint8_t record_interval; // 0x00-15min, 0x01-60min, 0x02-120min, 0x04-240min, 0x18- 24hour
     uint8_t record_op;
     uint8_t record_name[16];
@@ -155,6 +155,7 @@ typedef struct SystemInfo_t {
     bool eg25_overtime;
     uint8_t work_status;
     uint16_t i2c_communicate_err_count;
+    uint16_t i2c__err_count;
 
     online_device_t online_device;
     WifiInfo_t wifiInfo;

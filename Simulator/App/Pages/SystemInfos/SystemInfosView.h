@@ -3,13 +3,17 @@
 
 #include "../Page.h"
 
-namespace Page {
-    class SystemInfosView {
+namespace Page
+{
+    class SystemInfosView
+    {
     public:
-        SystemInfosView() {
+        SystemInfosView()
+        {
         }
 
-        ~SystemInfosView() {
+        ~SystemInfosView()
+        {
         }
 
         void Create(lv_obj_t *root);
@@ -35,14 +39,12 @@ namespace Page {
         void SetWork(
             WorkMode_t workMode,
             RadioInfo_t radioInfo,
-            const NtripInfo_t &ntripInfo
-        )const;
+            const NtripInfo_t &ntripInfo) const;
 
         void SetGPS(
             double lat,
             double lng,
-            double alt
-        ) const;
+            double alt) const;
 
         void SetWifi(const WifiInfo_t &wifiInfo) const;
 
@@ -53,9 +55,8 @@ namespace Page {
         void SetSystem(
             const char *firmVer,
             const char *bootTime,
-            const char *compilerName,
-            const char *buildTime
-        ) const;
+            const uint16_t error,
+            const char *buildTime) const;
 
         static void SetScrollToY(lv_obj_t *obj, lv_coord_t y, lv_anim_enable_t en);
 
@@ -81,8 +82,7 @@ namespace Page {
             lv_obj_t *par,
             const char *name,
             const char *img_src,
-            const char *infos
-        );
+            const char *infos);
     };
 }
 

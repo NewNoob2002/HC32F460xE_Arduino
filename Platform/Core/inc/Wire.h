@@ -75,12 +75,6 @@ private:
     gpio_pin_t _sda_pin;
 
     uint32_t _clock_frequency;
-    //    uint8_t *rxbuff = nullptr;
-    // uint8_t *txbuff = nullptr;
-
-    //    lwrb_t rx_rb_t;
-    // lwrb_t tx_rb_t;
 };
 
 extern TwoWire Wire;
-extern TwoWire Wire_Slave;
