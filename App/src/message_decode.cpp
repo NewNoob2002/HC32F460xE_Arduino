@@ -237,7 +237,10 @@ int message_decode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
 //        CORE_DEBUG_PRINTF("%02x ", parse->buffer[i]);
 //    }
 //    CORE_DEBUG_PRINTF("\n");
-    digitalToggle(FUNCTION_LED_PIN);
+    if (!systemInfo.online_device.eg25_board) {
+        systemInfo.online_device.eg25_board = true;
+        systemInfo.i2c__err_count           = 0;
+    }
     switch (messageId) {
         case NM_PANEL_INFO1_ID:
         case NM_PANEL_INFO2_ID:

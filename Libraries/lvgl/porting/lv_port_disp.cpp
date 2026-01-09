@@ -25,16 +25,6 @@ void spi_dma_trans(void *buf, uint16_t len)
     DMA_ChCmd(DMA_UNIT, DMA_TX_CH, ENABLE);
 
     SPI_Cmd(SPI_CLASS_3_SPI, ENABLE);
-    //	while(DMA_GetTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0) == RESET)
-    //	{
-    //	}
-    //	DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
-}
-static inline uint16_t LCD_PointConv(const uint32_t point) {
-    return ( ((point >> 16 & 0xF8) << 8)   // 高8位分量
-           + ((point >> 8 & 0xE0) << 3)    // 中间分量高3位
-           + ((point & 0xF8) >> 3)         // 低8位分量高3位
-           + ((point >> 8 & 0x1C) << 3) ); // 中间分量低2位，移位后与其他部分无重叠
 }
 
 static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
@@ -58,6 +48,24 @@ static void DMA_TransCompleteCallback(void)
      *Inform the graphics library that you are ready with the flushing*/
     //    lv_disp_flush_ready(disp_drv_p);
     lv_disp_flush_ready(disp_drv_p);
+}
+
+void my_rounder_cb(lv_disp_drv_t * disp_drv, lv_area_t * area)
+{
+    // 1. 让 x1 (起始列) 变为偶数 (向下取偶)
+    // 例如: 1 -> 0, 3 -> 2, 4 -> 4
+    area->x1 = area->x1 & ~1;
+
+    // 2. 让 x2 (结束列) 变为奇数 (向上取奇)
+    // 这样 宽度 = x2 - x1 + 1 就一定是偶数
+    // 例如: 0 -> 1, 2 -> 3, 5 -> 5
+    area->x2 = area->x2 | 1;
+
+    // 3. 让 y1 (起始行) 变为偶数
+    area->y1 = area->y1 & ~1;
+
+    // 4. 让 y2 (结束行) 变为奇数
+    area->y2 = area->y2 | 1;
 }
 
 void lv_port_disp_init()
@@ -88,7 +96,7 @@ void lv_port_disp_init()
     stcIrqSignConfig.pfnCallback = &DMA_TransCompleteCallback;
     (void)INTC_IrqSignIn(&stcIrqSignConfig);
     NVIC_ClearPendingIRQ(stcIrqSignConfig.enIRQn);
-    NVIC_SetPriority(stcIrqSignConfig.enIRQn, DDL_IRQ_PRIO_DEFAULT);
+    NVIC_SetPriority(stcIrqSignConfig.enIRQn, DDL_IRQ_PRIO_04);
     NVIC_EnableIRQ(stcIrqSignConfig.enIRQn);
 
     DMA_Cmd(DMA_UNIT, ENABLE);
@@ -101,14 +109,14 @@ void lv_port_disp_init()
     digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
 		#endif
     /* Example for 1) */
-    static lv_disp_draw_buf_t draw_buf_dsc_1;
-    static lv_color_t buf_1[SCREEN_BUFFER_SIZE];                          /*A buffer for 10 rows*/
-    lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, SCREEN_BUFFER_SIZE);   /*Initialize the display buffer*/
+//    static lv_disp_draw_buf_t draw_buf_dsc_1;
+//    static lv_color_t buf_1[SCREEN_BUFFER_SIZE];                          /*A buffer for 10 rows*/
+//    lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, SCREEN_BUFFER_SIZE);   /*Initialize the display buffer*/
     /* Example for 2) */
-//    static lv_disp_draw_buf_t draw_buf_dsc_2;
-//    static lv_color_t buf_2_1[SCREEN_BUFFER_SIZE/2];                        /*A buffer for 10 rows*/
-//    static lv_color_t buf_2_2[SCREEN_BUFFER_SIZE/2];                        /*An other buffer for 10 rows*/
-//    lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, SCREEN_BUFFER_SIZE/2);   /*Initialize the display buffer*/
+    static lv_disp_draw_buf_t draw_buf_dsc_2;
+    static lv_color_t buf_2_1[SCREEN_BUFFER_SIZE/4];                        /*A buffer for 10 rows*/
+    static lv_color_t buf_2_2[SCREEN_BUFFER_SIZE/4];                        /*An other buffer for 10 rows*/
+    lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, SCREEN_BUFFER_SIZE/4);   /*Initialize the display buffer*/
         /*-----------------------------------
      * Register the display in LVGL
      *----------------------------------*/
@@ -126,36 +134,15 @@ void lv_port_disp_init()
     disp_drv.flush_cb = disp_flush;
 
     /*Set a display buffer*/
-    disp_drv.draw_buf = &draw_buf_dsc_1;
+    disp_drv.draw_buf = &draw_buf_dsc_2;
     
     disp_drv.sw_rotate = 1;
     disp_drv.rotated = LV_DISP_ROT_270;
     /*Required for Example 3)*/
     //disp_drv.full_refresh = 1;
 
-    /* Fill a memory array with a color if you have GPU.
-     * Note that, in lv_conf.h you can enable GPUs that has built-in support in LVGL.
-     * But if you have a different GPU you can use with this callback.*/
-    //disp_drv.gpu_fill_cb = gpu_fill;
+		disp_drv.rounder_cb = my_rounder_cb; 
 
     /*Finally register the driver*/
     lv_disp_drv_register(&disp_drv);
-///////////////////////////////////////////////////
-//    /*------------------------------------
-//     * Create a display and set a flush_cb
-//     * -----------------------------------*/
-//    lv_display_t *disp = lv_display_create(screen.width(), screen.height());
-//    lv_display_set_flush_cb(disp, disp_flush);
-
-//    lv_display_set_color_format(disp, LV_COLOR_FORMAT_RGB565_SWAPPED);
-//		lv_display_set_rotation(disp, LV_DISPLAY_ROTATION_270);
-//    /* Example 2
-//     * Two buffers for partial rendering
-//     * In flush_cb DMA or similar hardware should be used to update the display in the background.*/
-//    LV_ATTRIBUTE_MEM_ALIGN
-//    static uint8_t buf_2_1[SCREEN_BUFFER_SIZE];
-
-//    LV_ATTRIBUTE_MEM_ALIGN
-//    static uint8_t buf_2_2[SCREEN_BUFFER_SIZE];
-//    lv_display_set_buffers(disp, buf_2_1, buf_2_2, sizeof(buf_2_1), LV_DISPLAY_RENDER_MODE_PARTIAL);
 }

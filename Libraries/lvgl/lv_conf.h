@@ -170,7 +170,7 @@
 
 /*Maximum buffer size to allocate for rotation.
  *Only used if software rotation is enabled in the display driver.*/
-#define LV_DISP_ROT_MAX_BUF (36*1024)
+#define LV_DISP_ROT_MAX_BUF (24*1024)
 
 /*-------------
  * GPU
@@ -230,7 +230,7 @@
  *-----------*/
 
 /*Enable the log module*/
-#if defined(__DEBUG)
+#if defined(__CORE_DEBUG)
 #define LV_USE_LOG 1
 #else
 #define LV_USE_LOG 0

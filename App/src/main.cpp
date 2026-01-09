@@ -3,26 +3,50 @@
  ******************************************************************************/
 #include "Arduino.h"
 #include "lv_port.h"
-#include "ui.h"
 #include "slave_i2c.h"
-
-#include <random>
-
-int randint(int min, int max) {
-    // 使用 static 保证引擎只初始化一次，提高性能
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    
-    // 分布对象不能是 static 的，因为 min 和 max 可能会变
-    std::uniform_int_distribution<int> dis(min, max);
-    
-    return dis(gen);
-}
 
 void SystemClock_Config(void);
 
 SystemInfo_t systemInfo;
+static void anim_x_cb(void * var, int32_t v)
+{
+    lv_obj_set_x((lv_obj_t*)var, v);
+}
 
+static void anim_size_cb(void * var, int32_t v)
+{
+    lv_obj_set_size((lv_obj_t*)var, v, v);
+}
+
+/**
+ * Create a playback animation
+ */
+void lv_example_anim_2(void)
+{
+
+    lv_obj_t * obj = lv_obj_create(lv_scr_act());
+    lv_obj_set_style_bg_color(obj, lv_palette_main(LV_PALETTE_RED), 0);
+    lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, 0);
+
+    lv_obj_align(obj, LV_ALIGN_LEFT_MID, 10, 0);
+
+    lv_anim_t a;
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, obj);
+    lv_anim_set_values(&a, 10, 50);
+    lv_anim_set_time(&a, 1000);
+    lv_anim_set_playback_delay(&a, 100);
+    lv_anim_set_playback_time(&a, 300);
+    lv_anim_set_repeat_delay(&a, 500);
+    lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
+
+    lv_anim_set_exec_cb(&a, anim_size_cb);
+    lv_anim_start(&a);
+    lv_anim_set_exec_cb(&a, anim_x_cb);
+    lv_anim_set_values(&a, 10, 240);
+    lv_anim_start(&a);
+}
 /**
  * @brief  Main function of SPI tx/rx dma project
  * @param  None
@@ -38,8 +62,8 @@ int main(void)
 	HAL::HAL_Init();
 	lv_init();
 	lv_port_init();
-	ui_init();
-	HAL::Power_Init();
+	lv_example_anim_2();
+	HAL::Power_OnCheck();
   /* Configure BSP */
 	slave_i2c_init();
 	/* Peripheral registers write protected */
@@ -47,7 +71,6 @@ int main(void)
   while (1) {
 		HAL::HAL_Update();
 		slave_i2c_update();
-		ui_tick();
 		lv_timer_handler();
 		__WFI();
   }

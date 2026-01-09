@@ -18,6 +18,7 @@ namespace HAL
 	
 	/* Power */
 	void Power_Init();
+	void Power_OnCheck();
 	void Power_HandleTimeUpdate();
 	void Power_Shutdown();
 	void Power_Update();

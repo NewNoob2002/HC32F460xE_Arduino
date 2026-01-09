@@ -111,6 +111,7 @@ typedef struct SystemInfo_t {
     uint8_t panel_operation_flag;
 		uint8_t work_status;
 		uint16_t i2c_communicate_err_count;
+		uint16_t i2c__err_count;
 		
 		online_device_t online_device;
     WifiInfo_t wifiInfo;

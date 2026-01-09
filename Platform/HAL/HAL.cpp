@@ -21,6 +21,7 @@ void HAL::HAL_Init()
 		HAL_InitTick(TICK_INT_PRIORITY);
 
 		SEGGER_RTT_Init();
+		Power_Init();
 		I2C_Scan();
 		Key_Init();
 	

@@ -2,45 +2,45 @@
 #include "Arduino.h"
 #include "bq40z50.h"
 #include "mp2762a.h"
-#include "ui.h"
+
+static bool POWER_GET_REASON = false;
+en_flag_status_t softwareReset = RESET;
 
 void HAL::Power_Init()
 {
-	CORE_DEBUG_PRINTF("Power: GetResetause:");
-	uint16_t reg_rmu = READ_REG16(CM_RMU->RSTF0);
-	bool softwareReset = reg_rmu & RMU_FLAG_SW;
-	bool powerOnReset = reg_rmu & RMU_FLAG_PWR_ON;
-	if(softwareReset)
-	{
-		CORE_DEBUG_PRINTF("Software Reset\n");
-	}
-	else if(powerOnReset)
-	{
-		CORE_DEBUG_PRINTF("PowerOn Reset\n");
-	}
-	CORE_DEBUG_PRINTF("[%d] Power: Waiting Keep Press...\r\n", millis());
+  softwareReset = RMU_GetStatus(RMU_FLAG_SW);
+  if (softwareReset == SET) {
+        pinMode(POWER_CONTROL_PIN, OUTPUT, HIGH);
+        CORE_DEBUG_PRINTF("Power: GetResetause:Software Reset");
+    } else {
+        pinMode(POWER_CONTROL_PIN, OUTPUT);
+        CORE_DEBUG_PRINTF("Power: GetResetause:PowerOn Reset");
+        CORE_DEBUG_PRINTF("Power: Waiting Keep Press...");
+    }
 	pinMode(POWER_LED_PIN, OUTPUT);
 	pinMode(FUNCTION_LED_PIN, OUTPUT);
 	pinMode(CHARGE_LED_PIN, OUTPUT);
-	pinMode(POWER_CONTROL_PIN, OUTPUT);
 	pinMode(WATCHDOG_FEED_PIN, OUTPUT);
-	
-	uint32_t _last = 0;
-	while(true)
-	{
-		if(softwareReset)
-			break;
-		Key_Update();
-		Power_Update();
-		ui_tick();
-		lv_timer_handler();
-		if(systemInfo.powerMonitor.panel_power_on)
-			break;
-	}
-	loadScreen(SCREEN_ID_MAIN);
-	CORE_DEBUG_PRINTF("[%d] Power: Done\n", millis());
-	digitalWrite(POWER_LED_PIN, HIGH);
-	digitalWrite(POWER_CONTROL_PIN, HIGH);
+}
+
+void HAL::Power_OnCheck()
+{
+    while (true) {
+        HAL_Update();
+        lv_timer_handler();
+        if (systemInfo.powerMonitor.panel_power_on) {
+            CORE_DEBUG_PRINTF("MCU PowerDone");
+            break;
+        }
+        if (softwareReset) {
+            CORE_DEBUG_PRINTF("softwareRst PowerDone");
+            break;
+        }
+    }
+    CORE_DEBUG_PRINTF("[%d] Power: Done\n", millis());
+    digitalWrite(POWER_LED_PIN, HIGH);
+    digitalWrite(FUNCTION_LED_PIN, HIGH);
+    digitalWrite(POWER_CONTROL_PIN, HIGH);
 }
 
 void HAL::Power_Shutdown()

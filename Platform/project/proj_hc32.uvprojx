@@ -1640,43 +1640,6 @@
         </Group>
         <Group>
           <GroupName>lvgl/gui</GroupName>
-          <Files>
-            <File>
-              <FileName>actions.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\actions.c</FilePath>
-            </File>
-            <File>
-              <FileName>anim.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\anim.c</FilePath>
-            </File>
-            <File>
-              <FileName>images.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\images.c</FilePath>
-            </File>
-            <File>
-              <FileName>screens.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\screens.c</FilePath>
-            </File>
-            <File>
-              <FileName>styles.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\styles.c</FilePath>
-            </File>
-            <File>
-              <FileName>ui.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\ui.c</FilePath>
-            </File>
-            <File>
-              <FileName>vars.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\ui\vars.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>utils/lv_anim_label</GroupName>
