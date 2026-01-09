@@ -21,12 +21,14 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#if defined(HC32F460)
 #include "hc32_ll.h"
 //#include <addon_gpio.h>
 //#include "adc.h"
 
 // Include board variant
 #include <variant.h>
+#endif
 
 #ifdef __cplusplus
 extern "C"
@@ -149,10 +151,12 @@ typedef struct pin_info_t
 
 	} pin_info_t;
 
+#if defined(HC32F460)
 	/**
 	 * @brief GPIO pin map
 	 */
 	extern const pin_info_t PIN_MAP[BOARD_NR_GPIO_PINS];
+#endif
 
 /**
  * @brief test if a gpio pin number is valid

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BackendCodeEditorMiscSettings">
+    <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="lvgl" targetName="run" />
+      <config projectName="lvgl" targetName="main" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fb9296b5-62c7-49bf-9405-3d779f01f962" name="更改" comment="update">
+      <change beforePath="$PROJECT_DIR$/../App/inc/slave_i2c.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/message_decode.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/message_decode.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/slave_i2c.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/slave_i2c.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Arduino/WVariant.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino/WVariant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Arduino/core_debug.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Arduino/core_debug.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/lvgl/lv_conf.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/lvgl/lv_conf.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Libraries/lvgl/porting/lv_port_disp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Libraries/lvgl/porting/lv_port_disp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/CMSIS/Device/HDSC/hc32f4xx/Source/ARM/startup_hc32f460.s" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/CMSIS/Device/HDSC/hc32f4xx/Source/ARM/startup_hc32f460.s" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/Config/mcu_config.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/Config/mcu_config.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/Config/mcu_define.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/Config/mcu_define.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL_CORTEX.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL_CORTEX.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL_DEF.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL_DEF.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/HAL/HAL_Power.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/HAL/HAL_Power.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/Oswald_Bold_12.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/Oswald_Bold_18.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/Rajdhani_Bold_0_9_20.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/Rajdhani_Bold_0_9_40.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/main_symbol2.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/main_symbol32.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/myFont.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/mySymbol.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/symbol_radio.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/font/symbol_satellite48.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/actions.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/actions.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/anim.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/anim.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/fonts.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/images.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/images.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/screens.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/screens.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/structs.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/styles.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/styles.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/ui.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/ui.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/vars.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/ui/vars.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/utils/lv_anim_label/lv_anim_label.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/utils/lv_anim_label/lv_anim_label.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/utils/lv_ext/lv_anim_timeline_wrapper.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/utils/lv_ext/lv_anim_timeline_wrapper.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/utils/lv_ext/lv_obj_ext_func.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/gui/utils/lv_ext/lv_obj_ext_func.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/project/Listings/proj_hc32.map" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/Listings/proj_hc32.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvguix.gtc" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvguix.gtc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvoptx" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvoptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvprojx" beforeDir="false" afterPath="$PROJECT_DIR$/../Platform/project/proj_hc32.uvprojx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/support/system.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Platform/support/system.h" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;NewNoob2002&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/NewNoob2002/HC32F460xE_Arduino.git&quot;,
+    &quot;accountId&quot;: &quot;7c76bed8-9dcd-4e79-807d-936d5c4ad171&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/App/Resource/img/img_src_startupLogo.c" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="lZJZHI7q" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2025" />
+    <option name="minorVersion" value="2.5" />
+    <option name="productBranch" value="Classic" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="36sqQUqvOfC5dJqYFRJcvca92h0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "CMake 应用程序.main.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "RunOnceActivity.west.config.association.type.startup.service": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "X1__Pro__Panel__Dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "D:/workspace/BackUp/HC32F460xE_Arduino_copy/Simulator",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\guoti\Desktop\workspace\HC32F460xE_Arduino\Simulator\HAL" />
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Pages" />
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\img" />
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\symbol" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\workspace\BackUp\HC32F460xE_Arduino_copy\Simulator\App\Resource\img" />
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\symbol" />
+      <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\img" />
+    </key>
+  </component>
+  <component name="RunManager" selected="CMake 应用程序.main">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="lvgl" TARGET_NAME="main" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="lvgl" RUN_TARGET_NAME="main">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="lvgl" TARGET_NAME="run" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake 应用程序.main" />
+      <item itemvalue="CMake 应用程序.run" />
+    </list>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="fb9296b5-62c7-49bf-9405-3d779f01f962" name="更改" comment="" />
+      <created>1765805611682</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765805611682</updated>
+      <workItem from="1765805613160" duration="3318000" />
+      <workItem from="1765847160226" duration="10321000" />
+      <workItem from="1765857634489" duration="36739000" />
+      <workItem from="1765963949134" duration="5799000" />
+      <workItem from="1766023726590" duration="23553000" />
+      <workItem from="1766052425613" duration="3616000" />
+      <workItem from="1766109027047" duration="2975000" />
+      <workItem from="1766113233684" duration="18988000" />
+      <workItem from="1766230115939" duration="3362000" />
+      <workItem from="1766388498878" duration="2522000" />
+      <workItem from="1766454279151" duration="1154000" />
+      <workItem from="1766458326759" duration="17000" />
+      <workItem from="1766715131114" duration="8317000" />
+      <workItem from="1766974527112" duration="31000" />
+      <workItem from="1767782625090" duration="621000" />
+      <workItem from="1767783592098" duration="697000" />
+      <workItem from="1767833336222" duration="2111000" />
+      <workItem from="1767857011717" duration="1788000" />
+      <workItem from="1767926440996" duration="465000" />
+      <workItem from="1767934093020" duration="2139000" />
+      <workItem from="1767939592012" duration="11000" />
+      <workItem from="1767948712002" duration="3340000" />
+    </task>
+    <task id="LOCAL-00001" summary="update">
+      <option name="closed" value="true" />
+      <created>1766056023185</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1766056023185</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update">
+      <option name="closed" value="true" />
+      <created>1766140491924</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1766140491924</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="CidrExceptionBreakpoint">
+          <option name="timeStamp" value="6" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/App/Pages/WorkSettings/WorkSettingsView.cpp</url>
+          <line>68</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="CMakeRunConfiguration">
+        <watch expression="@ ALREADY PREPROCESSED @manager" language="C++" />
+        <watch expression="@ ALREADY PREPROCESSED @::systemInfo" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

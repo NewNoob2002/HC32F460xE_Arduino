@@ -3,6 +3,8 @@
 #include "bq40z50.h"
 #include "mp2762a.h"
 
+#define FORCE_SHUTDOWN() (systemInfo.powerMonitor.Force_ShutDown)
+
 static bool POWER_GET_REASON = false;
 en_flag_status_t softwareReset = RESET;
 
@@ -43,9 +45,88 @@ void HAL::Power_OnCheck()
     digitalWrite(POWER_CONTROL_PIN, HIGH);
 }
 
-void HAL::Power_Shutdown()
+void HAL::Power_Shutdown(bool en)
 {
-    CM_EXECUTE_ONCE(systemInfo.powerMonitor.ShutdownReq = true);
+    if (!en) {
+        CORE_DEBUG_PRINTF("Shutdown Req");
+        systemInfo.powerMonitor.ShutdownReq = true;
+    } else {
+        CORE_DEBUG_PRINTF("Shutdown Done");
+        digitalWrite(POWER_CONTROL_PIN, LOW);
+    }
+}
+
+void HAL::Power_PowerOffMonitor()
+{
+    if (systemInfo.powerMonitor.ShutdownReq || systemInfo.powerMonitor.LowBatteryPowerOff) {
+        digitalWrite(CHARGE_LED_PIN, LOW);
+        digitalWrite(POWER_LED_PIN, HIGH);
+        digitalWrite(FUNCTION_LED_PIN, HIGH);
+        systemInfo.powerMonitor.poweroff_flag = 1;
+        systemInfo.powerMonitor.ShutdownReq   = false;
+    }
+    if ((systemInfo.powerMonitor.ShutdownEnsure) || FORCE_SHUTDOWN() || systemInfo.powerMonitor.LowBatteryPowerOff) {
+        if (!POWER_GET_REASON) {
+            POWER_GET_REASON = true;
+            CORE_DEBUG_PRINTF("POWER OFF .................Power Off Cause: %s", Power_GetPowerOffCause());
+        }
+    }
+}
+
+bool HAL::Power_ShutdownEnsure()
+{
+    if (systemInfo.powerMonitor.ShutdownEnsure) {
+        systemInfo.powerMonitor.ShutdownEnsure = false;
+        return true;
+    }
+    return false;
+}
+
+bool HAL::Power_ShutdownForce()
+{
+    if (systemInfo.powerMonitor.Force_ShutDown) {
+        systemInfo.powerMonitor.Force_ShutDown = false;
+        return true;
+    }
+    return false;
+}
+
+bool HAL::Power_ShutdownLinux()
+{
+    if (systemInfo.powerMonitor.LinuxPowerOff) {
+        systemInfo.powerMonitor.LinuxPowerOff = false;
+        return true;
+    }
+    return false;
+}
+
+bool HAL::Power_ShutdownLowBattery()
+{
+    if (systemInfo.powerMonitor.LowBatteryPowerOff) {
+        systemInfo.powerMonitor.LowBatteryPowerOff = false;
+        return true;
+    }
+    return false;
+}
+
+bool HAL::Power_ShutdownSoftReset()
+{
+    if (systemInfo.powerMonitor.reset_flag) {
+        systemInfo.powerMonitor.reset_flag = false;
+        return true;
+    }
+    return false;
+}
+
+const char *HAL::Power_GetPowerOffCause()
+{
+    if (systemInfo.powerMonitor.LinuxPowerOff) {
+        return "Shutdown Board";
+    } else if (systemInfo.powerMonitor.LowBatteryPowerOff) {
+        return "Shutdown LowBattery";
+    } else if (FORCE_SHUTDOWN())
+        return "Shutdown Force";
+    return "Shutdown PushKey";
 }
 
 void HAL::Power_Update()

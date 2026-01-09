@@ -26,7 +26,7 @@
 #define NVIC_PRIORITYGROUP_4         0x00000003U /*!< 4 bits for pre-emption priority
                                                       0 bits for subpriority */
 
-
+#if defined(HC32F460)
 /** @addtogroup CORTEX_Exported_Functions_Group1
   * @{
   */
@@ -50,6 +50,8 @@ uint32_t HAL_SYSTICK_Config(uint32_t TicksNumb);
 #define IS_NVIC_SUB_PRIORITY(PRIORITY)         ((PRIORITY) < 0x10U)
 
 #define IS_NVIC_DEVICE_IRQ(IRQ)                ((IRQ) >= (IRQn_Type)0x00U)
+
+#endif
 
 #ifdef __cplusplus
  }

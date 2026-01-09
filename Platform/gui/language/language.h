@@ -1,0 +1,55 @@
+#ifndef LANGUAGE_H
+#define LANGUAGE_H
+
+typedef enum {
+		//main page
+    TEXT_ROVER,      
+    TEXT_BASE,
+    TEXT_POSITION_NONE,   
+    TEXT_POSITION_SINGLE,    
+    TEXT_POSITION_FIX,
+		TEXT_POSITION_FLOAT,
+		TEXT_POSITION_FIXEDPOS,
+		//workstatus page
+    TEXT_MODE_RADIO_RECEIVE,
+		TEXT_MODE_RADIO_TRANSMIT,
+		TEXT_MODE_RADIO_BRIDGE,
+		TEXT_MODE_RADIO_PROTOCOL,
+		TEXT_MODE_RADIO_CHANNEL,
+		TEXT_MODE_NTRIP_CLIENT,
+		TEXT_MODE_NTRIP_SERVER,
+		//record page
+		TEXT_RECORD_SPACE,
+		TEXT_RECORD_NAME,
+		TEXT_RECORD_TYPE,
+		TEXT_RECORD_TIME,
+		//WIFI page
+		TEXT_WIFI_MODE,
+		//power_off charge page
+		TEXT_POWEROFF_CHARGE_HOLD,
+		//power_off page
+		TEXT_POWEROFF_LABEL_LINUX_OFF,
+		TEXT_POWEROFF_LABEL_LOW_BAT_OFF,
+		TEXT_POWEROFF_LABEL_FORCE_OFF,
+		TEXT_POWEROFF_LABEL_BUTTON_OFF,
+		TEXT_POWEROFF_LABEL_SYNC_DONE,
+		
+
+    TEXT_MAX
+} text_id_t;
+
+
+#if defined(LOGO_RUSSION)
+#include "language_ru.h"
+
+#define GET_TEXT(id) ru_texts[id]
+
+#else
+#include "language_en.h"
+
+#define GET_TEXT(id) en_texts[id]
+#endif
+
+
+
+#endif // LANGUAGE_H

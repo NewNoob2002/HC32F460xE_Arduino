@@ -329,7 +329,7 @@
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>5</v6Lang>
-            <v6LangP>8</v6LangP>
+            <v6LangP>6</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>HC32F460,USE_DDL_DRIVER,ARDUINO = 111, __DEBUG,__CORE_DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\App\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\Core\inc;..\HAL;..\Driver\inc;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\lvglpp\src;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\support;..\gui\font;..\gui\ui;..\gui\img</IncludePath>
+              <IncludePath>..\..\User\inc;..\CMSIS\Include;..\CMSIS\Device\HDSC\hc32f4xx\Include;..\Config;..\..\Platform;..\Core\inc;..\Driver\inc;..\..\Arduino;..\..\Arduino\Core\avr;..\..\Arduino\Core\variants\hc32f460xx;..\..\Libraries;..\..\Libraries\Adafruit-GFX-Library;..\..\Libraries\Adafruit_BusIO;..\..\Libraries\Adafruit-ST7735-Library;..\..\Libraries\lvgl;..\..\Libraries\lvgl\porting;..\..\Libraries\Parser\include;..\..\Libraries\ButtonEvent;..\..\Libraries\Mp2762a;..\..\Libraries\Bq40z50;..\support;..\GUI\anim;..\GUI\font;..\GUI\img;..\GUI\language;..\GUI\symbol;..\GUI\x1_pro</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -381,24 +381,27 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>App</GroupName>
+          <GroupName>User</GroupName>
           <Files>
             <File>
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\src\main.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>slave_i2c.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\..\App\src\slave_i2c.cpp</FilePath>
+              <FilePath>..\..\User\src\main.cpp</FilePath>
             </File>
             <File>
               <FileName>message_decode.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\..\App\src\message_decode.cpp</FilePath>
+              <FilePath>..\..\User\src\message_decode.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>slave_i2c.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\User\src\slave_i2c.cpp</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>Pages</GroupName>
         </Group>
         <Group>
           <GroupName>Platform/CMSIS</GroupName>
@@ -471,7 +474,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Platform/Hal</GroupName>
+          <GroupName>Platform/HAL</GroupName>
           <Files>
             <File>
               <FileName>HAL.cpp</FileName>
@@ -492,6 +495,16 @@
               <FileName>HAL_Power.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\HAL\HAL_Power.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_Display.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\HAL\HAL_Display.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_Led.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\HAL\HAL_Led.cpp</FilePath>
             </File>
             <File>
               <FileName>HAL_CORTEX.c</FileName>
@@ -724,9 +737,204 @@
           <GroupName>Platform/Support</GroupName>
           <Files>
             <File>
-              <FileName>system.c</FileName>
+              <FileName>support.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\support\system.c</FilePath>
+              <FilePath>..\support\support.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Platform/GUI</GroupName>
+          <Files>
+            <File>
+              <FileName>lv_screen1_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\x1_pro\lv_screen1_main.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_screen2_workstatus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\x1_pro\lv_screen2_workstatus.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_screen3_coordinate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\x1_pro\lv_screen3_coordinate.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_screen4_record.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\x1_pro\lv_screen4_record.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_screen5_wifi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\x1_pro\lv_screen5_wifi.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_screen6_startUp.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\GUI\x1_pro\lv_screen6_startUp.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>lv_screen7_poweroff.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\GUI\x1_pro\lv_screen7_poweroff.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>lv_screen8_hardware.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\GUI\x1_pro\lv_screen8_hardware.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>lvgl_screen.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\x1_pro\lvgl_screen.c</FilePath>
+            </File>
+            <File>
+              <FileName>screen1_bottom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\x1_pro\screen1_bottom.c</FilePath>
+            </File>
+            <File>
+              <FileName>screen1_top.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\x1_pro\screen1_top.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Platform/GUI/anim</GroupName>
+          <Files>
+            <File>
+              <FileName>lv_anim_label.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Gui\anim\lv_anim_label.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_anim_timeline_wrapper.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Gui\anim\lv_anim_timeline_wrapper.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_obj_ext_func.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Gui\anim\lv_obj_ext_func.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Platform/GUI/font</GroupName>
+          <Files>
+            <File>
+              <FileName>font_oswaldBold_12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Gui\font\font_oswaldBold_12.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_oswaldBold_18.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Gui\font\font_oswaldBold_18.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_rajdhaniBold_20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Gui\font\font_rajdhaniBold_20.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_rajdhaniBold_40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Gui\font\font_rajdhaniBold_40.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Platform/GUI/img</GroupName>
+          <Files>
+            <File>
+              <FileName>img_src_startupLogo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Gui\img\img_src_startupLogo.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Platform/GUI/language</GroupName>
+          <Files>
+            <File>
+              <FileName>language.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Gui\language\language.h</FilePath>
+            </File>
+            <File>
+              <FileName>language_en.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Gui\language\language_en.h</FilePath>
+            </File>
+            <File>
+              <FileName>language_ru.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Gui\language\language_ru.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Platform/GUI/symbol</GroupName>
+          <Files>
+            <File>
+              <FileName>icon_system_26.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\icon_system_26.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_singularxyz_22.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\lv_font_singularxyz_22.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_singularxyz_28.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\lv_font_singularxyz_28.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_singularxyz_32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\lv_font_singularxyz_32.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_singularxyz_48.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\lv_font_singularxyz_48.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_singularxyz_53.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\lv_font_singularxyz_53.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_workstatus_icon.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\lv_workstatus_icon.c</FilePath>
+            </File>
+            <File>
+              <FileName>main_symbol2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\main_symbol2.c</FilePath>
+            </File>
+            <File>
+              <FileName>main_symbol32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\main_symbol32.c</FilePath>
+            </File>
+            <File>
+              <FileName>symbol_radio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\symbol_radio.c</FilePath>
+            </File>
+            <File>
+              <FileName>symbol_satellite48.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\GUI\symbol\symbol_satellite48.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1591,73 +1799,10 @@
               <FileType>8</FileType>
               <FilePath>..\..\Libraries\lvgl\porting\lv_port_disp.cpp</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>lvgl/myFont</GroupName>
-          <Files>
             <File>
-              <FileName>Oswald_Bold_12.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\Oswald_Bold_12.c</FilePath>
-            </File>
-            <File>
-              <FileName>Oswald_Bold_18.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\Oswald_Bold_18.c</FilePath>
-            </File>
-            <File>
-              <FileName>Rajdhani_Bold_0_9_20.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\Rajdhani_Bold_0_9_20.c</FilePath>
-            </File>
-            <File>
-              <FileName>Rajdhani_Bold_0_9_40.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\Rajdhani_Bold_0_9_40.c</FilePath>
-            </File>
-            <File>
-              <FileName>main_symbol2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\main_symbol2.c</FilePath>
-            </File>
-            <File>
-              <FileName>main_symbol32.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\main_symbol32.c</FilePath>
-            </File>
-            <File>
-              <FileName>symbol_radio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\symbol_radio.c</FilePath>
-            </File>
-            <File>
-              <FileName>symbol_satellite48.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\font\symbol_satellite48.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>lvgl/gui</GroupName>
-        </Group>
-        <Group>
-          <GroupName>utils/lv_anim_label</GroupName>
-          <Files>
-            <File>
-              <FileName>lv_anim_label.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\utils\lv_anim_label\lv_anim_label.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>utils/lv_ext</GroupName>
-          <Files>
-            <File>
-              <FileName>lv_anim_timeline_wrapper.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\gui\utils\lv_ext\lv_anim_timeline_wrapper.c</FilePath>
+              <FileName>lv_port_indev.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Libraries\lvgl\porting\lv_port_indev.cpp</FilePath>
             </File>
           </Files>
         </Group>

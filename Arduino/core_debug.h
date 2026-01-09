@@ -10,7 +10,7 @@
 #endif
 
 #ifndef CORE_DEBUG_PRINTF
-#define CORE_DEBUG_PRINTF(fmt, ...) printf(fmt, ##__VA_ARGS__)
+#define CORE_DEBUG_PRINTF(fmt, ...) printf(fmt "\n", ##__VA_ARGS__)
 #endif
 
 #ifndef CORE_ASSERT
@@ -39,8 +39,10 @@
 
 #define CORE_ASSERT_FAIL(message) CORE_ASSERT(false, message)
 
+#if defined(HC32F460)
 #include "WVariant.h"
 #define ASSERT_GPIO_PIN_VALID(gpio_pin, fn_name, ...) \
     CORE_ASSERT(IS_GPIO_PIN(gpio_pin), "invalid GPIO pin supplied to " fn_name, ##__VA_ARGS__)
+#endif
 
 #endif // _CORE_DEBUG_H

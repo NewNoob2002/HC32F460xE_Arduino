@@ -7,8 +7,9 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#if defined(HC32F460)
 #include "hc32_ll.h"
-#include <stddef.h>
+#endif
 	 
 /** 
   * @brief  HAL Status structures definition  
