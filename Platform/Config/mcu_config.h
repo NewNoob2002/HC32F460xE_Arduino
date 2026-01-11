@@ -27,6 +27,16 @@
 #define CHARGE_LED_PIN PH2
 #define FUNCTION_LED_PIN PB5
 
+/*charger_control*/
+#define CHARGER_ENABLE_PIN 		PA4
+#define CHARGER_CTRL_PIN 			PB7
+#define CHARGER_CTRL_FAST_PIN PB6
+#define CHARGER_SWITCH_PIN 		PB10
+
+#define CHARGER_ADC_DETECT_PIN PA1
+
+#define USB_SWITCH_PIN PB8
+
 /* SPI Class */
 #define SPI_CLASS_3_ENABLE 1
 #if SPI_CLASS_3_ENABLE

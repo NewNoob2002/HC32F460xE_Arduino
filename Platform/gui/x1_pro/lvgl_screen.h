@@ -7,6 +7,17 @@
 #define nullptr 0
 #endif
 
+#include "HAL/HAL.h"
+#include "lv_screen1_main.h"
+#include "lv_screen2_workstatus.h"
+#include "lv_screen3_coordinate.h"
+#include "lv_screen4_record.h"
+#include "lv_screen5_wifi.h"
+#include "lv_screen6_startUp.h"
+#include "lv_screen7_poweroff.h"
+#include "lv_screen8_hardware.h"
+#include "lv_screen9_shutdown.h"
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -17,15 +28,7 @@ extern lv_style_t* RootDefaultStyle;
 void LVGL_screen_init();
 extern int screen_destition;
 	
-#include "HAL/HAL.h"
-#include "lv_screen1_main.h"
-#include "lv_screen2_workstatus.h"
-#include "lv_screen3_coordinate.h"
-#include "lv_screen4_record.h"
-#include "lv_screen5_wifi.h"
-#include "lv_screen6_startUp.h"
-#include "lv_screen7_poweroff.h"
-#include "lv_screen8_hardware.h"
+
 #include "screen1_top.h"
 #include "screen1_bottom.h"
 

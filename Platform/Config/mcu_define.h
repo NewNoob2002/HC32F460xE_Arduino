@@ -108,10 +108,10 @@ typedef struct Power_Monitor_t {
 
     bool LinuxPowerOff;
     bool LowBatteryPowerOff;
+		bool Force_ShutDown;
+		bool PushKey_ShutDown;
     bool ShutdownReq;
     bool ShutdownEnsure;
-
-    bool Force_ShutDown;
 
     uint8_t reset_flag;
     uint8_t poweroff_flag;

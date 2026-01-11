@@ -3,6 +3,17 @@
 lv_obj_t *scr1 = nullptr; /// main
 lv_timer_t *scr1_timer = nullptr;
 
+//struct {
+//  struct {
+//    lv_obj_t *cont;
+//    struct {
+//      lv_obj_t *obj;
+//      lv_anim_t anim;
+//    } bar;
+//    lv_obj_t *btnPress;
+//  } shutdown;
+//} ui;
+
 void lv_screen1_init(void)
 {
 	scr1 = lv_obj_create(NULL);

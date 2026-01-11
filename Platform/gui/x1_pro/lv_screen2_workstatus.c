@@ -16,13 +16,13 @@ void lv_screen2_init(void)
 {
 	scr2 = lv_obj_create(nullptr);
 
-	lv_singularxyz_workstatus_text(scr2, 0 + screen_destition, 25);
+	lv_singularxyz_workstatus_text(scr2, 20 + screen_destition, 25);
 
-	lv_singularxyz_radio_mode_text(scr2, 0, 75 + screen_destition, 22);
+	lv_singularxyz_radio_mode_text(scr2, 0, 85 + screen_destition, 22);
 	lv_update_radio_mode_text(0);
-	lv_singularxyz_radio_protocol_text(scr2, 0, 75 + screen_destition, 47);
+	lv_singularxyz_radio_protocol_text(scr2, 0, 85 + screen_destition, 47);
 	lv_update_radio_protocol_text(0);
-	lv_singularxyz_radio_chanel_text(scr2, 0, 75 + screen_destition, 72);
+	lv_singularxyz_radio_chanel_text(scr2, 0, 85 + screen_destition, 72);
 	lv_update_radio_chanel_text(0);
 
 	lv_singularxyz_ntrip_text(scr2, 1, 85 + screen_destition, 22);

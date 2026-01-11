@@ -61,7 +61,7 @@ static int message_info_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
             msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.powerMonitor.poweroff_flag;            // 主机关机控制
             msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.recordInfo.record_status;              // 静态记录状态
             msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.recordInfo.record_op;                  // 静态记录开关
-            msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus; // 充电电源接入
+            msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus != 0x00; // 充电电源接入
             if (systemInfo.recordInfo.record_change_flag) systemInfo.recordInfo.record_change_flag = 0;
             systemInfo.recordInfo.record_op = 0;
             if (systemInfo.powerMonitor.poweroff_flag == 1) {

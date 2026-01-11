@@ -277,7 +277,7 @@ void lv_screen6_init(void)
 
 void lv_screen6_appear()
 {
-	lv_group_t *group = lv_group_get_default();
+  lv_group_t *group = lv_group_get_default();
   LV_ASSERT_NULL(group);
   lv_group_add_obj(group, ui.btnPress);
   lv_group_focus_obj(ui.btnPress);
@@ -298,7 +298,7 @@ void lv_screen6_disappear(void)
 	if(scr6_timer)
 	{
 		CORE_DEBUG_PRINTF("scr6_timer_pause");
-		lv_timer_pause(scr6_timer);
+		lv_timer_del(scr6_timer);
 	}
 	CORE_DEBUG_PRINTF("scr6_disappear");
 }

@@ -10,6 +10,8 @@ void lv_screen7_init(void);
 void lv_screen7_appear();
 void lv_screen7_disappear();
 void lv_screen7_appear_flag();
+	
+void lv_anim_obj_set_width(void *obj, int32_t width);
 #ifdef __cplusplus
 }
 #endif

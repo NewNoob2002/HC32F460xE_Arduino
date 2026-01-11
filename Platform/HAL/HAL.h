@@ -50,6 +50,13 @@ void Led_Update();
 void Led_Power_switch(const uint8_t level);
 void Led_Charge_switch(const uint8_t level);
 void Led_Function_switch(const uint8_t level);
+	 
+void Charger_Control_GPIO_Init(void);
+void USB_Switch_GPIO_Init(void);
+void USB_Switch_GPIO_Control(uint8_t state);
+void Charge_Enable_Switch(uint8_t state);
+void Charge_Current_Select(uint16_t select);
+void Charger_Control_Monitor(BatteryInfo_t *batteryState);
 /** @defgroup HAL_Exported_Constants HAL Exported Constants
   * @{
   */

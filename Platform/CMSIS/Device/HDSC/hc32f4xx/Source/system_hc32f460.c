@@ -103,6 +103,7 @@ void SystemInit(void)
 #endif /* ROM_EXT_QSPI */
     /* Configure the Vector Table relocation */
     SCB->VTOR = VECT_TAB_OFFSET;    /* Vector Table Relocation */
+		__enable_irq();
 }
 
 /**

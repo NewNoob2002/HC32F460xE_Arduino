@@ -2,6 +2,7 @@
 #include "Arduino.h"
 #include "MillisTaskManager/MillisTaskManager.h"
 #include "SEGGER_RTT.h"
+#include "lvgl_screen.h"
 
 static MillisTaskManager taskManager;
 
@@ -9,6 +10,11 @@ static void HAL_TimerInterrputUpdate(void *e)
 {
     HAL::Power_Update();
     HAL::Key_Update();
+}
+
+static void HAL_LED_TASK(void *e)
+{
+	Led_Update();
 }
 
 //namesapce HAL
@@ -25,12 +31,49 @@ void HAL::HAL_Init()
 		I2C_Scan();
 		Key_Init();
 	
-		taskManager.Register(HAL_TimerInterrputUpdate, 10);
+		taskManager.Register(HAL_TimerInterrputUpdate, 15);
+		taskManager.Register(HAL_LED_TASK, 100);
 }
 
 void HAL::HAL_Update()
 {
 	taskManager.Running(millis());
+	if (systemInfo.powerMonitor.Force_ShutDown ||
+      systemInfo.powerMonitor.LowBatteryPowerOff || 
+			systemInfo.powerMonitor.LinuxPowerOff ||
+			systemInfo.powerMonitor.PushKey_ShutDown) 
+	{
+    static bool Shutdown_pushed = false;
+		static uint32_t Shutdown_push_tick = 0;
+    if (!Shutdown_pushed) {
+      Shutdown_pushed = true;
+			Shutdown_push_tick = HAL_GetTick();
+			CORE_DEBUG_PRINTF("Push Shutdown Page");
+			HAL::Power_Shutdown(false);
+      switch (screen_flag) {
+      case 1:
+        lv_screen1_disappear();
+        break;
+      case 2:
+        lv_screen2_disappear();
+        break;
+      case 3:
+        lv_screen3_disappear();
+        break;
+      case 4:
+        lv_screen4_disappear();
+        break;
+      case 5:
+        lv_screen5_disappear();
+        break;
+      default:
+        break;
+      }
+      lv_shutdown_set_src(HAL::Power_GetPowerOffCause());
+			lv_screen9_appear();
+    }
+		if(HAL_GetTick() - Shutdown_push_tick >= 15 *1000 && Shutdown_push_tick!= 0) Shutdown_pushed = false;
+  }
 }
 
 /** @addtogroup HAL_Private_Variables

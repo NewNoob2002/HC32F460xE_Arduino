@@ -14,15 +14,6 @@ struct {
     } bar;
     lv_obj_t *btnPress;
   } shutdown;
-  struct {
-    lv_obj_t *cont;
-    lv_obj_t *label;
-    struct {
-      lv_obj_t *obj;
-      lv_anim_t anim;
-    } bar;
-  } sync;
-  lv_anim_timeline_t *anim_timeline;
 } ui;
 
 
@@ -31,42 +22,21 @@ extern volatile SharedData_t shared_info;
 
 static void onEvent(lv_event_t *event);
 
-static void lv_anim_obj_set_width(void *obj, int32_t width)
+void lv_anim_obj_set_width(void *obj, int32_t width)
 {
-    lv_anim_t *anim = lv_anim_get(obj, lv_anim_obj_set_width);
-    if (!anim) return;
-
     lv_obj_set_width((lv_obj_t*)obj, width);
 
-    if (ui.shutdown.bar.label) {
+    if (ui.shutdown.bar.label && screen_flag == 6) {
         lv_label_set_text_fmt(ui.shutdown.bar.label, "%d%%", width);
     }
     if (width >= 100) {
         if (!anim_complement_callback_do) {
             anim_complement_callback_do = true;
-            lv_obj_fade_out(ui.shutdown.cont, 300, 0);
-            lv_obj_clear_flag(ui.sync.cont, LV_OBJ_FLAG_HIDDEN);
-            lv_obj_fade_in(ui.sync.cont, 300, 0);
-            lv_anim_timeline_start(ui.anim_timeline);
-            lv_anim_start(&ui.sync.bar.anim);
             HAL::Power_Shutdown(false);
             HAL::PowerKey_SetEnable(false);
+						lv_screen9_appear();
         }
     }
-}
-
-static void syncbar_timer_callback(lv_timer_t *timer)
-{
-//	shared_info.command = CMD_SKIP_DELAY;
-//	shared_info.reset_count = 0x2006;
-	NVIC_SystemReset();
-}
-
-static void syncbar_anim_done_callback(lv_anim_t *a)
-{
-    HAL::Power_Shutdown(true);
-    lv_timer_t *timer = lv_timer_create(syncbar_timer_callback, 1000, nullptr);
-    lv_timer_set_repeat_count(timer, 1);
 }
 
 void lv_screen7_init(void)
@@ -74,7 +44,6 @@ void lv_screen7_init(void)
 		scr7 = lv_obj_create(NULL);
 
 	  const lv_font_t *font = &font_oswaldBold_18;
-    const lv_font_t *font_small = &font_oswaldBold_12;
 		
 		lv_obj_t *root = scr7;
     lv_obj_t *main_cont = lv_obj_create(root);
@@ -85,7 +54,7 @@ void lv_screen7_init(void)
 
     lv_obj_t *label = lv_label_create(main_cont);
     lv_obj_remove_style_all(label);
-    lv_obj_set_style_text_font(label, font_small, 0);
+    lv_obj_set_style_text_font(label, font, 0);
     lv_label_set_text(label, "Keep Press Shutdown");
     lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 30);
 
@@ -106,14 +75,14 @@ void lv_screen7_init(void)
     ui.shutdown.bar.obj = bar;
 
     lv_anim_init(&ui.shutdown.bar.anim);
-    lv_anim_set_var(&ui.shutdown.bar.anim, bar);
+    lv_anim_set_var(&ui.shutdown.bar.anim, ui.shutdown.bar.obj);
     lv_anim_set_playback_time(&ui.shutdown.bar.anim, 0);
     lv_anim_set_repeat_count(&ui.shutdown.bar.anim, 0);
 		lv_anim_set_exec_cb(&ui.shutdown.bar.anim, lv_anim_obj_set_width);
 
     lv_obj_t *barPercent = lv_label_create(main_cont);
     lv_obj_remove_style_all(barPercent);
-    lv_obj_set_style_text_font(barPercent, font_small, 0);
+    lv_obj_set_style_text_font(barPercent, font, 0);
     lv_label_set_text(barPercent, "0%");
     lv_obj_align(barPercent, LV_ALIGN_CENTER, 70, 10);
     ui.shutdown.bar.label = barPercent;
@@ -153,107 +122,8 @@ void lv_screen7_init(void)
     lv_obj_set_style_text_font(label_btn, font, 0);
     lv_label_set_text(label_btn, "PRESS");
     lv_obj_center(label_btn);
-
-    /*
-     * Second screen;
-     */
-    lv_obj_t *second_cont = lv_obj_create(root);
-    lv_obj_remove_style_all(second_cont);
-    lv_obj_set_size(second_cont, LV_HOR_RES, LV_VER_RES);
-    lv_obj_center(second_cont);
-    lv_obj_add_flag(second_cont, LV_OBJ_FLAG_HIDDEN);
-    ui.sync.cont = second_cont;
-
-    lv_obj_t *sync_label = lv_label_create(second_cont);
-    lv_obj_set_style_text_font(sync_label, font, 0);
-    lv_obj_set_style_text_color(sync_label, lv_palette_main(LV_PALETTE_GREEN), 0);
-    lv_label_set_text(sync_label, "Warming: Saving SystemConfig");
-    lv_obj_center(sync_label);
-    ui.sync.label = sync_label;
-
-    lv_obj_t *bar_cont = lv_obj_create(second_cont);
-    lv_obj_remove_style_all(bar_cont);
-    lv_obj_set_style_border_color(bar_cont, lv_color_hex(0x8BCA93), 0);
-    lv_obj_set_style_border_width(bar_cont, 2, 0);
-    lv_obj_set_size(bar_cont, 102, 12);
-    lv_obj_align(bar_cont, LV_ALIGN_CENTER, 0, 40);
-
-    lv_obj_t *sync_bar = lv_obj_create(bar_cont);
-    lv_obj_remove_style_all(sync_bar);
-    lv_obj_set_size(sync_bar, 0, 10);
-    lv_obj_set_style_bg_color(sync_bar, lv_color_hex(0x8BCA93), 0);
-    lv_obj_set_style_bg_opa(sync_bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_opa(sync_bar, LV_OPA_COVER, 0);
-    lv_obj_align(sync_bar, LV_ALIGN_LEFT_MID, 0, 0);
-    ui.sync.bar.obj = sync_bar;
-
-    lv_anim_init(&ui.sync.bar.anim);
-    lv_anim_set_var(&ui.sync.bar.anim, sync_bar);
-    lv_anim_set_exec_cb(&ui.sync.bar.anim, LV_ANIM_EXEC(width));
-    lv_anim_set_values(&ui.sync.bar.anim, 0, 100);
-    lv_anim_set_time(&ui.sync.bar.anim, 8000);
-    lv_anim_set_playback_time(&ui.sync.bar.anim, 0);
-    lv_anim_set_repeat_count(&ui.sync.bar.anim, 0);
-		lv_anim_set_deleted_cb(&ui.sync.bar.anim, syncbar_anim_done_callback);
-
-    ui.anim_timeline = lv_anim_timeline_create();
-#define ANIM_DEF(start_time, obj, attr, start, end) \
-{start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
-
-    const lv_anim_timeline_wrapper_t wrapper[] =
-    {
-        ANIM_DEF(0, bar_cont, width, 0, lv_obj_get_style_width(bar_cont, 0)),
-        ANIM_DEF(300, sync_label, y, lv_obj_get_style_height(second_cont, 0), lv_obj_get_y(sync_label)),
-        LV_ANIM_TIMELINE_WRAPPER_END
-    };
-
-    lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 		
 		lv_obj_add_event_cb(btnPress, onEvent, LV_EVENT_ALL, nullptr);
-}
-
-static void onTimerUpdate(lv_timer_t *timer)
-{
-	    if (HAL::Power_ShutdownForce()) {
-				Led_Charge_switch(0);
-				Led_Power_switch(1);
-				Led_Function_switch(1);
-
-        lv_obj_set_style_text_color(ui.sync.label, lv_palette_main(LV_PALETTE_RED), 0);
-        lv_label_set_text(ui.sync.label, "Info: PowerKey Shutdown");
-				lv_obj_clear_flag(ui.sync.cont, LV_OBJ_FLAG_HIDDEN);
-				lv_obj_fade_in(ui.sync.cont, 300, 0);
-        lv_anim_timeline_start(ui.anim_timeline);
-        lv_anim_start(&ui.sync.bar.anim);
-        HAL::PowerKey_SetEnable(false);
-				CORE_DEBUG_PRINTF("POWER OFF .................Power Off Cause: PowerKey Shutdown");
-    } else if (HAL::Power_ShutdownLinux()) {
-				Led_Charge_switch(0);
-				Led_Power_switch(1);
-				Led_Function_switch(1);
-
-        lv_label_set_text(ui.sync.label, "Info: Linux Shutdown");
-				lv_obj_clear_flag(ui.sync.cont, LV_OBJ_FLAG_HIDDEN);
-				lv_obj_fade_in(ui.sync.cont, 300, 0);
-        lv_anim_timeline_start(ui.anim_timeline);
-        lv_anim_start(&ui.sync.bar.anim);
-        HAL::PowerKey_SetEnable(false);
-				CORE_DEBUG_PRINTF("POWER OFF .................Power Off Cause: Linux Shutdown");
-    } else if (HAL::Power_ShutdownLowBattery()) {
-				Led_Charge_switch(0);
-				Led_Power_switch(1);
-				Led_Function_switch(1);
-
-        lv_obj_set_style_text_color(ui.sync.label, lv_palette_main(LV_PALETTE_RED), 0);
-        lv_label_set_text(ui.sync.label, "Warming: LowBattery Shutdown");
-				lv_obj_clear_flag(ui.sync.cont, LV_OBJ_FLAG_HIDDEN);
-				lv_obj_fade_in(ui.sync.cont, 300, 0);
-        lv_anim_timeline_start(ui.anim_timeline);
-        lv_anim_start(&ui.sync.bar.anim);
-        HAL::PowerKey_SetEnable(false);
-				CORE_DEBUG_PRINTF("POWER OFF .................Power Off Cause: LowBattery Shutdown");
-    }
-		CORE_DEBUG_PRINTF("scr7_timer");
 }
 
 static void onEvent(lv_event_t *event)
@@ -292,44 +162,10 @@ static void onEvent(lv_event_t *event)
 
 void lv_screen7_appear()
 {
-	if(scr7_timer == nullptr)
-	{
-		scr7_timer = lv_timer_create(onTimerUpdate, 1000, nullptr);
-		CORE_DEBUG_PRINTF("scr7_timer_create");
-	}
-	else
-	{
-		lv_timer_resume(scr7_timer);
-		lv_timer_ready(scr7_timer);
-		CORE_DEBUG_PRINTF("scr7_timer_resume");
-	}
 	lv_group_t *group = lv_group_get_default();
   LV_ASSERT_NULL(group);
   lv_group_add_obj(group, ui.shutdown.btnPress);
   lv_group_focus_obj(ui.shutdown.btnPress);
-	lv_obj_clear_flag(ui.shutdown.cont, LV_OBJ_FLAG_HIDDEN);
-	lv_scr_load_anim(scr7, LV_SCR_LOAD_ANIM_MOVE_LEFT, 300, 0, false);
-	CORE_DEBUG_PRINTF("lv_screen7_appear");
-}
-
-void lv_screen7_appear_flag()
-{
-	if(scr7_timer == nullptr)
-	{
-		scr7_timer = lv_timer_create(onTimerUpdate, 1000, nullptr);
-		CORE_DEBUG_PRINTF("scr7_timer_create");
-	}
-	else
-	{
-		lv_timer_resume(scr7_timer);
-		lv_timer_ready(scr7_timer);
-		CORE_DEBUG_PRINTF("scr7_timer_resume");
-	}
-	lv_group_t *group = lv_group_get_default();
-  LV_ASSERT_NULL(group);
-  lv_group_add_obj(group, ui.shutdown.btnPress);
-  lv_group_focus_obj(ui.shutdown.btnPress);
-	lv_obj_add_flag(ui.shutdown.cont, LV_OBJ_FLAG_HIDDEN);
 	lv_scr_load_anim(scr7, LV_SCR_LOAD_ANIM_MOVE_LEFT, 300, 0, false);
 	CORE_DEBUG_PRINTF("lv_screen7_appear");
 }
@@ -339,10 +175,5 @@ void lv_screen7_disappear(void)
 	lv_group_t *group = lv_group_get_default();
   LV_ASSERT_NULL(group);
 	lv_group_remove_all_objs(group);
-	if(scr7_timer)
-	{
-		CORE_DEBUG_PRINTF("lv_screen7_timer_stop");
-		lv_timer_pause(scr7_timer);
-	}
 	CORE_DEBUG_PRINTF("lv_screen7_disappear");
 }

@@ -787,9 +787,9 @@
               <FilePath>..\GUI\x1_pro\lv_screen8_hardware.cpp</FilePath>
             </File>
             <File>
-              <FileName>lvgl_screen.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\GUI\x1_pro\lvgl_screen.c</FilePath>
+              <FileName>lv_screen9_shutdown.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\gui\x1_pro\lv_screen9_shutdown.cpp</FilePath>
             </File>
             <File>
               <FileName>screen1_bottom.c</FileName>
@@ -800,6 +800,11 @@
               <FileName>screen1_top.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\GUI\x1_pro\screen1_top.c</FilePath>
+            </File>
+            <File>
+              <FileName>lvgl_screen.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\gui\x1_pro\lvgl_screen.cpp</FilePath>
             </File>
           </Files>
         </Group>

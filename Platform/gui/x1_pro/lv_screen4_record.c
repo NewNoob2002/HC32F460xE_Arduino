@@ -15,15 +15,15 @@ void lv_screen4_init(void)
 {
 	scr4 = lv_obj_create(NULL);
 
-	lv_singularxyz_record(scr4, 2, 0 + screen_destition, 30);
+	lv_singularxyz_record(scr4, 2, 20 + screen_destition, 30);
 	lv_update_record();
-	lv_singularxyz_record_rsc_text(scr4, 0, 90 + screen_destition, 20);
+	lv_singularxyz_record_rsc_text(scr4, 0, 85 + screen_destition, 20);
 	lv_update_record_rsc_text();
-	lv_singularxyz_record_name_text(scr4, 0, 90 + screen_destition, 45);
+	lv_singularxyz_record_name_text(scr4, 0, 85 + screen_destition, 45);
 	lv_update_record_name_text();
-	lv_singularxyz_record_type_text(scr4, 0, 90 + screen_destition, 70);
+	lv_singularxyz_record_type_text(scr4, 0, 85 + screen_destition, 70);
 	lv_update_record_type_text();
-	lv_singularxyz_record_time_text(scr4, 0, 90 + screen_destition, 95);
+	lv_singularxyz_record_time_text(scr4, 0, 85 + screen_destition, 95);
 	lv_update_record_time_text();
 }
 

@@ -9,13 +9,13 @@ void lv_screen3_init(void)
 {
 	scr3 = lv_obj_create(NULL);
 
-	lv_singularxyz_coordinate(scr3, 2, 0 + screen_destition, 30);
+	lv_singularxyz_coordinate(scr3, 2, 20 + screen_destition, 30);
 	lv_update_coordinate();
-	lv_singularxyz_coordinate_lon_text(scr3, 90 + screen_destition, 25);
+	lv_singularxyz_coordinate_lon_text(scr3, 85 + screen_destition, 25);
 	lv_update_coordinate_lon_text(); // ����
-	lv_singularxyz_coordinate_lat_text(scr3, 90 + screen_destition, 50);
+	lv_singularxyz_coordinate_lat_text(scr3, 85 + screen_destition, 50);
 	lv_update_coordinate_lat_text(); // ��γ
-	lv_singularxyz_coordinate_alt_text(scr3, 90 + screen_destition, 75);
+	lv_singularxyz_coordinate_alt_text(scr3, 85 + screen_destition, 75);
 	lv_update_coordinate_alt_text(); // �߳�
 }
 

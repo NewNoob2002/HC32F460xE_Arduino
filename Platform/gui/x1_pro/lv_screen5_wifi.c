@@ -17,13 +17,13 @@ void lv_screen5_init(void)
 {
 	scr5 = lv_obj_create(NULL);
 
-	lv_singularxyz_router(scr5, 2, 15 + screen_destition, 30);
+	lv_singularxyz_router(scr5, 2, 20 + screen_destition, 30);
 	lv_update_router(0);
-	lv_singularxyz_router_mode_text(scr5, 2, 95 + screen_destition, 25);
+	lv_singularxyz_router_mode_text(scr5, 2, 85 + screen_destition, 25);
 	lv_update_router_mode_text(0);
-	lv_singularxyz_router_ssid_text(scr5, 2, 95 + screen_destition, 50);
+	lv_singularxyz_router_ssid_text(scr5, 2, 85 + screen_destition, 50);
 	lv_update_router_ssid_text(" ");
-	lv_singularxyz_router_ip_text(scr5, 2, 95 + screen_destition, 75);
+	lv_singularxyz_router_ip_text(scr5, 2, 85 + screen_destition, 75);
 	lv_update_router_ip_text(wifi_ip);
 }
 
