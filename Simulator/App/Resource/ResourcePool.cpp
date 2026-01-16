@@ -43,7 +43,6 @@ static void Resource_Init() {
     IMPORT_IMG(stop);
     IMPORT_IMG(satellite);
     IMPORT_IMG(map_location);
-    IMPORT_IMG(battery_info);
     IMPORT_IMG(storage);
     IMPORT_IMG(system_info);
     IMPORT_IMG(wifi);

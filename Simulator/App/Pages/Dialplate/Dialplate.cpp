@@ -36,7 +36,7 @@ void Dialplate::onViewWillAppear() {
     lv_group_t *group = lv_group_get_default();
     LV_ASSERT_NULL(group);
 
-    lv_group_set_wrap(group, false);
+    lv_group_set_wrap(group, true);
 
     lv_group_add_obj(group, View.ui.btnCont.btnMap);
     lv_group_add_obj(group, View.ui.btnCont.btnRec);

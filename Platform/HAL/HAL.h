@@ -6,6 +6,8 @@
 #include "../../../Arduino/core_debug.h"
 #include "CommonMacro.h"
 
+extern volatile SharedData_t shared_info;
+
 #ifdef __cplusplus
 namespace HAL
 {

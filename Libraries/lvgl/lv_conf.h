@@ -49,7 +49,7 @@
 #define LV_MEM_CUSTOM 0
 #if LV_MEM_CUSTOM == 0
     /*Size of the memory available for `lv_mem_alloc()` in bytes (>= 2kB)*/
-    #define LV_MEM_SIZE (96U * 1024U)          /*[bytes]*/
+    #define LV_MEM_SIZE (80U * 1024U)          /*[bytes]*/
 
     /*Set an address for the memory pool instead of allocating it as a normal array. Can be in external SRAM too.*/
     #define LV_MEM_ADR 0     /*0: unused*/
@@ -230,7 +230,7 @@
  *-----------*/
 
 /*Enable the log module*/
-#if defined(__DEBUG)
+#if defined(__CORE_DEBUG)
 #define LV_USE_LOG 1
 #else
 #define LV_USE_LOG 0
@@ -283,14 +283,22 @@
  *-----------*/
 
 /*1: Show CPU usage and FPS count*/
+#if defined(__CORE_DEBUG)
+#define LV_USE_PERF_MONITOR 1
+#else
 #define LV_USE_PERF_MONITOR 0
+#endif
 #if LV_USE_PERF_MONITOR
     #define LV_USE_PERF_MONITOR_POS LV_ALIGN_BOTTOM_RIGHT
 #endif
 
 /*1: Show the used memory and the memory fragmentation
  * Requires LV_MEM_CUSTOM = 0*/
+#if defined(__CORE_DEBUG)
+#define LV_USE_MEM_MONITOR 1
+#else
 #define LV_USE_MEM_MONITOR 0
+#endif
 #if LV_USE_MEM_MONITOR
     #define LV_USE_MEM_MONITOR_POS LV_ALIGN_BOTTOM_LEFT
 #endif
@@ -477,11 +485,11 @@
 
 #define LV_USE_ARC        1
 
-#define LV_USE_BAR        1
+#define LV_USE_BAR        0
 
-#define LV_USE_BTN        1
+#define LV_USE_BTN        0
 
-#define LV_USE_BTNMATRIX  1
+#define LV_USE_BTNMATRIX  0
 
 #define LV_USE_CANVAS     0
 
@@ -497,7 +505,7 @@
     #define LV_LABEL_LONG_TXT_HINT 1  /*Store some extra info in labels to speed up drawing of very long texts*/
 #endif
 
-#define LV_USE_LINE       1
+#define LV_USE_LINE       0
 
 #define LV_USE_ROLLER     0   /*Requires: lv_label*/
 #if LV_USE_ROLLER
@@ -542,7 +550,7 @@
 
 #define LV_USE_COLORWHEEL 0
 
-#define LV_USE_IMGBTN     1
+#define LV_USE_IMGBTN     0
 
 #define LV_USE_KEYBOARD   0
 
@@ -554,7 +562,7 @@
 
 #define LV_USE_METER      0
 
-#define LV_USE_MSGBOX     1
+#define LV_USE_MSGBOX     0
 
 #define LV_USE_SPAN       0
 #if LV_USE_SPAN
@@ -570,7 +578,7 @@
 
 #define LV_USE_TILEVIEW   0
 
-#define LV_USE_WIN        1
+#define LV_USE_WIN        0
 
 /*-----------
  * Themes

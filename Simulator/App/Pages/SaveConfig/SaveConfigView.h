@@ -1,10 +1,10 @@
-#ifndef SHUTDOWN_VIEW_H
-#define SHUTDOWN_VIEW_H
+#ifndef SAVECONFIG_VIEW_H
+#define SAVECONFIG_VIEW_H
 
 #include "../Page.h"
 
 namespace Page {
-    class ShutdownView {
+    class SaveConfigView {
     public:
         void Create(lv_obj_t *root);
         void Delete();
@@ -12,14 +12,13 @@ namespace Page {
         struct {
             struct {
                 lv_obj_t *cont;
-                struct{
-                    lv_obj_t *cont;
-                    lv_obj_t *label;
+                lv_obj_t *label;
+                struct {
                     lv_obj_t *obj;
                     lv_anim_t anim;
                 }bar;
-                lv_obj_t *btnPress;
-            }shutdown;
+            }sync;
+            lv_anim_timeline_t* anim_timeline;
         } ui;
     };
 }

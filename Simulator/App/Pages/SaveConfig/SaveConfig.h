@@ -1,19 +1,20 @@
-#ifndef SHUTDOWN_H
-#define SHUTDOWN_H
+#ifndef SAVECONFIG_H
+#define SAVECONFIG_H
 
-#include "ShutdownView.h"
+#include "SaveConfigView.h"
+#include "SaveConfigModel.h"
 
 namespace Page {
-    class Shutdown : public PageBase {
+    class SaveConfig : public PageBase {
     public:
         typedef struct {
             uint16_t time;
             lv_color_t color;
         } Param_t;
 
-        Shutdown() = default;
+        SaveConfig() = default;
 
-        ~Shutdown() override = default;
+        ~SaveConfig() override = default;
 
         void onCustomAttrConfig() override;
 
@@ -33,13 +34,8 @@ namespace Page {
 
         void onViewDidUnload() override;
 
-        ShutdownView View{};
-    private:
-        void Update() const;
-
-        void AttachEvent(lv_obj_t *obj);
-
-        static void onEvent(lv_event_t *event);
+        SaveConfigView View{};
+        SaveConfigModel Model{};
     };
 }
 

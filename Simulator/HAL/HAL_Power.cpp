@@ -146,11 +146,8 @@ void checkBatteryInfo(pBatteryInfo_t p_batteryState) {
 }
 
 const char *HAL::Power_GetPowerOffCause() {
-    if (systemInfo.powerMonitor.LinuxPowerOff) {
-        return "LinuxPowerOff";
-    } else if (systemInfo.powerMonitor.LowBatteryPowerOff) {
-        return "LowBatteryPowerOff";
-    } else if (FORCE_SHUTDOWN())
-        return "Force_ShutDown";
-    return "PowerKey_ShutDown";
+    if (systemInfo.powerMonitor.LinuxPowerOff)return "Shutdown Board";
+    if (systemInfo.powerMonitor.LowBatteryPowerOff)return "Shutdown LowBattery";
+    if (FORCE_SHUTDOWN())return "Shutdown Forced";
+    return "Shutdown PushKey";
 }

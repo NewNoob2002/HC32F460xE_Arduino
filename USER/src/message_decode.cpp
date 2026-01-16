@@ -57,19 +57,18 @@ static int message_info_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 22], &systemInfo.powerMonitor.batteryInfo.Voltage, 2);
             break;
         case NM_PANEL_INFO2_ID:
-            msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.powerMonitor.reset_flag;    // 主机复位控制
-            msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.powerMonitor.poweroff_flag; // 主机关机控制
-            msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.recordInfo.record_status;   // 静态记录状态
-            msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.recordInfo.record_op;       // 静态记录开关
-            msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus;   // 充电电源接入
-						if(systemInfo.recordInfo.record_change_flag)systemInfo.recordInfo.record_change_flag  = 0;
+            msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.powerMonitor.reset_flag;               // 主机复位控制
+            msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.powerMonitor.poweroff_flag;            // 主机关机控制
+            msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.recordInfo.record_status;              // 静态记录状态
+            msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.recordInfo.record_op;                  // 静态记录开关
+            msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus; // 充电电源接入
+            if (systemInfo.recordInfo.record_change_flag) systemInfo.recordInfo.record_change_flag = 0;
             systemInfo.recordInfo.record_op = 0;
-            if (systemInfo.powerMonitor.poweroff_flag == 1) 
-						{
-							systemInfo.powerMonitor.poweroff_flag = 0;
-							systemInfo.powerMonitor.ShutdownEnsure = true;
-							CORE_DEBUG_PRINTF("Shutdown Sync");
-						}
+            if (systemInfo.powerMonitor.poweroff_flag == 1) {
+                systemInfo.powerMonitor.poweroff_flag  = 0;
+                systemInfo.powerMonitor.ShutdownEnsure = true;
+                CORE_DEBUG_PRINTF("Shutdown Sync");
+            }
             break;
         case NM_PANEL_INFO3_ID:
             msg[NM_PROTOCOL_HEADER_LEN + 0]  = systemInfo.work_mode;
@@ -84,19 +83,19 @@ static int message_info_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 16], &systemInfo.ntripInfo.NtripServer_Mountpoint, 32);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 48], &systemInfo.ntripInfo.NtripClient_IP, 4);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 52], &systemInfo.ntripInfo.NtripClient_Mountpoint, 32);
-            msg[NM_PROTOCOL_HEADER_LEN + 84] = systemInfo.radioInfo.radio_mode;
-            msg[NM_PROTOCOL_HEADER_LEN + 85] = systemInfo.radioInfo.radio_protocol;
-            msg[NM_PROTOCOL_HEADER_LEN + 86] = systemInfo.radioInfo.radio_channel;
-						systemInfo.radioInfo.radio_change_flag  = 0;
+            msg[NM_PROTOCOL_HEADER_LEN + 84]       = systemInfo.radioInfo.radio_mode;
+            msg[NM_PROTOCOL_HEADER_LEN + 85]       = systemInfo.radioInfo.radio_protocol;
+            msg[NM_PROTOCOL_HEADER_LEN + 86]       = systemInfo.radioInfo.radio_channel;
+            systemInfo.radioInfo.radio_change_flag = 0;
             break;
         case NM_PANEL_INFO4_ID:
             msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.recordInfo.record_status;
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 4], &systemInfo.recordInfo.record_leftspace, 4);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 8], &systemInfo.recordInfo.record_name, 16);
-            msg[NM_PROTOCOL_HEADER_LEN + 24] = systemInfo.recordInfo.record_type;
-            msg[NM_PROTOCOL_HEADER_LEN + 25] = systemInfo.recordInfo.record_interval;
-            msg[NM_PROTOCOL_HEADER_LEN + 26] = systemInfo.recordInfo.record_change_flag;
-            systemInfo.recordInfo.record_change_flag  = 0;
+            msg[NM_PROTOCOL_HEADER_LEN + 24]         = systemInfo.recordInfo.record_type;
+            msg[NM_PROTOCOL_HEADER_LEN + 25]         = systemInfo.recordInfo.record_interval;
+            msg[NM_PROTOCOL_HEADER_LEN + 26]         = systemInfo.recordInfo.record_change_flag;
+            systemInfo.recordInfo.record_change_flag = 0;
             break;
         default:
             break;
@@ -155,15 +154,15 @@ static int message_set_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
             if (systemInfo.radioInfo.radio_change_flag == 0) {
                 systemInfo.work_mode                          = (WorkMode_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
                 systemInfo.positionInfo.satellite_number_used = parse->buffer[NM_PROTOCOL_HEADER_LEN + 1];
-                systemInfo.positionInfo.coordinate_status = (PositionStatus_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 2];
-                systemInfo.ntripInfo.gprs_status          = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 3];
-                systemInfo.ntripInfo.NtripServer_status   = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 4];
-                systemInfo.ntripInfo.NtripClient_status   = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 5];
-                systemInfo.radioInfo.radio_status         = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 6];
+                systemInfo.positionInfo.coordinate_status     = (PositionStatus_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 2];
+                systemInfo.ntripInfo.gprs_status              = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 3];
+                systemInfo.ntripInfo.NtripServer_status       = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 4];
+                systemInfo.ntripInfo.NtripClient_status       = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 5];
+                systemInfo.radioInfo.radio_status             = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 6];
 
                 systemInfo.positionInfo.satellite_number_track = parse->buffer[NM_PROTOCOL_HEADER_LEN + 7];
-                systemInfo.powerMonitor.ExternalPower = parse->buffer[NM_PROTOCOL_HEADER_LEN + 8];
-                systemInfo.radioInfo.radio_change_flag       = parse->buffer[NM_PROTOCOL_HEADER_LEN + 11];
+                systemInfo.powerMonitor.ExternalPower          = parse->buffer[NM_PROTOCOL_HEADER_LEN + 8];
+                systemInfo.radioInfo.radio_change_flag         = parse->buffer[NM_PROTOCOL_HEADER_LEN + 11];
                 memcpy(&systemInfo.ntripInfo.NtripServer_IP, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 12], 4);
                 memcpy(&systemInfo.ntripInfo.NtripServer_Mountpoint, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 16], 32);
                 memcpy(&systemInfo.ntripInfo.NtripClient_IP, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 48], 4);
@@ -171,6 +170,10 @@ static int message_set_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
                 systemInfo.radioInfo.radio_mode     = (RadioMode_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 84];
                 systemInfo.radioInfo.radio_protocol = parse->buffer[NM_PROTOCOL_HEADER_LEN + 85];
                 systemInfo.radioInfo.radio_channel  = parse->buffer[NM_PROTOCOL_HEADER_LEN + 86];
+                if (parse->buffer[NM_PROTOCOL_HEADER_LEN + 87]) {
+                    systemInfo.powerMonitor.poweroff_flag = 1;
+                    systemInfo.powerMonitor.LinuxPowerOff = true;
+                }
             }
             break;
         case NM_PANEL_SET3_ID:
@@ -184,16 +187,16 @@ static int message_set_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
                 systemInfo.recordInfo.record_status = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
                 memcpy(&systemInfo.recordInfo.record_leftspace, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 4);
                 memcpy(&systemInfo.recordInfo.record_name, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 8], 16);
-                systemInfo.recordInfo.record_type     = parse->buffer[NM_PROTOCOL_HEADER_LEN + 24];
-                systemInfo.recordInfo.record_interval = parse->buffer[NM_PROTOCOL_HEADER_LEN + 25];
-								systemInfo.recordInfo.record_change_flag = parse->buffer[NM_PROTOCOL_HEADER_LEN + 26];
+                systemInfo.recordInfo.record_type        = parse->buffer[NM_PROTOCOL_HEADER_LEN + 24];
+                systemInfo.recordInfo.record_interval    = parse->buffer[NM_PROTOCOL_HEADER_LEN + 25];
+                systemInfo.recordInfo.record_change_flag = parse->buffer[NM_PROTOCOL_HEADER_LEN + 26];
             }
             break;
         case NM_PANEL_SET7_ID:
-                systemInfo.wifiInfo.wifi_status = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
-                systemInfo.wifiInfo.wifi_mode   = parse->buffer[NM_PROTOCOL_HEADER_LEN + 1];
-                memcpy(&systemInfo.wifiInfo.wifi_ip, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 4);
-                memcpy(&systemInfo.wifiInfo.wifi_ssid, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 8], 16);
+            systemInfo.wifiInfo.wifi_status = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
+            systemInfo.wifiInfo.wifi_mode   = parse->buffer[NM_PROTOCOL_HEADER_LEN + 1];
+            memcpy(&systemInfo.wifiInfo.wifi_ip, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 4);
+            memcpy(&systemInfo.wifiInfo.wifi_ssid, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 8], 16);
             break;
         default:
             break;
@@ -231,23 +234,22 @@ int message_decode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
     SEMP_CUSTOM_HEADER *messageHeader = (SEMP_CUSTOM_HEADER *)parse->buffer;
     uint16_t messageId                = *(uint16_t *)&messageHeader->messageId_L;
     uint8_t messageType               = messageHeader->messageType;
-    //log_i("messageId: %d, h:%d, l:%d", messageId, messageHeader->messageId_H, messageHeader->messageId_L);
-		if(!systemInfo.online_device.eg25_board)
-		{
-			systemInfo.online_device.eg25_board = true;
-			systemInfo.i2c__err_count = 0;
-		}
-//    digitalToggle(FUNCTION_LED_PIN);
+    // log_i("messageId: %d, h:%d, l:%d", messageId, messageHeader->messageId_H, messageHeader->messageId_L);
+    if (!systemInfo.online_device.eg25_board) {
+        systemInfo.online_device.eg25_board = true;
+        systemInfo.i2c__err_count           = 0;
+    }
+    //    digitalToggle(FUNCTION_LED_PIN);
     switch (messageId) {
         case NM_PANEL_INFO1_ID:
         case NM_PANEL_INFO2_ID:
         case NM_PANEL_INFO3_ID:
         case NM_PANEL_INFO4_ID:
-//						log_i("[%d] Info Panel", messageId);
+            //						log_i("[%d] Info Panel", messageId);
             return message_info_encode(parse, txBuffer);
             break;
         case NM_PANEL_RST_ID:
-						CORE_DEBUG_PRINTF("[%d] Reset Panel", messageId);
+            CORE_DEBUG_PRINTF("[%d] Reset Panel", messageId);
             return message_reset_encode(parse, txBuffer);
             break;
         case NM_PANEL_SET1_ID:
@@ -255,7 +257,7 @@ int message_decode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
         case NM_PANEL_SET6_ID:
         case NM_PANEL_SET7_ID:
         case NM_PANEL_SET3_1_ID:
-//						log_i("[%d] Set Panel", messageId);
+            //						log_i("[%d] Set Panel", messageId);
             return message_set_encode(parse, txBuffer);
             break;
         default:

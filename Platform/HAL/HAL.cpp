@@ -4,6 +4,7 @@
 #include "elog.h"
 
 static MillisTaskManager taskManager;
+volatile SharedData_t shared_info __attribute__((section(".bss.NoInit"), used));
 
 static void HAL_MONITOR_TASK(void *e)
 {
@@ -29,12 +30,6 @@ void HAL::HAL_Init()
     disable_JTAG();
     dwt_init();
     SystemClock_Config();
-    /* Set Interrupt Group Priority */
-    HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-    memset(&systemInfo, 0, sizeof(systemInfo));
-    Power_Init();
-    /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
-    HAL_InitTick(TICK_INT_PRIORITY);
 #ifdef __CORE_DEBUG
     /* set EasyLogger log format */
     elog_init();
@@ -48,6 +43,14 @@ void HAL::HAL_Init()
     /* start EasyLogger */
     elog_start();
 #endif
+	  Power_Init();
+    /* Set Interrupt Group Priority */
+    HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+    memset(&systemInfo, 0, sizeof(systemInfo));
+		systemInfo.radioInfo.radio_channel = 1;
+    /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
+    HAL_InitTick(TICK_INT_PRIORITY);
+
 
     I2C_Scan();
     Key_Init();
@@ -61,7 +64,8 @@ void HAL::HAL_Update()
 {
     taskManager.Running(millis());
     if (HAL::Power_ShutdownSoftReset()) {
-        delay_ms(1000);
+				shared_info.command = CMD_ENTER_IAP;
+        delay_ms(1200);
         NVIC_SystemReset();
     }
     if (lv_tick_get() - systemInfo.powerMonitor.pannel_power_on_time >= 30000 && !systemInfo.online_device.eg25_board) {

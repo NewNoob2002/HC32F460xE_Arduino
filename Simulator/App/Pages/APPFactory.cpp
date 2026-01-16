@@ -27,6 +27,7 @@
 #include "SystemInfos/SystemInfos.h"
 #include "Startup/Startup.h"
 #include "HardwareCheckView/HardwareCheck.h"
+#include "SaveConfig/SaveConfig.h"
 
 #define APP_CLASS_MATCH(className)\
 do{\
@@ -44,6 +45,6 @@ PageBase* AppFactory::CreatePage(const char* name)
     APP_CLASS_MATCH(SystemInfos);
     APP_CLASS_MATCH(Startup);
     APP_CLASS_MATCH(HardwareCheck);
-
+    APP_CLASS_MATCH(SaveConfig);
     return nullptr;
 }

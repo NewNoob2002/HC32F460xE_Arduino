@@ -6,17 +6,12 @@
 #define FORCE_SHUTDOWN() (systemInfo.powerMonitor.Force_ShutDown)
 
 static bool POWER_GET_REASON = false;
+en_flag_status_t softwareReset = RESET;
 
 void HAL::Power_Init()
 {
-    uint16_t reg_rmu   = *((unsigned short *)(CM_RMU_BASE));
-    bool softwareReset = reg_rmu & RMU_RSTF0_SWRF;
-    pinMode(POWER_LED_PIN, OUTPUT);
-    pinMode(FUNCTION_LED_PIN, OUTPUT);
-    pinMode(CHARGE_LED_PIN, OUTPUT);
-
-    pinMode(WATCHDOG_FEED_PIN, OUTPUT);
-    if (softwareReset) {
+    softwareReset = RMU_GetStatus(RMU_FLAG_SW);
+    if (softwareReset == SET) {
         pinMode(POWER_CONTROL_PIN, OUTPUT, HIGH);
         CORE_DEBUG_PRINTF("Power: GetResetause:Software Reset");
     } else {
@@ -24,15 +19,17 @@ void HAL::Power_Init()
         CORE_DEBUG_PRINTF("Power: GetResetause:PowerOn Reset");
         CORE_DEBUG_PRINTF("Power: Waiting Keep Press...");
     }
+		pinMode(POWER_LED_PIN, OUTPUT);
+    pinMode(FUNCTION_LED_PIN, OUTPUT);
+    pinMode(CHARGE_LED_PIN, OUTPUT);
+
+    pinMode(WATCHDOG_FEED_PIN, OUTPUT);
 }
 
 void HAL::Power_OnCheck()
 {
-    uint16_t reg_rmu   = *((unsigned short *)(CM_RMU_BASE));
-    bool softwareReset = reg_rmu & RMU_RSTF0_SWRF;
     while (true) {
         HAL_Update();
-        lv_obj_clear_flag(lv_scr_act(), LV_OBJ_FLAG_HIDDEN);
         lv_timer_handler();
         if (systemInfo.powerMonitor.panel_power_on) {
             CORE_DEBUG_PRINTF("MCU PowerDone");

@@ -34,7 +34,10 @@
 #include <windows.h>
 static HANDLE output_lock = NULL;
 #else
-#include "SEGGER_RTT.h"
+#if defined(__CORE_DEBUG)
+//#include "SEGGER_RTT.h"
+#include "usart.h"
+#endif
 #endif
 char buf[32];
 /**
@@ -49,7 +52,11 @@ ElogErrCode elog_port_init(void)
     output_lock = CreateMutex(NULL, FALSE, NULL);
 #else
     /* add your code here */
+		#ifdef SEGGER_RTT_H
     SEGGER_RTT_Init();
+		#else
+		usart_init();
+		#endif
 #endif
     return result;
 }
@@ -81,7 +88,11 @@ void elog_port_output(const char *log, size_t size)
     printf("%.*s", (int)size, log);
     /* add your code here */
 #else
+		#ifdef SEGGER_RTT_H
     SEGGER_RTT_Write(0, log, size);
+		#else
+		usart_write_buffer(log, size);
+		#endif
 #endif
 }
 

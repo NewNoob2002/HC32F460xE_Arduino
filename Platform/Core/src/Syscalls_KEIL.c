@@ -62,8 +62,9 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 #include <rt_sys.h>
 #include <rt_misc.h>
 
-#ifdef __CORE_DEBUG
-#include "SEGGER_RTT.h"
+#if defined(__CORE_DEBUG)
+//#include "SEGGER_RTT.h"
+#include "usart.h"
 #endif
 /*********************************************************************
 *
@@ -203,7 +204,11 @@ int _sys_write(FILEHANDLE hFile, const unsigned char * pBuffer, unsigned NumByte
   (void)Mode;
   if (hFile == STDOUT) {
 #ifdef __CORE_DEBUG
-    SEGGER_RTT_Write(0, (const char*)pBuffer, NumBytes);
+		#ifdef SEGGER_RTT_H
+			SEGGER_RTT_Write(0, (const char*)pBuffer, NumBytes);
+		#else
+			usart_write_buffer(pBuffer, NumBytes);
+		#endif
 #endif
 		return 0;
   }

@@ -66,7 +66,7 @@ void WorkSettingsView::Update() const {
         }
     }
     left_roller_index = Protocol;
-    mid_roller_index = systemInfo.radioInfo.radio_channel==0?0: systemInfo.radioInfo.radio_channel - 1;
+    mid_roller_index = systemInfo.radioInfo.radio_channel-1;
 
     Roller_toIndex(ui.roller.left_roller.label, left_roller_index);
     Roller_toIndex(ui.roller.mid_roller.label, mid_roller_index);
@@ -88,7 +88,7 @@ void WorkSettingsView::Roller_Create(lv_obj_t *par) {
     lv_obj_set_style_border_color(cont_left, lv_color_white(), 0);
     lv_obj_set_style_border_width(cont_left, 1, 0);
     lv_obj_set_size(cont_left, 90, 30);
-    lv_obj_align(cont_left, LV_ALIGN_LEFT_MID, 10, -20);
+    lv_obj_align(cont_left, LV_ALIGN_LEFT_MID, 30, -20);
     ui.roller.left_roller.cont = cont_left;
 
     const lv_font_t *font = ResourcePool::GetFont("oswaldBold_18");
@@ -133,7 +133,7 @@ void WorkSettingsView::Roller_Create(lv_obj_t *par) {
     // lv_obj_set_style_border_color(cont_upDown1, lv_color_white(), 0);
     // lv_obj_set_style_border_width(cont_upDown1, 1, 0);
     lv_obj_set_size(cont_upDown1, 90, 40);
-    lv_obj_align_to(cont_upDown1, cont_left, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
+    lv_obj_align_to(cont_upDown1, cont_left, LV_ALIGN_OUT_BOTTOM_MID, -20, 0);
 
     ui.roller.left_roller.btnUp = Btn_Create(cont_upDown1, ResourcePool::GetImage("up"), -20, 0);
     ui.roller.left_roller.btnDown = Btn_Create(cont_upDown1, ResourcePool::GetImage("down"), 20, 0);

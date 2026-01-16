@@ -95,11 +95,11 @@ void SystemInfos::Update() const
     // const char* type = "-";
     // Model.GetStorageInfo(&detect, &type, buf, sizeof(buf));
     View.SetStorage(systemInfo.recordInfo);
-
+		
     /* System */
     MakeTimeString(lv_tick_get(), buf, sizeof(buf));
     View.SetSystem(
-        FIRMWARE_NAME "-" SOFTWARE_VERSION,
+        SOFTWARE_VERSION,
         buf,
         systemInfo.i2c__err_count,
         SOFTWARE_BUILD_DATE " " SOFTWARE_BUILD_TIME);

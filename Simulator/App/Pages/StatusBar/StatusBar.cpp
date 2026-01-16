@@ -170,7 +170,7 @@ static void StatusBar_Update(lv_timer_t *timer) {
     // else
     //     lv_obj_set_style_text_color(ui.sd_icon, lv_color_white(), LV_STATE_DEFAULT);
 
-    /* record */
+    /* wifi */
     if (systemInfo.wifiInfo.wifi_status == 1)
         lv_obj_set_style_text_color(ui.wifi_icon, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
     else

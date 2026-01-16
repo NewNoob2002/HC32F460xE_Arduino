@@ -69,24 +69,6 @@ void StartupView::Create(lv_obj_t *root) {
     lv_obj_set_style_text_font(label_btn, font, 0);
     lv_label_set_text(label_btn, "PRESS");
     lv_obj_center(label_btn);
-
-    // Firmware version label
-    lv_obj_t *label_firmware = lv_label_create(root);
-    lv_label_set_text_fmt(label_firmware, "Rev:%s", SOFTWARE_VERSION);
-    lv_obj_set_style_text_font(label_firmware,
-                               ResourcePool::GetFont("oswaldBold_12"), 0);
-    lv_obj_set_style_text_color(label_firmware, lv_palette_main(LV_PALETTE_GREY),
-                                0);
-    lv_obj_align(label_firmware, LV_ALIGN_BOTTOM_LEFT, 10, 0);
-
-    // Compile time label
-    lv_obj_t *label_compile_time = lv_label_create(root);
-    lv_label_set_text(label_compile_time, __DATE__ " " __TIME__);
-    lv_obj_set_style_text_font(label_compile_time,
-                               ResourcePool::GetFont("oswaldBold_12"), 0);
-    lv_obj_set_style_text_color(label_compile_time,
-                                lv_palette_main(LV_PALETTE_GREY), 0);
-    lv_obj_align(label_compile_time, LV_ALIGN_BOTTOM_RIGHT, -10, 0);
 }
 
 void StartupView::Delete() const {

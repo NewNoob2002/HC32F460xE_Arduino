@@ -15,6 +15,7 @@ void WorkSettings::onCustomAttrConfig() {
 void WorkSettings::onViewLoad() {
     PageBase::onViewLoad();
     View.Create(_root);
+    lv_obj_fade_in(_root, 300, 0);
 }
 
 void WorkSettings::onViewDidLoad() {
@@ -34,11 +35,13 @@ void WorkSettings::onViewWillAppear() {
     PageBase::onViewWillAppear();
     if (timer == nullptr) {
         PM_LOG_INFO("WorkSettings::Create");
-        timer = lv_timer_create(onTimerUpdate, 1000, this);
+        timer = lv_timer_create(onTimerUpdate, 20000, this);
+        lv_timer_ready(timer);
     }
     else {
         PM_LOG_INFO("WorkSettings::Resume");
         lv_timer_resume(timer);
+        lv_timer_ready(timer);
     }
 
     lv_indev_wait_release(lv_indev_get_act());
@@ -138,8 +141,7 @@ void WorkSettings::onBtnClicked(const lv_obj_t *btn) const {
     } else if (btn == View.ui.roller.mid_roller.btnDown) {
         this->View.Roller_down(View.ui.roller.mid_roller.label);
     } else if (btn == View.ui.roller.btnReset) {
-        WorkSettingsView::Roller_Reset(View.ui.roller.left_roller.label);
-        WorkSettingsView::Roller_Reset(View.ui.roller.mid_roller.label);
+        pageManager->Pop();
     }
 }
 

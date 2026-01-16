@@ -53,7 +53,7 @@ typedef enum {
 #endif /* __GNUC__ */
 
 
-#define  TICK_INT_PRIORITY            7U   /*!< tick interrupt priority */
+#define  TICK_INT_PRIORITY            15U   /*!< tick interrupt priority */
 
 #ifdef __cplusplus
 }

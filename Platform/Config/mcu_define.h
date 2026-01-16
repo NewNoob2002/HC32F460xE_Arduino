@@ -4,6 +4,22 @@
 #include <stdbool.h>
 #include "../../Simulator/App/Common/DataProc/DataProc_Def.h"
 
+#define SHARED_MAGIC_LIVE  0x55AAAA55 // 正常运行/请求状态
+#define SHARED_MAGIC_CRASH 0xDEADBEEF // 发生崩溃状态
+
+enum BootCommand {
+    CMD_NORMAL_BOOT = 0x10, // 正常启动
+    CMD_ENTER_IAP   = 0x20, // App 请求进入升级模式
+    CMD_SKIP_DELAY  = 0x30  // 跳过 Boot 延时，直接跳 App
+};
+
+typedef struct {
+    uint32_t magic;    // 魔数，用来判断数据是否有效（如 0x55AAAA55）
+    uint32_t command;  // 命令：1-进入升级模式, 2-跳过延时, 3-App崩溃了
+    uint32_t crash_pc; // 记录崩溃时的 PC 地址
+    uint32_t reset_count;
+} SharedData_t;
+
 typedef struct ledState_t {
     uint32_t lastToggleTime;
     uint16_t currentRate;
