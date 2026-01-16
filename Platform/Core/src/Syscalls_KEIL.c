@@ -42,7 +42,7 @@
 *                                                                    *
 **********************************************************************
 *                                                                    *
-*       RTT version: 8.44a                                           *
+*       RTT version: 8.12g                                           *
 *                                                                    *
 **********************************************************************
 
@@ -61,7 +61,11 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 #include <string.h>
 #include <rt_sys.h>
 #include <rt_misc.h>
+
+#if defined(__CORE_DEBUG)
+//#include "SEGGER_RTT.h"
 #include "usart.h"
+#endif
 /*********************************************************************
 *
 *       #pragmas
@@ -71,13 +75,7 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 #if __ARMCC_VERSION < 6000000
 #pragma import(__use_no_semihosting)
 #endif
-#if (__ARMCC_VERSION > 6000000)
-  __asm (".global __use_no_semihosting\n\t");
-	void _sys_exit(int x)
-  {
-    x = x;
-  }
-#endif
+
 #ifdef _MICROLIB
   #pragma import(__use_full_stdio)
 #endif
@@ -107,6 +105,12 @@ const char __stdout_name[] = "STDOUT";
 const char __stderr_name[] = "STDERR";
 #endif
 
+void DDL_AssertHandler(const char *file, int line)
+{
+    /* Users can re-implement this function to print information */
+    printf("Wrong parameters value: file %s on line %d\r\n", file, line);
+    while (1);
+}
 /*********************************************************************
 *
 *       Public code
@@ -199,7 +203,13 @@ int _sys_write(FILEHANDLE hFile, const unsigned char * pBuffer, unsigned NumByte
 
   (void)Mode;
   if (hFile == STDOUT) {
-    usart1_write(pBuffer, NumBytes);
+#ifdef __CORE_DEBUG
+		#ifdef SEGGER_RTT_H
+			SEGGER_RTT_Write(0, (const char*)pBuffer, NumBytes);
+		#else
+			usart_write_buffer(pBuffer, NumBytes);
+		#endif
+#endif
 		return 0;
   }
   return r;

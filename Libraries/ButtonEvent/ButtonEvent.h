@@ -109,18 +109,27 @@ private:
         STATE_LONG_PRESS
     } State_t;
 
+    typedef enum
+    {
+        CLICK_STATE_NONE,
+        CLICK_STATE_WAIT_DOUBLE
+    } ClickState_t;
+
 private:
     struct
     {
         State_t nowState;
+        ClickState_t clickState;
         uint16_t longPressTimeCfg;
         uint16_t longPressRepeatTimeCfg;
         uint16_t doubleClickTimeCfg;
         uint32_t lastLongPressTime;
         uint32_t lastPressTime;
         uint32_t lastClickTime;
+        uint32_t firstClickTime;
         uint16_t clickCnt;
         bool isLongPressed;
+        bool firstClickWasShort;
         FuncCallback_t eventCallback;
     } priv;
 

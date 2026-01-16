@@ -43,14 +43,14 @@
  * @defgroup HC32F460_System_Local_Macros HC32F460 System Local Macros
  * @{
  */
-#define HRC_16MHz_VALUE                 (16000000UL)  /*!< Internal high speed RC freq. */
-#define HRC_20MHz_VALUE                 (20000000UL)  /*!< Internal high speed RC freq. */
+#define HRC_16MHz_VALUE (16000000UL) /*!< Internal high speed RC freq. */
+#define HRC_20MHz_VALUE (20000000UL) /*!< Internal high speed RC freq. */
 /* HRC select */
-#define HRC_FREQ_MON()                  (*((volatile uint32_t *)(0x40010684UL)))
+#define HRC_FREQ_MON() (*((volatile uint32_t *)(0x40010684UL)))
 
 /* Vector Table base offset field */
 #ifndef VECT_TAB_OFFSET
-#define VECT_TAB_OFFSET                 (0x0UL)     /*!< This value must be a multiple of 0x400. */
+#define VECT_TAB_OFFSET (0x8000UL) /*!< This value must be a multiple of 0x400. */
 #endif
 /**
  * @}
@@ -98,11 +98,12 @@ void SystemInit(void)
     SCB->CPACR |= ((3UL << 20) | (3UL << 22)); /* set CP10 and CP11 Full Access */
 #endif
     SystemCoreClockUpdate();
-#if defined (ROM_EXT_QSPI)
+#if defined(ROM_EXT_QSPI)
     SystemInit_QspiMem();
 #endif /* ROM_EXT_QSPI */
     /* Configure the Vector Table relocation */
-    SCB->VTOR = VECT_TAB_OFFSET;    /* Vector Table Relocation */
+    SCB->VTOR = VECT_TAB_OFFSET; /* Vector Table Relocation */
+    __enable_irq();
 }
 
 /**
@@ -141,14 +142,14 @@ void SystemCoreClockUpdate(void)
         case 0x04U: /* use external low speed OSC */
             SystemCoreClock = XTAL32_VALUE;
             break;
-        case 0x05U:  /* use MPLL */
+        case 0x05U: /* use MPLL */
             /* PLLCLK = ((pllsrc / pllm) * plln) / pllp */
             plln = (CM_CMU->PLLCFGR & CMU_PLLCFGR_MPLLN) >> CMU_PLLCFGR_MPLLN_POS;
             pllp = (CM_CMU->PLLCFGR & CMU_PLLCFGR_MPLLP) >> CMU_PLLCFGR_MPLLP_POS;
             pllm = (CM_CMU->PLLCFGR & CMU_PLLCFGR_MPLLM) >> CMU_PLLCFGR_MPLLM_POS;
-            if (0UL == (CM_CMU->PLLCFGR & CMU_PLLCFGR_PLLSRC)) {  /* use external highspeed OSC as PLL source */
+            if (0UL == (CM_CMU->PLLCFGR & CMU_PLLCFGR_PLLSRC)) { /* use external highspeed OSC as PLL source */
                 u32PllSrcFreq = XTAL_VALUE;
-            } else {                                    /* use internal high RC as PLL source */
+            } else { /* use internal high RC as PLL source */
                 u32PllSrcFreq = HRC_VALUE;
             }
             SystemCoreClock = u32PllSrcFreq / (pllm + 1UL) * (plln + 1UL) / (pllp + 1UL);
@@ -158,7 +159,7 @@ void SystemCoreClockUpdate(void)
     }
 }
 
-#if defined (ROM_EXT_QSPI)
+#if defined(ROM_EXT_QSPI)
 /**
  * @brief  Initialize the QSPI memory.
  * @param  None

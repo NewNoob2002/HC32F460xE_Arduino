@@ -1,7 +1,9 @@
 #include "ButtonEvent.h"
+#include <cstring>
 
+#define ARDUINO
 #ifdef ARDUINO
-#  include "Arduino.h"
+#  include "delay.h"
 #  define GET_TICK() millis()
 #endif
 
@@ -34,6 +36,7 @@ ButtonEvent::ButtonEvent(
     priv.lastLongPressTime = priv.lastClickTime = priv.lastPressTime = 0;
     priv.isLongPressed = false;
     priv.nowState = STATE_NO_PRESS;
+    priv.clickState = CLICK_STATE_NONE;
 
     priv.eventCallback = NULL;
 }
@@ -82,10 +85,10 @@ void ButtonEvent::EventMonitor(bool isPress)
         return;
     }
 
+    // 按键按下处理
     if (isPress && priv.nowState == STATE_NO_PRESS)
     {
         priv.nowState = STATE_PRESS;
-
         IsPressed = true;
         priv.lastPressTime = GET_TICK();
 
@@ -95,55 +98,85 @@ void ButtonEvent::EventMonitor(bool isPress)
 
     if(priv.nowState == STATE_NO_PRESS)
     {
+        // 处理延时单击检测
+        if(priv.clickState == CLICK_STATE_WAIT_DOUBLE && 
+           GetTickElaps(priv.firstClickTime) >= priv.doubleClickTimeCfg)
+        {
+            priv.clickState = CLICK_STATE_NONE;
+            
+            // 触发延迟的单击事件
+            if(priv.firstClickWasShort)
+            {
+                priv.eventCallback(this, EVENT_SHORT_CLICKED);
+            }
+            priv.eventCallback(this, EVENT_CLICKED);
+        }
         return;
     }
 
+    // 按键持续按下处理
     if(isPress)
     {
         priv.eventCallback(this, EVENT_PRESSING);
-    }
 
-    if (isPress && GetTickElaps(priv.lastPressTime) >= priv.longPressTimeCfg)
-    {
-        priv.nowState = STATE_LONG_PRESS;
+        // 长按检测
+        if (GetTickElaps(priv.lastPressTime) >= priv.longPressTimeCfg)
+        {
+            priv.nowState = STATE_LONG_PRESS;
 
-        if(!priv.isLongPressed)
-        {
-            priv.eventCallback(this, EVENT_LONG_PRESSED);
-            priv.lastLongPressTime = GET_TICK();
-            IsLongPressed = priv.isLongPressed = true;
-        }
-        else if(GetTickElaps(priv.lastLongPressTime) >= priv.longPressRepeatTimeCfg)
-        {
-            priv.lastLongPressTime = GET_TICK();
-            priv.eventCallback(this, EVENT_LONG_PRESSED_REPEAT);
+            if(!priv.isLongPressed)
+            {
+                priv.eventCallback(this, EVENT_LONG_PRESSED);
+                priv.lastLongPressTime = GET_TICK();
+                IsLongPressed = priv.isLongPressed = true;
+            }
+            else if(GetTickElaps(priv.lastLongPressTime) >= priv.longPressRepeatTimeCfg)
+            {
+                priv.lastLongPressTime = GET_TICK();
+                priv.eventCallback(this, EVENT_LONG_PRESSED_REPEAT);
+            }
         }
     }
+    // 按键释放处理
     else if (!isPress)
     {
         priv.nowState = STATE_NO_PRESS;
+        uint32_t currentTime = GET_TICK();
+        uint32_t pressDuration = GetTickElaps(priv.lastPressTime);
+        bool isShortClick = (pressDuration < priv.longPressTimeCfg);
 
-        if(GetTickElaps(priv.lastClickTime) < priv.doubleClickTimeCfg)
-        {
-            priv.clickCnt++;
-            priv.eventCallback(this, EVENT_DOUBLE_CLICKED);
-        }
-
+        // 长按释放事件
         if(priv.isLongPressed)
         {
             priv.eventCallback(this, EVENT_LONG_PRESSED_RELEASED);
+            priv.isLongPressed = false;
+            IsClicked = true;
+            priv.eventCallback(this, EVENT_RELEASED);
+            priv.eventCallback(this, EVENT_CHANGED);
+            return; // 长按释放后不处理点击事件
         }
 
         priv.isLongPressed = false;
         IsClicked = true;
-        priv.lastClickTime = GET_TICK();
 
-        if(GetTickElaps(priv.lastPressTime) < priv.longPressTimeCfg)
+        // 双击/单击检测逻辑
+        if(priv.clickState == CLICK_STATE_WAIT_DOUBLE)
         {
-            priv.eventCallback(this, EVENT_SHORT_CLICKED);
+            // 这是第二次点击，触发双击事件
+            priv.clickState = CLICK_STATE_NONE;
+            priv.clickCnt++;
+            priv.eventCallback(this, EVENT_DOUBLE_CLICKED);
+        }
+        else
+        {
+            // 这是第一次点击，进入等待状态
+            priv.clickState = CLICK_STATE_WAIT_DOUBLE;
+            priv.firstClickTime = currentTime;
+            priv.firstClickWasShort = isShortClick;
+            // 不立即触发单击事件，等待双击超时或第二次点击
         }
 
-        priv.eventCallback(this, EVENT_CLICKED);
+        priv.lastClickTime = currentTime;
         priv.eventCallback(this, EVENT_RELEASED);
         priv.eventCallback(this, EVENT_CHANGED);
     }

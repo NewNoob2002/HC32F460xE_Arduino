@@ -20,18 +20,20 @@
 #ifndef Arduino_h
 #define Arduino_h
 
-#include <stdbool.h>
+/* c lib header*/
 #include <stdint.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <inttypes.h>
-#include <math.h>
 
+#include "HAL.h"
 #include "core_types.h"
-
+#include "core_debug.h"
+#include "yield.h"
+#include "delay.h"
+#include "dwt.h"
+#include "gpio.h"
+#include "mcu_config.h"
 // some libraries and sketches depend on this AVR stuff,
 // assuming Arduino.h or WProgram.h automatically includes it...
 //
@@ -41,24 +43,6 @@
 #include "binary.h"
 #include "itoa.h"
 
-#ifdef __cplusplus
-extern "C"{
-#endif // __cplusplus
-#include "HAL.h"
-#include "wiring_constants.h"
-#include "yield.h"
-#include "delay.h"
-#include "dwt.h"
-#include "gpio.h"
-#include "addon_gpio.h"
-#include "mcu_config.h"
-  /* sketch */
-//void setup( void ) ;
-//void loop( void ) ;
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
 
 // The following headers are for C++ only compilation
 #ifdef __cplusplus
@@ -72,6 +56,7 @@ extern "C"{
 //#include "pulse.h"
 #endif
 
+#include "wiring_constants.h"
 #include "wiring_digital.h"
 //#include "wiring_analog.h"
 //#include "wiring_shift.h"
@@ -82,11 +67,6 @@ extern "C"{
 #undef abs
 #endif // abs
 
-#define min(a,b) ((a)<(b)?(a):(b))
-#define max(a,b) ((a)>(b)?(a):(b))
-#define abs(x) ((x)>0?(x):-(x))
-#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
-#define round(x)     ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
 #define radians(deg) ((deg)*DEG_TO_RAD)
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x))

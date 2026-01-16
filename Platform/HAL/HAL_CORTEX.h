@@ -6,8 +6,9 @@
 #endif
 	 
 #include "HAL_DEF.h"
-
-	 
+#if defined(HC32F460)
+#include "hc32_ll.h"
+#endif
 /** @defgroup CORTEX_Exported_Constants CORTEX Exported Constants
   * @{
   */
@@ -32,9 +33,11 @@
   */
 /* Initialization and de-initialization functions *****************************/
 void HAL_NVIC_SetPriorityGrouping(uint32_t PriorityGroup);
+#if defined(HC32F460)
 void HAL_NVIC_SetPriority(IRQn_Type IRQn, uint32_t PreemptPriority, uint32_t SubPriority);
 void HAL_NVIC_EnableIRQ(IRQn_Type IRQn);
 void HAL_NVIC_DisableIRQ(IRQn_Type IRQn);
+#endif
 void HAL_NVIC_SystemReset(void);
 uint32_t HAL_SYSTICK_Config(uint32_t TicksNumb);
 

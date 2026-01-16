@@ -1,0 +1,104 @@
+/*
+ * MIT License
+ * Copyright (c) 2021 _VIFEXTech
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+#include "App.h"
+#include "HAL/HAL.h"
+#include "Common/DataProc/DataProc.h"
+#include "Resource/ResourcePool.h"
+#include "Pages/AppFactory.h"
+#include "Pages/StatusBar/StatusBar.h"
+#include "Utils/PageManager/PageManager.h"
+
+#define ACCOUNT_SEND_CMD(ACT, CMD)                                         \
+    do {                                                                   \
+        DataProc::ACT##_Info_t info;                                       \
+        DATA_PROC_INIT_STRUCT(info);                                       \
+        info.cmd = DataProc::CMD;                                          \
+        DataProc::Center()->AccountMain.Notify(#ACT, &info, sizeof(info)); \
+    } while (0)
+
+static AppFactory factory;
+static PageManager manager(&factory);
+static bool Shutdown_pushed = false;
+
+void App_Init()
+{
+    /* Make sure the default group exists */
+    if (!lv_group_get_default()) {
+        lv_group_t *group = lv_group_create();
+        lv_group_set_default(group);
+    }
+
+    /* Initialize the data processing node */
+    DataProc_Init();
+
+    /* Set screen style */
+    lv_disp_t *disp_p = lv_disp_get_default();
+    // lv_theme_t *theme = lv_theme_basic_init(disp_p);
+    lv_theme_t *theme = lv_theme_default_init(
+        disp_p, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
+        true, LV_FONT_DEFAULT);
+    lv_disp_set_theme(disp_p, theme);
+
+    /* Set root default style */
+    static lv_style_t rootStyle;
+    lv_style_init(&rootStyle);
+    lv_style_set_width(&rootStyle, LV_HOR_RES);
+    lv_style_set_height(&rootStyle, LV_VER_RES);
+    lv_style_set_bg_color(&rootStyle, lv_color_black());
+    lv_style_set_pad_all(&rootStyle, 0);
+    lv_style_set_border_width(&rootStyle, 0);
+    lv_style_set_radius(&rootStyle, 0);
+    manager.SetRootDefaultStyle(&rootStyle);
+
+    /* Initialize resource pool */
+    ResourcePool::Init();
+
+    /* Initialize status bar */
+    Page::StatusBar_Create(lv_layer_top());
+
+    /* Initialize pages */
+    manager.Install("WorkSettings", "Pages/WorkSettings");
+    manager.Install("Dialplate", "Pages/Dialplate");
+    manager.Install("SystemInfos", "Pages/SystemInfos");
+    manager.Install("Shutdown", "Pages/Shutdown");
+    manager.Install("SaveConfig", "Pages/SaveConfig");
+    manager.Install("Startup", "Pages/Startup");
+    manager.Install("HardwareCheck", "Pages/HardwareCheck");
+
+    manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP);
+
+    manager.Push("Pages/Startup");
+}
+
+void App_Update()
+{
+    if (systemInfo.powerMonitor.Force_ShutDown || 
+				systemInfo.powerMonitor.LowBatteryPowerOff || 
+				systemInfo.powerMonitor.LinuxPowerOff) {
+        if (!Shutdown_pushed) {
+            Shutdown_pushed = true;
+						HAL::Power_Shutdown(false);
+            manager.Push("Pages/SaveConfig");
+        }
+    }
+}
