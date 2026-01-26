@@ -38,6 +38,13 @@ void HAL::HAL_Init()
 void HAL::HAL_Update()
 {
 	taskManager.Running(millis());
+	if (HAL::Power_ShutdownSoftReset()) {
+        delay_ms(1200);
+        NVIC_SystemReset();
+    }
+  if (lv_tick_get() - systemInfo.powerMonitor.pannel_power_on_time >= 30000 && !systemInfo.online_device.eg25_board) {
+        systemInfo.eg25_overtime = true;
+  }
 	if (systemInfo.powerMonitor.Force_ShutDown ||
       systemInfo.powerMonitor.LowBatteryPowerOff || 
 			systemInfo.powerMonitor.LinuxPowerOff ||

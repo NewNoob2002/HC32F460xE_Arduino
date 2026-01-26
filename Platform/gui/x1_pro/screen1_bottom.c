@@ -112,11 +112,11 @@ void lv_update_workmode_text(unsigned char mode)
 {
 	if (0 == mode || 2 == mode)
 	{
-		lv_label_set_text(label_wm_t, "Rover");
+		lv_label_set_text(label_wm_t, GET_TEXT(TEXT_ROVER));
 	}
 	else if (1 == mode || 3 == mode)
 	{
-		lv_label_set_text(label_wm_t, "Base");
+		lv_label_set_text(label_wm_t, GET_TEXT(TEXT_BASE));
 	}
 }
 
@@ -158,25 +158,25 @@ void lv_update_position_text(unsigned char state)
 {
 	if (0 == state) /// None
 	{
-		lv_label_set_text(label_position_t, "None");
+		lv_label_set_text(label_position_t, GET_TEXT(TEXT_POSITION_NONE));
 	}
 	else if (1 == state) /// Single
 	{
-		lv_label_set_text(label_position_t, "Single");
+		lv_label_set_text(label_position_t, GET_TEXT(TEXT_POSITION_SINGLE));
 	}
 	else if (2 == state) /// RTD
-		lv_label_set_text(label_position_t, "RTD");
+		lv_label_set_text(label_position_t, GET_TEXT(TEXT_POSITION_RTD));
 	else if (4 == state) /// fix
 	{
-		lv_label_set_text(label_position_t, "Fix");
+		lv_label_set_text(label_position_t, GET_TEXT(TEXT_POSITION_FIX));
 	}
 	else if (5 == state) /// float
 	{
-		lv_label_set_text(label_position_t, "Float");
+		lv_label_set_text(label_position_t, GET_TEXT(TEXT_POSITION_FLOAT));
 	}
 	else if (7 == state) /// FIXEDPOS
 	{
-		lv_label_set_text(label_position_t, "Fixed");
+		lv_label_set_text(label_position_t, GET_TEXT(TEXT_POSITION_FIXEDPOS));
 	}
 }
 

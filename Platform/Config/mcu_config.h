@@ -3,10 +3,9 @@
 #include "../support/support.h"
 
 #define  HW_VERSION    "V1.4"
-#define  SW_VERSION    "V1.26"
 
 #define FIRMWARE_NAME "PRO_Panel"
-#define SOFTWARE_VERSION "V2.0.2"
+#define SOFTWARE_VERSION "V2.1.1"
 // 2.0 修复X1pro充电问题， 增加强制关机机制防止卡死无法关机
 // 2.0.1 增加关机充电提示和开机按键提示动画，增加设备信息页面
 #define SOFTWARE_BUILD_DATE __DATE__

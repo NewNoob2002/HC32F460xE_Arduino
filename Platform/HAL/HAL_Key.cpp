@@ -15,6 +15,7 @@ static void PowerKey_callback(ButtonEvent *btn, int event)
             if (screen_flag == 2) {
                 change_workstatus();
                 systemInfo.radioInfo.radio_change_flag = 1;
+								workstatus_change = 1;
             }
             break;
         }
@@ -49,13 +50,13 @@ static void FuncKey_callback(ButtonEvent *btn, int event)
                     systemInfo.recordInfo.record_change_flag = 1;
                 }
             }
-            if (screen_flag == 2) {
-                workstatus++;
-                screnn2_time       = 0;
-                work_status_enable = 0;
-                if (workstatus >= 6) workstatus = 1;
-                workstatus_change = 1;
-            }
+						else if(screen_flag==2)
+						{
+							last_workstatus = workstatus++;
+						  screnn2_time=0;
+						  work_status_enable=0;
+						  if(workstatus>=6) workstatus=1;
+						}
             break;
         case ButtonEvent::EVENT_SHORT_CLICKED:
             last_screen_flag   = screen_flag++;

@@ -2,6 +2,7 @@
 #include "Arduino.h"
 #include "bq40z50.h"
 #include "mp2762a.h"
+#include "language.h"
 
 #define FORCE_SHUTDOWN() (systemInfo.powerMonitor.Force_ShutDown)
 
@@ -132,12 +133,12 @@ bool HAL::Power_ShutdownSoftReset()
 const char *HAL::Power_GetPowerOffCause()
 {
     if (systemInfo.powerMonitor.LinuxPowerOff) {
-        return "Shutdown Board";
+        return  GET_TEXT(TEXT_POWEROFF_LABEL_LINUX_OFF);
     } else if (systemInfo.powerMonitor.LowBatteryPowerOff) {
-        return "Shutdown LowBattery";
+        return  GET_TEXT(TEXT_POWEROFF_LABEL_LOW_BAT_OFF);
     } else if (FORCE_SHUTDOWN())
-        return "Shutdown Force";
-    return "Shutdown PushKey";
+        return  GET_TEXT(TEXT_POWEROFF_LABEL_FORCE_OFF);
+    return  GET_TEXT(TEXT_POWEROFF_LABEL_BUTTON_OFF);
 }
 
 void HAL::Power_Update()

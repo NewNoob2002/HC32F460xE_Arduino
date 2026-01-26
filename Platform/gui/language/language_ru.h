@@ -10,6 +10,7 @@ static const char *ru_texts[TEXT_MAX] = {
     [TEXT_BASE] = "База",
     [TEXT_POSITION_NONE] = "Никто",
     [TEXT_POSITION_SINGLE] = "Одинокий",
+		[TEXT_POSITION_RTD] = "RTD",
     [TEXT_POSITION_FIX] = "Исправить",
     [TEXT_POSITION_FLOAT] = "Поплавок",
     [TEXT_POSITION_FIXEDPOS] = "Зафиксированный",
@@ -29,13 +30,13 @@ static const char *ru_texts[TEXT_MAX] = {
 
     [TEXT_WIFI_MODE] = "Режим:",
 
-    [TEXT_POWEROFF_CHARGE_HOLD] = "Подожди",
-
-    [TEXT_POWEROFF_LABEL_LINUX_OFF] = "выключение питания",
+		[TEXT_POWEROFF_LABEL_LINUX_OFF] = "выключение питания",
     [TEXT_POWEROFF_LABEL_LOW_BAT_OFF] = "Низкий заряд батареи",
     [TEXT_POWEROFF_LABEL_FORCE_OFF] = "Принудительное\n выключение",
     [TEXT_POWEROFF_LABEL_BUTTON_OFF] = "Кнопка выключения",
-    [TEXT_POWEROFF_LABEL_SYNC_DONE] = "Синхронизация выполнена.",
+    [TEXT_POWEROFF_LABEL_NOTIFY] = "Продолжайте пресс-конференцию.",
+		
+		[TEXT_HARAWARE_CHECK] = "Потепление:Не отключайтесь сейчас!",
 };
 
 #endif
