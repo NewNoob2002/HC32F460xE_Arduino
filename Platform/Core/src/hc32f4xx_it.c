@@ -1,5 +1,4 @@
 #include "HAL.h"
-#include "lvgl.h"
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
 /******************************************************************************/
@@ -105,5 +104,5 @@ void HardFault_Handler(void)
 void SysTick_Handler()
 {
     HAL_IncTick();
-	lv_tick_inc(1);
+		systemInfo.i2c_communicate_err_count++;
 }

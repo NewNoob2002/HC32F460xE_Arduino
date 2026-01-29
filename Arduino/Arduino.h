@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "HAL.h"
 #include "core_types.h"
 
 // some libraries and sketches depend on this AVR stuff,
@@ -40,11 +41,11 @@
 #ifdef __cplusplus
 extern "C"{
 #endif // __cplusplus
-#include "HAL.h"
 #include "yield.h"
 #include "delay.h"
 #include "dwt.h"
 #include "gpio.h"
+#include "flash.h"
 #include "mcu_config.h"
   /* sketch */
 //void setup( void ) ;

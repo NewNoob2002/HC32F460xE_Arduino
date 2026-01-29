@@ -71,6 +71,8 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 */
 #if __ARMCC_VERSION < 6000000
 #pragma import(__use_no_semihosting)
+#else
+__asm(".global __use_no_semihosting");
 #endif
 
 #ifdef _MICROLIB
@@ -131,6 +133,10 @@ void _ttywrch(int c) {
   fflush(stdout);
 }
 
+void _sys_exit(int x) 
+{ 
+    x = x; 
+} 
 /*********************************************************************
 *
 *       _sys_open

@@ -50,7 +50,7 @@
 
 /* Vector Table base offset field */
 #ifndef VECT_TAB_OFFSET
-#define VECT_TAB_OFFSET                 (0x0UL)     /*!< This value must be a multiple of 0x400. */
+#define VECT_TAB_OFFSET                 (0x8000UL)     /*!< This value must be a multiple of 0x400. */
 #endif
 /**
  * @}
@@ -103,6 +103,7 @@ void SystemInit(void)
 #endif /* ROM_EXT_QSPI */
     /* Configure the Vector Table relocation */
     SCB->VTOR = VECT_TAB_OFFSET;    /* Vector Table Relocation */
+		__enable_irq();
 }
 
 /**

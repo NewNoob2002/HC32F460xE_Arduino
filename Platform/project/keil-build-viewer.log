@@ -1,0 +1,247 @@
+
+=================================================== keil-build-viewer v1.6 ==================================================
+ 
+[Search keil project] 1 item(s)
+	D:\workspace\BackUp\HC32F460xE_Arduino_copy_X1\Platform\project\proj_hc32.uvprojx
+
+[User input] D:\workspace\BackUp\HC32F460xE_Arduino_copy_X1\Platform\project\proj_hc32.uvprojx
+[Current folder] D:\workspace\BackUp\HC32F460xE_Arduino_copy_X1\Platform\project
+[Encoding] 936
+
+[Hint] You specify the keil project!
+[Keil project path] D:\workspace\BackUp\HC32F460xE_Arduino_copy_X1\Platform\project\proj_hc32.uvprojx
+[Keil project name] proj_hc32.uvprojx
+[Is keil v4] 0
+[target name] debug
+[final target name] debug
+
+[Device] HC32F460JEUA
+[Target name] 
+[Output name] proj_hc32
+[Output path] .\Objects\
+[Listing path] .\Listings\
+[Is has pack] 1
+[Is enbale LTO] 0
+[Is has user library] 0
+[Is custom scatter file] 1
+
+[proj_hc32.uvprojx]  [debug]  [HC32F460JEUA]  [LTO disable]
+ 
+[memory info]
+[name] IRAM [base addr] 0x1FFF8000 [size] 0x0002F000 [type] 1 [off-chip] 0 [is pack] 1 [ID] 2 
+[name] IRAM2 [base addr] 0x200F0000 [size] 0x00001000 [type] 1 [off-chip] 0 [is pack] 1 [ID] 3 
+[name] IROM [base addr] 0x00000000 [size] 0x00080000 [type] 2 [off-chip] 0 [is pack] 1 [ID] 4 
+[name] IROM2 [base addr] 0x03000C00 [size] 0x000003FC [type] 2 [off-chip] 0 [is pack] 1 [ID] 5 
+
+
+[map file path] D:\workspace\BackUp\HC32F460xE_Arduino_copy_X1\Platform\project\Listings\proj_hc32.map
+
+[region info]
+[load region] LR_IROM1
+	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x00007BE0 [memory type] 2 [memory ID] 4
+
+	[execution region] RW_IRAM1, 0x1FFF8000, 0x00000008, 0x00000008 [memory type] 1 [memory ID] 2
+		[ZI block] addr: 0x1FFF8000, size: 0x00000008 (8)
+
+	[execution region] RW_IRAM2, 0x1FFF8008, 0x0002EFF8, 0x0000A088 [memory type] 1 [memory ID] 2
+		[ZI block] addr: 0x1FFF8050, size: 0x0000A040 (41024)
+
+	[execution region] RW_IRAMB, 0x200F0000, 0x00001000, 0x00000000 [memory type] 1 [memory ID] 3
+
+
+[object name max length] 38
+[object path max length] 65
+
+[object in map file]
+[object name] bq40z50.o                               [path] ..\..\Libraries\Bq40z50\bq40z50.cpp
+[object name] buttonevent.o                           [path] ..\..\Libraries\ButtonEvent\ButtonEvent.cpp
+[object name] delay.o                                 [path] ..\Core\src\delay.c
+[object name] dwt.o                                   [path] ..\Core\src\dwt.c
+[object name] flash.o                                 [path] ..\Core\src\flash.c
+[object name] hal.o                                   [path] ..\HAL\HAL.cpp
+[object name] hal_cortex.o                            [path] ..\HAL\HAL_CORTEX.c
+[object name] hal_i2c.o                               [path] ..\HAL\HAL_I2C.cpp
+[object name] hal_key.o                               [path] ..\HAL\HAL_Key.cpp
+[object name] hal_led.o                               [path] ..\HAL\HAL_Led.cpp
+[object name] hal_power.o                             [path] ..\HAL\HAL_Power.cpp
+[object name] hc32_ll.o                               [path] ..\Driver\src\hc32_ll.c
+[object name] hc32_ll_clk.o                           [path] ..\Driver\src\hc32_ll_clk.c
+[object name] hc32_ll_efm.o                           [path] ..\Driver\src\hc32_ll_efm.c
+[object name] hc32_ll_fcg.o                           [path] ..\Driver\src\hc32_ll_fcg.c
+[object name] hc32_ll_gpio.o                          [path] ..\Driver\src\hc32_ll_gpio.c
+[object name] hc32_ll_i2c.o                           [path] ..\Driver\src\hc32_ll_i2c.c
+[object name] hc32_ll_interrupts.o                    [path] ..\Driver\src\hc32_ll_interrupts.c
+[object name] hc32_ll_pwc.o                           [path] ..\Driver\src\hc32_ll_pwc.c
+[object name] hc32_ll_rmu.o                           [path] ..\Driver\src\hc32_ll_rmu.c
+[object name] hc32_ll_sram.o                          [path] ..\Driver\src\hc32_ll_sram.c
+[object name] hc32f4xx_it.o                           [path] ..\Core\src\hc32f4xx_it.c
+[object name] lwmem.o                                 [path] ..\..\Libraries\lwmem-2.2.4\lwmem\src\lwmem\lwmem.c
+[object name] main.o                                  [path] ..\..\App\src\main.cpp
+[object name] message_decode.o                        [path] ..\..\App\src\message_decode.cpp
+[object name] millistaskmanager.o                     [path] ..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp
+[object name] mp2762a.o                               [path] ..\..\Libraries\Mp2762a\mp2762a.cpp
+[object name] new.o                                   [path] ..\Core\Src\new.cpp
+[object name] parse_custom.o                          [path] ..\..\Libraries\Parser\src\Parse_CUSTOM.cpp
+[object name] segger_rtt.o                            [path] ..\Core\src\SEGGER_RTT.c
+[object name] slave_i2c.o                             [path] ..\..\App\src\slave_i2c.cpp
+[object name] sparkfun_extensible_message_parser.o    [path] ..\..\Libraries\Parser\src\SparkFun_Extensible_Message_Parser.cpp
+[object name] startup_hc32f460.o                      [path] ..\CMSIS\Device\HDSC\hc32f4xx\Source\ARM\startup_hc32f460.s
+[object name] syscalls_keil.o                         [path] ..\Core\src\Syscalls_KEIL.c
+[object name] system_hc32f460.o                       [path] ..\CMSIS\Device\HDSC\hc32f4xx\Source\system_hc32f460.c
+[object name] variant.o                               [path] ..\..\Arduino\Core\variants\hc32f460xx\variant.cpp
+[object name] wire.o                                  [path] ..\Core\src\Wire.cpp
+[object name] wiring_digital.o                        [path] ..\..\Arduino\wiring_digital.cpp
+[object name] yield.o                                 [path] ..\..\Arduino\yield.c
+
+[file path in keil project]
+[old name] main.cpp                                [type] 1   [path] ..\..\App\src\main.cpp
+[old name] slave_i2c.cpp                           [type] 1   [path] ..\..\App\src\slave_i2c.cpp
+[old name] message_decode.cpp                      [type] 1   [path] ..\..\App\src\message_decode.cpp
+[old name] system_hc32f460.c                       [type] 1   [path] ..\CMSIS\Device\HDSC\hc32f4xx\Source\system_hc32f460.c
+[old name] startup_hc32f460.s                      [type] 1   [path] ..\CMSIS\Device\HDSC\hc32f4xx\Source\ARM\startup_hc32f460.s
+[old name] delay.c                                 [type] 1   [path] ..\Core\src\delay.c
+[old name] dwt.c                                   [type] 1   [path] ..\Core\src\dwt.c
+[old name] flash.c                                 [type] 1   [path] ..\Core\src\flash.c
+[old name] new.cpp                                 [type] 1   [path] ..\Core\Src\new.cpp
+[old name] Wire.cpp                                [type] 1   [path] ..\Core\src\Wire.cpp
+[old name] hc32f4xx_it.c                           [type] 1   [path] ..\Core\src\hc32f4xx_it.c
+[old name] Syscalls_KEIL.c                         [type] 1   [path] ..\Core\src\Syscalls_KEIL.c
+[old name] SEGGER_RTT.c                            [type] 1   [path] ..\Core\src\SEGGER_RTT.c
+[old name] SEGGER_RTT_printf.c                     [type] 1   [path] ..\Core\src\SEGGER_RTT_printf.c
+[old name] HAL.cpp                                 [type] 1   [path] ..\HAL\HAL.cpp
+[old name] HAL_I2C.cpp                             [type] 1   [path] ..\HAL\HAL_I2C.cpp
+[old name] HAL_Key.cpp                             [type] 1   [path] ..\HAL\HAL_Key.cpp
+[old name] HAL_Led.cpp                             [type] 1   [path] ..\HAL\HAL_Led.cpp
+[old name] HAL_Power.cpp                           [type] 1   [path] ..\HAL\HAL_Power.cpp
+[old name] HAL_CORTEX.c                            [type] 1   [path] ..\HAL\HAL_CORTEX.c
+[old name] hc32_ll.c                               [type] 1   [path] ..\Driver\src\hc32_ll.c
+[old name] hc32_ll_adc.c                           [type] 1   [path] ..\Driver\src\hc32_ll_adc.c
+[old name] hc32_ll_aes.c                           [type] 1   [path] ..\Driver\src\hc32_ll_aes.c
+[old name] hc32_ll_aos.c                           [type] 1   [path] ..\Driver\src\hc32_ll_aos.c
+[old name] hc32_ll_can.c                           [type] 1   [path] ..\Driver\src\hc32_ll_can.c
+[old name] hc32_ll_clk.c                           [type] 1   [path] ..\Driver\src\hc32_ll_clk.c
+[old name] hc32_ll_cmp.c                           [type] 1   [path] ..\Driver\src\hc32_ll_cmp.c
+[old name] hc32_ll_crc.c                           [type] 1   [path] ..\Driver\src\hc32_ll_crc.c
+[old name] hc32_ll_dbgc.c                          [type] 1   [path] ..\Driver\src\hc32_ll_dbgc.c
+[old name] hc32_ll_dcu.c                           [type] 1   [path] ..\Driver\src\hc32_ll_dcu.c
+[old name] hc32_ll_dma.c                           [type] 1   [path] ..\Driver\src\hc32_ll_dma.c
+[old name] hc32_ll_efm.c                           [type] 1   [path] ..\Driver\src\hc32_ll_efm.c
+[old name] hc32_ll_emb.c                           [type] 1   [path] ..\Driver\src\hc32_ll_emb.c
+[old name] hc32_ll_event_port.c                    [type] 1   [path] ..\Driver\src\hc32_ll_event_port.c
+[old name] hc32_ll_fcg.c                           [type] 1   [path] ..\Driver\src\hc32_ll_fcg.c
+[old name] hc32_ll_gpio.c                          [type] 1   [path] ..\Driver\src\hc32_ll_gpio.c
+[old name] hc32_ll_hash.c                          [type] 1   [path] ..\Driver\src\hc32_ll_hash.c
+[old name] hc32_ll_i2c.c                           [type] 1   [path] ..\Driver\src\hc32_ll_i2c.c
+[old name] hc32_ll_interrupts.c                    [type] 1   [path] ..\Driver\src\hc32_ll_interrupts.c
+[old name] hc32_ll_keyscan.c                       [type] 1   [path] ..\Driver\src\hc32_ll_keyscan.c
+[old name] hc32_ll_mpu.c                           [type] 1   [path] ..\Driver\src\hc32_ll_mpu.c
+[old name] hc32_ll_pwc.c                           [type] 1   [path] ..\Driver\src\hc32_ll_pwc.c
+[old name] hc32_ll_qspi.c                          [type] 1   [path] ..\Driver\src\hc32_ll_qspi.c
+[old name] hc32_ll_rmu.c                           [type] 1   [path] ..\Driver\src\hc32_ll_rmu.c
+[old name] hc32_ll_rtc.c                           [type] 1   [path] ..\Driver\src\hc32_ll_rtc.c
+[old name] hc32_ll_sdioc.c                         [type] 1   [path] ..\Driver\src\hc32_ll_sdioc.c
+[old name] hc32_ll_spi.c                           [type] 1   [path] ..\Driver\src\hc32_ll_spi.c
+[old name] hc32_ll_sram.c                          [type] 1   [path] ..\Driver\src\hc32_ll_sram.c
+[old name] hc32_ll_swdt.c                          [type] 1   [path] ..\Driver\src\hc32_ll_swdt.c
+[old name] hc32_ll_tmr0.c                          [type] 1   [path] ..\Driver\src\hc32_ll_tmr0.c
+[old name] hc32_ll_tmr4.c                          [type] 1   [path] ..\Driver\src\hc32_ll_tmr4.c
+[old name] hc32_ll_tmr6.c                          [type] 1   [path] ..\Driver\src\hc32_ll_tmr6.c
+[old name] hc32_ll_tmra.c                          [type] 1   [path] ..\Driver\src\hc32_ll_tmra.c
+[old name] hc32_ll_trng.c                          [type] 1   [path] ..\Driver\src\hc32_ll_trng.c
+[old name] hc32_ll_usart.c                         [type] 1   [path] ..\Driver\src\hc32_ll_usart.c
+[old name] hc32_ll_utility.c                       [type] 1   [path] ..\Driver\src\hc32_ll_utility.c
+[old name] hc32_ll_wdt.c                           [type] 1   [path] ..\Driver\src\hc32_ll_wdt.c
+[old name] hc32f460_ll_interrupts_share.c          [type] 1   [path] ..\Driver\src\hc32f460_ll_interrupts_share.c
+[old name] itoa.c                                  [type] 1   [path] ..\..\Arduino\itoa.c
+[old name] yield.c                                 [type] 1   [path] ..\..\Arduino\yield.c
+[old name] Print.cpp                               [type] 1   [path] ..\..\Arduino\Print.cpp
+[old name] Stream.cpp                              [type] 1   [path] ..\..\Arduino\Stream.cpp
+[old name] WMath.cpp                               [type] 1   [path] ..\..\Arduino\WMath.cpp
+[old name] WString.cpp                             [type] 1   [path] ..\..\Arduino\WString.cpp
+[old name] dtostrf.c                               [type] 1   [path] ..\..\Arduino\Core\avr\dtostrf.c
+[old name] variant.cpp                             [type] 1   [path] ..\..\Arduino\Core\variants\hc32f460xx\variant.cpp
+[old name] wiring_digital.cpp                      [type] 1   [path] ..\..\Arduino\wiring_digital.cpp
+[old name] Parse_CUSTOM.cpp                        [type] 1   [path] ..\..\Libraries\Parser\src\Parse_CUSTOM.cpp
+[old name] Parse_NMEA.cpp                          [type] 1   [path] ..\..\Libraries\Parser\src\Parse_NMEA.cpp
+[old name] Parse_RTCM.cpp                          [type] 1   [path] ..\..\Libraries\Parser\src\Parse_RTCM.cpp
+[old name] Parse_SBF.cpp                           [type] 1   [path] ..\..\Libraries\Parser\src\Parse_SBF.cpp
+[old name] Parse_SPARTN.cpp                        [type] 1   [path] ..\..\Libraries\Parser\src\Parse_SPARTN.cpp
+[old name] Parse_UBLOX.cpp                         [type] 1   [path] ..\..\Libraries\Parser\src\Parse_UBLOX.cpp
+[old name] Parse_Unicore_Binary.cpp                [type] 1   [path] ..\..\Libraries\Parser\src\Parse_Unicore_Binary.cpp
+[old name] Parse_Unicore_Hash.cpp                  [type] 1   [path] ..\..\Libraries\Parser\src\Parse_Unicore_Hash.cpp
+[old name] SparkFun_Extensible_Message_Parser.cpp  [type] 1   [path] ..\..\Libraries\Parser\src\SparkFun_Extensible_Message_Parser.cpp
+[old name] bq40z50.cpp                             [type] 1   [path] ..\..\Libraries\Bq40z50\bq40z50.cpp
+[old name] mp2762a.cpp                             [type] 1   [path] ..\..\Libraries\Mp2762a\mp2762a.cpp
+[old name] lwmem.c                                 [type] 1   [path] ..\..\Libraries\lwmem-2.2.4\lwmem\src\lwmem\lwmem.c
+[old name] MillisTaskManager.cpp                   [type] 1   [path] ..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp
+[old name] ButtonEvent.cpp                         [type] 1   [path] ..\..\Libraries\ButtonEvent\ButtonEvent.cpp
+
+[record region info]
+[load region] LR_IROM1
+	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x00007BE0 [type] 2 [ID] 4
+	[execution region] RW_IRAM1, 0x1FFF8000, 0x00000008, 0x00000008 [type] 1 [ID] 2
+	[execution region] RW_IRAM2, 0x1FFF8008, 0x0002EFF8, 0x00004088 [type] 1 [ID] 2
+	[execution region] RW_IRAMB, 0x200F0000, 0x00001000, 0x00000000 [type] 1 [ID] 3
+-----------------------------------------------------------------------------------------------------------------------------
+                                FILE(s)                               |         RAM (byte)       |       FLASH (byte)       |
+-----------------------------------------------------------------------------------------------------------------------------
+..\..\Libraries\Bq40z50\bq40z50.cpp():                                |           4              |         108              |
+..\..\Libraries\ButtonEvent\ButtonEvent.cpp():                        |           0              |         292              |
+..\Core\src\delay.c():                                                |           0              |         114              |
+..\Core\src\dwt.c():                                                  |           1              |          82              |
+..\Core\src\flash.c():                                                |           0              |         134              |
+..\HAL\HAL.cpp():                                                     |          21              |         651              |
+..\HAL\HAL_CORTEX.c():                                                |           0              |         218              |
+..\HAL\HAL_I2C.cpp():                                                 |           0              |         136              |
+..\HAL\HAL_Key.cpp():                                                 |          67              |         334              |
+..\HAL\HAL_Led.cpp():                                                 |          21              |         370              |
+..\HAL\HAL_Power.cpp():                                               |           7              |        1226              |
+..\Driver\src\hc32_ll.c():                                            |           0              |         306              |
+..\Driver\src\hc32_ll_clk.c():                                        |           0              |         686              |
+..\Driver\src\hc32_ll_efm.c():                                        |           0              |         654              |
+..\Driver\src\hc32_ll_fcg.c():                                        |           0              |          24              |
+..\Driver\src\hc32_ll_gpio.c():                                       |           0              |         370              |
+..\Driver\src\hc32_ll_i2c.c():                                        |           0              |        1254              |
+..\Driver\src\hc32_ll_interrupts.c():                                 |         512              |        2888              |
+..\Driver\src\hc32_ll_pwc.c():                                        |           0              |          34              |
+..\Driver\src\hc32_ll_rmu.c():                                        |           0              |          18              |
+..\Driver\src\hc32_ll_sram.c():                                       |           0              |         100              |
+..\Core\src\hc32f4xx_it.c():                                          |           0              |          38              |
+..\..\Libraries\lwmem-2.2.4\lwmem\src\lwmem\lwmem.c():                |          20              |         818              |
+..\..\App\src\main.cpp():                                             |          68              |          34              |
+..\..\App\src\message_decode.cpp():                                   |           0              |         422              |
+..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp():            |           0              |         214              |
+..\..\Libraries\Mp2762a\mp2762a.cpp():                                |           4              |         438              |
+..\Core\Src\new.cpp():                                                |       32789  [+24576]    |         108              |
+..\..\Libraries\Parser\src\Parse_CUSTOM.cpp():                        |           0              |         425              |
+..\Core\src\SEGGER_RTT.c():                                           |        1208              |         495              |
+..\..\App\src\slave_i2c.cpp():                                        |         841              |        1271              |
+..\..\Libraries\Parser\src\SparkFun_Extensible_Message_Parser.cpp():  |           0              |        3307              |
+..\CMSIS\Device\HDSC\hc32f4xx\Source\ARM\startup_hc32f460.s():        |        5120              |         768              |
+..\Core\src\Syscalls_KEIL.c():                                        |           0              |         128              |
+..\CMSIS\Device\HDSC\hc32f4xx\Source\system_hc32f460.c():             |           8              |         190              |
+..\..\Arduino\Core\variants\hc32f460xx\variant.cpp():                 |           0              |         153              |
+..\Core\src\Wire.cpp():                                               |          28              |         636              |
+..\..\Arduino\wiring_digital.cpp():                                   |           0              |         370              |
+..\..\Arduino\yield.c():                                              |           0              |           2              |
+-----------------------------------------------------------------------------------------------------------------------------
+[memory print mode]: 0
+Unused Load Region
+        FLASH 2           [0x03000C00 | 0x000003FC (1020)]
+ 
+LR_IROM1
+        RAM 1             [0x1FFF8000 | 0x0002F000 (192512)]
+                [zi start] 0   [zi end] 50
+                RW_IRAM1  [0x1FFF8000]|¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ| (        8 /        8 ) 100.0%  
+                [zi start] 1   [zi end] 10
+                RW_IRAM2  [0x1FFF8008]|¡ö¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ________________________________________| (  40.1 KB / 187.9 KB )  21.3%  [+24576]
+ 
+        FLASH 1           [0x00000000 | 0x00080000 (524288)]
+                ER_IROM1  [0x00008000]|¡ö¡ö¡ö_______________________________________________| (  30.9 KB / 512.0 KB )   6.0%  
+ 
+[htm file path] D:\workspace\BackUp\HC32F460xE_Arduino_copy_X1\Platform\project\Objects\proj_hc32.htm
+Maximum Stack Usage =        464 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)
+ 
+=============================================================================================================================
+
+run time: 0.139 s

@@ -114,48 +114,50 @@ uint32_t getPinMode(gpio_pin_t dwPin)
         return LL_ERR;
     }
 
-    // read pin configuration
-    stc_gpio_init_t pinConf;
-    CORE_ASSERT(GPIO_GetConfig(dwPin, &pinConf) == LL_OK, "getPinMode: GPIO_GetConfig failed");
+//    // read pin configuration
+//    stc_gpio_init_t pinConf;
+//    CORE_ASSERT(GPIO_GetConfig(dwPin, &pinConf) == LL_OK, "getPinMode: GPIO_GetConfig failed");
 
-    // read pin function
-    uint16_t pinFunction;
-    en_functional_state_t pinSubFunction;
-    CORE_ASSERT(GPIO_GetFunc(dwPin, &pinFunction, &pinSubFunction) == LL_OK, "getPinMode: GPIO_GetFunc failed");
+//    // read pin function
+//    uint16_t pinFunction;
+//    en_functional_state_t pinSubFunction;
+//    CORE_ASSERT(GPIO_GetFunc(dwPin, &pinFunction, &pinSubFunction) == LL_OK, "getPinMode: GPIO_GetFunc failed");
 
     // determine mode from function and configuration
-    switch (pinFunction)
-    {
-    case Func_GPIO:
-        // GPIO function, determine mode from configuration
-        switch (pinConf.u16PinDir)
-        {
-        case PIN_DIR_OUT:
-            return OUTPUT;
-        case PIN_DIR_IN:
-						if(pinConf.u16PinAttr == PIN_ATTR_ANALOG)
-							return INPUT_ANALOG;
-            if(pinConf.u16PullUp == PIN_PU_ON)
-							return INPUT_PULLUP;
-						else
-							return INPUT;
-        default:
-            CORE_ASSERT_FAIL("getPinMode: invalid configuration for Func_Gpio");
-            return INPUT;
-        }
+//    switch (pinFunction)
+//    {
+//    case Func_GPIO:
+//        // GPIO function, determine mode from configuration
+//        switch (pinConf.u16PinDir)
+//        {
+//        case PIN_DIR_OUT:
+//            return OUTPUT;
+//        case PIN_DIR_IN:
+//						if(pinConf.u16PinAttr == PIN_ATTR_ANALOG)
+//							return INPUT_ANALOG;
+//            if(pinConf.u16PullUp == PIN_PU_ON)
+//							return INPUT_PULLUP;
+//						else
+//							return INPUT;
+//        default:
+//            CORE_ASSERT_FAIL("getPinMode: invalid configuration for Func_Gpio");
+//            return INPUT;
+//        }
 
-    case Func_Tima0:
-    case Func_Tima1:
-    case Func_Tima2:
-        // TimerA output function, must be PWM
-        // in that case, subFunction is always disabled
-//        CORE_ASSERT(pinSubFunction == Disable, "getPinMode: pinSubFunctin is Enabled for Func_TimaX");
-//        return OUTPUT_PWM;
+//    case Func_Tima0:
+//    case Func_Tima1:
+//    case Func_Tima2:
+//        // TimerA output function, must be PWM
+//        // in that case, subFunction is always disabled
+////        CORE_ASSERT(pinSubFunction == Disable, "getPinMode: pinSubFunctin is Enabled for Func_TimaX");
+////        return OUTPUT_PWM;
 
-    default:
-        CORE_ASSERT_FAIL("getPinMode: invalid pin function");
-        return INPUT;
-    }
+//    default:
+//        CORE_ASSERT_FAIL("getPinMode: invalid pin function");
+//        return INPUT;
+//    }
+
+	return LL_OK;
 }
 
 void digitalWrite(gpio_pin_t dwPin, uint32_t dwVal)

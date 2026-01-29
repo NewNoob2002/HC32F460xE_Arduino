@@ -1,5 +1,4 @@
 #pragma once
-#include "addon_gpio.h"
 #include "WVariant.h"
 #include "core_types.h"
 #include "core_debug.h"
@@ -96,15 +95,6 @@ inline int32_t _GPIO_Init(gpio_pin_t gpio_pin, const stc_gpio_init_t *pstcPortIn
 }
 
 /**
- * @brief GPIO wrapper for PORT_GetConfig
- */
-inline int32_t GPIO_GetConfig(gpio_pin_t gpio_pin, stc_gpio_init_t *pstcPortInit)
-{
-    ASSERT_GPIO_PIN_VALID(gpio_pin, "GPIO_GetConfig");
-    return PORT_GetConfig(PIN_ARG(gpio_pin), pstcPortInit);
-}
-
-/**
  * @brief GPIO wrapper for PORT_GetBit
  */
 inline en_pin_state_t GPIO_GetBit(gpio_pin_t gpio_pin)
@@ -175,17 +165,6 @@ inline void GPIO_SetFunction(gpio_pin_t gpio_pin, uint16_t enFuncSelect, en_func
     }
 }
 #endif
-
-/**
- * @brief GPIO wrapper for PORT_GetFunc
- * @param enFuncSelect GPIO pin primary function select
- * @param enSubFunc GPIO pin sub-function enable/disable (subfunction is GPIO output for most pins)
- */
-inline int32_t GPIO_GetFunc(gpio_pin_t gpio_pin, uint16_t *enFuncSelect, en_functional_state_t *enSubFunc)
-{
-    ASSERT_GPIO_PIN_VALID(gpio_pin, "GPIO_GetFunc");
-    return PORT_GetFunc(PIN_ARG(gpio_pin), enFuncSelect, enSubFunc);
-}
 
 #ifdef __cplusplus
 }

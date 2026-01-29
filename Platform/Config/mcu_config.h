@@ -2,51 +2,33 @@
 #include "mcu_define.h"
 
 #define  HW_VERSION    "V1.4"
-#define  SW_VERSION    "V1.26"
+#define  SW_VERSION    "V1.27"
 
 /*POWER*/
-#define POWER_CONTROL_PIN		PB3
-#define WATCHDOG_FEED_PIN		PA6
+#define POWER_CONTROL_PIN  PB3
+#define WATCHDOG_FEED_PIN  PA6
+#define WATCHDOG_FEED_TIME 5000
 
 /*Function Key*/
 #define FUNCTION_KEY_PIN PA15
 
+/*power_key_pin*/
+#define POWER_KEY_PIN PA0
+
 /*Status LED*/
-#define POWER_LED_PIN PC13
-#define CHARGE_LED_PIN PH2
+#define POWER_LED_PIN    PC13
+#define CHARGE_LED_PIN   PH2
 #define FUNCTION_LED_PIN PB5
 
-/* SPI Class */
-#define SPI_CLASS_3_ENABLE 1
-#if SPI_CLASS_3_ENABLE
-#define SPI_CLASS_3_SPI CM_SPI3
-#endif
+/*charger_control*/
+#define CHARGER_ENABLE_PIN 		PA4
+#define CHARGER_CTRL_PIN 			PB7
+#define CHARGER_CTRL_FAST_PIN PB6
+#define CHARGER_SWITCH_PIN 		PB10
 
-/* Screen */
-#define CONFIG_SCREEN_CS_PIN   PH2
-#define CONFIG_SCREEN_DC_PIN   PB8
-#define CONFIG_SCREEN_RST_PIN  PB9
-#define CONFIG_SCREEN_SCK_PIN  PB6
-#define CONFIG_SCREEN_MOSI_PIN PB7
-#define CONFIG_SCREEN_BLK_PIN  PB4 // TIM3
-#define CONFIG_SCREEN_SPI      SPI_3
-#define CONFIG_SCREEN_HOR_RES  320
-#define CONFIG_SCREEN_VER_RES  172
-//////////////////////////////////////////
-//#define CONFIG_SCREEN_CS_PIN   PB14
-//#define CONFIG_SCREEN_DC_PIN   PB1
-//#define CONFIG_SCREEN_RST_PIN  PB2
-//#define CONFIG_SCREEN_SCK_PIN  PB15
-//#define CONFIG_SCREEN_MOSI_PIN PB13
-////#define CONFIG_SCREEN_BLK_PIN  PB3 // TIM3
-//#define CONFIG_SCREEN_SPI      SPI_3
-//#define CONFIG_SCREEN_HOR_RES  240
-//#define CONFIG_SCREEN_VER_RES  100
+#define CHARGER_ADC_DETECT_PIN PA1
 
-/* DMA definition */
-#define DMA_UNIT                        (CM_DMA1)
-#define DMA_CLK                         (FCG0_PERIPH_DMA1 | FCG0_PERIPH_AOS)
-#define DMA_TX_CH                       (DMA_CH0)
-#define DMA_TX_TRIG_CH                  (AOS_DMA1_0)
+#define USB_SWITCH_PIN PB8
 
-#define SPI_TX_EVT_SRC                  (EVT_SRC_SPI3_SPTI)
+#define STABLE_TIME_MS         (20 * 60 * 1000)
+#define FLASH_OFFSET_ADDR      0x0007A000
