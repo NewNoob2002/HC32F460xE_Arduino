@@ -1,78 +1,135 @@
-T1C0C 000:151.460   SEGGER J-Link V8.12g Log File
-T1C0C 000:151.558   DLL Compiled: Feb 19 2025 16:37:21
-T1C0C 000:151.568   Logging started @ 2026-01-09 04:36
-T1C0C 000:151.574   Process: C:\Keil_v5\UV4\UV4.exe
-T1C0C 000:151.585 - 151.578ms 
-T1C0C 000:151.593 JLINK_SetWarnOutHandler(...)
-T1C0C 000:151.599 - 0.006ms 
-T1C0C 000:151.608 JLINK_OpenEx(...)
-T1C0C 000:155.124   Firmware: J-Link V9 compiled May  7 2021 16:26:12
-T1C0C 000:156.173   Firmware: J-Link V9 compiled May  7 2021 16:26:12
-T1C0C 000:156.297   Decompressing FW timestamp took 82 us
-T1C0C 000:163.420   Hardware: V9.60
-T1C0C 000:163.436   S/N: 20684568
-T1C0C 000:163.443   OEM: SEGGER
-T1C0C 000:163.450   Feature(s): GDB, RDI, FlashBP, FlashDL, JFlash
-T1C0C 000:164.503   Bootloader: (FW returned invalid version)
-T1C0C 000:165.709   TELNET listener socket opened on port 19021
-T1C0C 000:165.804   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
-T1C0C 000:165.906   WEBSRV Webserver running on local port 19080
-T1C0C 000:166.014   Looking for J-Link GUI Server exe at: C:\Keil_v5\ARM\Segger\JLinkGUIServer.exe
-T1C0C 000:166.082   Looking for J-Link GUI Server exe at: C:\Program Files\SEGGER\JLink_V812g\JLinkGUIServer.exe
-T1C0C 000:166.105   Forking J-Link GUI Server: C:\Program Files\SEGGER\JLink_V812g\JLinkGUIServer.exe
-T1C0C 000:178.688   J-Link GUI Server info: "J-Link GUI server V8.12g "
-T1C0C 000:178.960 - 27.349ms returns "O.K."
-T1C0C 000:178.979 JLINK_GetEmuCaps()
-T1C0C 000:178.987 - 0.006ms returns 0xB9FF7BBF
-T1C0C 000:178.995 JLINK_TIF_GetAvailable(...)
-T1C0C 000:179.323 - 0.327ms 
-T1C0C 000:179.346 JLINK_SetErrorOutHandler(...)
-T1C0C 000:179.352 - 0.006ms 
-T1C0C 000:179.387 JLINK_ExecCommand("ProjectFile = "D:\workspace\BackUp\HC32F460xE_Arduino_copy\Platform\project\JLinkSettings.ini"", ...). 
-T1C0C 000:188.080   Ref file found at: C:\Keil_v5\ARM\Segger\JLinkDevices.ref
-T1C0C 000:188.139   REF file references invalid XML file: C:\Program Files\SEGGER\JLink_V812g\JLinkDevices.xml
-T1C0C 000:188.980 - 9.595ms returns 0x00
-T1C0C 000:189.001 JLINK_ExecCommand("Device = HC32F460JEUA", ...). 
-T1C0C 000:189.371   Device "HC32F460XE" selected.
-T1C0C 000:189.605 - 0.581ms returns 0x00
-T1C0C 000:189.614 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
-T1C0C 000:189.625   ERROR: Unknown command
-T1C0C 000:189.633 - 0.012ms returns 0x01
-T1C0C 000:189.638 JLINK_GetHardwareVersion()
-T1C0C 000:189.643 - 0.004ms returns 96000
-T1C0C 000:189.649 JLINK_GetDLLVersion()
-T1C0C 000:189.653 - 0.004ms returns 81207
-T1C0C 000:189.659 JLINK_GetOEMString(...)
-T1C0C 000:189.666 JLINK_GetFirmwareString(...)
-T1C0C 000:189.671 - 0.005ms 
-T1C0C 000:189.678 JLINK_GetDLLVersion()
-T1C0C 000:189.682 - 0.004ms returns 81207
-T1C0C 000:189.687 JLINK_GetCompileDateTime()
-T1C0C 000:189.692 - 0.004ms 
-T1C0C 000:189.698 JLINK_GetFirmwareString(...)
-T1C0C 000:189.703 - 0.004ms 
-T1C0C 000:189.709 JLINK_GetHardwareVersion()
-T1C0C 000:189.713 - 0.004ms returns 96000
-T1C0C 000:189.718 JLINK_GetSN()
-T1C0C 000:189.723 - 0.004ms returns 20684568
-T1C0C 000:189.729 JLINK_GetOEMString(...)
-T1C0C 000:189.738 JLINK_TIF_Select(JLINKARM_TIF_SWD)
-T1C0C 000:190.949 - 1.210ms returns 0x00
-T1C0C 000:190.962 JLINK_HasError()
-T1C0C 000:190.973 JLINK_SetSpeed(50000)
-T1C0C 000:191.258 - 0.285ms 
-T1C0C 000:191.450 JLINK_HasError()
-T1C0C 000:191.458 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
-T1C0C 000:191.464 - 0.005ms returns JLINKARM_RESET_TYPE_NORMAL
-T1C0C 000:191.469 JLINK_Reset()
-T1C0C 000:191.800 - 0.330ms 
-T1C0C 000:191.807 JLINK_GetId()
-T1C0C 000:192.104 - 0.297ms returns 0x00000000
-T1C0C 000:192.111 JLINK_GetId()
-T1C0C 000:192.419 - 0.308ms returns 0x00000000
-T1C0C 000:196.680 JLINK_GetFirmwareString(...)
-T1C0C 000:196.697 - 0.017ms 
-T1C0C 001:103.937 JLINK_Close()
-T1C0C 001:116.251 - 12.313ms
-T1C0C 001:116.272   
-T1C0C 001:116.277   Closed
+T2010 000:163.326   SEGGER J-Link V8.12g Log File
+T2010 000:163.463   DLL Compiled: Feb 19 2025 16:37:21
+T2010 000:163.472   Logging started @ 2026-01-30 06:45
+T2010 000:163.479   Process: C:\Keil_v5\UV4\UV4.exe
+T2010 000:163.494 - 163.485ms 
+T2010 000:163.505 JLINK_SetWarnOutHandler(...)
+T2010 000:163.512 - 0.008ms 
+T2010 000:163.524 JLINK_OpenEx(...)
+T2010 000:167.563   Firmware: J-Link V9 compiled May  7 2021 16:26:12
+T2010 000:168.201   Firmware: J-Link V9 compiled May  7 2021 16:26:12
+T2010 000:168.321   Decompressing FW timestamp took 94 us
+T2010 000:174.629   Hardware: V9.70
+T2010 000:174.647   S/N: 63728769
+T2010 000:174.654   OEM: SEGGER
+T2010 000:174.661   Feature(s): GDB, RDI, FlashBP, FlashDL, JFlash
+T2010 000:175.242   Bootloader: (FW returned invalid version)
+T2010 000:175.976   TELNET listener socket opened on port 19021
+T2010 000:176.103   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T2010 000:176.222   WEBSRV Webserver running on local port 19080
+T2010 000:176.337   Looking for J-Link GUI Server exe at: C:\Keil_v5\ARM\Segger\JLinkGUIServer.exe
+T2010 000:176.415   Looking for J-Link GUI Server exe at: C:\Program Files\SEGGER\JLink_V812g\JLinkGUIServer.exe
+T2010 000:176.440   Forking J-Link GUI Server: C:\Program Files\SEGGER\JLink_V812g\JLinkGUIServer.exe
+T2010 000:179.999   J-Link GUI Server info: "J-Link GUI server V8.12g "
+T2010 000:180.180 - 16.652ms returns "O.K."
+T2010 000:180.202 JLINK_GetEmuCaps()
+T2010 000:180.209 - 0.006ms returns 0xB9FF7BBF
+T2010 000:180.217 JLINK_TIF_GetAvailable(...)
+T2010 000:180.477 - 0.259ms 
+T2010 000:180.495 JLINK_SetErrorOutHandler(...)
+T2010 000:180.501 - 0.005ms 
+T2010 000:180.530 JLINK_ExecCommand("ProjectFile = "D:\workspace\BackUp\HC32F460xE_Arduino_copy\Platform\project\JLinkSettings.ini"", ...). 
+T2010 000:189.378   Ref file found at: C:\Keil_v5\ARM\Segger\JLinkDevices.ref
+T2010 000:189.439   REF file references invalid XML file: C:\Program Files\SEGGER\JLink_V812g\JLinkDevices.xml
+T2010 000:190.419 - 9.891ms returns 0x00
+T2010 000:190.465 JLINK_ExecCommand("Device = HC32F460JEUA", ...). 
+T2010 000:190.794   Device "HC32F460XE" selected.
+T2010 000:191.041 - 0.569ms returns 0x00
+T2010 000:191.052 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T2010 000:191.064   ERROR: Unknown command
+T2010 000:191.071 - 0.013ms returns 0x01
+T2010 000:191.077 JLINK_GetHardwareVersion()
+T2010 000:191.082 - 0.005ms returns 97000
+T2010 000:191.088 JLINK_GetDLLVersion()
+T2010 000:191.092 - 0.004ms returns 81207
+T2010 000:191.099 JLINK_GetOEMString(...)
+T2010 000:191.105 JLINK_GetFirmwareString(...)
+T2010 000:191.110 - 0.005ms 
+T2010 000:191.118 JLINK_GetDLLVersion()
+T2010 000:191.123 - 0.004ms returns 81207
+T2010 000:191.128 JLINK_GetCompileDateTime()
+T2010 000:191.132 - 0.004ms 
+T2010 000:191.139 JLINK_GetFirmwareString(...)
+T2010 000:191.143 - 0.004ms 
+T2010 000:191.149 JLINK_GetHardwareVersion()
+T2010 000:191.154 - 0.004ms returns 97000
+T2010 000:191.159 JLINK_GetSN()
+T2010 000:191.164 - 0.004ms returns 63728769
+T2010 000:191.170 JLINK_GetOEMString(...)
+T2010 000:191.180 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T2010 000:191.775 - 0.595ms returns 0x00
+T2010 000:191.789 JLINK_HasError()
+T2010 000:191.801 JLINK_SetSpeed(20000)
+T2010 000:191.889 - 0.087ms 
+T2010 000:192.121 JLINK_HasError()
+T2010 000:192.132 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
+T2010 000:192.137 - 0.005ms returns JLINKARM_RESET_TYPE_NORMAL
+T2010 000:192.143 JLINK_Reset()
+T2010 000:192.789   Found SW-DP with ID 0x2BA01477
+T2010 000:195.051   DPIDR: 0x2BA01477
+T2010 000:195.066   CoreSight SoC-400 or earlier
+T2010 000:195.081   Scanning AP map to find all available APs
+T2010 000:195.496   AP[1]: Stopped AP scan as end of AP map has been reached
+T2010 000:195.512   AP[0]: AHB-AP (IDR: 0x24770011, ADDR: 0x00000000)
+T2010 000:195.522   Iterating through AP map to find AHB-AP to use
+T2010 000:196.362   AP[0]: Core found
+T2010 000:196.376   AP[0]: AHB-AP ROM base: 0xE00FF000
+T2010 000:196.769   CPUID register: 0x410FC241. Implementer code: 0x41 (ARM)
+T2010 000:196.814   Found Cortex-M4 r0p1, Little endian.
+T2010 000:197.161   -- Max. mem block: 0x00010E40
+T2010 000:197.500   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T2010 000:197.743   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T2010 000:197.998   CPU_ReadMem(4 bytes @ 0xE0002000)
+T2010 000:198.281   FPUnit: 6 code (BP) slots and 2 literal slots
+T2010 000:198.313   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T2010 000:198.551   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T2010 000:198.891   CPU_ReadMem(4 bytes @ 0xE0001000)
+T2010 000:199.207   CPU_WriteMem(4 bytes @ 0xE0001000)
+T2010 000:199.539   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T2010 000:199.889   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T2010 000:200.185   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T2010 000:200.453   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T2010 000:200.706   CoreSight components:
+T2010 000:200.722   ROMTbl[0] @ E00FF000
+T2010 000:200.730   CPU_ReadMem(64 bytes @ 0xE00FF000)
+T2010 000:201.144   CPU_ReadMem(32 bytes @ 0xE000EFE0)
+T2010 000:201.513   [0][0]: E000E000 CID B105E00D PID 000BB00C SCS-M7
+T2010 000:201.521   CPU_ReadMem(32 bytes @ 0xE0001FE0)
+T2010 000:201.853   [0][1]: E0001000 CID B105E00D PID 003BB002 DWT
+T2010 000:201.861   CPU_ReadMem(32 bytes @ 0xE0002FE0)
+T2010 000:202.225   [0][2]: E0002000 CID B105E00D PID 002BB003 FPB
+T2010 000:202.233   CPU_ReadMem(32 bytes @ 0xE0000FE0)
+T2010 000:202.557   [0][3]: E0000000 CID B105E00D PID 003BB001 ITM
+T2010 000:202.565   CPU_ReadMem(32 bytes @ 0xE0040FE0)
+T2010 000:202.926   [0][4]: E0040000 CID B105900D PID 000BB9A1 TPIU
+T2010 000:202.943   CPU_ReadMem(32 bytes @ 0xE0041FE0)
+T2010 000:203.267   [0][5]: E0041000 CID B105900D PID 000BB925 ETM
+T2010 000:203.318   JLINK_GetResetTypeDesc
+T2010 000:203.323   - 0.005ms 
+T2010 000:203.332   Reset type: NORMAL (https://wiki.segger.com/J-Link_Reset_Strategies)
+T2010 000:203.343   CPU is running
+T2010 000:203.351   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T2010 000:203.590   CPU is running
+T2010 000:203.600   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T2010 000:203.840   Reset: Halt core after reset via DEMCR.VC_CORERESET.
+T2010 000:204.287   Reset: Reset device via AIRCR.SYSRESETREQ.
+T2010 000:204.296   CPU is running
+T2010 000:204.303   CPU_WriteMem(4 bytes @ 0xE000ED0C)
+T2010 000:257.303   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T2010 000:257.600   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T2010 000:260.036   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T2010 000:267.023   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T2010 000:269.738   CPU_WriteMem(4 bytes @ 0xE0002000)
+T2010 000:270.037   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T2010 000:270.341   CPU_ReadMem(4 bytes @ 0xE0001000)
+T2010 000:270.679 - 78.534ms 
+T2010 000:270.732 JLINK_GetId()
+T2010 000:271.008 - 0.275ms returns 0x2BA01477
+T2010 000:282.256 JLINK_GetFirmwareString(...)
+T2010 000:282.285 - 0.029ms 
+T2010 003:683.740 JLINK_Close()
+T2010 003:684.010   CPU_ReadMem(4 bytes @ 0xE0001000)
+T2010 003:684.346   CPU_WriteMem(4 bytes @ 0xE0001004)
+T2010 003:694.865 - 11.125ms
+T2010 003:694.892   
+T2010 003:694.896   Closed

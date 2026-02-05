@@ -296,7 +296,8 @@ void SystemInfosView::SetBattery(const BatteryInfo_t &batteryInfo) const
         batteryInfo.Percent_f,
         batteryInfo.Voltage_f,
         batteryInfo.Temp_f,
-        batteryInfo.chargeStatus == notCharge ? "notCharge" : "Charging");
+				batteryInfo.chargeStatus == notCharge ? "notCharge" : 
+				batteryInfo.chargeStatus == fastCharge ? "fastCharge": "normalCharge");
 }
 
 void SystemInfosView::SetStorage(const RecordInfo_t &recordInfo) const

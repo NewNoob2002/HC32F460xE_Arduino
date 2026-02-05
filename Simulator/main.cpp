@@ -74,7 +74,6 @@ extern void StatusBar_Appear(bool en);
     memset(&systemInfo, 0, sizeof(systemInfo));
     systemInfo.positionInfo.satellite_number_used = 32;
     systemInfo.positionInfo.satellite_number_track  = 48;
-    systemInfo.radioInfo.radio_channel = 1;
     constexpr char wifi_id[16]= "E1PRO-2124A0078";
     memcpy(systemInfo.wifiInfo.wifi_ssid, wifi_id, 16);
     /* set EasyLogger log format */

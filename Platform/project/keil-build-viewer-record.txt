@@ -138,7 +138,7 @@
       2022          0          0         24          0          0   lv_txt.o
         78          0          0          0          0          0   lv_utils.o
         52          0          0          0        232          0   main.o
-      1876          0          0          0          0          0   message_decode.o
+      1880          0          0          0          0          0   message_decode.o
        220          0          0          0          0          0   millistaskmanager.o
        720          0          0          0          4          0   mp2762a.o
         60          0          0          4          0          0   new.o
@@ -176,12 +176,12 @@
        336          0          0          0          8          0   system_hc32f460.o
        562          0         52          0          0          0   systeminfos.o
        144          0          0          0          0          0   systeminfosmodel.o
-      1992          0        117          0         20          0   systeminfosview.o
+      2004          0        117          0         20          0   systeminfosview.o
          0          0        153          0          0          0   variant.o
        604          0          0         28          0          0   wire.o
        254          0          0          0          0          0   wiring_digital.o
-       804          0         52          0          0          0   worksettings.o
-      1980          0        104          0         22          0   worksettingsview.o
+       822          0         52          0          0          0   worksettings.o
+      1978          0        111          0         22          0   worksettingsview.o
          2          0          0          0          0          0   yield.o
 Object Totals
 
@@ -189,7 +189,7 @@ Memory Map of the image
 
 	Load Region LR_IROM1 
 
-		Execution Region ER_IROM1 (Exec base: 0x00008000, Size: 0x00059850, Max: 0x00080000, END)
+		Execution Region ER_IROM1 (Exec base: 0x00008000, Size: 0x00059878, Max: 0x00080000, END)
 
 		Execution Region RW_IRAM1 (Exec base: 0x1FFF8000, Size: 0x00000018, Max: 0x00000020, END)
 

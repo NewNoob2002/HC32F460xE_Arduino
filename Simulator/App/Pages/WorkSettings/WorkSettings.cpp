@@ -102,28 +102,34 @@ void WorkSettings::onViewDidUnload() {
 
 void WorkSettings::onBtnClicked(const lv_obj_t *btn) const {
     if (btn == View.ui.btnCont.btnBase) {
-        const uint8_t protocol_index = RadioProtocol[
-            WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
-        const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.mid_roller.label) + 1;
-        PM_LOG_INFO("btnBase, pro:%d, freq:%d", protocol_index, channel_index);
-        systemInfo.work_mode = base_mode;
-        systemInfo.radioInfo.radio_status = On_Off_Status_ON;
-        systemInfo.radioInfo.radio_mode = radio_mode_tx;
-        systemInfo.radioInfo.radio_protocol = protocol_index;
-        systemInfo.radioInfo.radio_channel = channel_index;
-        systemInfo.radioInfo.radio_change_flag = 1;
+        const uint8_t protocol_index = RadioProtocol[WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
+        const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.mid_roller.label);
+        if (channel_index != 0) {
+            PM_LOG_INFO("btnBase, pro:%d, freq:%d", protocol_index, channel_index);
+            systemInfo.work_mode = autobase_mode;
+            systemInfo.radioInfo.radio_status = On_Off_Status_ON;
+            systemInfo.ntripInfo.gprs_status = On_Off_Status_OFF;
+            systemInfo.ntripInfo.NtripServer_status = On_Off_Status_OFF;
+            systemInfo.radioInfo.radio_mode = radio_mode_tx;
+            systemInfo.radioInfo.radio_protocol = protocol_index;
+            systemInfo.radioInfo.radio_channel = channel_index;
+            systemInfo.radioInfo.radio_change_flag = 1;
+        }
         pageManager->Pop();
     } else if (btn == View.ui.btnCont.btnRover) {
-        const uint8_t protocol_index = RadioProtocol[
-            WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
-        const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.mid_roller.label) + 1;
-        PM_LOG_INFO("btnRover, pro:%d, freq:%d", protocol_index, channel_index);
-        systemInfo.work_mode = rover_mode;
-        systemInfo.radioInfo.radio_status = On_Off_Status_ON;
-        systemInfo.radioInfo.radio_mode = radio_mode_rx;
-        systemInfo.radioInfo.radio_protocol = protocol_index;
-        systemInfo.radioInfo.radio_channel = channel_index;
-        systemInfo.radioInfo.radio_change_flag = 1;
+        const uint8_t protocol_index = RadioProtocol[WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
+        const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.mid_roller.label);
+        if (channel_index != 0) {
+            PM_LOG_INFO("btnRover, pro:%d, freq:%d", protocol_index, channel_index);
+            systemInfo.work_mode = rover_mode;
+            systemInfo.radioInfo.radio_status = On_Off_Status_ON;
+            systemInfo.ntripInfo.gprs_status = On_Off_Status_OFF;
+            systemInfo.ntripInfo.NtripServer_status = On_Off_Status_OFF;
+            systemInfo.radioInfo.radio_mode = radio_mode_rx;
+            systemInfo.radioInfo.radio_protocol = protocol_index;
+            systemInfo.radioInfo.radio_channel = channel_index;
+            systemInfo.radioInfo.radio_change_flag = 1;
+        }
         pageManager->Pop();
     } else if (btn == View.ui.btnCont.btnNtrip) {
         systemInfo.work_mode = autobase_mode;

@@ -3,7 +3,7 @@
 #include "lvgl/lvgl.h"
 #include "Common/DataProc/DataProc.h"
 
-static Account *actLed;
+static Account *actLed = nullptr;
 
 static ledState_t powerLed       = {0, 0, false};
 static ledState_t chargerLed     = {0, 0, false};

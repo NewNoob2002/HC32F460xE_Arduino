@@ -48,20 +48,22 @@ static int message_info_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
 
     switch (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L]) {
         case NM_PANEL_INFO1_ID:
-            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 0], "V1.5",
-                   strlen("V1.5")); // HardWare_Version
-            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 8], SOFTWARE_VERSION,
-                   strlen(SOFTWARE_VERSION)); // SoftWare_Version
+				{
+						const char hardware[8] = HARDWARE_VERSION;
+						const char software[8] = SOFTWARE_VERSION;
+            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 0], hardware, strlen(hardware)); // HardWare_Version
+            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 8], software, strlen(software)); // SoftWare_Version
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 18], &systemInfo.powerMonitor.batteryInfo.Percent, 2);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 20], &systemInfo.powerMonitor.batteryInfo.Temp, 2);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 22], &systemInfo.powerMonitor.batteryInfo.Voltage, 2);
+				}
             break;
         case NM_PANEL_INFO2_ID:
             msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.powerMonitor.reset_flag;               // 主机复位控制
             msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.powerMonitor.poweroff_flag;            // 主机关机控制
             msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.recordInfo.record_status;              // 静态记录状态
             msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.recordInfo.record_op;                  // 静态记录开关
-            msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus; // 充电电源接入
+            msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus != notCharge; // 充电电源接入
             if (systemInfo.recordInfo.record_change_flag) systemInfo.recordInfo.record_change_flag = 0;
             systemInfo.recordInfo.record_op = 0;
             if (systemInfo.powerMonitor.poweroff_flag == 1) {
@@ -74,7 +76,7 @@ static int message_info_encode(SEMP_PARSE_STATE *parse, uint8_t *txBuffer)
             msg[NM_PROTOCOL_HEADER_LEN + 0]  = systemInfo.work_mode;
             msg[NM_PROTOCOL_HEADER_LEN + 1]  = systemInfo.positionInfo.satellite_number_used;
             msg[NM_PROTOCOL_HEADER_LEN + 2]  = systemInfo.positionInfo.coordinate_status;
-            msg[NM_PROTOCOL_HEADER_LEN + 3]  = systemInfo.radioInfo.radio_status;
+            msg[NM_PROTOCOL_HEADER_LEN + 3]  = systemInfo.ntripInfo.gprs_status;
             msg[NM_PROTOCOL_HEADER_LEN + 4]  = systemInfo.ntripInfo.NtripServer_status;
             msg[NM_PROTOCOL_HEADER_LEN + 5]  = systemInfo.ntripInfo.NtripClient_status;
             msg[NM_PROTOCOL_HEADER_LEN + 6]  = systemInfo.radioInfo.radio_status;
