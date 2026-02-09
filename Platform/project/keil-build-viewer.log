@@ -38,13 +38,13 @@
 
 [region info]
 [load region] LR_IROM1
-	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x00059878 [memory type] 2 [memory ID] 4
+	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x00059840 [memory type] 2 [memory ID] 4
 
 	[execution region] RW_IRAM1, 0x1FFF8000, 0x00000020, 0x00000018 [memory type] 1 [memory ID] 2
 		[ZI block] addr: 0x1FFF8000, size: 0x00000018 (24)
 
-	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x00021048 [memory type] 1 [memory ID] 2
-		[ZI block] addr: 0x1FFF80C0, size: 0x00020FA8 (135080)
+	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x00021028 [memory type] 1 [memory ID] 2
+		[ZI block] addr: 0x1FFF80C0, size: 0x00020F88 (135048)
 
 	[execution region] RW_IRAMB, 0x200F0000, 0x00001000, 0x00000000 [memory type] 1 [memory ID] 3
 
@@ -571,7 +571,7 @@
 ..\HAL\HAL_CORTEX.c():                                                            |           0              |         162              |
 ..\HAL\HAL_Display.cpp():                                                         |           0              |          22              |
 ..\HAL\HAL_I2C.cpp():                                                             |           0              |         144              |
-..\HAL\HAL_Key.cpp():                                                             |          78              |         317              |
+..\HAL\HAL_Key.cpp():                                                             |          42  [-36]       |         269  [-48]       |
 ..\HAL\HAL_Led.cpp():                                                             |          17              |         354              |
 ..\HAL\HAL_Power.cpp():                                                           |           2              |         908              |
 ..\..\Simulator\App\Pages\HardwareCheckView\HardwareCheck.cpp():                  |           4              |         308              |
@@ -740,14 +740,14 @@ LR_IROM1
                 [zi start] 0   [zi end] 37
                 RW_IRAM1  [0x1FFF8000]|¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ_____________| (       24 /       32 )  75.0%  
                 [zi start] 1   [zi end] 35
-                RW_IRAM2  [0x1FFF8020]|¡ö¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ_______________| ( 132.0 KB / 187.9 KB )  70.3%  
+                RW_IRAM2  [0x1FFF8020]|¡ö¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ_______________| ( 132.0 KB / 187.9 KB )  70.2%  [-32]
  
         FLASH 1           [0x00000000 | 0x00080000 (524288)]
-                ER_IROM1  [0x00008000]|¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö________________| ( 358.1 KB / 512.0 KB )  69.9%  
+                ER_IROM1  [0x00008000]|¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö________________| ( 358.0 KB / 512.0 KB )  69.9%  [-56]
  
 [htm file path] D:\workspace\BackUp\HC32F460xE_Arduino_copy\Platform\project\Objects\proj_hc32.htm
 Maximum Stack Usage =        984 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)
  
 =============================================================================================================================
 
-run time: 0.367 s
+run time: 0.392 s

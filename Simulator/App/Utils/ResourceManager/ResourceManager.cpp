@@ -29,13 +29,9 @@
 #define RES_LOG_WARN  LV_LOG_WARN
 #define RES_LOG_ERROR LV_LOG_ERROR
 
-ResourceManager::ResourceManager()
-{
-    DefaultPtr = nullptr;
-}
+ResourceManager::ResourceManager() { DefaultPtr = nullptr; }
 
-ResourceManager::~ResourceManager()
-= default;
+ResourceManager::~ResourceManager() = default;
 
 /**
   * @brief  Search resource node based on name
@@ -43,11 +39,10 @@ ResourceManager::~ResourceManager()
   * @param  node: Pointer to the resource node
   * @retval Return true if the search is successful
   */
-bool ResourceManager::SearchNode(const char* name, ResourceNode_t* node) const {
-    for(const auto iter : NodePool)
-    {
-        if (strcmp(name, iter.name) == 0)
-        {
+bool
+ResourceManager::SearchNode(const char* name, ResourceNode_t* node) const {
+    for (const auto iter : NodePool) {
+        if (strcmp(name, iter.name) == 0) {
             *node = iter;
             return true;
         }
@@ -61,11 +56,10 @@ bool ResourceManager::SearchNode(const char* name, ResourceNode_t* node) const {
   * @param  ptr: Pointer to the resource
   * @retval Return true if the addition is successful
   */
-bool ResourceManager::AddResource(const char* name, void* ptr)
-{
+bool
+ResourceManager::AddResource(const char* name, void* ptr) {
     ResourceNode_t node;
-    if (SearchNode(name, &node))
-    {
+    if (SearchNode(name, &node)) {
         RES_LOG_WARN("Resource: %s was register", name);
         return false;
     }
@@ -84,19 +78,17 @@ bool ResourceManager::AddResource(const char* name, void* ptr)
   * @param  name: Resource Name
   * @retval Return true if the removal is successful
   */
-bool ResourceManager::RemoveResource(const char* name)
-{
+bool
+ResourceManager::RemoveResource(const char* name) {
     ResourceNode_t node;
-    if(!SearchNode(name, &node))
-    {
+    if (!SearchNode(name, &node)) {
         RES_LOG_ERROR("Resource: %s was not found", name);
         return false;
     }
 
     auto iter = std::find(NodePool.begin(), NodePool.end(), node);
 
-    if (iter == NodePool.end())
-    {
+    if (iter == NodePool.end()) {
         RES_LOG_ERROR("Resource: %s was not found", name);
         return false;
     }
@@ -113,11 +105,11 @@ bool ResourceManager::RemoveResource(const char* name)
   * @param  name: Resource Name
   * @retval If the acquisition is successful, return the address of the resource, otherwise return the default resource
   */
-void* ResourceManager::GetResource(const char* name) const {
+void*
+ResourceManager::GetResource(const char* name) const {
     ResourceNode_t node;
 
-    if(!SearchNode(name, &node))
-    {
+    if (!SearchNode(name, &node)) {
         RES_LOG_WARN("Resource: %s was not found, return default[0x%p]", name, DefaultPtr);
         return DefaultPtr;
     }
@@ -132,8 +124,8 @@ void* ResourceManager::GetResource(const char* name) const {
   * @param  ptr: Pointer to the default resource
   * @retval None
   */
-void ResourceManager::SetDefault(void* ptr)
-{
+void
+ResourceManager::SetDefault(void* ptr) {
     DefaultPtr = ptr;
     RES_LOG_INFO("Resource: set [0x%p] to default", DefaultPtr);
 }

@@ -24,7 +24,7 @@
        162          0          0          0          0          0   hal_cortex.o
         22          0          0          0          0          0   hal_display.o
        144          0          0          0          0          0   hal_i2c.o
-       312          0          4          1         77          0   hal_key.o
+       264          0          4          1         41          0   hal_key.o
        354          0          0          0         17          0   hal_led.o
        908          0          0          0          2          0   hal_power.o
        256          0         52          0          4          0   hardwarecheck.o
@@ -189,11 +189,11 @@ Memory Map of the image
 
 	Load Region LR_IROM1 
 
-		Execution Region ER_IROM1 (Exec base: 0x00008000, Size: 0x00059878, Max: 0x00080000, END)
+		Execution Region ER_IROM1 (Exec base: 0x00008000, Size: 0x00059840, Max: 0x00080000, END)
 
 		Execution Region RW_IRAM1 (Exec base: 0x1FFF8000, Size: 0x00000018, Max: 0x00000020, END)
 
-		Execution Region RW_IRAM2 (Exec base: 0x1FFF8020, Size: 0x00021048, Max: 0x0002EFF8, END)
+		Execution Region RW_IRAM2 (Exec base: 0x1FFF8020, Size: 0x00021028, Max: 0x0002EFF8, END)
 
 		Execution Region RW_IRAMB (Exec base: 0x200F0000, Size: 0x00000000, Max: 0x00001000, END)
 

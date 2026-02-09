@@ -6,27 +6,27 @@
 static MillisTaskManager taskManager;
 volatile SharedData_t shared_info __attribute__((section(".bss.NoInit"), used));
 
-static void HAL_MONITOR_TASK(void *e)
-{
+static void
+HAL_MONITOR_TASK(void* e) {
     HAL::Power_PowerOffMonitor();
     HAL::Key_Update();
 }
 
-static void HAL_POWER_TASK(void *e)
-{
+static void
+HAL_POWER_TASK(void* e) {
     HAL::Power_Update();
 }
 
-static void HAL_LED_TASK(void *e)
-{
+static void
+HAL_LED_TASK(void* e) {
     HAL::Led_Update();
 }
 
 void SystemClock_Config(void);
 
 // namesapce HAL
-void HAL::HAL_Init()
-{
+void
+HAL::HAL_Init() {
     disable_JTAG();
     dwt_init();
     SystemClock_Config();
@@ -43,14 +43,13 @@ void HAL::HAL_Init()
     /* start EasyLogger */
     elog_start();
 #endif
-	  Power_Init();
+    Power_Init();
     /* Set Interrupt Group Priority */
     HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
     memset(&systemInfo, 0, sizeof(systemInfo));
-		systemInfo.radioInfo.radio_channel = 1;
+    systemInfo.radioInfo.radio_channel = 1;
     /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
     HAL_InitTick(TICK_INT_PRIORITY);
-
 
     I2C_Scan();
     Key_Init();
@@ -60,11 +59,11 @@ void HAL::HAL_Init()
     taskManager.Register(HAL_POWER_TASK, 500);
 }
 
-void HAL::HAL_Update()
-{
+void
+HAL::HAL_Update() {
     taskManager.Running(millis());
     if (HAL::Power_ShutdownSoftReset()) {
-				shared_info.command = CMD_ENTER_IAP;
+        shared_info.command = CMD_ENTER_IAP;
         delay_ms(1200);
         NVIC_SystemReset();
     }
@@ -77,8 +76,8 @@ void HAL::HAL_Update()
  * @{
  */
 __IO uint32_t uwTick;
-uint32_t uwTickPrio            = (1UL << __NVIC_PRIO_BITS); /* Invalid PRIO */
-HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;     /* 1KHz */
+uint32_t uwTickPrio = (1UL << __NVIC_PRIO_BITS);        /* Invalid PRIO */
+HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT; /* 1KHz */
 
 /**
  * @brief This function configures the source of the time base.
@@ -96,8 +95,8 @@ HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;     /* 1KHz */
  * @param TickPriority Tick interrupt priority.
  * @retval HAL status
  */
-__weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
-{
+__weak HAL_StatusTypeDef
+HAL_InitTick(uint32_t TickPriority) {
     /* Configure the SysTick to have interrupt in 1ms time basis*/
     if (HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq)) > 0U) {
         return HAL_ERROR;
@@ -147,8 +146,8 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
  *      implementations in user file.
  * @retval None
  */
-__weak void HAL_IncTick(void)
-{
+__weak void
+HAL_IncTick(void) {
     uwTick += uwTickFreq;
 }
 
@@ -158,8 +157,8 @@ __weak void HAL_IncTick(void)
  *       implementations in user file.
  * @retval tick value
  */
-__weak uint32_t HAL_GetTick(void)
-{
+__weak uint32_t
+HAL_GetTick(void) {
     return uwTick;
 }
 
@@ -167,8 +166,8 @@ __weak uint32_t HAL_GetTick(void)
  * @brief This function returns a tick priority.
  * @retval tick priority
  */
-uint32_t HAL_GetTickPrio(void)
-{
+uint32_t
+HAL_GetTickPrio(void) {
     return uwTickPrio;
 }
 
@@ -176,8 +175,8 @@ uint32_t HAL_GetTickPrio(void)
  * @brief Set new tick Freq.
  * @retval Status
  */
-HAL_StatusTypeDef HAL_SetTickFreq(HAL_TickFreqTypeDef Freq)
-{
+HAL_StatusTypeDef
+HAL_SetTickFreq(HAL_TickFreqTypeDef Freq) {
     HAL_StatusTypeDef status = HAL_OK;
     HAL_TickFreqTypeDef prevTickFreq;
 
@@ -207,8 +206,8 @@ HAL_StatusTypeDef HAL_SetTickFreq(HAL_TickFreqTypeDef Freq)
  * @retval Tick frequency.
  *         Value of @ref HAL_TickFreqTypeDef.
  */
-HAL_TickFreqTypeDef HAL_GetTickFreq(void)
-{
+HAL_TickFreqTypeDef
+HAL_GetTickFreq(void) {
     return uwTickFreq;
 }
 
@@ -222,8 +221,8 @@ HAL_TickFreqTypeDef HAL_GetTickFreq(void)
  *       implementations in user file.
  * @retval None
  */
-__weak void HAL_SuspendTick(void)
-{
+__weak void
+HAL_SuspendTick(void) {
     /* Disable SysTick Interrupt */
     SysTick->CTRL &= ~SysTick_CTRL_TICKINT_Msk;
 }
@@ -238,8 +237,8 @@ __weak void HAL_SuspendTick(void)
  *       implementations in user file.
  * @retval None
  */
-__weak void HAL_ResumeTick(void)
-{
+__weak void
+HAL_ResumeTick(void) {
     /* Enable SysTick Interrupt */
     SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
 }
@@ -248,8 +247,8 @@ __weak void HAL_ResumeTick(void)
  * @brief System Clock Configuration
  * @retval None
  */
-void SystemClock_Config(void)
-{
+void
+SystemClock_Config(void) {
 
     stc_clock_xtal_init_t stcXtalInit;
     stc_clock_pll_init_t stcMpllInit;
@@ -259,24 +258,24 @@ void SystemClock_Config(void)
     (void)CLK_PLLStructInit(&stcMpllInit);
 
     /* Set bus clk div. */
-    CLK_SetClockDiv(CLK_BUS_CLK_ALL, (CLK_HCLK_DIV1 | CLK_EXCLK_DIV2 | CLK_PCLK0_DIV1 | CLK_PCLK1_DIV2 |
-                                      CLK_PCLK2_DIV4 | CLK_PCLK3_DIV4 | CLK_PCLK4_DIV2));
+    CLK_SetClockDiv(CLK_BUS_CLK_ALL, (CLK_HCLK_DIV1 | CLK_EXCLK_DIV2 | CLK_PCLK0_DIV1 | CLK_PCLK1_DIV2 | CLK_PCLK2_DIV4
+                                      | CLK_PCLK3_DIV4 | CLK_PCLK4_DIV2));
 
     /* Config Xtal and enable Xtal */
-    stcXtalInit.u8Mode       = CLK_XTAL_MD_OSC;
-    stcXtalInit.u8Drv        = CLK_XTAL_DRV_ULOW;
-    stcXtalInit.u8State      = CLK_XTAL_ON;
+    stcXtalInit.u8Mode = CLK_XTAL_MD_OSC;
+    stcXtalInit.u8Drv = CLK_XTAL_DRV_ULOW;
+    stcXtalInit.u8State = CLK_XTAL_ON;
     stcXtalInit.u8StableTime = CLK_XTAL_STB_2MS;
     (void)CLK_XtalInit(&stcXtalInit);
 
     /* MPLL config (XTAL / pllmDiv * plln / PllpDiv = 200M). */
-    stcMpllInit.PLLCFGR          = 0UL;
-    stcMpllInit.PLLCFGR_f.PLLM   = 1UL - 1UL;
-    stcMpllInit.PLLCFGR_f.PLLN   = 50UL - 1UL;
-    stcMpllInit.PLLCFGR_f.PLLP   = 2UL - 1UL;
-    stcMpllInit.PLLCFGR_f.PLLQ   = 2UL - 1UL;
-    stcMpllInit.PLLCFGR_f.PLLR   = 2UL - 1UL;
-    stcMpllInit.u8PLLState       = CLK_PLL_ON;
+    stcMpllInit.PLLCFGR = 0UL;
+    stcMpllInit.PLLCFGR_f.PLLM = 1UL - 1UL;
+    stcMpllInit.PLLCFGR_f.PLLN = 50UL - 1UL;
+    stcMpllInit.PLLCFGR_f.PLLP = 2UL - 1UL;
+    stcMpllInit.PLLCFGR_f.PLLQ = 2UL - 1UL;
+    stcMpllInit.PLLCFGR_f.PLLR = 2UL - 1UL;
+    stcMpllInit.u8PLLState = CLK_PLL_ON;
     stcMpllInit.PLLCFGR_f.PLLSRC = CLK_PLL_SRC_XTAL;
     (void)CLK_PLLInit(&stcMpllInit);
     /* Wait MPLL ready. */

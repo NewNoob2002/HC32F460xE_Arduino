@@ -1,18 +1,20 @@
-#include "HAL.h"
 #include "Arduino.h"
-#include "lvgl/lvgl.h"
 #include "Common/DataProc/DataProc.h"
+#include "HAL.h"
+#include "lvgl/lvgl.h"
 
-static Account *actLed = nullptr;
 
-static ledState_t powerLed       = {0, 0, false};
-static ledState_t chargerLed     = {0, 0, false};
+static Account* actLed = nullptr;
+
+static ledState_t powerLed = {0, 0, false};
+static ledState_t chargerLed = {0, 0, false};
 static ledState_t functionKeyLed = {0, 0, false};
 
-static void Led_Update_Charge()
-{
-    if (systemInfo.powerMonitor.ShutdownReq)
+static void
+Led_Update_Charge() {
+    if (systemInfo.powerMonitor.ShutdownReq) {
         return;
+    }
     const uint32_t now = millis();
     if (chargerLed.currentRate > 0) {
         if (now - chargerLed.lastToggleTime >= chargerLed.currentRate) {
@@ -31,7 +33,7 @@ static void Led_Update_Charge()
         CORE_DEBUG_PRINTF("CHARGE\n");
         digitalWrite(POWER_LED_PIN, LOW);
         powerLed.currentRate = 0;
-        bool isFullCharge    = (systemInfo.powerMonitor.batteryInfo.Percent >= 100);
+        bool isFullCharge = (systemInfo.powerMonitor.batteryInfo.Percent >= 100);
         if (isFullCharge) {
             chargerLed.currentRate = 0;
             digitalWrite(CHARGE_LED_PIN, HIGH);
@@ -43,33 +45,37 @@ static void Led_Update_Charge()
             }
         }
     } else {
-        if (systemInfo.powerMonitor.panel_power_on == false)
+        if (systemInfo.powerMonitor.panel_power_on == false) {
             return;
+        }
         digitalWrite(CHARGE_LED_PIN, LOW);
         chargerLed.currentRate = 0;
         if (systemInfo.powerMonitor.batteryInfo.Percent >= 14) {
             digitalWrite(POWER_LED_PIN, HIGH);
-        } else if ((systemInfo.powerMonitor.batteryInfo.Percent < 14) && (systemInfo.powerMonitor.batteryInfo.Percent > 9)) {
+        } else if ((systemInfo.powerMonitor.batteryInfo.Percent < 14)
+                   && (systemInfo.powerMonitor.batteryInfo.Percent > 9)) {
             powerLed.currentRate = 1000;
-        } else if ((systemInfo.powerMonitor.batteryInfo.Percent <= 9) && (systemInfo.powerMonitor.batteryInfo.Percent > 0)) {
+        } else if ((systemInfo.powerMonitor.batteryInfo.Percent <= 9)
+                   && (systemInfo.powerMonitor.batteryInfo.Percent > 0)) {
             powerLed.currentRate = 300;
             if (systemInfo.recordInfo.record_status) {
                 systemInfo.recordInfo.record_status = On_Off_Status_OFF;
-                systemInfo.recordInfo.record_op     = 1;
+                systemInfo.recordInfo.record_op = 1;
             }
             systemInfo.powerMonitor.batteryInfo.LowBatteryCount++;
             if (systemInfo.powerMonitor.batteryInfo.LowBatteryCount >= 1800) {
                 systemInfo.powerMonitor.batteryInfo.LowBatteryCount = 0;
-                systemInfo.powerMonitor.LowBatteryPowerOff          = true;
+                systemInfo.powerMonitor.LowBatteryPowerOff = true;
             }
         }
     }
 }
 
-static void Led_Update_Function()
-{
-    if (systemInfo.powerMonitor.ShutdownReq || !systemInfo.online_device.eg25_board)
+static void
+Led_Update_Function() {
+    if (systemInfo.powerMonitor.ShutdownReq || !systemInfo.online_device.eg25_board) {
         return;
+    }
     if (systemInfo.recordInfo.record_status) {
         functionKeyLed.currentRate = 500;
     } else {
@@ -86,11 +92,12 @@ static void Led_Update_Function()
     }
 }
 
-void HAL::Led_Update()
-{
+void
+HAL::Led_Update() {
     Led_Update_Charge();
     Led_Update_Function();
 }
+
 // static void onTimer(Account *account)
 //{
 //     if (powerLed.currentRate > 0 && powerLed.usedByOtherTask == false) {

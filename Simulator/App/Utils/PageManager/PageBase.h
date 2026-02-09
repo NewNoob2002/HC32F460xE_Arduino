@@ -26,10 +26,10 @@
 #include "lvgl/lvgl.h"
 
 /* Generate stash area data */
-#define PAGE_STASH_MAKE(data) {&(data), sizeof(data)}
+#define PAGE_STASH_MAKE(data)  {&(data), sizeof(data)}
 
 /* Get the data in the stash area */
-#define PAGE_STASH_POP(data)  this->StashPop(&(data), sizeof(data))
+#define PAGE_STASH_POP(data)   this->StashPop(&(data), sizeof(data))
 
 #define PAGE_ANIM_TIME_DEFAULT 500 //[ms]
 
@@ -37,13 +37,10 @@
 
 class PageManager;
 
-class PageBase
-{
-public:
-
+class PageBase {
+  public:
     /* Page state */
-    typedef enum
-    {
+    typedef enum {
         PAGE_STATE_IDLE,
         PAGE_STATE_LOAD,
         PAGE_STATE_WILL_APPEAR,
@@ -56,77 +53,82 @@ public:
     } State_t;
 
     /* Stash data area */
-    typedef struct
-    {
+    typedef struct {
         void* ptr;
         uint32_t size;
     } Stash_t;
 
     /* Page switching animation properties */
-    typedef struct
-    {
+    typedef struct {
         uint8_t Type;
         uint16_t Time;
         lv_anim_path_cb_t Path;
     } AnimAttr_t;
 
-public:
-    lv_obj_t* _root{};       // UI root node
+  public:
+    lv_obj_t* _root{};          // UI root node
     PageManager* pageManager{}; // Page manager pointer
     const char* pageName{};     // Page name
     uint16_t pageID{};          // Page ID
-    void* UserData{};       // User data pointer
+    void* UserData{};           // User data pointer
 
     /* Private data, Only page manager access */
-    struct
-    {
-        bool ReqEnableCache;        // Cache enable request
-        bool ReqDisableAutoCache;   // Automatic cache management enable request
+    struct {
+        bool ReqEnableCache;      // Cache enable request
+        bool ReqDisableAutoCache; // Automatic cache management enable request
 
-        bool IsDisableAutoCache;    // Whether it is automatic cache management
-        bool IsCached;              // Cache enable
+        bool IsDisableAutoCache; // Whether it is automatic cache management
+        bool IsCached;           // Cache enable
 
-        Stash_t Stash;              // Stash area
-        State_t State;              // Page state
+        Stash_t Stash; // Stash area
+        State_t State; // Page state
 
         /* Animation state  */
-        struct
-        {
-            bool IsEnter;           // Whether it is the entering party
-            bool IsBusy;            // Whether the animation is playing
-            AnimAttr_t Attr;        // Animation properties
+        struct {
+            bool IsEnter;    // Whether it is the entering party
+            bool IsBusy;     // Whether the animation is playing
+            AnimAttr_t Attr; // Animation properties
         } Anim;
     } priv{};
 
-public:
+  public:
     virtual ~PageBase() = default;
 
     /* Synchronize user-defined attribute configuration */
-    virtual void onCustomAttrConfig() {}
+    virtual void
+    onCustomAttrConfig() {}
 
     /* Page load start */
-    virtual void onViewLoad() {}
+    virtual void
+    onViewLoad() {}
 
     /* Page load end */
-    virtual void onViewDidLoad() {}
+    virtual void
+    onViewDidLoad() {}
 
     /* Page appear animation start */
-    virtual void onViewWillAppear() {}
+    virtual void
+    onViewWillAppear() {}
 
     /* Page appear animation end  */
-    virtual void onViewDidAppear() {}
+    virtual void
+    onViewDidAppear() {}
 
     /* Page disappear animation start */
-    virtual void onViewWillDisappear() {}
+    virtual void
+    onViewWillDisappear() {}
 
     /* Page disappear animation end */
-    virtual void onViewDidDisappear() {}
+    virtual void
+    onViewDidDisappear() {}
 
     /* Page unload start */
-    virtual void onViewUnload() {}
+    virtual void
+    onViewUnload() {}
 
     /* Page unload end */
-    virtual void onViewDidUnload() {}
+    virtual void
+    onViewDidUnload() {}
 
     /* Set whether to manually manage the cache */
     void SetCustomCacheEnable(bool en);
@@ -135,11 +137,8 @@ public:
     void SetCustomAutoCacheEnable(bool en);
 
     /* Set custom animation properties  */
-    void SetCustomLoadAnimType(
-        uint8_t animType,
-        uint16_t time = PAGE_ANIM_TIME_DEFAULT,
-        lv_anim_path_cb_t path = PAGE_ANIM_PATH_DEFAULT
-    );
+    void SetCustomLoadAnimType(uint8_t animType, uint16_t time = PAGE_ANIM_TIME_DEFAULT,
+                               lv_anim_path_cb_t path = PAGE_ANIM_PATH_DEFAULT);
 
     /* Pop the data from stash area */
     bool StashPop(void* ptr, uint32_t size);

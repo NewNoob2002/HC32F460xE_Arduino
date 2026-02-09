@@ -21,30 +21,31 @@
  * SOFTWARE.
  */
 #include "App.h"
-#include "HAL/HAL.h"
 #include "Common/DataProc/DataProc.h"
-#include "Resource/ResourcePool.h"
+#include "HAL/HAL.h"
 #include "Pages/AppFactory.h"
 #include "Pages/StatusBar/StatusBar.h"
+#include "Resource/ResourcePool.h"
 #include "Utils/PageManager/PageManager.h"
 
-#define ACCOUNT_SEND_CMD(ACT, CMD)                                         \
-    do {                                                                   \
-        DataProc::ACT##_Info_t info;                                       \
-        DATA_PROC_INIT_STRUCT(info);                                       \
-        info.cmd = DataProc::CMD;                                          \
-        DataProc::Center()->AccountMain.Notify(#ACT, &info, sizeof(info)); \
+
+#define ACCOUNT_SEND_CMD(ACT, CMD)                                                                                     \
+    do {                                                                                                               \
+        DataProc::ACT##_Info_t info;                                                                                   \
+        DATA_PROC_INIT_STRUCT(info);                                                                                   \
+        info.cmd = DataProc::CMD;                                                                                      \
+        DataProc::Center()->AccountMain.Notify(#ACT, &info, sizeof(info));                                             \
     } while (0)
 
 static AppFactory factory;
 static PageManager manager(&factory);
 static bool Shutdown_pushed = false;
 
-void App_Init()
-{
+void
+App_Init() {
     /* Make sure the default group exists */
     if (!lv_group_get_default()) {
-        lv_group_t *group = lv_group_create();
+        lv_group_t* group = lv_group_create();
         lv_group_set_default(group);
     }
 
@@ -52,11 +53,10 @@ void App_Init()
     DataProc_Init();
 
     /* Set screen style */
-    lv_disp_t *disp_p = lv_disp_get_default();
+    lv_disp_t* disp_p = lv_disp_get_default();
     // lv_theme_t *theme = lv_theme_basic_init(disp_p);
-    lv_theme_t *theme = lv_theme_default_init(
-        disp_p, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
-        true, LV_FONT_DEFAULT);
+    lv_theme_t* theme = lv_theme_default_init(disp_p, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
+                                              true, LV_FONT_DEFAULT);
     lv_disp_set_theme(disp_p, theme);
 
     /* Set root default style */
@@ -90,14 +90,13 @@ void App_Init()
     manager.Push("Pages/Startup");
 }
 
-void App_Update()
-{
-    if (systemInfo.powerMonitor.Force_ShutDown || 
-				systemInfo.powerMonitor.LowBatteryPowerOff || 
-				systemInfo.powerMonitor.LinuxPowerOff) {
+void
+App_Update() {
+    if (systemInfo.powerMonitor.Force_ShutDown || systemInfo.powerMonitor.LowBatteryPowerOff
+        || systemInfo.powerMonitor.LinuxPowerOff) {
         if (!Shutdown_pushed) {
             Shutdown_pushed = true;
-						HAL::Power_Shutdown(false);
+            HAL::Power_Shutdown(false);
             manager.Push("Pages/SaveConfig");
         }
     }

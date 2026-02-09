@@ -31,13 +31,13 @@
 
 #if PAGE_MANAGER_USE_LOG
 #include <elog.h>
-#  define PM_LOG_INFO(format, ...)  log_i("[PM] [Info] " format, ##__VA_ARGS__)
-#  define PM_LOG_WARN(format, ...)  log_w("[PM] [Warn] " format, ##__VA_ARGS__)
-#  define PM_LOG_ERROR(format, ...) log_e("[PM] [Error] " format, ##__VA_ARGS__)
+#define PM_LOG_INFO(format, ...)  log_i("[PM] [Info] " format, ##__VA_ARGS__)
+#define PM_LOG_WARN(format, ...)  log_w("[PM] [Warn] " format, ##__VA_ARGS__)
+#define PM_LOG_ERROR(format, ...) log_e("[PM] [Error] " format, ##__VA_ARGS__)
 #else
-#  define PM_LOG_INFO(...)
-#  define PM_LOG_WARN(...)
-#  define PM_LOG_ERROR(...)
+#define PM_LOG_INFO(...)
+#define PM_LOG_WARN(...)
+#define PM_LOG_ERROR(...)
 #endif
 
 #endif
