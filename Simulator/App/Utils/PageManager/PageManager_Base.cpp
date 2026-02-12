@@ -35,7 +35,7 @@
 PageManager::PageManager(PageFactory* factory)
     : pageFactory(factory), PagePrev(nullptr), PageCurrent(nullptr), RootDefaultStyle(nullptr) {
     lv_memset(&AnimState, 0, sizeof(AnimState));
-
+		PageInfoIndex = 0;
     SetGlobalLoadAnimType();
 }
 
@@ -171,7 +171,7 @@ PageManager::Register(PageBase* base, const char* name) {
 
     base->pageManager = this;
     base->pageName = name;
-
+		PageInfo[PageInfoIndex++] = base;
     PagePool.push_back(base);
 
     return true;

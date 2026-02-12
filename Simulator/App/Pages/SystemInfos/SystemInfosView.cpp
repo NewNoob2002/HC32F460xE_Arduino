@@ -296,6 +296,7 @@ void SystemInfosView::SetBattery(const BatteryInfo_t &batteryInfo) const
         batteryInfo.Percent_f,
         batteryInfo.Voltage_f,
         batteryInfo.Temp_f,
+				systemInfo.powerMonitor.ExternalPower == 1? "externalPower":
 				batteryInfo.chargeStatus == notCharge ? "notCharge" : 
 				batteryInfo.chargeStatus == fastCharge ? "fastCharge": "normalCharge");
 }

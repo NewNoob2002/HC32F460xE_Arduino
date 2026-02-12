@@ -116,6 +116,7 @@ typedef struct Power_Monitor_t {
     uint8_t reset_flag;
     uint8_t poweroff_flag;
     uint8_t ExternalPower;
+		uint8_t ExternalPowerChange;
     bool panel_power_on;
     uint32_t pannel_power_on_time;
 } Power_Monitor_t, *pPower_Monitor_t;

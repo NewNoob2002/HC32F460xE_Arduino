@@ -23,13 +23,11 @@
 #pragma once
 #include "Utils/PageManager/PageManager.h"
 
-class AppFactory final : public PageFactory
-{
-public:
+class AppFactory final : public PageFactory {
+  public:
     PageBase* CreatePage(const char* name) override;
     // 显式声明，清晰明了
     ~AppFactory() override = default;
-private:
 
+  private:
 };
-

@@ -36,19 +36,3 @@ void
 operator delete[](void* ptr) {
     lv_mem_free(ptr);
 }
-
-//__asm(".global __use_no_heap_region\n\t");
-void*
-malloc(size_t size) {
-    return alloc_func(size);
-}
-
-void
-free(void* p) {
-    lv_mem_free(p);
-}
-
-void*
-realloc(void* p, size_t want) {
-    return lv_mem_realloc(p, want);
-}

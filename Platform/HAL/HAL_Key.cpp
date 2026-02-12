@@ -1,4 +1,5 @@
 #include "Arduino.h"
+#include "lv_port.h"
 #include "ButtonEvent/ButtonEvent.h"
 #include "HAL.h"
 
@@ -17,7 +18,13 @@ FuncKey_callback(ButtonEvent* btn, int event) {
         case ButtonEvent::EVENT_RELEASED: ForceShutdown_count = 0; break;
         case ButtonEvent::EVENT_LONG_PRESSED_REPEAT:
             ForceShutdown_count++;
-            if (ForceShutdown_count >= 10) {
+						/*
+						if(ForceShutdown_count == 5){
+							systemInfo.powerMonitor.ExternalPowerChange = 1;
+						}
+						*/
+						if (ForceShutdown_count == 10) {
+								ForceShutdown_count = 0;
                 systemInfo.powerMonitor.Force_ShutDown = true;
             }
             break;

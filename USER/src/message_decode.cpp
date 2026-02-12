@@ -1,5 +1,7 @@
 #include "message_decode.h"
-#include "Arduino.h"
+#include "core_debug.h"
+#include "mcu_config.h"
+
 
 static uint32_t
 calculate_crc(const char* msg, unsigned int len) {
@@ -149,7 +151,12 @@ message_set_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
                 systemInfo.radioInfo.radio_status = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 6];
 
                 systemInfo.positionInfo.satellite_number_track = parse->buffer[NM_PROTOCOL_HEADER_LEN + 7];
-                systemInfo.powerMonitor.ExternalPower = parse->buffer[NM_PROTOCOL_HEADER_LEN + 8];
+
+                uint8_t ExternalPower = parse->buffer[NM_PROTOCOL_HEADER_LEN + 8];
+                if (systemInfo.powerMonitor.ExternalPower && ExternalPower == 0) {
+                    systemInfo.powerMonitor.ExternalPowerChange = 1;
+                }
+                systemInfo.powerMonitor.ExternalPower = ExternalPower;
                 systemInfo.radioInfo.radio_change_flag = parse->buffer[NM_PROTOCOL_HEADER_LEN + 11];
                 memcpy(&systemInfo.ntripInfo.NtripServer_IP, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 12], 4);
                 memcpy(&systemInfo.ntripInfo.NtripServer_Mountpoint, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 16], 32);

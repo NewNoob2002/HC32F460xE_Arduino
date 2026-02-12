@@ -119,6 +119,13 @@ class PageManager {
     SetRootDefaultStyle(lv_style_t* style) {
         RootDefaultStyle = style;
     }
+		
+				/* Page Info*/
+		PageBase* PageInfo[8];
+		
+		PageBase *GetCurrentPage(){
+			return PageCurrent;
+		}
 
   private:
     /* Page Pool */
@@ -185,8 +192,6 @@ class PageManager {
     GetState() const {
         return PageCurrent->priv.State;
     }
-
-  private:
     /* Page factory */
     PageFactory* pageFactory;
 
@@ -195,7 +200,7 @@ class PageManager {
 
     /* Page stack */
     std::stack<PageBase*> PageStack;
-
+	
     /* Previous page */
     PageBase* PagePrev;
 
@@ -212,6 +217,7 @@ class PageManager {
         PageBase::AnimAttr_t Global;  // Global animation properties
     } AnimState{};
 
+		uint8_t PageInfoIndex;
     /* Root style */
     lv_style_t* RootDefaultStyle;
 };

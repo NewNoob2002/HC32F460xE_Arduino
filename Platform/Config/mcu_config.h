@@ -5,7 +5,7 @@
 #define FIRMWARE_NAME    "PRO_Panel"
 #define AUTHOR_NAME      " "
 #define HARDWARE_VERSION "V1.5"
-#define SOFTWARE_VERSION "V2.3.6"
+#define SOFTWARE_VERSION "V2.3.7"
 // 2.0 修复X1pro充电问题， 增加强制关机机制防止卡死无法关机
 // 2.0.1 增加关机充电提示和开机按键提示动画，增加设备信息页面
 // 2.1.0 使用新框架，优化响应速度和UI动画帧率

@@ -46,7 +46,7 @@ void Dialplate::onViewWillAppear() {
     if (lastFocus) {
         lv_group_focus_obj(lastFocus);
     } else {
-        lv_group_focus_obj(View.ui.btnCont.btnRec);
+        lv_group_focus_obj(View.ui.btnCont.btnMenu);
     }
 
     Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_TRANSP);

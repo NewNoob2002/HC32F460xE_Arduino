@@ -47,7 +47,6 @@ HAL::HAL_Init() {
     /* Set Interrupt Group Priority */
     HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
     memset(&systemInfo, 0, sizeof(systemInfo));
-    systemInfo.radioInfo.radio_channel = 1;
     /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
     HAL_InitTick(TICK_INT_PRIORITY);
 

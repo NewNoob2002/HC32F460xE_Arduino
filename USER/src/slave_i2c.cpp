@@ -238,11 +238,11 @@ slave_i2c_init() {
 void
 slave_i2c_update() {
     if (rxBufferAvailable() > 0 && slave_state == SLAVE_RX_DONE) {
-        noInterrupts();
+        __disable_irq();
         for (int i = 0; i <= rxBufferAvailable(); i++) {
             sempParseNextByte(CustomParse, rxBufferRead());
         }
-        interrupts();
+        __enable_irq();
     }
     if (systemInfo.i2c_communicate_err_count >= 2000) {
         systemInfo.i2c_communicate_err_count = 0;
