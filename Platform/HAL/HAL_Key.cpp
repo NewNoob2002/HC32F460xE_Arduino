@@ -14,7 +14,7 @@ static void PowerKey_callback(ButtonEvent *btn, int event)
             CORE_DEBUG_PRINTF("[PowerKey] PRESSING\n");
             {
                 PowerKeyPressCount++;
-                if (PowerKeyPressCount >= 200) {
+                if (PowerKeyPressCount >= 300) {
                     PowerKeyPressCount = 0;
                     if (!systemInfo.powerMonitor.panel_power_on) {
                         systemInfo.powerMonitor.panel_power_on = 1;

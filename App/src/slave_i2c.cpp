@@ -6,6 +6,8 @@
 #include "SparkFun_Extensible_Message_Parser.h"
 #include "message_decode.h"
 
+extern volatile SharedData_t shared_info;
+
 volatile SLAVE_I2C_STATE slave_state = SLAVE_RX;
 
 volatile uint16_t _txBufferHead = 0;
@@ -230,6 +232,7 @@ void slave_i2c_update()
     }
 		if(systemInfo.powerMonitor.reset_flag)
 		{
+			shared_info.command = CMD_ENTER_IAP;
 			delay_ms(1000);
 			NVIC_SystemReset();
 		}

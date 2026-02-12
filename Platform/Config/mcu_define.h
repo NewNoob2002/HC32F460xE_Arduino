@@ -1,6 +1,23 @@
 #pragma once
 
 #include <stdint.h>
+
+#define SHARED_MAGIC_LIVE  0x55AAAA55
+#define SHARED_MAGIC_CRASH 0xDEADBEEF
+
+typedef enum BootCommand_t {
+    CMD_NORMAL_BOOT = 0x10,
+    CMD_ENTER_IAP   = 0x20,
+    CMD_SKIP_DELAY  = 0x30 
+}BootCommand_t;
+
+typedef struct SharedData_t{
+    uint32_t magic;
+    BootCommand_t command;
+    uint32_t crash_pc;
+    uint32_t reset_count;
+} SharedData_t;
+
 typedef struct ledState_t{
     uint32_t lastToggleTime;
     uint32_t currentRate;

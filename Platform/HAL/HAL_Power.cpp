@@ -163,7 +163,7 @@ void HAL::Power_GetInfo(Power_Monitor_t *info)
     if (millis() - systemInfo.powerMonitor.BatteryLastHandleTime >= 3000) {
         systemInfo.powerMonitor.BatteryLastHandleTime = millis();
         if (!systemInfo.online_device.bq40z50) {
-						CM_EXECUTE_INTERVAL(digitalToggle(POWER_LED_PIN), 500);
+						CM_EXECUTE_INTERVAL(digitalToggle(POWER_LED_PIN), 2000);
         } else {
             checkBatteryInfo(&info->batteryInfo);
         }

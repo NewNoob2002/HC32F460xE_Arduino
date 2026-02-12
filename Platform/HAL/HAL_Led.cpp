@@ -1,9 +1,9 @@
 #include "HAL.h"
 #include "Arduino.h"
 
-static ledState_t powerLed       = {0, 0};
-static ledState_t chargerLed     = {0, 0};
-static ledState_t functionKeyLed = {0, 0};
+ledState_t powerLed       = {0, 0};
+ledState_t chargerLed     = {0, 0};
+ledState_t functionKeyLed = {0, 0};
 
 static void Led_Update_Charge()
 {
@@ -16,7 +16,7 @@ static void Led_Update_Charge()
             digitalToggle(CHARGE_LED_PIN);
         }
     }
-    if (powerLed.currentRate > 0) {
+    if (powerLed.currentRate > 0 && systemInfo.online_device.bq40z50) {
         if (now - powerLed.lastToggleTime >= powerLed.currentRate) {
             powerLed.lastToggleTime = now;
             digitalToggle(POWER_LED_PIN);
