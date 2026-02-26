@@ -27,7 +27,10 @@
 #include "Pages/StatusBar/StatusBar.h"
 #include "Resource/ResourcePool.h"
 #include "Utils/PageManager/PageManager.h"
+#ifdef _WIN32
+#else
 #include "lv_port.h"
+#endif
 
 #define ACCOUNT_SEND_CMD(ACT, CMD)                                                                                     \
     do {                                                                                                               \
@@ -102,15 +105,11 @@ App_Update() {
             manager.Push("Pages/SaveConfig");
         }
     }
+#ifdef _WIN32
+#else
     if (systemInfo.powerMonitor.ExternalPowerChange) {
         systemInfo.powerMonitor.ExternalPowerChange = 0;
-				NVIC_SystemReset();
-//        lv_port_reset();
-//        PageBase* top = manager.GetCurrentPage();
-//        if (top == manager.PageInfo[PAGE_DIALPLATE_INDEX]) {
-//            manager.Push("Pages/SystemInfos");
-//        } else {
-//            manager.Pop();
-//        }
+        NVIC_SystemReset();
     }
+#endif
 }
