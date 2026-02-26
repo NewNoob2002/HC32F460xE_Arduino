@@ -3,7 +3,7 @@
 **基于 HC32F460xE 的高性能嵌入式系统框架，集成 Arduino 兼容层、LVGL 界面库及跨平台模拟器。**
 ![alt text](https://img.shields.io/badge/MCU-HC32F460-blue.svg)
 
-![alt text](https://img.shields.io/badge/UI-LVGL_v8.3-orange.svg)
+![alt text](https://img.shields.io/badge/UI-LVGL_v8.3.11-orange.svg)
 
 ![alt text](https://img.shields.io/badge/IDE-EIDE-green.svg)
 
@@ -35,7 +35,7 @@
 
 ## 😄 实物演示
 
-![alt text](https://github.com/NewNoob2002/HC32F460xE_Arduino/Image_mainPage.png)
+![alt text](https://github.com/NewNoob2002/HC32F460xE_Arduino/Images/Image_mainPage.png)
 
 ## 📂 项目结构说明
 
@@ -61,5 +61,4 @@
 ## 致谢
 
 > 感谢[@[FASTSHIFT](https://github.com/FASTSHIFT/X-TRACK)]贡献的参考设计“[[页面生命周期管理](https://github.com/FASTSHIFT/X-TRACK/tree/main/Software/X-Track/USER/App/Utils/PageManager)]
-
 
