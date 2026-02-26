@@ -4,13 +4,15 @@
 
 #define FIRMWARE_NAME    "PRO_Panel"
 #define AUTHOR_NAME      " "
-#define SOFTWARE_VERSION "V2.3.4"
+#define HARDWARE_VERSION "V1.5"
+#define SOFTWARE_VERSION "V2.3.7"
 // 2.0 修复X1pro充电问题， 增加强制关机机制防止卡死无法关机
 // 2.0.1 增加关机充电提示和开机按键提示动画，增加设备信息页面
 // 2.1.0 使用新框架，优化响应速度和UI动画帧率
 // 2.2.1 增加不同关机情况的调试信息，需要使用新boot
 // 2.3.0 优化lvgl画面撕裂的情况
 // 2.3.3 修复电台配置界面显示不对应
+// 2.3.5 修复4G设置不成功
 #define SOFTWARE_BUILD_DATE __DATE__
 #define SOFTWARE_BUILD_TIME __TIME__
 

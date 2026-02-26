@@ -25,12 +25,10 @@
 
 #include "PageBase.h"
 
-class PageFactory
-{
-public:
+class PageFactory {
+  public:
     virtual PageBase* CreatePage(const char* name) = 0;
     virtual ~PageFactory() = default;
 };
-
 
 #endif // PAGE_FACTORY_H

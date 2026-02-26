@@ -38,13 +38,13 @@
 
 [region info]
 [load region] LR_IROM1
-	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x00059850 [memory type] 2 [memory ID] 4
+	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x000598EC [memory type] 2 [memory ID] 4
 
 	[execution region] RW_IRAM1, 0x1FFF8000, 0x00000020, 0x00000018 [memory type] 1 [memory ID] 2
 		[ZI block] addr: 0x1FFF8000, size: 0x00000018 (24)
 
-	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x00021048 [memory type] 1 [memory ID] 2
-		[ZI block] addr: 0x1FFF80C0, size: 0x00020FA8 (135080)
+	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x0001E248 [memory type] 1 [memory ID] 2
+		[ZI block] addr: 0x1FFF80C0, size: 0x0001E1A8 (123304)
 
 	[execution region] RW_IRAMB, 0x200F0000, 0x00001000, 0x00000000 [memory type] 1 [memory ID] 3
 
@@ -539,56 +539,56 @@
 
 [record region info]
 [load region] LR_IROM1
-	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x0005CA6C [type] 2 [ID] 4
+	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x000598EC [type] 2 [ID] 4
 	[execution region] RW_IRAM1, 0x1FFF8000, 0x00000020, 0x00000018 [type] 1 [ID] 2
-	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x00021068 [type] 1 [ID] 2
+	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x0001E248 [type] 1 [ID] 2
 	[execution region] RW_IRAMB, 0x200F0000, 0x00001000, 0x00000000 [type] 1 [ID] 3
 -----------------------------------------------------------------------------------------------------------------------------------------
                                       FILE(s)                                     |         RAM (byte)       |       FLASH (byte)       |
 -----------------------------------------------------------------------------------------------------------------------------------------
-..\..\Simulator\App\Utils\DataCenter\Account.cpp():                               |           0              |         834  [-26]       |
-..\..\Libraries\Adafruit-GFX-Library\Adafruit_GFX.cpp():                          |           0              |        3256  [-1106]     |
-..\..\Libraries\Adafruit-GFX-Library\Adafruit_SPITFT.cpp():                       |           0              |        2762  [-1034]     |
-..\..\Libraries\Adafruit-ST7735-Library\Adafruit_ST7789.cpp():                    |           0              |         475  [-6]        |
-..\..\Libraries\Adafruit-ST7735-Library\Adafruit_ST77xx.cpp():                    |           0              |         540  [-4]        |
+..\..\Simulator\App\Utils\DataCenter\Account.cpp():                               |           0              |         834              |
+..\..\Libraries\Adafruit-GFX-Library\Adafruit_GFX.cpp():                          |           0              |        3256              |
+..\..\Libraries\Adafruit-GFX-Library\Adafruit_SPITFT.cpp():                       |           0              |        2762              |
+..\..\Libraries\Adafruit-ST7735-Library\Adafruit_ST7789.cpp():                    |           0              |         475              |
+..\..\Libraries\Adafruit-ST7735-Library\Adafruit_ST77xx.cpp():                    |           0              |         540              |
 ..\Core\src\addon_gpio.c():                                                       |           0              |          14              |
-..\..\Simulator\App\App.cpp():                                                    |          85  [-3]        |         661  [+4]        |
-..\..\Simulator\App\Pages\APPFactory.cpp():                                       |           0              |         494  [-16]       |
+..\..\Simulator\App\App.cpp():                                                    |         121              |         729              |
+..\..\Simulator\App\Pages\APPFactory.cpp():                                       |           0              |         494              |
 ..\..\Libraries\Bq40z50\bq40z50.cpp():                                            |           4              |         368              |
-..\..\Libraries\ButtonEvent\ButtonEvent.cpp():                                    |           0              |         344  [-14]       |
-..\..\Simulator\App\Utils\DataCenter\DataCenter.cpp():                            |           0              |         594  [-18]       |
+..\..\Libraries\ButtonEvent\ButtonEvent.cpp():                                    |           0              |         344              |
+..\..\Simulator\App\Utils\DataCenter\DataCenter.cpp():                            |           0              |         594              |
 ..\..\Simulator\App\Common\DataProc\DataProc.cpp():                               |          76              |         122              |
 ..\Core\src\delay.c():                                                            |           0              |         126              |
-..\..\Simulator\App\Pages\Dialplate\Dialplate.cpp():                              |           0              |         959  [-20]       |
-..\..\Simulator\App\Pages\Dialplate\DialplateModel.cpp():                         |           0              |         222  [-2]        |
+..\..\Simulator\App\Pages\Dialplate\Dialplate.cpp():                              |           0              |         959              |
+..\..\Simulator\App\Pages\Dialplate\DialplateModel.cpp():                         |           0              |         222              |
 ..\..\Simulator\App\Pages\Dialplate\DialplateView.cpp():                          |          20              |        1310              |
 ..\Core\src\dwt.c():                                                              |           1              |          82              |
 ..\..\Simulator\App\Resource\font\font_oswaldBold_12.c():                         |           8              |       15447              |
 ..\..\Simulator\App\Resource\font\font_oswaldBold_18.c():                         |           8              |       20113              |
 ..\..\Simulator\App\Resource\font\font_rajdhaniBold_20.c():                       |           8              |         465              |
 ..\..\Simulator\App\Resource\font\font_rajdhaniBold_40.c():                       |           8              |        1293              |
-..\HAL\HAL.cpp():                                                                 |          37  [-3]        |         637  [+3]        |
+..\HAL\HAL.cpp():                                                                 |          37              |         631              |
 ..\HAL\HAL_CORTEX.c():                                                            |           0              |         162              |
 ..\HAL\HAL_Display.cpp():                                                         |           0              |          22              |
-..\HAL\HAL_I2C.cpp():                                                             |           0              |         144  [-2]        |
-..\HAL\HAL_Key.cpp():                                                             |          78  [-3]        |         317  [-10]       |
-..\HAL\HAL_Led.cpp():                                                             |          17  [-7]        |         354  [+34]       |
-..\HAL\HAL_Power.cpp():                                                           |           2              |         908  [-10]       |
+..\HAL\HAL_I2C.cpp():                                                             |           0              |         144              |
+..\HAL\HAL_Key.cpp():                                                             |          42              |         273              |
+..\HAL\HAL_Led.cpp():                                                             |          17              |         354              |
+..\HAL\HAL_Power.cpp():                                                           |           2              |         908              |
 ..\..\Simulator\App\Pages\HardwareCheckView\HardwareCheck.cpp():                  |           4              |         308              |
 ..\..\Simulator\App\Pages\HardwareCheckView\HardwareCheckModel.cpp():             |           0              |         138              |
-..\..\Simulator\App\Pages\HardwareCheckView\HardwareCheckView.cpp():              |           2              |         830  [+22]       |
-..\Driver\src\hc32_ll.c():                                                        |           0              |         248  [-18]       |
+..\..\Simulator\App\Pages\HardwareCheckView\HardwareCheckView.cpp():              |           2              |         830              |
+..\Driver\src\hc32_ll.c():                                                        |           0              |         248              |
 ..\Driver\src\hc32_ll_aos.c():                                                    |           0              |          10              |
-..\Driver\src\hc32_ll_clk.c():                                                    |           0              |         950  [-2]        |
-..\Driver\src\hc32_ll_dma.c():                                                    |           1              |         776  [-14]       |
+..\Driver\src\hc32_ll_clk.c():                                                    |           0              |         950              |
+..\Driver\src\hc32_ll_dma.c():                                                    |           1              |         776              |
 ..\Driver\src\hc32_ll_efm.c():                                                    |           0              |         220              |
 ..\Driver\src\hc32_ll_fcg.c():                                                    |           0              |          48              |
-..\Driver\src\hc32_ll_gpio.c():                                                   |           0              |         378  [-1050]     |
-..\Driver\src\hc32_ll_i2c.c():                                                    |           0              |        1866  [-294]      |
-..\Driver\src\hc32_ll_interrupts.c():                                             |         512              |        2888  [-4]        |
+..\Driver\src\hc32_ll_gpio.c():                                                   |           0              |         378              |
+..\Driver\src\hc32_ll_i2c.c():                                                    |           0              |        1866              |
+..\Driver\src\hc32_ll_interrupts.c():                                             |         512              |        2888              |
 ..\Driver\src\hc32_ll_pwc.c():                                                    |           0              |          34              |
 ..\Driver\src\hc32_ll_rmu.c():                                                    |           0              |          18              |
-..\Driver\src\hc32_ll_spi.c():                                                    |           0              |         208  [-8]        |
+..\Driver\src\hc32_ll_spi.c():                                                    |           0              |         208              |
 ..\Driver\src\hc32_ll_sram.c():                                                   |           0              |         100              |
 ..\Core\src\hc32f4xx_it.c():                                                      |           0              |          44              |
 ..\..\Simulator\App\Resource\img\img_src_back.c():                                |           0              |         780              |
@@ -612,123 +612,123 @@
 ..\..\Simulator\App\Resource\img\img_src_up.c():                                  |           0              |         780              |
 ..\..\Simulator\App\Resource\img\img_src_wifi.c():                                |           0              |        3564              |
 ..\..\Simulator\App\Resource\img\img_src_workmode.c():                            |           0              |        3084              |
-..\..\Libraries\lvgl\src\misc\lv_anim.c():                                        |          10  [-2]        |        1246  [-208]      |
-..\..\Libraries\lvgl\src\misc\lv_anim_timeline.c():                               |           0              |         374  [-58]       |
+..\..\Libraries\lvgl\src\misc\lv_anim.c():                                        |          10              |        1246              |
+..\..\Libraries\lvgl\src\misc\lv_anim_timeline.c():                               |           0              |         374              |
 ..\..\Simulator\App\Utils\lv_ext\lv_anim_timeline_wrapper.c():                    |           0              |          86              |
-..\..\Libraries\lvgl\src\widgets\lv_arc.c():                                      |           0              |        3846  [-44]       |
-..\..\Libraries\lvgl\src\misc\lv_area.c():                                        |          12              |        1638  [+4]        |
-..\..\Libraries\lvgl\src\misc\lv_async.c():                                       |           0              |          84  [-2]        |
+..\..\Libraries\lvgl\src\widgets\lv_arc.c():                                      |           0              |        3846              |
+..\..\Libraries\lvgl\src\misc\lv_area.c():                                        |          12              |        1638              |
+..\..\Libraries\lvgl\src\misc\lv_async.c():                                       |           0              |          84              |
 ..\..\Libraries\lvgl\src\misc\lv_color.c():                                       |           0              |         820              |
-..\..\Libraries\lvgl\src\core\lv_disp.c():                                        |           0              |         186  [-8]        |
+..\..\Libraries\lvgl\src\core\lv_disp.c():                                        |           0              |         186              |
 ..\..\Libraries\lvgl\src\draw\lv_draw.c():                                        |           0              |          12              |
-..\..\Libraries\lvgl\src\draw\lv_draw_arc.c():                                    |           0              |        1142  [-30]       |
-..\..\Libraries\lvgl\src\draw\lv_draw_img.c():                                    |           0              |         890  [-52]       |
-..\..\Libraries\lvgl\src\draw\lv_draw_label.c():                                  |           0              |        1900  [-74]       |
-..\..\Libraries\lvgl\src\draw\lv_draw_layer.c():                                  |           0              |         186  [-10]       |
+..\..\Libraries\lvgl\src\draw\lv_draw_arc.c():                                    |           0              |        1142              |
+..\..\Libraries\lvgl\src\draw\lv_draw_img.c():                                    |           0              |         890              |
+..\..\Libraries\lvgl\src\draw\lv_draw_label.c():                                  |           0              |        1900              |
+..\..\Libraries\lvgl\src\draw\lv_draw_layer.c():                                  |           0              |         186              |
 ..\..\Libraries\lvgl\src\draw\lv_draw_line.c():                                   |           0              |          52              |
-..\..\Libraries\lvgl\src\draw\lv_draw_mask.c():                                   |           0              |        5720  [-428]      |
-..\..\Libraries\lvgl\src\draw\lv_draw_rect.c():                                   |           0              |         118  [-2]        |
+..\..\Libraries\lvgl\src\draw\lv_draw_mask.c():                                   |           0              |        5720              |
+..\..\Libraries\lvgl\src\draw\lv_draw_rect.c():                                   |           0              |         118              |
 ..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw.c():                                  |           0              |         286              |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_arc.c():                              |           0              |        2982  [-66]       |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_blend.c():                            |           0              |        9298  [-236]      |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_gradient.c():                         |           9  [-3]        |        1224  [-22]       |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_img.c():                              |           0              |        2152  [-24]       |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_layer.c():                            |           0              |         494  [-4]        |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_letter.c():                           |         261  [-3]        |        1454  [-388]      |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_line.c():                             |           0              |        2020  [-272]      |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_polygon.c():                          |           0              |        1212  [-172]      |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_rect.c():                             |           0              |        9450  [-968]      |
-..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_transform.c():                        |           0              |        3774  [-704]      |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_arc.c():                              |           0              |        2982              |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_blend.c():                            |           0              |        9298              |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_gradient.c():                         |           9              |        1224              |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_img.c():                              |           0              |        2152              |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_layer.c():                            |           0              |         494              |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_letter.c():                           |         261              |        1454              |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_line.c():                             |           0              |        2020              |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_polygon.c():                          |           0              |        1212              |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_rect.c():                             |           0              |        9450              |
+..\..\Libraries\lvgl\src\draw\sw\lv_draw_sw_transform.c():                        |           0              |        3774              |
 ..\..\Libraries\lvgl\src\draw\lv_draw_transform.c():                              |           0              |          54              |
-..\..\Libraries\lvgl\src\core\lv_event.c():                                       |           4              |         804  [-8]        |
+..\..\Libraries\lvgl\src\core\lv_event.c():                                       |           4              |         804              |
 ..\..\Libraries\lvgl\src\extra\lv_extra.c():                                      |           0              |          14              |
-..\..\Libraries\lvgl\src\extra\layouts\flex\lv_flex.c():                          |          12              |        3418  [-188]      |
-..\..\Libraries\lvgl\src\font\lv_font.c():                                        |           0              |         328  [-22]       |
-..\..\Libraries\lvgl\src\font\lv_font_fmt_txt.c():                                |           0              |         746  [-10]       |
+..\..\Libraries\lvgl\src\extra\layouts\flex\lv_flex.c():                          |          12              |        3418              |
+..\..\Libraries\lvgl\src\font\lv_font.c():                                        |           0              |         328              |
+..\..\Libraries\lvgl\src\font\lv_font_fmt_txt.c():                                |           0              |         746              |
 ..\..\Libraries\lvgl\src\font\lv_font_montserrat_10.c():                          |           8              |        9350              |
-..\..\Libraries\lvgl\src\misc\lv_fs.c():                                          |           0              |         922  [-44]       |
-..\..\Libraries\lvgl\src\misc\lv_gc.c():                                          |         528  [-4]        |           0              |
-..\..\Libraries\lvgl\src\extra\layouts\grid\lv_grid.c():                          |          22              |        4314  [-90]       |
-..\..\Libraries\lvgl\src\core\lv_group.c():                                       |           4              |        2102  [-36]       |
-..\..\Libraries\lvgl\src\hal\lv_hal_disp.c():                                     |           4              |         602  [-2]        |
-..\..\Libraries\lvgl\src\hal\lv_hal_indev.c():                                    |           0              |         208  [-2]        |
-..\..\Libraries\lvgl\src\hal\lv_hal_tick.c():                                     |           5  [-3]        |         140  [+24]       |
-..\..\Libraries\lvgl\src\widgets\lv_img.c():                                      |           0              |        2352  [-170]      |
-..\..\Libraries\lvgl\src\draw\lv_img_buf.c():                                     |           0              |         262  [-14]       |
-..\..\Libraries\lvgl\src\draw\lv_img_cache.c():                                   |           0              |          92  [-8]        |
-..\..\Libraries\lvgl\src\draw\lv_img_decoder.c():                                 |           0              |        3122  [-92]       |
-..\..\Libraries\lvgl\src\core\lv_indev.c():                                       |           8              |        3958  [+290]      |
-..\..\Libraries\lvgl\src\core\lv_indev_scroll.c():                                |           0              |        3366  [-280]      |
-..\..\Libraries\lvgl\src\widgets\lv_label.c():                                    |           0              |        3784  [-458]      |
-..\..\Libraries\lvgl\src\misc\lv_ll.c():                                          |           0              |         504  [-8]        |
-..\..\Libraries\lvgl\src\misc\lv_math.c():                                        |           0              |         612  [-14]       |
-..\..\Libraries\lvgl\src\misc\lv_mem.c():                                         |       81936              |        3458  [-54]       |
-..\..\Libraries\lvgl\src\core\lv_obj.c():                                         |           5              |        3792  [-92]       |
-..\..\Libraries\lvgl\src\core\lv_obj_class.c():                                   |           0              |         570  [-42]       |
-..\..\Libraries\lvgl\src\core\lv_obj_draw.c():                                    |           0              |        1636  [-10]       |
-..\..\Libraries\lvgl\src\core\lv_obj_pos.c():                                     |           5              |        7582  [-54]       |
-..\..\Libraries\lvgl\src\core\lv_obj_scroll.c():                                  |           0              |        4938  [-118]      |
-..\..\Libraries\lvgl\src\core\lv_obj_style.c():                                   |           1              |        5177  [-684]      |
+..\..\Libraries\lvgl\src\misc\lv_fs.c():                                          |           0              |         922              |
+..\..\Libraries\lvgl\src\misc\lv_gc.c():                                          |         528              |           0              |
+..\..\Libraries\lvgl\src\extra\layouts\grid\lv_grid.c():                          |          22              |        4314              |
+..\..\Libraries\lvgl\src\core\lv_group.c():                                       |           4              |        2102              |
+..\..\Libraries\lvgl\src\hal\lv_hal_disp.c():                                     |           4              |         602              |
+..\..\Libraries\lvgl\src\hal\lv_hal_indev.c():                                    |           0              |         208              |
+..\..\Libraries\lvgl\src\hal\lv_hal_tick.c():                                     |           5              |         140              |
+..\..\Libraries\lvgl\src\widgets\lv_img.c():                                      |           0              |        2352              |
+..\..\Libraries\lvgl\src\draw\lv_img_buf.c():                                     |           0              |         262              |
+..\..\Libraries\lvgl\src\draw\lv_img_cache.c():                                   |           0              |          92              |
+..\..\Libraries\lvgl\src\draw\lv_img_decoder.c():                                 |           0              |        3122              |
+..\..\Libraries\lvgl\src\core\lv_indev.c():                                       |           8              |        3958              |
+..\..\Libraries\lvgl\src\core\lv_indev_scroll.c():                                |           0              |        3366              |
+..\..\Libraries\lvgl\src\widgets\lv_label.c():                                    |           0              |        3784              |
+..\..\Libraries\lvgl\src\misc\lv_ll.c():                                          |           0              |         504              |
+..\..\Libraries\lvgl\src\misc\lv_math.c():                                        |           0              |         612              |
+..\..\Libraries\lvgl\src\misc\lv_mem.c():                                         |       73744              |        3458              |
+..\..\Libraries\lvgl\src\core\lv_obj.c():                                         |           5              |        3792              |
+..\..\Libraries\lvgl\src\core\lv_obj_class.c():                                   |           0              |         570              |
+..\..\Libraries\lvgl\src\core\lv_obj_draw.c():                                    |           0              |        1636              |
+..\..\Libraries\lvgl\src\core\lv_obj_pos.c():                                     |           5              |        7582              |
+..\..\Libraries\lvgl\src\core\lv_obj_scroll.c():                                  |           0              |        4938              |
+..\..\Libraries\lvgl\src\core\lv_obj_style.c():                                   |           1              |        5177              |
 ..\..\Libraries\lvgl\src\core\lv_obj_style_gen.c():                               |           0              |         280              |
-..\..\Libraries\lvgl\src\core\lv_obj_tree.c():                                    |           0              |        1790  [-52]       |
+..\..\Libraries\lvgl\src\core\lv_obj_tree.c():                                    |           0              |        1790              |
 ..\..\Libraries\lvgl\porting\lv_port.cpp():                                       |           0              |          14              |
-..\..\Libraries\lvgl\porting\lv_port_disp.cpp():                                  |       37232              |         716  [-4]        |
+..\..\Libraries\lvgl\porting\lv_port_disp.cpp():                                  |       37232              |         720              |
 ..\..\Libraries\lvgl\porting\lv_port_indev.cpp():                                 |          33              |          96              |
-..\..\Libraries\lvgl\src\misc\lv_printf.c():                                      |           0              |        6753  [-316]      |
-..\..\Libraries\lvgl\src\core\lv_refr.c():                                        |           8              |        5776  [-1538]     |
-..\..\Libraries\lvgl\src\misc\lv_style.c():                                       |           6              |        1715  [-82]       |
+..\..\Libraries\lvgl\src\misc\lv_printf.c():                                      |           0              |        6753              |
+..\..\Libraries\lvgl\src\core\lv_refr.c():                                        |           8              |        5776              |
+..\..\Libraries\lvgl\src\misc\lv_style.c():                                       |           6              |        1715              |
 ..\..\Libraries\lvgl\src\misc\lv_style_gen.c():                                   |           0              |         296              |
-..\..\Libraries\lvgl\src\core\lv_theme.c():                                       |           0              |          92  [-2]        |
-..\..\Libraries\lvgl\src\extra\themes\default\lv_theme_default.c():               |         106  [-2]        |        6292  [-128]      |
-..\..\Libraries\lvgl\src\misc\lv_timer.c():                                       |          17  [-3]        |         644  [+54]       |
-..\..\Libraries\lvgl\src\misc\lv_tlsf.c():                                        |           0              |        2046  [-52]       |
-..\..\Libraries\lvgl\src\misc\lv_txt.c():                                         |          24              |        2046  [-266]      |
+..\..\Libraries\lvgl\src\core\lv_theme.c():                                       |           0              |          92              |
+..\..\Libraries\lvgl\src\extra\themes\default\lv_theme_default.c():               |         106              |        6292              |
+..\..\Libraries\lvgl\src\misc\lv_timer.c():                                       |          17              |         644              |
+..\..\Libraries\lvgl\src\misc\lv_tlsf.c():                                        |           0              |        2046              |
+..\..\Libraries\lvgl\src\misc\lv_txt.c():                                         |          24              |        2046              |
 ..\..\Libraries\lvgl\src\misc\lv_utils.c():                                       |           0              |          78              |
 ..\..\USER\main.cpp():                                                            |         232              |          52              |
-..\..\USER\src\message_decode.cpp():                                              |           0              |        1876  [-4]        |
+..\..\USER\src\message_decode.cpp():                                              |           0              |        1896              |
 ..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp():                        |           0              |         220              |
-..\..\Libraries\Mp2762a\mp2762a.cpp():                                            |           4              |         720  [-8]        |
-..\Core\src\new.cpp():                                                            |           4              |          64              |
-..\..\Simulator\App\Utils\lv_anim_label\numberFlow.cpp():                         |           0              |        1644  [-518]      |
+..\..\Libraries\Mp2762a\mp2762a.cpp():                                            |           4              |         720              |
+..\Core\src\new.cpp():                                                            |           4              |          76              |
+..\..\Simulator\App\Utils\lv_anim_label\numberFlow.cpp():                         |           0              |        1644              |
 ..\..\Simulator\App\Utils\lv_anim_label\numberFlow_clock.cpp():                   |           0              |         596              |
 ..\..\Simulator\App\Utils\PageManager\PageBase.cpp():                             |           0              |          18              |
-..\..\Simulator\App\Utils\PageManager\PageManager_Anim.cpp():                     |           0              |         358  [-22]       |
-..\..\Simulator\App\Utils\PageManager\PageManager_Base.cpp():                     |           0              |        4192  [-272]      |
-..\..\Simulator\App\Utils\PageManager\PageManager_Drag.cpp():                     |           0              |         682  [-10]       |
-..\..\Simulator\App\Utils\PageManager\PageManager_Router.cpp():                   |           0              |         856  [-10]       |
-..\..\Simulator\App\Utils\PageManager\PageManager_State.cpp():                    |           0              |         414  [-6]        |
-..\..\Libraries\Parser\src\Parse_CUSTOM.cpp():                                    |           0              |         423  [-2]        |
+..\..\Simulator\App\Utils\PageManager\PageManager_Anim.cpp():                     |           0              |         358              |
+..\..\Simulator\App\Utils\PageManager\PageManager_Base.cpp():                     |           0              |        4220              |
+..\..\Simulator\App\Utils\PageManager\PageManager_Drag.cpp():                     |           0              |         682              |
+..\..\Simulator\App\Utils\PageManager\PageManager_Router.cpp():                   |           0              |         862              |
+..\..\Simulator\App\Utils\PageManager\PageManager_State.cpp():                    |           0              |         414              |
+..\..\Libraries\Parser\src\Parse_CUSTOM.cpp():                                    |           0              |         423              |
 ..\..\Simulator\App\Utils\DataCenter\PingPongBuffer\PingPongBuffer.c():           |           0              |           6              |
-..\..\Arduino\Print.cpp():                                                        |           0              |          52  [-6]        |
-..\..\Simulator\App\Utils\ResourceManager\ResourceManager.cpp():                  |           0              |         284  [-18]       |
-..\..\Simulator\App\Resource\ResourcePool.cpp():                                  |          32              |         886  [+8]        |
-..\..\Simulator\App\Pages\SaveConfig\SaveConfig.cpp():                            |           0              |         388  [-2]        |
+..\..\Arduino\Print.cpp():                                                        |           0              |          52              |
+..\..\Simulator\App\Utils\ResourceManager\ResourceManager.cpp():                  |           0              |         284              |
+..\..\Simulator\App\Resource\ResourcePool.cpp():                                  |          32              |         886              |
+..\..\Simulator\App\Pages\SaveConfig\SaveConfig.cpp():                            |           0              |         388              |
 ..\..\Simulator\App\Pages\SaveConfig\SaveConfigModel.cpp():                       |           0              |         132              |
 ..\..\Simulator\App\Pages\SaveConfig\SaveConfigView.cpp():                        |           0              |         582              |
-..\..\Simulator\App\Pages\Shutdown\Shutdown.cpp():                                |           1              |         530  [-14]       |
+..\..\Simulator\App\Pages\Shutdown\Shutdown.cpp():                                |           1              |         530              |
 ..\..\Simulator\App\Pages\Shutdown\ShutdownView.cpp():                            |          20              |         664              |
-..\..\USER\src\slave_i2c.cpp():                                                   |         893  [-3]        |        1177  [+64]       |
-..\..\Libraries\Parser\src\SparkFun_Extensible_Message_Parser.cpp():              |           0              |        3236  [-14]       |
-..\Core\src\SPI.cpp():                                                            |          60              |         524  [-8]        |
-..\..\Simulator\App\Pages\Startup\Startup.cpp():                                  |           0              |         734  [-6]        |
-..\CMSIS\Device\HDSC\hc32f4xx\Source\ARM\startup_hc32f460.s():                    |       12288              |         768              |
+..\..\USER\src\slave_i2c.cpp():                                                   |         893              |        1177              |
+..\..\Libraries\Parser\src\SparkFun_Extensible_Message_Parser.cpp():              |           0              |        3209              |
+..\Core\src\SPI.cpp():                                                            |          60              |         524              |
+..\..\Simulator\App\Pages\Startup\Startup.cpp():                                  |           0              |         734              |
+..\CMSIS\Device\HDSC\hc32f4xx\Source\ARM\startup_hc32f460.s():                    |        8704              |         768              |
 ..\..\Simulator\App\Pages\Startup\StartupModel.cpp():                             |           0              |         146              |
 ..\..\Simulator\App\Pages\Startup\StartupView.cpp():                              |          20              |         496              |
-..\..\Simulator\App\Pages\StatusBar\StatusBar.cpp():                              |          66  [-2]        |        2067  [+48]       |
+..\..\Simulator\App\Pages\StatusBar\StatusBar.cpp():                              |          66              |        2067              |
 ..\support\support.c():                                                           |           0              |         224              |
 ..\..\Simulator\App\Resource\symbol\symbol_dialplate.c():                         |           8              |         735              |
 ..\..\Simulator\App\Resource\symbol\symbol_satellite.c():                         |           8              |         336              |
 ..\..\Simulator\App\Resource\symbol\symbol_statusbar.c():                         |           8              |         259              |
-..\Core\src\Syscalls_KEIL.c():                                                    |           0              |         108  [-2]        |
-..\CMSIS\Device\HDSC\hc32f4xx\Source\system_hc32f460.c():                         |           8              |         336  [-4]        |
-..\..\Simulator\App\Pages\SystemInfos\SystemInfos.cpp():                          |           0              |         614  [-6]        |
+..\Core\src\Syscalls_KEIL.c():                                                    |           0              |         108              |
+..\CMSIS\Device\HDSC\hc32f4xx\Source\system_hc32f460.c():                         |           8              |         336              |
+..\..\Simulator\App\Pages\SystemInfos\SystemInfos.cpp():                          |           0              |         614              |
 ..\..\Simulator\App\Pages\SystemInfos\SystemInfosModel.cpp():                     |           0              |         144              |
-..\..\Simulator\App\Pages\SystemInfos\SystemInfosView.cpp():                      |          20              |        2109              |
+..\..\Simulator\App\Pages\SystemInfos\SystemInfosView.cpp():                      |          20              |        2165              |
 ..\..\Arduino\Core\variants\hc32f460xx\variant.cpp():                             |           0              |         153              |
-..\Core\src\Wire.cpp():                                                           |          28              |         632  [-118]      |
-..\..\Arduino\wiring_digital.cpp():                                               |           0              |         254  [-8]        |
-..\..\Simulator\App\Pages\WorkSettings\WorkSettings.cpp():                        |           0              |         856  [-6]        |
-..\..\Simulator\App\Pages\WorkSettings\WorkSettingsView.cpp():                    |          22              |        2084  [-38]       |
+..\Core\src\Wire.cpp():                                                           |          28              |         632              |
+..\..\Arduino\wiring_digital.cpp():                                               |           0              |         254              |
+..\..\Simulator\App\Pages\WorkSettings\WorkSettings.cpp():                        |           0              |         874              |
+..\..\Simulator\App\Pages\WorkSettings\WorkSettingsView.cpp():                    |          22              |        2089              |
 ..\..\Arduino\yield.c():                                                          |           0              |           2              |
 -----------------------------------------------------------------------------------------------------------------------------------------
 [memory print mode]: 0
@@ -739,15 +739,15 @@ LR_IROM1
         RAM 1             [0x1FFF8000 | 0x0002F000 (192512)]
                 [zi start] 0   [zi end] 37
                 RW_IRAM1  [0x1FFF8000]|¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ_____________| (       24 /       32 )  75.0%  
-                [zi start] 1   [zi end] 35
-                RW_IRAM2  [0x1FFF8020]|¡ö¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ_______________| ( 132.0 KB / 187.9 KB )  70.3%  [-32]
+                [zi start] 1   [zi end] 32
+                RW_IRAM2  [0x1FFF8020]|¡ö¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ__________________| ( 120.5 KB / 187.9 KB )  64.1%  
  
         FLASH 1           [0x00000000 | 0x00080000 (524288)]
-                ER_IROM1  [0x00008000]|¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö________________| ( 358.0 KB / 512.0 KB )  69.9%  [-12828]
+                ER_IROM1  [0x00008000]|¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö¡ö________________| ( 358.2 KB / 512.0 KB )  70.0%  
  
 [htm file path] D:\workspace\BackUp\HC32F460xE_Arduino_copy\Platform\project\Objects\proj_hc32.htm
 Maximum Stack Usage =        984 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)
  
 =============================================================================================================================
 
-run time: 0.684 s
+run time: 0.355 s

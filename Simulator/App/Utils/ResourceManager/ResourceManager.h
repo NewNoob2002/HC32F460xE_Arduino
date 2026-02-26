@@ -25,10 +25,9 @@
 
 #include <vector>
 
-class ResourceManager
-{
+class ResourceManager {
 
-public:
+  public:
     ResourceManager();
     ~ResourceManager();
 
@@ -37,19 +36,18 @@ public:
     void* GetResource(const char* name) const;
     void SetDefault(void* ptr);
 
-private:
-    typedef struct ResourceNode
-    {
+  private:
+    typedef struct ResourceNode {
         const char* name;
         void* ptr;
 
-        bool operator==(const struct ResourceNode n) const
-        {
+        bool
+        operator==(const struct ResourceNode n) const {
             return (this->name == n.name && this->ptr == n.ptr);
         }
     } ResourceNode_t;
 
-private:
+  private:
     std::vector<ResourceNode_t> NodePool;
     void* DefaultPtr;
     bool SearchNode(const char* name, ResourceNode_t* node) const;

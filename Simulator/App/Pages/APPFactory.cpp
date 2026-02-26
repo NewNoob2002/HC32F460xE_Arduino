@@ -21,24 +21,24 @@
  * SOFTWARE.
  */
 #include "AppFactory.h"
-#include "Shutdown/Shutdown.h"
-#include "WorkSettings/WorkSettings.h"
 #include "Dialplate/Dialplate.h"
-#include "SystemInfos/SystemInfos.h"
-#include "Startup/Startup.h"
 #include "HardwareCheckView/HardwareCheck.h"
 #include "SaveConfig/SaveConfig.h"
+#include "Shutdown/Shutdown.h"
+#include "Startup/Startup.h"
+#include "SystemInfos/SystemInfos.h"
+#include "WorkSettings/WorkSettings.h"
 
-#define APP_CLASS_MATCH(className)\
-do{\
-    if (strcmp(name, #className) == 0)\
-    {\
-        return new Page::className;\
-    }\
-}while(0)
 
-PageBase* AppFactory::CreatePage(const char* name)
-{
+#define APP_CLASS_MATCH(className)                                                                                     \
+    do {                                                                                                               \
+        if (strcmp(name, #className) == 0) {                                                                           \
+            return new Page::className;                                                                                \
+        }                                                                                                              \
+    } while (0)
+
+PageBase*
+AppFactory::CreatePage(const char* name) {
     APP_CLASS_MATCH(Shutdown);
     APP_CLASS_MATCH(WorkSettings);
     APP_CLASS_MATCH(Dialplate);

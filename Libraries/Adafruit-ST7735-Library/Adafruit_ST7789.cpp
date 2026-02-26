@@ -155,7 +155,7 @@ void Adafruit_ST7789::init(uint16_t width, uint16_t height, uint8_t mode) {
   windowHeight = height;
 
   displayInit(generic_RM690A0);
-  setRotation(0);
+  setRotation(2);
 }
 
 /**************************************************************************/

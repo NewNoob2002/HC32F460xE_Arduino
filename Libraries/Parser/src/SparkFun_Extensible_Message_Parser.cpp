@@ -87,7 +87,10 @@ SEMP_PARSE_STATE * sempAllocateParseStructure(
 
     // Allocate the parser
     length = parseBytes + scratchPadBytes;
-    parse = static_cast<SEMP_PARSE_STATE*>(malloc(length + bufferLength));
+		uint8_t* rawMemory = new uint8_t[length + bufferLength];
+    if (rawMemory) {
+			parse = reinterpret_cast<SEMP_PARSE_STATE*>(rawMemory);
+		}
     sempPrintf(printDebug, "parse: %p", static_cast<void*>(parse));
 
     // Initialize the parse structure

@@ -5,7 +5,7 @@
        346          0        129          0          0          0   adafruit_st7789.o
        444          0         96          0          0          0   adafruit_st77xx.o
         14          0          0          0          0          0   addon_gpio.o
-       622          0         35          4         81          0   app.o
+       676          0         49          4        117          0   app.o
        474          0         20          0          0          0   appfactory.o
        368          0          0          0          4          0   bq40z50.o
        344          0          0          0          0          0   buttonevent.o
@@ -20,11 +20,11 @@
          0          0      20113          0          8          0   font_oswaldbold_18.o
          0          0        465          0          8          0   font_rajdhanibold_20.o
          0          0       1293          0          8          0   font_rajdhanibold_40.o
-       628          0          4          5         32          0   hal.o
+       622          0          4          5         32          0   hal.o
        162          0          0          0          0          0   hal_cortex.o
         22          0          0          0          0          0   hal_display.o
        144          0          0          0          0          0   hal_i2c.o
-       312          0          4          1         77          0   hal_key.o
+       268          0          4          1         41          0   hal_key.o
        354          0          0          0         17          0   hal_led.o
        908          0          0          0          2          0   hal_power.o
        256          0         52          0          4          0   hardwarecheck.o
@@ -115,7 +115,7 @@
       3756          0         28          0          0          0   lv_label.o
        504          0          0          0          0          0   lv_ll.o
        430          0        182          0          0          0   lv_math.o
-      3454          0          0          4      81932          0   lv_mem.o
+      3454          0          0          4      73740          0   lv_mem.o
       3764          0         28          0          5          0   lv_obj.o
        570          0          0          0          0          0   lv_obj_class.o
       1636          0          0          0          0          0   lv_obj_draw.o
@@ -125,7 +125,7 @@
        280          0          0          0          0          0   lv_obj_style_gen.o
       1790          0          0          0          0          0   lv_obj_tree.o
         14          0          0          0          0          0   lv_port.o
-       712          0          4          0      37232          0   lv_port_disp.o
+       716          0          4          0      37232          0   lv_port_disp.o
         96          0          0          0         33          0   lv_port_indev.o
       6664          0         89          0          0          0   lv_printf.o
       5776          0          0          0          8          0   lv_refr.o
@@ -138,17 +138,17 @@
       2022          0          0         24          0          0   lv_txt.o
         78          0          0          0          0          0   lv_utils.o
         52          0          0          0        232          0   main.o
-      1876          0          0          0          0          0   message_decode.o
+      1896          0          0          0          0          0   message_decode.o
        220          0          0          0          0          0   millistaskmanager.o
        720          0          0          0          4          0   mp2762a.o
-        60          0          0          4          0          0   new.o
+        72          0          0          4          0          0   new.o
       1644          0          0          0          0          0   numberflow.o
        594          0          2          0          0          0   numberflow_clock.o
         18          0          0          0          0          0   pagebase.o
        358          0          0          0          0          0   pagemanager_anim.o
-      4192          0          0          0          0          0   pagemanager_base.o
+      4220          0          0          0          0          0   pagemanager_base.o
        682          0          0          0          0          0   pagemanager_drag.o
-       856          0          0          0          0          0   pagemanager_router.o
+       862          0          0          0          0          0   pagemanager_router.o
        414          0          0          0          0          0   pagemanager_state.o
        336          0         87          0          0          0   parse_custom.o
          6          0          0          0          0          0   pingpongbuffer.o
@@ -161,10 +161,10 @@
        478          0         52          0          1          0   shutdown.o
        658          0          6          0         20          0   shutdownview.o
       1162          0         15          0        893          0   slave_i2c.o
-      1526          0       1710          0          0          0   sparkfun_extensible_message_parser.o
+      1542          0       1667          0          0          0   sparkfun_extensible_message_parser.o
        464          0          0         60          0          0   spi.o
        682          0         52          0          0          0   startup.o
-       128          0        640          0      12288          0   startup_hc32f460.o
+       128          0        640          0       8704          0   startup_hc32f460.o
        136          0         10          0          0          0   startupmodel.o
        490          0          6          0         20          0   startupview.o
       2050          0         17          0         66          0   statusbar.o
@@ -176,12 +176,12 @@
        336          0          0          0          8          0   system_hc32f460.o
        562          0         52          0          0          0   systeminfos.o
        144          0          0          0          0          0   systeminfosmodel.o
-      1992          0        117          0         20          0   systeminfosview.o
+      2048          0        117          0         20          0   systeminfosview.o
          0          0        153          0          0          0   variant.o
        604          0          0         28          0          0   wire.o
        254          0          0          0          0          0   wiring_digital.o
-       804          0         52          0          0          0   worksettings.o
-      1980          0        104          0         22          0   worksettingsview.o
+       822          0         52          0          0          0   worksettings.o
+      1978          0        111          0         22          0   worksettingsview.o
          2          0          0          0          0          0   yield.o
 Object Totals
 
@@ -189,11 +189,11 @@ Memory Map of the image
 
 	Load Region LR_IROM1 
 
-		Execution Region ER_IROM1 (Exec base: 0x00008000, Size: 0x00059850, Max: 0x00080000, END)
+		Execution Region ER_IROM1 (Exec base: 0x00008000, Size: 0x000598EC, Max: 0x00080000, END)
 
 		Execution Region RW_IRAM1 (Exec base: 0x1FFF8000, Size: 0x00000018, Max: 0x00000020, END)
 
-		Execution Region RW_IRAM2 (Exec base: 0x1FFF8020, Size: 0x00021048, Max: 0x0002EFF8, END)
+		Execution Region RW_IRAM2 (Exec base: 0x1FFF8020, Size: 0x0001E248, Max: 0x0002EFF8, END)
 
 		Execution Region RW_IRAMB (Exec base: 0x200F0000, Size: 0x00000000, Max: 0x00001000, END)
 

@@ -4,16 +4,18 @@
 using namespace Page;
 
 const uint8_t RadioProtocol[PROTOCOL_MAX] = {1, 2, 4, 5, 9, 10, 13, 16};
-constexpr lv_coord_t font_height = 26;
+constexpr lv_coord_t font_height          = 26;
 
 int8_t WorkSettingsView::left_roller_index = 0;
-int8_t WorkSettingsView::mid_roller_index = 0;
+int8_t WorkSettingsView::mid_roller_index  = 0;
 
-static void lv_anim_label_set_y(void *obj, const int32_t y) {
+static void lv_anim_label_set_y(void *obj, const int32_t y)
+{
     lv_obj_set_y(static_cast<lv_obj_t *>(obj), y);
 }
 
-void WorkSettingsView::Create(lv_obj_t *root) {
+void WorkSettingsView::Create(lv_obj_t *root)
+{
     lv_obj_set_size(root, 294, 100);
     lv_obj_set_align(root, LV_ALIGN_BOTTOM_MID);
     Roller_Create(root);
@@ -27,7 +29,7 @@ void WorkSettingsView::Create(lv_obj_t *root) {
 ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
     const lv_coord_t x_tar_top = lv_obj_get_x(ui.roller.cont);
-    const lv_coord_t w_up_btn = lv_obj_get_width(ui.roller.left_roller.btnUp);
+    const lv_coord_t w_up_btn  = lv_obj_get_width(ui.roller.left_roller.btnUp);
     const lv_coord_t w_tar_btn = lv_obj_get_width(ui.btnCont.btnBase);
 
     const lv_anim_timeline_wrapper_t wrapper[] =
@@ -48,14 +50,16 @@ ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 }
 
-void WorkSettingsView::Delete() {
+void WorkSettingsView::Delete()
+{
     if (ui.anim_timeline) {
         lv_anim_timeline_del(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
 }
 
-void WorkSettingsView::Update() const {
+void WorkSettingsView::Update() const
+{
     const uint8_t p = systemInfo.radioInfo.radio_protocol;
 
     int8_t Protocol = 0;
@@ -66,15 +70,15 @@ void WorkSettingsView::Update() const {
         }
     }
     left_roller_index = Protocol;
-    mid_roller_index = systemInfo.radioInfo.radio_channel-1;
+    mid_roller_index  = systemInfo.radioInfo.radio_channel;
 
     Roller_toIndex(ui.roller.left_roller.label, left_roller_index);
     Roller_toIndex(ui.roller.mid_roller.label, mid_roller_index);
 
-
 }
 
-void WorkSettingsView::Roller_Create(lv_obj_t *par) {
+void WorkSettingsView::Roller_Create(lv_obj_t *par)
+{
     lv_obj_t *cont = lv_obj_create(par);
     lv_obj_remove_style_all(cont);
     // lv_obj_set_style_border_color(cont, lv_color_white(), 0);
@@ -95,14 +99,15 @@ void WorkSettingsView::Roller_Create(lv_obj_t *par) {
 
     lv_obj_t *label_left = lv_label_create(cont_left);
     lv_obj_set_style_text_font(label_left, font, 0);
-    lv_label_set_text(label_left, "TRIMTALK\n"
-                                  "TRIMMK3\n"
-                                  "TT450S\n"
-                                  "TRANSEOT\n"
-                                  "SOUCH\n"
-                                  "HUACE\n"
-                                  "SATAL\n"
-                                  "CSS");
+    lv_label_set_text(label_left,
+                      "TRIMTALK\n"
+                      "TRIMMK3\n"
+                      "TT450S\n"
+                      "TRANSEOT\n"
+                      "SOUTH\n"
+                      "HUACE\n"
+                      "SATEL\n"
+                      "CSS");
     lv_obj_set_align(label_left, LV_ALIGN_TOP_MID);
     ui.roller.left_roller.label = label_left;
 
@@ -116,7 +121,9 @@ void WorkSettingsView::Roller_Create(lv_obj_t *par) {
 
     lv_obj_t *label_right = lv_label_create(cont_right);
     lv_obj_set_style_text_font(label_right, font, 0);
-    lv_label_set_text(label_right, "[1]455.05\n"
+    lv_label_set_text(label_right,
+                      "CUSTOM\n"
+                      "[1]455.05\n"
                       "[2]456.05\n"
                       "[3]457.05\n"
                       "[4]458.05\n"
@@ -135,7 +142,7 @@ void WorkSettingsView::Roller_Create(lv_obj_t *par) {
     lv_obj_set_size(cont_upDown1, 90, 40);
     lv_obj_align_to(cont_upDown1, cont_left, LV_ALIGN_OUT_BOTTOM_MID, -20, 0);
 
-    ui.roller.left_roller.btnUp = Btn_Create(cont_upDown1, ResourcePool::GetImage("up"), -20, 0);
+    ui.roller.left_roller.btnUp   = Btn_Create(cont_upDown1, ResourcePool::GetImage("up"), -20, 0);
     ui.roller.left_roller.btnDown = Btn_Create(cont_upDown1, ResourcePool::GetImage("down"), 20, 0);
 
     lv_obj_t *cont_upDown2 = lv_obj_create(cont);
@@ -145,13 +152,14 @@ void WorkSettingsView::Roller_Create(lv_obj_t *par) {
     lv_obj_set_size(cont_upDown2, 120, 40);
     lv_obj_align_to(cont_upDown2, cont_upDown1, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
 
-    ui.roller.mid_roller.btnUp = Btn_Create(cont_upDown2, ResourcePool::GetImage("up"), -40, 0);
+    ui.roller.mid_roller.btnUp   = Btn_Create(cont_upDown2, ResourcePool::GetImage("up"), -40, 0);
     ui.roller.mid_roller.btnDown = Btn_Create(cont_upDown2, ResourcePool::GetImage("down"), 0, 0);
 
     ui.roller.btnReset = Btn_Create(cont_upDown2, ResourcePool::GetImage("reset"), 40, 0);
 }
 
-void WorkSettingsView::Roller_Style_Init(lv_obj_t *obj) {
+void WorkSettingsView::Roller_Style_Init(lv_obj_t *obj)
+{
     lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
     lv_obj_set_style_width(obj, 45, LV_STATE_PRESSED);
     lv_obj_set_style_height(obj, 25, LV_STATE_PRESSED);
@@ -169,14 +177,15 @@ void WorkSettingsView::Roller_Style_Init(lv_obj_t *obj) {
         200,
         0,
         nullptr
-    );
+        );
     lv_obj_set_style_transition(obj, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_FOCUSED);
 
     lv_obj_update_layout(obj);
 }
 
-void WorkSettingsView::BtnCont_Create(lv_obj_t *par) {
+void WorkSettingsView::BtnCont_Create(lv_obj_t *par)
+{
     lv_obj_t *cont = lv_obj_create(par);
     lv_obj_remove_style_all(cont);
     lv_obj_set_size(cont, 50, 99);
@@ -193,13 +202,14 @@ void WorkSettingsView::BtnCont_Create(lv_obj_t *par) {
 
     ui.btnCont.cont = cont;
 
-    ui.btnCont.btnBase = Btn_Create(cont, ResourcePool::GetImage("base"), 0, -33);
+    ui.btnCont.btnBase  = Btn_Create(cont, ResourcePool::GetImage("base"), 0, -33);
     ui.btnCont.btnRover = Btn_Create(cont, ResourcePool::GetImage("rover"), 0, 0);
     ui.btnCont.btnNtrip = Btn_Create(cont, ResourcePool::GetImage("ntrip"), 0, 33);
 }
 
 lv_obj_t *WorkSettingsView::Btn_Create(lv_obj_t *par, const void *img_src, const lv_coord_t x_ofs,
-                                       const lv_coord_t y_ofs) {
+                                       const lv_coord_t y_ofs)
+{
     lv_obj_t *obj = lv_obj_create(par);
     lv_obj_remove_style_all(obj);
     lv_obj_set_size(obj, 35, 26);
@@ -225,7 +235,7 @@ lv_obj_t *WorkSettingsView::Btn_Create(lv_obj_t *par, const void *img_src, const
         200,
         0,
         nullptr
-    );
+        );
     lv_obj_set_style_transition(obj, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_FOCUSED);
 
@@ -234,7 +244,8 @@ lv_obj_t *WorkSettingsView::Btn_Create(lv_obj_t *par, const void *img_src, const
     return obj;
 }
 
-void WorkSettingsView::Roller_toIndex(lv_obj_t* obj, const uint8_t index) {
+void WorkSettingsView::Roller_toIndex(lv_obj_t *obj, const uint8_t index)
+{
 
     lv_anim_del(obj, lv_anim_label_set_y);
 
@@ -243,14 +254,15 @@ void WorkSettingsView::Roller_toIndex(lv_obj_t* obj, const uint8_t index) {
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, obj);
-    lv_anim_set_values(&a, current_y, -index*font_height);
+    lv_anim_set_values(&a, current_y, -index * font_height);
     lv_anim_set_time(&a, 300);
     lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
     lv_anim_set_exec_cb(&a, lv_anim_label_set_y);
     lv_anim_start(&a);
 }
 
-void WorkSettingsView::Roller_up(lv_obj_t *obj) const {
+void WorkSettingsView::Roller_up(lv_obj_t *obj) const
+{
     LV_ASSERT_NULL(obj);
     lv_anim_del(obj, lv_anim_label_set_y);
     const lv_coord_t current_y = lv_obj_get_y(obj);
@@ -263,17 +275,17 @@ void WorkSettingsView::Roller_up(lv_obj_t *obj) const {
     if (obj == ui.roller.left_roller.label) {
         left_roller_index--;
         CM_SET_VALUE_IN_RANGE_WRAP(left_roller_index, TRIMTALK, CCS);
-        lv_anim_set_values(&a, current_y, -left_roller_index*font_height);
-    }
-    else if(obj == ui.roller.mid_roller.label){
+        lv_anim_set_values(&a, current_y, -left_roller_index * font_height);
+    } else if (obj == ui.roller.mid_roller.label) {
         mid_roller_index--;
         CM_SET_VALUE_IN_RANGE_WRAP(mid_roller_index, Channel1, Channel9);
-        lv_anim_set_values(&a, current_y, -mid_roller_index*font_height);
+        lv_anim_set_values(&a, current_y, -mid_roller_index * font_height);
     }
     lv_anim_start(&a);
 }
 
-void WorkSettingsView::Roller_down(lv_obj_t *obj) const {
+void WorkSettingsView::Roller_down(lv_obj_t *obj) const
+{
     LV_ASSERT_NULL(obj);
     lv_anim_del(obj, lv_anim_label_set_y);
     const lv_coord_t current_y = lv_obj_get_y(obj);
@@ -286,17 +298,17 @@ void WorkSettingsView::Roller_down(lv_obj_t *obj) const {
     if (obj == ui.roller.left_roller.label) {
         left_roller_index++;
         CM_SET_VALUE_IN_RANGE_WRAP(left_roller_index, TRIMTALK, CCS);
-        lv_anim_set_values(&a, current_y, -left_roller_index*font_height);
-    }
-    else if (obj == ui.roller.mid_roller.label){
+        lv_anim_set_values(&a, current_y, -left_roller_index * font_height);
+    } else if (obj == ui.roller.mid_roller.label) {
         mid_roller_index++;
         CM_SET_VALUE_IN_RANGE_WRAP(mid_roller_index, Channel1, Channel9);
-        lv_anim_set_values(&a, current_y, -mid_roller_index*font_height);
+        lv_anim_set_values(&a, current_y, -mid_roller_index * font_height);
     }
     lv_anim_start(&a);
 }
 
-void WorkSettingsView::Roller_Reset(lv_obj_t *label) {
+void WorkSettingsView::Roller_Reset(lv_obj_t *label)
+{
     lv_anim_del(label, lv_anim_label_set_y);
 
     const lv_coord_t current_y = lv_obj_get_y(label);
@@ -311,12 +323,14 @@ void WorkSettingsView::Roller_Reset(lv_obj_t *label) {
     lv_anim_start(&a);
 }
 
-uint8_t WorkSettingsView::Roller_GetIndex(const lv_obj_t *obj) {
+uint8_t WorkSettingsView::Roller_GetIndex(const lv_obj_t *obj)
+{
     const lv_coord_t current_y = lv_obj_get_y(obj);
     return abs(current_y) / 26;
 }
 
-void WorkSettingsView::AppearAnimStart(const bool reverse) const {
+void WorkSettingsView::AppearAnimStart(const bool reverse) const
+{
     lv_anim_timeline_set_reverse(ui.anim_timeline, reverse);
     lv_anim_timeline_start(ui.anim_timeline);
 }

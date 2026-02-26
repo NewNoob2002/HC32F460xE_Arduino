@@ -23,18 +23,16 @@
 #ifndef PAGE_MANAGER_H
 #define PAGE_MANAGER_H
 
+#include <stack>
+#include <vector>
 #include "PageBase.h"
 #include "PageFactory.h"
-#include <vector>
-#include <stack>
 
-class PageManager
-{
-public:
 
+class PageManager {
+  public:
     /* Page switching animation type  */
-    typedef enum
-    {
+    typedef enum {
         /* Default (global) animation type  */
         LOAD_ANIM_GLOBAL = 0,
 
@@ -60,40 +58,35 @@ public:
     } LoadAnim_t;
 
     /* Page dragging direction */
-    typedef enum
-    {
+    typedef enum {
         ROOT_DRAG_DIR_NONE,
         ROOT_DRAG_DIR_HOR,
         ROOT_DRAG_DIR_VER,
     } RootDragDir_t;
 
     /* Animated setter */
-    typedef void(*lv_anim_setter_t)(void*, int32_t);
+    typedef void (*lv_anim_setter_t)(void*, int32_t);
 
     /* Animated getter */
-    typedef int32_t(*lv_anim_getter_t)(void*);
+    typedef int32_t (*lv_anim_getter_t)(void*);
 
     /* Animation switching record  */
-    typedef struct
-    {
+    typedef struct {
         /* As the entered party */
-        struct
-        {
+        struct {
             int32_t start;
             int32_t end;
         } enter;
 
         /* As the exited party */
-        struct
-        {
+        struct {
             int32_t start;
             int32_t end;
         } exit;
     } AnimValue_t;
 
     /* Page loading animation properties */
-    typedef struct
-    {
+    typedef struct {
         lv_anim_setter_t setter;
         lv_anim_getter_t getter;
         RootDragDir_t dragDir;
@@ -101,7 +94,7 @@ public:
         AnimValue_t pop;
     } LoadAnimAttr_t;
 
-public:
+  public:
     explicit PageManager(PageFactory* factory = nullptr);
     ~PageManager();
 
@@ -119,18 +112,22 @@ public:
     [[nodiscard]] const char* GetPagePrevName() const;
 
     /* Global Animation */
-    void SetGlobalLoadAnimType(
-        LoadAnim_t anim = LOAD_ANIM_OVER_LEFT,
-        uint16_t time = 500,
-        lv_anim_path_cb_t path = lv_anim_path_ease_out
-    );
+    void SetGlobalLoadAnimType(LoadAnim_t anim = LOAD_ANIM_OVER_LEFT, uint16_t time = 500,
+                               lv_anim_path_cb_t path = lv_anim_path_ease_out);
 
-    void SetRootDefaultStyle(lv_style_t* style)
-    {
+    void
+    SetRootDefaultStyle(lv_style_t* style) {
         RootDefaultStyle = style;
     }
+		
+				/* Page Info*/
+		PageBase* PageInfo[8];
+		
+		PageBase *GetCurrentPage(){
+			return PageCurrent;
+		}
 
-private:
+  private:
     /* Page Pool */
     PageBase* FindPageInPool(const char* name) const;
 
@@ -143,21 +140,26 @@ private:
 
     /* Animation */
     static bool GetLoadAnimAttr(uint8_t anim, LoadAnimAttr_t* attr);
-    static bool GetIsOverAnim(const uint8_t anim)
-    {
+
+    static bool
+    GetIsOverAnim(const uint8_t anim) {
         return (anim >= LOAD_ANIM_OVER_LEFT && anim <= LOAD_ANIM_OVER_BOTTOM);
     }
-    static bool GetIsMoveAnim(const uint8_t anim)
-    {
+
+    static bool
+    GetIsMoveAnim(const uint8_t anim) {
         return (anim >= LOAD_ANIM_MOVE_LEFT && anim <= LOAD_ANIM_MOVE_BOTTOM);
     }
+
     void AnimDefaultInit(lv_anim_t* a) const;
-    bool GetCurrentLoadAnimAttr(LoadAnimAttr_t* attr) const
-    {
+
+    bool
+    GetCurrentLoadAnimAttr(LoadAnimAttr_t* attr) const {
         return GetLoadAnimAttr(GetCurrentLoadAnimType(), attr);
     }
-    [[nodiscard]] LoadAnim_t GetCurrentLoadAnimType() const
-    {
+
+    [[nodiscard]] LoadAnim_t
+    GetCurrentLoadAnimType() const {
         return static_cast<LoadAnim_t>(AnimState.Current.Type);
     }
 
@@ -172,7 +174,7 @@ private:
     bool SwitchTo(PageBase* newNode, bool isEnterAct, const PageBase::Stash_t* stash = nullptr);
     static void onSwitchAnimFinish(lv_anim_t* a);
 
-    void SwitchAnimCreate(PageBase *base) const;
+    void SwitchAnimCreate(PageBase* base) const;
     void SwitchAnimTypeUpdate(PageBase* base);
     bool SwitchReqCheck();
     [[nodiscard]] bool SwitchAnimStateCheck() const;
@@ -185,13 +187,11 @@ private:
     static PageBase::State_t StateDidDisappearExecute(PageBase* base);
     static PageBase::State_t StateUnloadExecute(PageBase* base);
     void StateUpdate(PageBase* base);
-    [[nodiscard]] PageBase::State_t GetState() const
-    {
+
+    [[nodiscard]] PageBase::State_t
+    GetState() const {
         return PageCurrent->priv.State;
     }
-
-private:
-
     /* Page factory */
     PageFactory* pageFactory;
 
@@ -200,7 +200,7 @@ private:
 
     /* Page stack */
     std::stack<PageBase*> PageStack;
-
+	
     /* Previous page */
     PageBase* PagePrev;
 
@@ -208,16 +208,16 @@ private:
     PageBase* PageCurrent;
 
     /* Page animation status */
-    struct
-    {
-        bool IsSwitchReq;              // Has switch request
-        bool IsBusy;                   // Is switching
-        bool IsEntering;               // Is in entering action
+    struct {
+        bool IsSwitchReq; // Has switch request
+        bool IsBusy;      // Is switching
+        bool IsEntering;  // Is in entering action
 
-        PageBase::AnimAttr_t Current;  // Current animation properties
-        PageBase::AnimAttr_t Global;   // Global animation properties
+        PageBase::AnimAttr_t Current; // Current animation properties
+        PageBase::AnimAttr_t Global;  // Global animation properties
     } AnimState{};
 
+		uint8_t PageInfoIndex;
     /* Root style */
     lv_style_t* RootDefaultStyle;
 };
