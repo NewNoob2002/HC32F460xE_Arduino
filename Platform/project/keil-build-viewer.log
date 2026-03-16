@@ -38,13 +38,13 @@
 
 [region info]
 [load region] LR_IROM1
-	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x0000A550 [memory type] 2 [memory ID] 4
+	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x00007DA8 [memory type] 2 [memory ID] 4
 
 	[execution region] RW_IRAM1, 0x1FFF8000, 0x00000020, 0x00000018 [memory type] 1 [memory ID] 2
 		[ZI block] addr: 0x1FFF8000, size: 0x00000018 (24)
 
-	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x0000A088 [memory type] 1 [memory ID] 2
-		[ZI block] addr: 0x1FFF8058, size: 0x0000A050 (41040)
+	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x00003BF8 [memory type] 1 [memory ID] 2
+		[ZI block] addr: 0x1FFF8070, size: 0x00003BA8 (15272)
 
 	[execution region] RW_IRAMB, 0x200F0000, 0x00001000, 0x00000000 [memory type] 1 [memory ID] 3
 
@@ -54,7 +54,6 @@
 
 [object in map file]
 [object name] bq40z50.o                               [path] ..\..\Libraries\Bq40z50\bq40z50.cpp
-[object name] buttonevent.o                           [path] ..\..\Libraries\ButtonEvent\ButtonEvent.cpp
 [object name] delay.o                                 [path] ..\Core\src\delay.c
 [object name] dwt.o                                   [path] ..\Core\src\dwt.c
 [object name] flash.o                                 [path] ..\Core\src\flash.c
@@ -80,9 +79,9 @@
 [object name] message_decode.o                        [path] ..\..\App\src\message_decode.cpp
 [object name] millistaskmanager.o                     [path] ..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp
 [object name] mp2762a.o                               [path] ..\..\Libraries\Mp2762a\mp2762a.cpp
+[object name] multi_button.o                          [path] ..\..\Libraries\MultiButton\multi_button.c
 [object name] new.o                                   [path] ..\Core\Src\new.cpp
 [object name] parse_custom.o                          [path] ..\..\Libraries\Parser\src\Parse_CUSTOM.cpp
-[object name] segger_rtt.o                            [path] ..\Core\src\SEGGER_RTT.c
 [object name] slave_i2c.o                             [path] ..\..\App\src\slave_i2c.cpp
 [object name] sparkfun_extensible_message_parser.o    [path] ..\..\Libraries\Parser\src\SparkFun_Extensible_Message_Parser.cpp
 [object name] startup_hc32f460.o                      [path] ..\CMSIS\Device\HDSC\hc32f4xx\Source\ARM\startup_hc32f460.s
@@ -106,8 +105,6 @@
 [old name] Wire.cpp                                [type] 1   [path] ..\Core\src\Wire.cpp
 [old name] hc32f4xx_it.c                           [type] 1   [path] ..\Core\src\hc32f4xx_it.c
 [old name] Syscalls_KEIL.c                         [type] 1   [path] ..\Core\src\Syscalls_KEIL.c
-[old name] SEGGER_RTT.c                            [type] 1   [path] ..\Core\src\SEGGER_RTT.c
-[old name] SEGGER_RTT_printf.c                     [type] 1   [path] ..\Core\src\SEGGER_RTT_printf.c
 [old name] HAL.cpp                                 [type] 1   [path] ..\HAL\HAL.cpp
 [old name] HAL_I2C.cpp                             [type] 1   [path] ..\HAL\HAL_I2C.cpp
 [old name] HAL_Key.cpp                             [type] 1   [path] ..\HAL\HAL_Key.cpp
@@ -174,55 +171,54 @@
 [old name] mp2762a.cpp                             [type] 1   [path] ..\..\Libraries\Mp2762a\mp2762a.cpp
 [old name] lwmem.c                                 [type] 1   [path] ..\..\Libraries\lwmem-2.2.4\lwmem\src\lwmem\lwmem.c
 [old name] MillisTaskManager.cpp                   [type] 1   [path] ..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp
-[old name] ButtonEvent.cpp                         [type] 1   [path] ..\..\Libraries\ButtonEvent\ButtonEvent.cpp
+[old name] multi_button.c                          [type] 1   [path] ..\..\Libraries\MultiButton\multi_button.c
 
 [record region info]
 [load region] LR_IROM1
-	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x0000A540 [type] 2 [ID] 4
+	[execution region] ER_IROM1, 0x00008000, 0x00080000, 0x00007DAC [type] 2 [ID] 4
 	[execution region] RW_IRAM1, 0x1FFF8000, 0x00000020, 0x00000018 [type] 1 [ID] 2
-	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x0000A088 [type] 1 [ID] 2
+	[execution region] RW_IRAM2, 0x1FFF8020, 0x0002EFF8, 0x00003BF8 [type] 1 [ID] 2
 	[execution region] RW_IRAMB, 0x200F0000, 0x00001000, 0x00000000 [type] 1 [ID] 3
 -----------------------------------------------------------------------------------------------------------------------------
                                 FILE(s)                               |         RAM (byte)       |       FLASH (byte)       |
 -----------------------------------------------------------------------------------------------------------------------------
-..\..\Libraries\Bq40z50\bq40z50.cpp():                                |           4              |         176              |
-..\..\Libraries\ButtonEvent\ButtonEvent.cpp():                        |           0              |         500              |
-..\Core\src\delay.c():                                                |           0              |         150              |
-..\Core\src\dwt.c():                                                  |           1              |         124              |
-..\Core\src\flash.c():                                                |           0              |         194              |
-..\HAL\HAL.cpp():                                                     |          21              |         837              |
-..\HAL\HAL_CORTEX.c():                                                |           0              |         414              |
-..\HAL\HAL_I2C.cpp():                                                 |           0              |         188              |
-..\HAL\HAL_Key.cpp():                                                 |          67              |         468              |
-..\HAL\HAL_Led.cpp():                                                 |          24              |         738  [+14]       |
-..\HAL\HAL_Power.cpp():                                               |           7              |        2008              |
-..\Driver\src\hc32_ll.c():                                            |           0              |         460              |
-..\Driver\src\hc32_ll_clk.c():                                        |           0              |        1340              |
-..\Driver\src\hc32_ll_efm.c():                                        |           0              |         962              |
-..\Driver\src\hc32_ll_fcg.c():                                        |           0              |          58              |
-..\Driver\src\hc32_ll_gpio.c():                                       |           0              |         770              |
-..\Driver\src\hc32_ll_i2c.c():                                        |           0              |        2006              |
-..\Driver\src\hc32_ll_interrupts.c():                                 |         512              |        2974              |
-..\Driver\src\hc32_ll_pwc.c():                                        |           0              |          42              |
-..\Driver\src\hc32_ll_rmu.c():                                        |           0              |          36              |
-..\Driver\src\hc32_ll_sram.c():                                       |           0              |         134              |
-..\Core\src\hc32f4xx_it.c():                                          |           0              |          46              |
-..\..\Libraries\lwmem-2.2.4\lwmem\src\lwmem\lwmem.c():                |          20              |        1604              |
+..\..\Libraries\Bq40z50\bq40z50.cpp():                                |           4              |         184              |
+..\Core\src\delay.c():                                                |           0              |         104              |
+..\Core\src\dwt.c():                                                  |           1              |          82              |
+..\Core\src\flash.c():                                                |           0              |         136              |
+..\HAL\HAL.cpp():                                                     |          21              |         641              |
+..\HAL\HAL_CORTEX.c():                                                |           0              |         162              |
+..\HAL\HAL_I2C.cpp():                                                 |           0              |         144              |
+..\HAL\HAL_Key.cpp():                                                 |          91              |         346              |
+..\HAL\HAL_Led.cpp():                                                 |          24              |         316              |
+..\HAL\HAL_Power.cpp():                                               |           7              |        1226              |
+..\Driver\src\hc32_ll.c():                                            |           0              |         248              |
+..\Driver\src\hc32_ll_clk.c():                                        |           0              |         724              |
+..\Driver\src\hc32_ll_efm.c():                                        |           0              |         688              |
+..\Driver\src\hc32_ll_fcg.c():                                        |           0              |          24              |
+..\Driver\src\hc32_ll_gpio.c():                                       |           0              |         340              |
+..\Driver\src\hc32_ll_i2c.c():                                        |           0              |        1312              |
+..\Driver\src\hc32_ll_interrupts.c():                                 |         512              |        2898              |
+..\Driver\src\hc32_ll_pwc.c():                                        |           0              |          34              |
+..\Driver\src\hc32_ll_rmu.c():                                        |           0              |          18              |
+..\Driver\src\hc32_ll_sram.c():                                       |           0              |          92              |
+..\Core\src\hc32f4xx_it.c():                                          |           0              |          38              |
+..\..\Libraries\lwmem-2.2.4\lwmem\src\lwmem\lwmem.c():                |          20              |         772              |
 ..\..\App\src\main.cpp():                                             |          84              |          50              |
-..\..\App\src\message_decode.cpp():                                   |           0              |        1108              |
-..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp():            |           0              |         502              |
-..\..\Libraries\Mp2762a\mp2762a.cpp():                                |           4              |         944              |
-..\Core\Src\new.cpp():                                                |       32789              |         152              |
-..\..\Libraries\Parser\src\Parse_CUSTOM.cpp():                        |           0              |         685              |
-..\Core\src\SEGGER_RTT.c():                                           |        1208              |         874              |
-..\..\App\src\slave_i2c.cpp():                                        |         841              |        1682              |
-..\..\Libraries\Parser\src\SparkFun_Extensible_Message_Parser.cpp():  |           0              |        4779              |
+..\..\App\src\message_decode.cpp():                                   |           0              |         598  [-4]        |
+..\..\Libraries\MillisTaskManager\MillisTaskManager.cpp():            |           0              |         194              |
+..\..\Libraries\Mp2762a\mp2762a.cpp():                                |           4              |         706              |
+..\..\Libraries\MultiButton\multi_button.c():                         |           4              |         618              |
+..\Core\Src\new.cpp():                                                |        8213              |         102              |
+..\..\Libraries\Parser\src\Parse_CUSTOM.cpp():                        |           0              |         419              |
+..\..\App\src\slave_i2c.cpp():                                        |         841              |        1311              |
+..\..\Libraries\Parser\src\SparkFun_Extensible_Message_Parser.cpp():  |           0              |        3364              |
 ..\CMSIS\Device\HDSC\hc32f4xx\Source\ARM\startup_hc32f460.s():        |        5120              |         768              |
-..\Core\src\Syscalls_KEIL.c():                                        |           0              |         234              |
-..\CMSIS\Device\HDSC\hc32f4xx\Source\system_hc32f460.c():             |           8              |         342              |
+..\Core\src\Syscalls_KEIL.c():                                        |           0              |         110              |
+..\CMSIS\Device\HDSC\hc32f4xx\Source\system_hc32f460.c():             |           8              |         330              |
 ..\..\Arduino\Core\variants\hc32f460xx\variant.cpp():                 |           0              |         153              |
-..\Core\src\Wire.cpp():                                               |          28              |        1124              |
-..\..\Arduino\wiring_digital.cpp():                                   |           0              |         736              |
+..\Core\src\Wire.cpp():                                               |          28              |         622              |
+..\..\Arduino\wiring_digital.cpp():                                   |           0              |         280              |
 ..\..\Arduino\yield.c():                                              |           0              |           2              |
 -----------------------------------------------------------------------------------------------------------------------------
 [memory print mode]: 0
@@ -233,15 +229,15 @@ LR_IROM1
         RAM 1             [0x1FFF8000 | 0x0002F000 (192512)]
                 [zi start] 0   [zi end] 37
                 RW_IRAM1  [0x1FFF8000]|¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ_____________| (       24 /       32 )  75.0%  
-                [zi start] 1   [zi end] 10
-                RW_IRAM2  [0x1FFF8020]|¡ö¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ¡õ________________________________________| (  40.1 KB / 187.9 KB )  21.3%  
+                [zi start] 1   [zi end] 3
+                RW_IRAM2  [0x1FFF8020]|¡ö¡õ¡õ_______________________________________________| (  14.9 KB / 187.9 KB )   8.0%  
  
         FLASH 1           [0x00000000 | 0x00080000 (524288)]
-                ER_IROM1  [0x00008000]|¡ö¡ö¡ö¡ö______________________________________________| (  41.3 KB / 512.0 KB )   8.1%  [+16]
+                ER_IROM1  [0x00008000]|¡ö¡ö¡ö_______________________________________________| (  31.4 KB / 512.0 KB )   6.1%  [-4]
  
 [htm file path] D:\workspace\BackUp\HC32F460xE_Arduino_copy_X1\Platform\project\Objects\proj_hc32.htm
-Maximum Stack Usage =       1104 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)
+Maximum Stack Usage =        368 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)
  
 =============================================================================================================================
 
-run time: 0.134 s
+run time: 0.117 s

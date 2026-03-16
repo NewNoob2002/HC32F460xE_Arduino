@@ -568,7 +568,7 @@
 
   <Group>
     <GroupName>Platform/Drivers</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1367,12 +1367,48 @@
     <File>
       <GroupNumber>8</GroupNumber>
       <FileNumber>85</FileNumber>
-      <FileType>8</FileType>
+      <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\Libraries\ButtonEvent\ButtonEvent.cpp</PathWithFileName>
-      <FilenameWithoutPath>ButtonEvent.cpp</FilenameWithoutPath>
+      <PathWithFileName>..\..\Libraries\easylogger\src\elog.c</PathWithFileName>
+      <FilenameWithoutPath>elog.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>86</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\Libraries\easylogger\src\elog_utils.c</PathWithFileName>
+      <FilenameWithoutPath>elog_utils.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>87</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\Libraries\easylogger\port\elog_port.c</PathWithFileName>
+      <FilenameWithoutPath>elog_port.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>88</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\Libraries\MultiButton\multi_button.c</PathWithFileName>
+      <FilenameWithoutPath>multi_button.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

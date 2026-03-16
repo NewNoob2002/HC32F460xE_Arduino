@@ -1,7 +1,9 @@
 #include "HAL.h"
 #include "Arduino.h"
 #include "MillisTaskManager/MillisTaskManager.h"
-//#include "elog.h"
+#ifdef __CORE_DEBUG
+#include "elog.h"
+#endif
 
 static MillisTaskManager taskManager;
 
@@ -30,7 +32,7 @@ void HAL::HAL_Init()
     disable_JTAG();
 
     SystemClock_Config();
-	  dwt_init();
+    dwt_init();
 #ifdef __CORE_DEBUG
     /* set EasyLogger log format */
     elog_init();
@@ -44,19 +46,18 @@ void HAL::HAL_Init()
     /* start EasyLogger */
     elog_start();
 #endif
-	  Power_Init();
+    Power_Init();
     /* Set Interrupt Group Priority */
     HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
     memset(&systemInfo, 0, sizeof(systemInfo));
     /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
     HAL_InitTick(TICK_INT_PRIORITY);
 
-
     int deviceNumber = I2C_Scan();
-		CORE_DEBUG_PRINTF("I2c Scan Done, Found %d I2c Devices", deviceNumber);
+    CORE_DEBUG_PRINTF("I2c Scan Done, Found %d I2c Devices", deviceNumber);
     Key_Init();
 
-    taskManager.Register(HAL_MONITOR_TASK, 15);
+    taskManager.Register(HAL_MONITOR_TASK, 10);
     taskManager.Register(HAL_LED_TASK, 100);
     taskManager.Register(HAL_POWER_TASK, 500);
 }
@@ -307,5 +308,5 @@ void SystemClock_Config(void)
 
 void disable_JTAG()
 {
-	WRITE_REG16(CM_GPIO->PSPCR, 0x03);
+    WRITE_REG16(CM_GPIO->PSPCR, 0x03);
 }

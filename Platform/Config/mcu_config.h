@@ -2,7 +2,7 @@
 #include "mcu_define.h"
 
 #define  HW_VERSION    "V1.4"
-#define  SW_VERSION    "V1.27"
+#define  SW_VERSION    "V1.28"
 
 /*POWER*/
 #define POWER_CONTROL_PIN  PB3

@@ -1,7 +1,7 @@
 #include "lwmem/lwmem.h"
 
 #ifdef LWMEM_HDR_H
-#define pool_size        32 * 1024
+#define pool_size        8 * 1024
 uint8_t malloc_memory_area[pool_size] = {};
 static lwmem_region_t regions[]       = {{malloc_memory_area, sizeof(malloc_memory_area)},
                                          {NULL, 0}};

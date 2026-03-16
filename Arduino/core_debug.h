@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 #ifdef __CORE_DEBUG
-
+#include "elog.h"
 // allow user to re-define the debug macros with custom ones
 // user macros are only active if __CORE_DEBUG is defined
 #ifndef CORE_DEBUG_INIT
@@ -12,14 +12,13 @@
 #endif
 
 #ifndef CORE_DEBUG_PRINTF
-#define CORE_DEBUG_PRINTF(fmt, ...) printf(fmt, ##__VA_ARGS__)
+#define CORE_DEBUG_PRINTF(fmt, ...) log_d(fmt, ##__VA_ARGS__)
 #endif
 
 #ifndef CORE_ASSERT
 #define CORE_ASSERT(expression, message, ...) \
-    if (!(expression))                        \
-    {                                         \
-        panic("CORE_ASSERT:" message "\n\n"); \
+    if (!(expression)) {                      \
+        log_a("CORE_ASSERT:" message "\n\n"); \
         __VA_ARGS__;                          \
     }
 #endif
@@ -32,8 +31,7 @@
 #define CORE_DEBUG_PRINTF(fmt, ...)
 #define CORE_DEBUG_INIT()
 #define CORE_ASSERT(expression, message, ...) \
-    if (!(expression))                        \
-    {                                         \
+    if (!(expression)) {                      \
         __VA_ARGS__;                          \
     }
 #endif // __CORE_DEBUG
