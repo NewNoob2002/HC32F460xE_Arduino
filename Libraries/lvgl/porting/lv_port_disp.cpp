@@ -12,8 +12,8 @@ static SCREEN_CLASS screen(
 
 #define SCREEN_BUFFER_SIZE (CONFIG_SCREEN_HOR_RES * CONFIG_SCREEN_VER_RES)
 
- static lv_disp_drv_t* disp_drv_p = nullptr;
-//static lv_display_t *disp_drv_p = nullptr;
+static lv_disp_drv_t *disp_drv_p = nullptr;
+// static lv_display_t *disp_drv_p = nullptr;
 
 void spi_dma_trans(void *buf, uint16_t len)
 {
@@ -34,7 +34,7 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
     const lv_coord_t w = (area->x2 - area->x1 + 1);
     const lv_coord_t h = (area->y2 - area->y1 + 1);
     const uint32_t len = w * h;
-	
+
     screen.setAddrWindow(area->x1, area->y1, w, h);
     digitalWrite(CONFIG_SCREEN_CS_PIN, LOW);
     digitalWrite(CONFIG_SCREEN_DC_PIN, HIGH);
@@ -44,27 +44,18 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
 static void DMA_TransCompleteCallback(void)
 {
     DMA_ClearTransCompleteStatus(DMA_UNIT, DMA_FLAG_TC_CH0);
-    /*IMPORTANT!!!
-     *Inform the graphics library that you are ready with the flushing*/
-    //    lv_disp_flush_ready(disp_drv_p);
     lv_disp_flush_ready(disp_drv_p);
 }
 
-void my_rounder_cb(lv_disp_drv_t * disp_drv, lv_area_t * area)
+void my_rounder_cb(lv_disp_drv_t *disp_drv, lv_area_t *area)
 {
-    // 1. 让 x1 (起始列) 变为偶数 (向下取偶)
-    // 例如: 1 -> 0, 3 -> 2, 4 -> 4
+
     area->x1 = area->x1 & ~1;
 
-    // 2. 让 x2 (结束列) 变为奇数 (向上取奇)
-    // 这样 宽度 = x2 - x1 + 1 就一定是偶数
-    // 例如: 0 -> 1, 2 -> 3, 5 -> 5
     area->x2 = area->x2 | 1;
 
-    // 3. 让 y1 (起始行) 变为偶数
     area->y1 = area->y1 & ~1;
 
-    // 4. 让 y2 (结束行) 变为奇数
     area->y2 = area->y2 | 1;
 }
 
@@ -104,25 +95,25 @@ void lv_port_disp_init()
 
     screen.init(CONFIG_SCREEN_VER_RES, CONFIG_SCREEN_HOR_RES);
     screen.fillScreen(ST77XX_BLACK);
-		#if defined(CONFIG_SCREEN_BLK_PIN)
+#if defined(CONFIG_SCREEN_BLK_PIN)
     pinMode(CONFIG_SCREEN_BLK_PIN, OUTPUT);
     digitalWrite(CONFIG_SCREEN_BLK_PIN, LOW);
-		#endif
+#endif
     /* Example for 1) */
-//    static lv_disp_draw_buf_t draw_buf_dsc_1;
-//    static lv_color_t buf_1[SCREEN_BUFFER_SIZE];                          /*A buffer for 10 rows*/
-//    lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, SCREEN_BUFFER_SIZE);   /*Initialize the display buffer*/
+    //    static lv_disp_draw_buf_t draw_buf_dsc_1;
+    //    static lv_color_t buf_1[SCREEN_BUFFER_SIZE];                          /*A buffer for 10 rows*/
+    //    lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, SCREEN_BUFFER_SIZE);   /*Initialize the display buffer*/
     /* Example for 2) */
     static lv_disp_draw_buf_t draw_buf_dsc_2;
-    static lv_color_t buf_2_1[SCREEN_BUFFER_SIZE/4];                        /*A buffer for 10 rows*/
-    static lv_color_t buf_2_2[SCREEN_BUFFER_SIZE/4];                        /*An other buffer for 10 rows*/
-    lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, SCREEN_BUFFER_SIZE/4);   /*Initialize the display buffer*/
-        /*-----------------------------------
+    static lv_color_t buf_2_1[SCREEN_BUFFER_SIZE / 4];                                /*A buffer for 10 rows*/
+    static lv_color_t buf_2_2[SCREEN_BUFFER_SIZE / 4];                                /*An other buffer for 10 rows*/
+    lv_disp_draw_buf_init(&draw_buf_dsc_2, buf_2_1, buf_2_2, SCREEN_BUFFER_SIZE / 4); /*Initialize the display buffer*/
+    /*-----------------------------------
      * Register the display in LVGL
      *----------------------------------*/
 
-    static lv_disp_drv_t disp_drv;                         /*Descriptor of a display driver*/
-    lv_disp_drv_init(&disp_drv);                    /*Basic initialization*/
+    static lv_disp_drv_t disp_drv; /*Descriptor of a display driver*/
+    lv_disp_drv_init(&disp_drv);   /*Basic initialization*/
 
     /*Set up the functions to access to your display*/
 
@@ -135,13 +126,13 @@ void lv_port_disp_init()
 
     /*Set a display buffer*/
     disp_drv.draw_buf = &draw_buf_dsc_2;
-    
-    disp_drv.sw_rotate = 1;
-    disp_drv.rotated = LV_DISP_ROT_270;
-    /*Required for Example 3)*/
-    //disp_drv.full_refresh = 1;
 
-		disp_drv.rounder_cb = my_rounder_cb; 
+    disp_drv.sw_rotate = 1;
+    disp_drv.rotated   = LV_DISP_ROT_270;
+    /*Required for Example 3)*/
+    // disp_drv.full_refresh = 1;
+
+    disp_drv.rounder_cb = my_rounder_cb;
 
     /*Finally register the driver*/
     lv_disp_drv_register(&disp_drv);

@@ -20,21 +20,17 @@ void HAL::Power_Init()
         CORE_DEBUG_PRINTF("Power: GetResetause:PowerOn Reset");
         CORE_DEBUG_PRINTF("Power: Waiting Keep Press...");
     }
-    pinMode(POWER_LED_PIN, OUTPUT);
-    pinMode(FUNCTION_LED_PIN, OUTPUT);
-    pinMode(CHARGE_LED_PIN, OUTPUT);
     pinMode(WATCHDOG_FEED_PIN, OUTPUT);
     Led_Init();
 }
 
 void HAL::Power_OnCheck()
 {
-		if(!systemInfo.online_device.mp2762)
-		{
-			Charger_Control_GPIO_Init();
-			USB_Switch_GPIO_Init();
-			USB_Switch_GPIO_Control(1);
-		}
+    if (!systemInfo.online_device.mp2762) {
+        Charger_Control_GPIO_Init();
+        USB_Switch_GPIO_Init();
+        USB_Switch_GPIO_Control(1);
+    }
     while (true) {
         HAL_Update();
         lv_timer_handler();
@@ -51,14 +47,12 @@ void HAL::Power_OnCheck()
     digitalWrite(POWER_LED_PIN, HIGH);
     digitalWrite(FUNCTION_LED_PIN, HIGH);
     digitalWrite(POWER_CONTROL_PIN, HIGH);
-		if(!systemInfo.online_device.mp2762)
-		{
-			uint8_t typec_power = digitalRead(CHARGER_ADC_DETECT_PIN);
-			if (!typec_power)
-			{
-				USB_Switch_GPIO_Control(0);
-			}
-		}
+    if (!systemInfo.online_device.mp2762) {
+        uint8_t typec_power = digitalRead(CHARGER_ADC_DETECT_PIN);
+        if (!typec_power) {
+            USB_Switch_GPIO_Control(0);
+        }
+    }
 }
 
 void HAL::Power_Shutdown(bool en)
@@ -133,18 +127,17 @@ bool HAL::Power_ShutdownSoftReset()
 const char *HAL::Power_GetPowerOffCause()
 {
     if (systemInfo.powerMonitor.LinuxPowerOff) {
-        return  GET_TEXT(TEXT_POWEROFF_LABEL_LINUX_OFF);
+        return GET_TEXT(TEXT_POWEROFF_LABEL_LINUX_OFF);
     } else if (systemInfo.powerMonitor.LowBatteryPowerOff) {
-        return  GET_TEXT(TEXT_POWEROFF_LABEL_LOW_BAT_OFF);
+        return GET_TEXT(TEXT_POWEROFF_LABEL_LOW_BAT_OFF);
     } else if (FORCE_SHUTDOWN())
-        return  GET_TEXT(TEXT_POWEROFF_LABEL_FORCE_OFF);
-    return  GET_TEXT(TEXT_POWEROFF_LABEL_BUTTON_OFF);
+        return GET_TEXT(TEXT_POWEROFF_LABEL_FORCE_OFF);
+    return GET_TEXT(TEXT_POWEROFF_LABEL_BUTTON_OFF);
 }
 
 void HAL::Power_Update()
 {
     if (millis() - systemInfo.powerMonitor.BatteryLastHandleTime >= 3000) {
-        WatchDog_Feed();
         systemInfo.powerMonitor.BatteryLastHandleTime = millis();
         if (!systemInfo.online_device.bq40z50) {
             while (1) {
@@ -162,6 +155,7 @@ void HAL::Power_Update()
             charger_update(&systemInfo.powerMonitor.batteryInfo);
         }
     }
+    WatchDog_Feed();
 }
 
 void HAL::WatchDog_Feed()
@@ -233,56 +227,53 @@ void Charger_Control_GPIO_Init(void)
 
 void USB_Switch_GPIO_Init(void)
 {
-	pinMode(USB_SWITCH_PIN, OUTPUT);
+    pinMode(USB_SWITCH_PIN, OUTPUT);
 }
 
 void USB_Switch_GPIO_Control(uint8_t state)
 {
-	digitalWrite(USB_SWITCH_PIN, state==1 ? HIGH:LOW);
+    digitalWrite(USB_SWITCH_PIN, state == 1 ? HIGH : LOW);
 }
 
 void Charge_Enable_Switch(uint8_t state)
 {
-	digitalWrite(CHARGER_ENABLE_PIN, state==1 ? HIGH:LOW);
+    digitalWrite(CHARGER_ENABLE_PIN, state == 1 ? HIGH : LOW);
 }
 
 void Charge_Current_Select(uint16_t select)
 {
-  if(3000 == select)
-    digitalWrite(CHARGER_SWITCH_PIN, HIGH);
-  else
-    digitalWrite(CHARGER_SWITCH_PIN, LOW);
+    if (3000 == select)
+        digitalWrite(CHARGER_SWITCH_PIN, HIGH);
+    else
+        digitalWrite(CHARGER_SWITCH_PIN, LOW);
 }
 
 void Charger_Control_Monitor(BatteryInfo_t *batteryState)
 {
-	static uint8_t Charger_Monitor_Count = 0;
-  int charge_detect = 0, fast_detect = 0, typec_detect = 0;
+    static uint8_t Charger_Monitor_Count = 0;
+    int charge_detect = 0, fast_detect = 0, typec_detect = 0;
 
-  charge_detect = digitalRead(CHARGER_CTRL_PIN);
-	fast_detect = digitalRead(CHARGER_CTRL_FAST_PIN);
-  typec_detect = digitalRead(CHARGER_ADC_DETECT_PIN);
-	//printf("charge_detect: %d, fast_detect:%d, typec_detect:%d\n", charge_detect, fast_detect, typec_detect);
+    charge_detect = digitalRead(CHARGER_CTRL_PIN);
+    fast_detect   = digitalRead(CHARGER_CTRL_FAST_PIN);
+    typec_detect  = digitalRead(CHARGER_ADC_DETECT_PIN);
+    // printf("charge_detect: %d, fast_detect:%d, typec_detect:%d\n", charge_detect, fast_detect, typec_detect);
 
-  if (charge_detect)
-    Charger_Monitor_Count++;
-  else
-    Charger_Monitor_Count = 0;
-	
-  if (Charger_Monitor_Count >= 3)
-  {
-		Charge_Enable_Switch(1);
-		Charge_Current_Select(3000);
+    if (charge_detect)
+        Charger_Monitor_Count++;
+    else
+        Charger_Monitor_Count = 0;
 
-		if( digitalRead(CHARGER_ENABLE_PIN) == 1)
-			batteryState->chargeStatus = fastCharge;
-		else
-			batteryState->chargeStatus = normalCharge;
-  }
-  else
-  {
-		
-		batteryState->chargeStatus = notCharge;
-    Charge_Enable_Switch(0);
-  }
+    if (Charger_Monitor_Count >= 3) {
+        Charge_Enable_Switch(1);
+        Charge_Current_Select(3000);
+
+        if (digitalRead(CHARGER_ENABLE_PIN) == 1)
+            batteryState->chargeStatus = fastCharge;
+        else
+            batteryState->chargeStatus = normalCharge;
+    } else {
+
+        batteryState->chargeStatus = notCharge;
+        Charge_Enable_Switch(0);
+    }
 }
