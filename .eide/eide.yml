@@ -468,6 +468,8 @@ targets:
     excludeList:
       - <virtual_root>/Common/DP_Power.cpp
       - <virtual_root>/Platform/Drivers/hc32_ll_icg.c
+    settings:
+      debugger: cortex-debug
     toolchain: AC6
     toolchainConfigMap:
       AC6:
