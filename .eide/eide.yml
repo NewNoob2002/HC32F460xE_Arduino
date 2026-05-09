@@ -74,6 +74,12 @@ virtualFolder:
             - path: Simulator/App/Pages/Shutdown/ShutdownModel.cpp
             - path: Simulator/App/Pages/Shutdown/ShutdownView.cpp
           folders: []
+        - name: SaveConfig
+          files:
+            - path: Simulator/App/Pages/SaveConfig/SaveConfig.cpp
+            - path: Simulator/App/Pages/SaveConfig/SaveConfigModel.cpp
+            - path: Simulator/App/Pages/SaveConfig/SaveConfigView.cpp
+          folders: []
     - name: Resource
       files:
         - path: Simulator/App/Resource/ResourcePool.cpp
@@ -436,7 +442,7 @@ targets:
         - USE_DDL_DRIVER
         - ARDUINO=111
       incList:
-        - ../HC32F460xE_Arduino
+        - .
         - Simulator/App
         - USER/inc
         - Platform/CMSIS/Include

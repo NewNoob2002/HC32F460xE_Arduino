@@ -40,23 +40,26 @@ static HANDLE output_lock = NULL;
 #endif
 #endif
 char buf[32];
+
 /**
  * EasyLogger port initialize
  *
  * @return result
  */
-ElogErrCode elog_port_init(void)
-{
+ElogErrCode
+elog_port_init(void) {
     ElogErrCode result = ELOG_NO_ERR;
 #if defined(_WIN32)
     output_lock = CreateMutex(NULL, FALSE, NULL);
 #else
     /* add your code here */
-		#ifdef SEGGER_RTT_H
+#if defined(__CORE_DEBUG)
+#ifdef SEGGER_RTT_H
     SEGGER_RTT_Init();
-		#else
-		usart_init();
-		#endif
+#else
+    usart_init();
+#endif
+#endif // defined(__CORE_DEBUG)
 #endif
     return result;
 }
@@ -65,8 +68,8 @@ ElogErrCode elog_port_init(void)
  * EasyLogger port deinitialize
  *
  */
-void elog_port_deinit(void)
-{
+void
+elog_port_deinit(void) {
 /* add your code here */
 #if defined(_WIN32)
     CloseHandle(output_lock);
@@ -81,26 +84,29 @@ void elog_port_deinit(void)
  * @param log output of log
  * @param size log size
  */
-void elog_port_output(const char *log, size_t size)
-{
+void
+elog_port_output(const char* log, size_t size) {
     /* add your code here */
 #if defined(_WIN32)
     printf("%.*s", (int)size, log);
     /* add your code here */
 #else
-		#ifdef SEGGER_RTT_H
+
+#if defined(__CORE_DEBUG)
+#ifdef SEGGER_RTT_H
     SEGGER_RTT_Write(0, log, size);
-		#else
-		usart_write_buffer(log, size);
-		#endif
+#else
+    usart_write_buffer(log, size);
+#endif
+#endif // defined(__CORE_DEBUG)
 #endif
 }
 
 /**
  * output lock
  */
-void elog_port_output_lock(void)
-{
+void
+elog_port_output_lock(void) {
     /* add your code here */
 #if defined(_WIN32)
     WaitForSingleObject(output_lock, INFINITE);
@@ -112,8 +118,8 @@ void elog_port_output_lock(void)
 /**
  * output unlock
  */
-void elog_port_output_unlock(void)
-{
+void
+elog_port_output_unlock(void) {
     /* add your code here */
 #if defined(_WIN32)
     ReleaseMutex(output_lock);
@@ -127,8 +133,8 @@ void elog_port_output_unlock(void)
  *
  * @return current time
  */
-const char *elog_port_get_time(void)
-{
+const char*
+elog_port_get_time(void) {
     /* add your code here */
     //		MakeTimeString(lv_tick_get(), buf, 32);
 #if defined(_WIN32)
@@ -136,8 +142,8 @@ const char *elog_port_get_time(void)
     static SYSTEMTIME currTime;
 
     GetLocalTime(&currTime);
-    snprintf(cur_system_time, 24, "%02d-%02d %02d:%02d:%02d.%03d", currTime.wMonth, currTime.wDay,
-             currTime.wHour, currTime.wMinute, currTime.wSecond, currTime.wMilliseconds);
+    snprintf(cur_system_time, 24, "%02d-%02d %02d:%02d:%02d.%03d", currTime.wMonth, currTime.wDay, currTime.wHour,
+             currTime.wMinute, currTime.wSecond, currTime.wMilliseconds);
 
     return cur_system_time;
 #else
@@ -152,8 +158,8 @@ const char *elog_port_get_time(void)
  *
  * @return current process name
  */
-const char *elog_port_get_p_info(void)
-{
+const char*
+elog_port_get_p_info(void) {
     /* add your code here */
 #if defined(_WIN32)
     static char cur_process_info[10] = {0};
@@ -171,8 +177,8 @@ const char *elog_port_get_p_info(void)
  *
  * @return current thread name
  */
-const char *elog_port_get_t_info(void)
-{
+const char*
+elog_port_get_t_info(void) {
     /* add your code here */
 #if defined(_WIN32)
     static char cur_thread_info[10] = {0};
