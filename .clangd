@@ -2,6 +2,8 @@ CompileFlags:
   Add:
     - -Ic:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include
     - -Ic:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include/libcxx
+    - -IC:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include
+    - -IC:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include/libcxx
   Remove: []
   CompilationDatabase: ./build/debug
-  Compiler: c:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG\bin\armclang.exe
+  Compiler: C:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG\bin\armclang.exe
