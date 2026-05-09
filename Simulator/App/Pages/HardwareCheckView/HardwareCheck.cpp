@@ -8,12 +8,14 @@ using namespace Page;
 
 uint32_t HardwareCheck::first_check_time = 0;
 
-void HardwareCheck::onCustomAttrConfig() {
+void
+HardwareCheck::onCustomAttrConfig() {
     SetCustomCacheEnable(false);
     SetCustomLoadAnimType(PageManager::LOAD_ANIM_FADE_ON);
 }
 
-void HardwareCheck::onViewLoad() {
+void
+HardwareCheck::onViewLoad() {
     Model.Init();
     View.Create(_root);
     lv_obj_fade_in(_root, 300, 0);
@@ -22,41 +24,49 @@ void HardwareCheck::onViewLoad() {
     first_check_time = lv_tick_get();
 }
 
-void HardwareCheck::onViewDidLoad() {
+void
+HardwareCheck::onViewDidLoad() {
     PageBase::onViewDidLoad();
 }
 
-void HardwareCheck::onViewWillAppear() {
+void
+HardwareCheck::onViewWillAppear() {
     PageBase::onViewWillAppear();
 }
 
-void HardwareCheck::onViewDidAppear() {
+void
+HardwareCheck::onViewDidAppear() {
     PageBase::onViewDidAppear();
 }
 
-void HardwareCheck::onViewWillDisappear() {
+void
+HardwareCheck::onViewWillDisappear() {
     if (timer) {
         lv_timer_del(timer);
     }
 }
 
-void HardwareCheck::onViewDidDisappear() {
+void
+HardwareCheck::onViewDidDisappear() {
     // Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
     Model.SetStatusBarAppear(true);
 }
 
-void HardwareCheck::onViewUnload() {
+void
+HardwareCheck::onViewUnload() {
     View.Delete();
     Model.SetEncoderEnable(true);
     Model.Deinit();
 }
 
-void HardwareCheck::onViewDidUnload() {
+void
+HardwareCheck::onViewDidUnload() {
     PageBase::onViewDidUnload();
 }
 
-void HardwareCheck::onTimer(lv_timer_t *timer) {
-    const auto *instance = static_cast<HardwareCheck *>(timer->user_data);
+void
+HardwareCheck::onTimer(lv_timer_t* timer) {
+    const auto* instance = static_cast<HardwareCheck*>(timer->user_data);
     instance->View.Update();
 #if defined (HC32F460)
     if (lv_tick_get() - first_check_time >= 30000 || systemInfo.online_device.eg25_board) {
@@ -68,5 +78,5 @@ void HardwareCheck::onTimer(lv_timer_t *timer) {
 #endif
 }
 
-void HardwareCheck::onEvent(lv_event_t *event) {
-}
+void
+HardwareCheck::onEvent(lv_event_t* event) {}

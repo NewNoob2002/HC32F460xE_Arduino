@@ -22,6 +22,7 @@
  */
 #include "AppFactory.h"
 #include "Dialplate/Dialplate.h"
+#include "RecordConfig/RecordConfig.h"
 #include "HardwareCheckView/HardwareCheck.h"
 #include "SaveConfig/SaveConfig.h"
 #include "Shutdown/Shutdown.h"
@@ -42,6 +43,7 @@ AppFactory::CreatePage(const char* name) {
     APP_CLASS_MATCH(Shutdown);
     APP_CLASS_MATCH(WorkSettings);
     APP_CLASS_MATCH(Dialplate);
+    APP_CLASS_MATCH(RecordConfig);
     APP_CLASS_MATCH(SystemInfos);
     APP_CLASS_MATCH(Startup);
     APP_CLASS_MATCH(HardwareCheck);

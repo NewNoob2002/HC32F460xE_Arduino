@@ -4,64 +4,69 @@
 
 using namespace Page;
 
-static void lv_anim_arc_set_value(void * obj, int32_t value)
-{
-    lv_anim_t *anim = lv_anim_get(obj, lv_anim_arc_set_value);
+static void
+lv_anim_arc_set_value(void* obj, int32_t value) {
+    lv_anim_t* anim = lv_anim_get(obj, lv_anim_arc_set_value);
     // 注意：在动画结束销毁时 anim 可能为空，需做保护
-    if(!anim) return;
+    if (!anim)
+        return;
 
-    const auto *instance = static_cast<Startup *>(lv_anim_get_user_data(anim));
+    const auto* instance = static_cast<Startup*>(lv_anim_get_user_data(anim));
     LV_ASSERT_NULL(instance);
 
-    lv_arc_set_value(static_cast<lv_obj_t *>(obj), value);
+    lv_arc_set_value(static_cast<lv_obj_t*>(obj), value);
 
     // 更新百分比文字 (放在这里可以让文字跟随动画平滑变化)
-    if(instance->View.ui.arc_percent) {
+    if (instance->View.ui.arc_percent) {
         lv_label_set_text_fmt(instance->View.ui.arc_percent, "%d%%", value);
     }
 
     if (value >= 100) {
-        lv_obj_set_style_arc_color(static_cast<lv_obj_t *>(obj), lv_color_hex(0x70e958), LV_PART_MAIN);
+        lv_obj_set_style_arc_color(static_cast<lv_obj_t*>(obj), lv_color_hex(0x70e958), LV_PART_MAIN);
 
-        if(!systemInfo.powerMonitor.panel_power_on)
-        {
+        if (!systemInfo.powerMonitor.panel_power_on) {
             systemInfo.powerMonitor.panel_power_on = true;
-						systemInfo.powerMonitor.pannel_power_on_time = lv_tick_get();
+            systemInfo.powerMonitor.pannel_power_on_time = lv_tick_get();
             instance->pageManager->Push("Pages/HardwareCheck");
         }
     }
 }
 
-void Startup::onCustomAttrConfig() {
+void
+Startup::onCustomAttrConfig() {
     SetCustomCacheEnable(false);
     SetCustomLoadAnimType(PageManager::LOAD_ANIM_NONE);
 }
 
-void Startup::onViewLoad() {
+void
+Startup::onViewLoad() {
     Model.Init();
     View.Create(_root);
-    lv_obj_fade_in(_root, 300, 0 );
+    lv_obj_fade_in(_root, 300, 0);
     lv_anim_set_exec_cb(&View.ui.arc_anim, lv_anim_arc_set_value);
     lv_anim_set_user_data(&View.ui.arc_anim, this);
     AttachEvent(View.ui.btnPress);
 }
 
-void Startup::onViewDidLoad() {
+void
+Startup::onViewDidLoad() {
     timer = lv_timer_create(onTimer, 5000, this);
     lv_timer_set_repeat_count(timer, 1);
 }
 
-void Startup::onViewWillAppear() {
-    lv_group_t *group = lv_group_get_default();
+void
+Startup::onViewWillAppear() {
+    lv_group_t* group = lv_group_get_default();
     LV_ASSERT_NULL(group);
     lv_group_add_obj(group, View.ui.btnPress);
     lv_group_focus_obj(View.ui.btnPress);
 }
 
-void Startup::onViewDidAppear() {
-}
+void
+Startup::onViewDidAppear() {}
 
-void Startup::onViewWillDisappear() {
+void
+Startup::onViewWillDisappear() {
     if (timer != nullptr) {
         lv_timer_del(timer);
         timer = nullptr;
@@ -69,34 +74,40 @@ void Startup::onViewWillDisappear() {
     Model.SetStatusBarAppear(false, false);
 }
 
-void Startup::onViewDidDisappear() {
-}
+void
+Startup::onViewDidDisappear() {}
 
-void Startup::onViewUnload() {
+void
+Startup::onViewUnload() {
     View.Delete();
     Model.Deinit();
-		Model.SetEncoderEnable(false);
+    Model.SetEncoderEnable(false);
 }
 
-void Startup::onViewDidUnload() {
-}
+void
+Startup::onViewDidUnload() {}
 
-void Startup::AttachEvent(lv_obj_t *obj) {
+void
+Startup::AttachEvent(lv_obj_t* obj) {
     lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
 }
 
-void Startup::onTimer(lv_timer_t *timer) {
-    const auto *instance = static_cast<Startup *>(timer->user_data);
+void
+Startup::onTimer(lv_timer_t* timer) {
+    const auto* instance = static_cast<Startup*>(timer->user_data);
     instance->Model.SetStatusBarAppear(true, true);
     instance->timer = nullptr;
 }
 
-void Startup::onEvent(lv_event_t *event) {
-    auto *instance = static_cast<Startup *>(lv_event_get_user_data(event));
+void
+Startup::onEvent(lv_event_t* event) {
+    auto* instance = static_cast<Startup*>(lv_event_get_user_data(event));
     LV_ASSERT_NULL(instance);
-    if (systemInfo.powerMonitor.panel_power_on) return;
+    if (systemInfo.powerMonitor.panel_power_on)
+        return;
 
-    if (const lv_obj_t *obj = lv_event_get_current_target(event); obj != instance->View.ui.btnPress) return;
+    if (const lv_obj_t* obj = lv_event_get_current_target(event); obj != instance->View.ui.btnPress)
+        return;
 
     const lv_event_code_t code = lv_event_get_code(event);
 

@@ -4,43 +4,43 @@
 #include "WorkSettingsView.h"
 
 namespace Page {
-    class WorkSettings : public PageBase {
-    public:
-        WorkSettings();
+class WorkSettings : public PageBase {
+public:
+    WorkSettings();
 
-        ~WorkSettings() override;
+    ~WorkSettings() override;
 
-        void onCustomAttrConfig() override;
+    void onCustomAttrConfig() override;
 
-        void onViewLoad() override;
+    void onViewLoad() override;
 
-        void onViewDidLoad() override;
+    void onViewDidLoad() override;
 
-        void onViewWillAppear() override;
+    void onViewWillAppear() override;
 
-        void onViewDidAppear() override;
+    void onViewDidAppear() override;
 
-        void onViewWillDisappear() override;
+    void onViewWillDisappear() override;
 
-        void onViewDidDisappear() override;
+    void onViewDidDisappear() override;
 
-        void onViewUnload() override;
+    void onViewUnload() override;
 
-        void onViewDidUnload() override;
+    void onViewDidUnload() override;
 
-        void onBtnClicked(const lv_obj_t *btn) const;
+    void onBtnClicked(const lv_obj_t* btn) const;
 
-    private:
-        WorkSettingsView View{};
-        lv_obj_t *lastFocus{};
-        lv_timer_t *timer{};
+private:
+    WorkSettingsView View{};
+    lv_obj_t* lastFocus{};
+    lv_timer_t* timer{};
 
-        void AttachEvent(lv_obj_t *obj);
+    void AttachEvent(lv_obj_t* obj);
 
-        static void onTimerUpdate(lv_timer_t *timer);
+    static void onTimerUpdate(lv_timer_t* timer);
 
-        static void onEvent(lv_event_t *event);
-    };
+    static void onEvent(lv_event_t* event);
+};
 }
 
 #endif

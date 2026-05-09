@@ -1,12 +1,15 @@
-#ifndef WorkSettings_VIEW_H
-#define WorkSettings_VIEW_H
+//
+// Created by gtc on 2026/5/9.
+//
+
+#ifndef LVGL_RECORDCONFIGVIEW_H
+#define LVGL_RECORDCONFIGVIEW_H
+
 
 #include "../Page.h"
 
-extern const uint8_t RadioProtocol[PROTOCOL_MAX];
-
 namespace Page {
-class WorkSettingsView {
+class RecordConfigView {
 public:
     struct {
         struct {
@@ -28,24 +31,17 @@ public:
                 lv_obj_t* btnCont;
                 lv_obj_t* btnUp;
                 lv_obj_t* btnDown;
-            } mid_roller;
-
-            lv_obj_t* btnReset;
+            } right_roller;
         } roller;
 
         struct {
             lv_obj_t* cont;
-            lv_obj_t* btnBase;
-            lv_obj_t* btnRover;
-            lv_obj_t* btnNtrip;
+            lv_obj_t* btnRecord;
+            lv_obj_t* btnReturn;
         } btnCont;
 
         lv_anim_timeline_t* anim_timeline;
     } ui;
-
-    WorkSettingsView() = default;
-
-    ~WorkSettingsView() = default;
 
     void Create(lv_obj_t* root);
 
@@ -80,4 +76,5 @@ private:
 
 }
 
-#endif // WorkSettings_VIEW_H
+
+#endif //LVGL_RECORDCONFIGVIEW_H

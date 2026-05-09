@@ -4,8 +4,9 @@
 
 using namespace Page;
 
-static void syncbar_timer_callback(lv_timer_t *timer) {
-    const auto *instance = static_cast<SaveConfig *>(timer->user_data);
+static void
+syncbar_timer_callback(lv_timer_t* timer) {
+    const auto* instance = static_cast<SaveConfig*>(timer->user_data);
     LV_ASSERT_NULL(instance);
     memset(&systemInfo, 0, sizeof(systemInfo));
 #if defined(_WIN32)
@@ -17,20 +18,23 @@ static void syncbar_timer_callback(lv_timer_t *timer) {
 #endif
 }
 
-static void syncbar_anim_done_callback(lv_anim_t *a) {
-    auto *instance = static_cast<SaveConfig *>(lv_anim_get_user_data(a));
+static void
+syncbar_anim_done_callback(lv_anim_t* a) {
+    auto* instance = static_cast<SaveConfig*>(lv_anim_get_user_data(a));
     LV_ASSERT_NULL(instance);
     HAL::Power_Shutdown(true);
-    lv_timer_t *timer = lv_timer_create(syncbar_timer_callback, 1000, instance);
+    lv_timer_t* timer = lv_timer_create(syncbar_timer_callback, 1000, instance);
     lv_timer_set_repeat_count(timer, 1);
 }
 
-void SaveConfig::onCustomAttrConfig() {
+void
+SaveConfig::onCustomAttrConfig() {
     LV_LOG_USER("onCustomAttrConfig");
     SetCustomCacheEnable(true);
 }
 
-void SaveConfig::onViewLoad() {
+void
+SaveConfig::onViewLoad() {
     LV_LOG_USER("ViewLoad");
     Model.Init();
     View.Create(_root);
@@ -42,32 +46,39 @@ void SaveConfig::onViewLoad() {
     lv_anim_start(&View.ui.sync.bar.anim);
 }
 
-void SaveConfig::onViewDidLoad() {
+void
+SaveConfig::onViewDidLoad() {
     LV_LOG_USER("onViewDidLoad");
 }
 
-void SaveConfig::onViewWillAppear() {
+void
+SaveConfig::onViewWillAppear() {
     LV_LOG_USER("onViewWillAppear");
 }
 
-void SaveConfig::onViewDidAppear() {
+void
+SaveConfig::onViewDidAppear() {
     LV_LOG_USER("onViewDidAppear");
 }
 
-void SaveConfig::onViewWillDisappear() {
+void
+SaveConfig::onViewWillDisappear() {
     LV_LOG_USER("onViewWillDisappear");
 }
 
-void SaveConfig::onViewDidDisappear() {
+void
+SaveConfig::onViewDidDisappear() {
     LV_LOG_USER("onViewDidDisappear");
 }
 
-void SaveConfig::onViewUnload() {
+void
+SaveConfig::onViewUnload() {
     LV_LOG_USER("onViewUnload");
     View.Delete();
     Model.Deinit();
 }
 
-void SaveConfig::onViewDidUnload() {
+void
+SaveConfig::onViewDidUnload() {
     LV_LOG_USER("onViewDidUnload");
 }

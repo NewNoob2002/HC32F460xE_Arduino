@@ -3,25 +3,26 @@
 
 #include "Common/DataProc/DataProc.h"
 
-namespace Page
-{
+namespace Page {
 
-class DialplateModel
-{
+class DialplateModel {
 public:
     DialplateModel() = default;
-    ~DialplateModel()= default;
-    typedef enum
-    {
-        REC_START    = DataProc::RECORDER_CMD_START,
-        REC_STOP     = DataProc::RECORDER_CMD_STOP
+
+    ~DialplateModel() = default;
+
+    typedef enum {
+        REC_START = DataProc::RECORDER_CMD_START,
+        REC_STOP = DataProc::RECORDER_CMD_STOP
     } RecCmd_t;
 
 public:
     void Init();
+
     void Deinit();
 
     void RecorderCommand(RecCmd_t cmd) const;
+
     void SetStatusBarStyle(DataProc::StatusBar_Style_t style) const;
 
 private:

@@ -14,50 +14,53 @@
 
 #define STATUS_BAR_HEIGHT 26
 
-static Account *actStatusBar;
+static Account* actStatusBar;
 static bool StatusBarAppear = false;
 
 struct {
-    lv_obj_t *cont;
+    lv_obj_t* cont;
 
     struct {
-        numberFlow *satellite_num;
-        lv_obj_t *position_icon;
-        lv_obj_t *position_label;
+        numberFlow* satellite_num;
+        lv_obj_t* position_icon;
+        lv_obj_t* position_label;
     } position;
 
-    numberFlow_clock *clock;
-    lv_obj_t *sd_icon;
-    lv_obj_t *wifi_icon;
+    numberFlow_clock* clock;
+    lv_obj_t* sd_icon;
+    lv_obj_t* wifi_icon;
 
     struct {
-        lv_obj_t *img;
-        lv_obj_t *objUsage;
-        numberFlow *percent;
+        lv_obj_t* img;
+        lv_obj_t* objUsage;
+        numberFlow* percent;
     } battery;
 
-    lv_obj_t *labelRec;
+    lv_obj_t* labelRec;
 } ui;
 
-static void StatusBar_ConBattSetOpa(lv_obj_t *obj, int32_t opa);
+static void StatusBar_ConBattSetOpa(lv_obj_t* obj, int32_t opa);
 
-static void StatusBar_onAnimOpaFinish(lv_anim_t *a);
+static void StatusBar_onAnimOpaFinish(lv_anim_t* a);
 
-static void StatusBar_AnimCreate(lv_obj_t *contBatt);
+static void StatusBar_AnimCreate(lv_obj_t* contBatt);
 
-static void StatusBar_onAnimWidthFinish(lv_anim_t *a);
+static void StatusBar_onAnimWidthFinish(lv_anim_t* a);
 
-static void StatusBar_ConBattSetOpa(lv_obj_t *obj, int32_t opa) {
+static void
+StatusBar_ConBattSetOpa(lv_obj_t* obj, int32_t opa) {
     lv_obj_set_style_opa(obj, opa, 0);
 }
 
-static void StatusBar_onAnimOpaFinish(lv_anim_t *a) {
-    auto *obj = static_cast<lv_obj_t *>(a->var);
+static void
+StatusBar_onAnimOpaFinish(lv_anim_t* a) {
+    auto* obj = static_cast<lv_obj_t*>(a->var);
     StatusBar_ConBattSetOpa(obj, LV_OPA_COVER);
     StatusBar_AnimCreate(obj);
 }
 
-static void StatusBar_onAnimWidthFinish(lv_anim_t *a) {
+static void
+StatusBar_onAnimWidthFinish(lv_anim_t* a) {
     lv_anim_t a_opa;
     lv_anim_init(&a_opa);
     lv_anim_set_var(&a_opa, a->var);
@@ -70,7 +73,8 @@ static void StatusBar_onAnimWidthFinish(lv_anim_t *a) {
     lv_anim_start(&a_opa);
 }
 
-static void StatusBar_AnimCreate(lv_obj_t *contBatt) {
+static void
+StatusBar_AnimCreate(lv_obj_t* contBatt) {
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, contBatt);
@@ -81,7 +85,8 @@ static void StatusBar_AnimCreate(lv_obj_t *contBatt) {
     lv_anim_start(&a);
 }
 
-static void StatusBar_StyleInit(lv_obj_t *cont) {
+static void
+StatusBar_StyleInit(lv_obj_t* cont) {
     /* style1 */
     lv_obj_set_style_bg_opa(cont, LV_OPA_TRANSP, LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(cont, lv_color_hex(0x333333), LV_STATE_DEFAULT);
@@ -106,26 +111,25 @@ static void StatusBar_StyleInit(lv_obj_t *cont) {
         200,
         0,
         nullptr
-    );
+        );
     lv_obj_set_style_transition(cont, &tran, LV_STATE_USER_1);
 }
 
-static void StatusBar_SetStyle(const DataProc::StatusBar_Style_t style) {
-    lv_obj_t *cont = ui.cont;
+static void
+StatusBar_SetStyle(const DataProc::StatusBar_Style_t style) {
+    lv_obj_t* cont = ui.cont;
     switch (style) {
-        case DataProc::STATUS_BAR_STYLE_TRANSP:
-            lv_obj_add_state(cont, LV_STATE_DEFAULT);
+        case DataProc::STATUS_BAR_STYLE_TRANSP: lv_obj_add_state(cont, LV_STATE_DEFAULT);
             lv_obj_clear_state(cont, LV_STATE_USER_1);
             break;
-        case DataProc::STATUS_BAR_STYLE_BLACK:
-            lv_obj_add_state(cont, LV_STATE_USER_1);
+        case DataProc::STATUS_BAR_STYLE_BLACK: lv_obj_add_state(cont, LV_STATE_USER_1);
             break;
-        default:
-            break;
+        default: break;
     }
 }
 
-static void StatusBar_Update(lv_timer_t *timer) {
+static void
+StatusBar_Update(lv_timer_t* timer) {
     // HAL::GPS_Info_t gps;
     // if(actStatusBar->Pull("GPS", &gps, sizeof(gps)) == Account::RES_OK)
     // {
@@ -183,9 +187,9 @@ static void StatusBar_Update(lv_timer_t *timer) {
 
     // /* battery */
     ui.battery.percent->setValue(systemInfo.powerMonitor.batteryInfo.Percent);
-		
+
     const bool Is_BattCharging = systemInfo.powerMonitor.batteryInfo.chargeStatus != notCharge;
-    lv_obj_t *contBatt = ui.battery.objUsage;
+    lv_obj_t* contBatt = ui.battery.objUsage;
     static bool Is_BattChargingAnimActive = false;
     if (Is_BattCharging) {
         if (!Is_BattChargingAnimActive) {
@@ -213,20 +217,21 @@ static void StatusBar_Update(lv_timer_t *timer) {
     }
 }
 
-lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
-    lv_obj_t *cont = lv_obj_create(par);
+lv_obj_t*
+Page::StatusBar_Create(lv_obj_t* par) {
+    lv_obj_t* cont = lv_obj_create(par);
     lv_obj_remove_style_all(cont);
 
-    const lv_font_t *font = ResourcePool::GetFont("oswaldBold_18");
-    const lv_font_t *font2 = ResourcePool::GetFont("oswaldBold_12");
+    const lv_font_t* font = ResourcePool::GetFont("oswaldBold_18");
+    const lv_font_t* font2 = ResourcePool::GetFont("oswaldBold_12");
     lv_obj_set_size(cont, LV_HOR_RES, STATUS_BAR_HEIGHT);
     lv_obj_set_y(cont, -STATUS_BAR_HEIGHT);
     StatusBar_StyleInit(cont);
     ui.cont = cont;
 
-    lv_obj_t *satellite_img = lv_img_create(cont);
+    lv_obj_t* satellite_img = lv_img_create(cont);
     lv_img_set_src(satellite_img, ResourcePool::GetImage("satellite"));
-    const auto *img_satellite_ext = reinterpret_cast<lv_img_t *>(satellite_img);
+    const auto* img_satellite_ext = reinterpret_cast<lv_img_t*>(satellite_img);
     lv_obj_set_size(satellite_img, img_satellite_ext->w, img_satellite_ext->h);
     lv_obj_align(satellite_img, LV_ALIGN_TOP_LEFT, 10, 5);
 
@@ -235,8 +240,8 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
     ui.position.satellite_num->setAlignTo(satellite_img, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
     ui.position.satellite_num->setValue(0);
 
-    const lv_font_t *statusBar_font = ResourcePool::GetFont("statusbar");
-    lv_obj_t *position_icon = lv_label_create(cont);
+    const lv_font_t* statusBar_font = ResourcePool::GetFont("statusbar");
+    lv_obj_t* position_icon = lv_label_create(cont);
     lv_obj_remove_style_all(position_icon);
     lv_obj_set_style_text_font(position_icon, statusBar_font, 0);
     lv_obj_set_style_text_color(position_icon, lv_palette_main(LV_PALETTE_GREY), LV_STATE_DEFAULT);
@@ -244,7 +249,7 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
     lv_obj_align_to(position_icon, ui.position.satellite_num->getCont(), LV_ALIGN_OUT_RIGHT_MID, 5, 0);
     ui.position.position_icon = position_icon;
 
-    lv_obj_t *position_label = lv_label_create(cont);
+    lv_obj_t* position_label = lv_label_create(cont);
     lv_obj_remove_style_all(position_label);
     lv_obj_set_style_text_font(position_label, font2, 0);
     lv_obj_set_style_text_color(position_label, lv_color_white(), LV_STATE_DEFAULT);
@@ -257,7 +262,7 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
     ui.clock->setPos(LV_ALIGN_TOP_MID, 0, 0);
     ui.clock->setTime(0, 0, 0);
 
-    lv_obj_t *sd_icon = lv_label_create(cont);
+    lv_obj_t* sd_icon = lv_label_create(cont);
     lv_obj_remove_style_all(sd_icon);
     lv_obj_set_style_text_font(sd_icon, statusBar_font, 0);
     lv_obj_set_style_text_color(sd_icon, lv_color_white(), LV_STATE_DEFAULT);
@@ -265,7 +270,7 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
     lv_obj_align_to(sd_icon, ui.clock->getCont(), LV_ALIGN_OUT_RIGHT_MID, 5, 0);
     ui.sd_icon = sd_icon;
 
-    lv_obj_t *wifi_icon = lv_label_create(cont);
+    lv_obj_t* wifi_icon = lv_label_create(cont);
     lv_obj_remove_style_all(wifi_icon);
     lv_obj_set_style_text_font(wifi_icon, statusBar_font, 0);
     lv_obj_set_style_text_color(wifi_icon, lv_color_white(), LV_STATE_DEFAULT);
@@ -273,14 +278,14 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
     lv_obj_align_to(wifi_icon, sd_icon, LV_ALIGN_OUT_RIGHT_MID, 2, 0);
     ui.wifi_icon = wifi_icon;
 
-    lv_obj_t *img = lv_img_create(cont);
+    lv_obj_t* img = lv_img_create(cont);
     lv_img_set_src(img, ResourcePool::GetImage("battery"));
-    const auto *img_ext = reinterpret_cast<lv_img_t *>(img);
+    const auto* img_ext = reinterpret_cast<lv_img_t*>(img);
     lv_obj_set_size(img, img_ext->w, img_ext->h);
     lv_obj_align(img, LV_ALIGN_TOP_RIGHT, -40, 5);
     ui.battery.img = img;
 
-    lv_obj_t *obj = lv_obj_create(img);
+    lv_obj_t* obj = lv_obj_create(img);
     lv_obj_remove_style_all(obj);
     lv_obj_set_style_bg_color(obj, lv_color_hex(0x4CAF50), 0);
     lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
@@ -296,14 +301,15 @@ lv_obj_t *Page::StatusBar_Create(lv_obj_t *par) {
 
     StatusBar_SetStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
 
-    lv_timer_t *timer = lv_timer_create(StatusBar_Update, 1000, nullptr);
+    lv_timer_t* timer = lv_timer_create(StatusBar_Update, 1000, nullptr);
     lv_timer_ready(timer);
 
     return ui.cont;
 }
 
 
-void StatusBar_Appear(const bool en, const bool delay) {
+void
+StatusBar_Appear(const bool en, const bool delay) {
     int32_t start = -STATUS_BAR_HEIGHT;
     int32_t end = 0;
     if ((en && StatusBarAppear) || (!en && !StatusBarAppear)) {
@@ -335,7 +341,8 @@ void StatusBar_Appear(const bool en, const bool delay) {
     lv_anim_start(&a);
 }
 
-static void StatusBar_SetRecord(const bool active) {
+static void
+StatusBar_SetRecord(const bool active) {
     if (active) {
         lv_obj_set_style_text_color(ui.sd_icon, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
         systemInfo.recordInfo.record_status = On_Off_Status_ON;
@@ -349,7 +356,8 @@ static void StatusBar_SetRecord(const bool active) {
     }
 }
 
-static int onEvent(Account *account, Account::EventParam_t *param) {
+static int
+onEvent(Account* account, Account::EventParam_t* param) {
     if (param->event != Account::EVENT_NOTIFY) {
         return Account::RES_UNSUPPORTED_REQUEST;
     }
@@ -358,18 +366,14 @@ static int onEvent(Account *account, Account::EventParam_t *param) {
         return Account::RES_SIZE_MISMATCH;
     }
 
-    switch (const auto *info = static_cast<DataProc::StatusBar_Info_t *>(param->data_p); info->cmd) {
-        case DataProc::STATUS_BAR_CMD_APPEAR:
-            StatusBar_Appear(info->param.appear, info->param.delay);
+    switch (const auto* info = static_cast<DataProc::StatusBar_Info_t*>(param->data_p); info->cmd) {
+        case DataProc::STATUS_BAR_CMD_APPEAR: StatusBar_Appear(info->param.appear, info->param.delay);
             break;
-        case DataProc::STATUS_BAR_CMD_SET_STYLE:
-            StatusBar_SetStyle(info->param.style);
+        case DataProc::STATUS_BAR_CMD_SET_STYLE: StatusBar_SetStyle(info->param.style);
             break;
-        case DataProc::STATUS_BAR_CMD_SET_LABEL_REC:
-            StatusBar_SetRecord(info->param.record_active);
+        case DataProc::STATUS_BAR_CMD_SET_LABEL_REC: StatusBar_SetRecord(info->param.record_active);
             break;
-        default:
-            return Account::RES_PARAM_ERROR;
+        default: return Account::RES_PARAM_ERROR;
     }
 
     return Account::RES_OK;

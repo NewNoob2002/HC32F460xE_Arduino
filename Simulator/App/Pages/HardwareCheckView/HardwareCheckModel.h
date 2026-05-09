@@ -9,32 +9,33 @@
 #include "HAL/HAL.h"
 
 namespace Page {
-    class HardwareCheckModel {
-    public:
-        HardwareCheckModel() {
-            account = nullptr;
-        }
+class HardwareCheckModel {
+public:
+    HardwareCheckModel() {
+        account = nullptr;
+    }
 
-        ~HardwareCheckModel() = default;
+    ~HardwareCheckModel() = default;
 
-        void Init();
+    void Init();
 
-        void Deinit();
+    void Deinit();
 
-        void SetStatusBarAppear(bool en) const;
+    void SetStatusBarAppear(bool en) const;
 
-        void SetStatusBarStyle(DataProc::StatusBar_Style_t style) const;
+    void SetStatusBarStyle(DataProc::StatusBar_Style_t style) const;
 
-        static void SetEncoderEnable(const bool en) {
+    static void
+    SetEncoderEnable(const bool en) {
 #if defined(_WIN32)
 #else
-            HAL::Encoder_SetEnable(en);
+        HAL::Encoder_SetEnable(en);
 #endif
-        }
+    }
 
-    private:
-        Account *account;
-    };
+private:
+    Account* account;
+};
 };
 
 #endif //LVGL_HARDWARE_CHECK_MODEL_H

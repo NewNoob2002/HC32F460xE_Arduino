@@ -32,8 +32,60 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb9296b5-62c7-49bf-9405-3d779f01f962" name="更改" comment="update">
-      <change beforePath="$PROJECT_DIR$/../.clangd" beforeDir="false" afterPath="$PROJECT_DIR$/../.clangd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.eide/eide.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../.eide/eide.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/App/Pages/RecordConfig/RecordConfig.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/App/Pages/RecordConfig/RecordConfig.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/App/Pages/RecordConfig/RecordConfigView.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/App/Pages/RecordConfig/RecordConfigView.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/App/Resource/img/img_src_record.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/App/Resource/img/img_src_settings.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/App.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/App.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Common/DataProc/DataProc.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Common/DataProc/DataProc.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Common/DataProc/DataProc.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Common/DataProc/DataProc.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/APPFactory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/APPFactory.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/AppFactory.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/AppFactory.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/Dialplate.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateModel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Dialplate/DialplateView.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheck.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckModel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/HardwareCheckView/HardwareCheckView.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfig.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfig.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfig.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfig.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfigModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfigModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfigModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfigModel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfigView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfigView.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfigView.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfigView.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Shutdown/Shutdown.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Shutdown/Shutdown.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Shutdown/Shutdown.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Shutdown/Shutdown.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Shutdown/ShutdownView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Shutdown/ShutdownView.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Shutdown/ShutdownView.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Shutdown/ShutdownView.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Startup/Startup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/Startup.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Startup/Startup.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/Startup.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Startup/StartupModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/StartupModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Startup/StartupModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/StartupModel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Startup/StartupView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/StartupView.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/Startup/StartupView.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/Startup/StartupView.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/StatusBar/StatusBar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/StatusBar/StatusBar.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/StatusBar/StatusBar.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/StatusBar/StatusBar.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/SystemInfos/SystemInfos.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/SystemInfos/SystemInfos.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/SystemInfos/SystemInfos.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/SystemInfos/SystemInfos.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/WorkSettings/WorkSettings.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/WorkSettings/WorkSettings.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/WorkSettings/WorkSettings.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/WorkSettings/WorkSettings.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/WorkSettings/WorkSettingsView.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/WorkSettings/WorkSettingsView.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Pages/WorkSettings/WorkSettingsView.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Pages/WorkSettings/WorkSettingsView.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/ResourcePool.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/ResourcePool.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/ResourcePool.h" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/ResourcePool.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_menu.c" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/img/img_src_menu.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_setting.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Resource/img/img_src_shutdown.c" beforeDir="false" afterPath="$PROJECT_DIR$/App/Resource/img/img_src_shutdown.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +193,7 @@
     "git-widget-placeholder": "newFrameworkX1pro",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "D:/workspace/BackUp/HC32F460xE_Arduino_copy/Simulator",
+    "last_opened_file_path": "D:/workspace/BackUp/HC32F460xE_Arduino_copy/Simulator/App/Resource/img",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -153,6 +205,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\BackUp\HC32F460xE_Arduino_copy\Simulator\App\Resource\img" />
       <recent name="C:\Users\guoti\Desktop\workspace\HC32F460xE_Arduino\Simulator\HAL" />
       <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Pages" />
       <recent name="D:\workspace\HC32F460xE_Arduino\Simulator\App\Resource\img" />
@@ -165,6 +218,11 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake 应用程序.main">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="lvgl" TARGET_NAME="main" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="lvgl" RUN_TARGET_NAME="main">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -213,7 +271,7 @@
       <workItem from="1769753383474" duration="814000" />
       <workItem from="1772067492171" duration="567000" />
       <workItem from="1772081157152" duration="53000" />
-      <workItem from="1778307604838" duration="11000" />
+      <workItem from="1778307604838" duration="8035000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -252,11 +310,6 @@
         <breakpoint enabled="true" type="CidrExceptionBreakpoint">
           <option name="timeStamp" value="6" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/App/Pages/SaveConfig/SaveConfig.cpp</url>
-          <line>11</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>

@@ -588,6 +588,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Pages/RecordConfig</GroupName>
+          <Files>
+            <File>
+              <FileName>RecordConfig.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\RecordConfig\RecordConfig.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RecordConfigView.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\RecordConfig\RecordConfigView.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Pages/SystemInfos</GroupName>
           <Files>
             <File>
@@ -766,11 +781,6 @@
               <FilePath>..\..\Simulator\App\Resource\img\img_src_sd.c</FilePath>
             </File>
             <File>
-              <FileName>img_src_setting.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Simulator\App\Resource\img\img_src_setting.c</FilePath>
-            </File>
-            <File>
               <FileName>img_src_start.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\img\img_src_start.c</FilePath>
@@ -829,6 +839,16 @@
               <FileName>img_src_ntrip.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\img\img_src_ntrip.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_settings.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_settings.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_record.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_record.c</FilePath>
             </File>
           </Files>
         </Group>

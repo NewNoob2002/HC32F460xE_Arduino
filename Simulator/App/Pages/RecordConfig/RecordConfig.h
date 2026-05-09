@@ -1,16 +1,19 @@
-#ifndef DIALPLATE_PRESENTER_H
-#define DIALPLATE_PRESENTER_H
+//
+// Created by gtc on 2026/5/9.
+//
 
-#include "DialplateView.h"
-#include "DialplateModel.h"
+#ifndef LVGL_RECORDCONFIG_H
+#define LVGL_RECORDCONFIG_H
+
+#include "RecordConfigView.h"
 
 namespace Page {
-
-class Dialplate final : public PageBase {
+class RecordConfig : public PageBase {
 public:
-    Dialplate();
+    RecordConfig()
+        : recState(RECORD_STATE_STOP), lastFocus(nullptr), timer(nullptr) {}
 
-    ~Dialplate() override;
+    ~RecordConfig() override = default;
 
     void onCustomAttrConfig() override;
 
@@ -30,33 +33,25 @@ public:
 
     void onViewDidUnload() override;
 
+    void onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code);
+
 private:
     typedef enum {
         RECORD_STATE_START = 0,
         RECORD_STATE_STOP
     } RecordState_t;
 
-    void Update();
+    RecordConfigView View{};
+    RecordState_t recState;
+    lv_obj_t* lastFocus;
+    lv_timer_t* timer;
 
     void AttachEvent(lv_obj_t* obj);
 
     static void onTimerUpdate(lv_timer_t* timer);
 
     static void onEvent(lv_event_t* event);
-
-    void onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code) const;
-
-    void onRecord(bool longPress);
-
-    void SetBtnRecImgSrc(const char* srcName) const;
-
-    DialplateView View{};
-    DialplateModel Model;
-    lv_timer_t* timer{};
-    RecordState_t recState;
-    lv_obj_t* lastFocus;
 };
-
 }
 
-#endif
+#endif //LVGL_RECORDCONFIG_H

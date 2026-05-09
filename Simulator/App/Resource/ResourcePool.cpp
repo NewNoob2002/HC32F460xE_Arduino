@@ -24,7 +24,8 @@ do{\
     Image_.AddResource(#name, (void*)&img_src_##name);\
 }while (0)
 
-static void Resource_Init() {
+static void
+Resource_Init() {
     /* Import Fonts */
     IMPORT_FONT(oswaldBold_12);
     IMPORT_FONT(oswaldBold_18);
@@ -37,7 +38,8 @@ static void Resource_Init() {
     // /* Import Images */
     IMPORT_IMG(battery);
     IMPORT_IMG(battery_info);
-    IMPORT_IMG(setting);
+    IMPORT_IMG(record);
+    IMPORT_IMG(settings);
     IMPORT_IMG(menu);
     IMPORT_IMG(start);
     IMPORT_IMG(stop);
@@ -60,15 +62,18 @@ static void Resource_Init() {
 }
 } /* extern "C" */
 
-void ResourcePool::Init() {
+void
+ResourcePool::Init() {
     Resource_Init();
-    Font_.SetDefault((void *) LV_FONT_DEFAULT);
+    Font_.SetDefault((void*)LV_FONT_DEFAULT);
 }
 
-lv_font_t *ResourcePool::GetFont(const char *name) {
-    return static_cast<lv_font_t *>(Font_.GetResource(name));
+lv_font_t*
+ResourcePool::GetFont(const char* name) {
+    return static_cast<lv_font_t*>(Font_.GetResource(name));
 }
 
-const void *ResourcePool::GetImage(const char *name) {
+const void*
+ResourcePool::GetImage(const char* name) {
     return Image_.GetResource(name);
 }

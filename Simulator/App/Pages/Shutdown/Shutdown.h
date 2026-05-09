@@ -4,43 +4,44 @@
 #include "ShutdownView.h"
 
 namespace Page {
-    class Shutdown : public PageBase {
-    public:
-        typedef struct {
-            uint16_t time;
-            lv_color_t color;
-        } Param_t;
+class Shutdown : public PageBase {
+public:
+    typedef struct {
+        uint16_t time;
+        lv_color_t color;
+    } Param_t;
 
-        Shutdown() = default;
+    Shutdown() = default;
 
-        ~Shutdown() override = default;
+    ~Shutdown() override = default;
 
-        void onCustomAttrConfig() override;
+    void onCustomAttrConfig() override;
 
-        void onViewLoad() override;
+    void onViewLoad() override;
 
-        void onViewDidLoad() override;
+    void onViewDidLoad() override;
 
-        void onViewWillAppear() override;
+    void onViewWillAppear() override;
 
-        void onViewDidAppear() override;
+    void onViewDidAppear() override;
 
-        void onViewWillDisappear() override;
+    void onViewWillDisappear() override;
 
-        void onViewDidDisappear() override;
+    void onViewDidDisappear() override;
 
-        void onViewUnload() override;
+    void onViewUnload() override;
 
-        void onViewDidUnload() override;
+    void onViewDidUnload() override;
 
-        ShutdownView View{};
-    private:
-        void Update() const;
+    ShutdownView View{};
 
-        void AttachEvent(lv_obj_t *obj);
+private:
+    void Update() const;
 
-        static void onEvent(lv_event_t *event);
-    };
+    void AttachEvent(lv_obj_t* obj);
+
+    static void onEvent(lv_event_t* event);
+};
 }
 
 #endif

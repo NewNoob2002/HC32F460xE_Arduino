@@ -10,12 +10,14 @@
 
 void DataProc_Init();
 
-namespace DataProc
-{
+namespace DataProc {
 
 DataCenter* Center();
-uint32_t    GetTick();
-uint32_t    GetTickElaps(uint32_t prevTick);
+
+uint32_t GetTick();
+
+uint32_t GetTickElaps(uint32_t prevTick);
+
 const char* MakeTimeString(uint64_t ms, char* buf, uint16_t len);
 
 }

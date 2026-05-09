@@ -12,7 +12,8 @@ using namespace Page;
 bool HardwareCheckView::do_it_once = false;
 uint8_t HardwareCheckView::check_time = 0;
 
-void HardwareCheckView::Create(lv_obj_t *root) {
+void
+HardwareCheckView::Create(lv_obj_t* root) {
 
     lv_obj_t* cont_screen = lv_obj_create(root);
     lv_obj_remove_style_all(cont_screen);
@@ -76,18 +77,17 @@ void HardwareCheckView::Create(lv_obj_t *root) {
 
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 
-
-    lv_obj_t *img_logo = lv_img_create(root);
+    lv_obj_t* img_logo = lv_img_create(root);
     lv_img_set_src(img_logo, ResourcePool::GetImage("startupLogo"));
-    const auto *img_satellite_ext = reinterpret_cast<lv_img_t *>(img_logo);
+    const auto* img_satellite_ext = reinterpret_cast<lv_img_t*>(img_logo);
     lv_obj_set_size(img_logo, img_satellite_ext->w, img_satellite_ext->h);
     lv_obj_center(img_logo);
     ui.img_logo = img_logo;
 }
 
-void HardwareCheckView::Delete() {
-    if(ui.anim_timeline)
-    {
+void
+HardwareCheckView::Delete() {
+    if (ui.anim_timeline) {
         lv_anim_timeline_del(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
@@ -96,8 +96,9 @@ void HardwareCheckView::Delete() {
     check_time = 0;
 }
 
-void HardwareCheckView::Update() const {
-    if(!do_it_once) {
+void
+HardwareCheckView::Update() const {
+    if (!do_it_once) {
         do_it_once = true;
         lv_obj_fade_out(ui.img_logo, 200, 0);
         lv_obj_clear_flag(ui.cont, LV_OBJ_FLAG_HIDDEN);

@@ -3,17 +3,13 @@
 
 #include "../Page.h"
 
-namespace Page
-{
+namespace Page {
 
-class DialplateView
-{
+class DialplateView {
 
 public:
-    struct
-    {
-        struct
-        {
+    struct {
+        struct {
             lv_obj_t* cont;
             lv_obj_t* icon_satellite;
             lv_obj_t* icon_radio;
@@ -22,8 +18,7 @@ public:
             numberFlow* satellite_tacked;
         } topInfo;
 
-        struct
-        {
+        struct {
             lv_obj_t* cont;
             lv_obj_t* btnMap;
             lv_obj_t* btnRec;
@@ -35,12 +30,16 @@ public:
     } ui;
 
     void Create(lv_obj_t* root);
+
     void Delete();
+
     void AppearAnimStart(bool reverse = false) const;
 
 private:
     void TopInfo_Create(lv_obj_t* par);
+
     void BtnCont_Create(lv_obj_t* par);
+
     static lv_obj_t* Btn_Create(lv_obj_t* par, const void* img_src, lv_coord_t x_ofs);
 };
 

@@ -85,6 +85,7 @@ App_Init() {
     manager.Install("Startup", "Pages/Startup");
     manager.Install("HardwareCheck", "Pages/HardwareCheck");
     manager.Install("Dialplate", "Pages/Dialplate");
+    manager.Install("RecordConfig", "Pages/RecordConfig");
     manager.Install("WorkSettings", "Pages/WorkSettings");
     manager.Install("SystemInfos", "Pages/SystemInfos");
     manager.Install("Shutdown", "Pages/Shutdown");

@@ -3,12 +3,12 @@
 #include "Utils/lv_anim_label/numberFlow.h"
 #include "symbol/symbol_unicode.h"
 
-namespace ResourcePool
-{
+namespace ResourcePool {
 
 void Init();
 
-lv_font_t* GetFont(const char *name);
+lv_font_t* GetFont(const char* name);
+
 const void* GetImage(const char* name);
 
 }

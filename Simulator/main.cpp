@@ -63,9 +63,10 @@ extern void StatusBar_Appear(bool en);
  *   GLOBAL FUNCTIONS
  **********************/
 
-[[noreturn]] int main(const int argc, char **argv) {
-    (void) argc; /*Unused*/
-    (void) argv; /*Unused*/
+[[noreturn]] int
+main(const int argc, char** argv) {
+    (void)argc; /*Unused*/
+    (void)argv; /*Unused*/
 
     /*Initialize LVGL*/
     lv_init();
@@ -73,8 +74,8 @@ extern void StatusBar_Appear(bool en);
     hal_init();
     memset(&systemInfo, 0, sizeof(systemInfo));
     systemInfo.positionInfo.satellite_number_used = 32;
-    systemInfo.positionInfo.satellite_number_track  = 48;
-    constexpr char wifi_id[16]= "E1PRO-2124A0078";
+    systemInfo.positionInfo.satellite_number_track = 48;
+    constexpr char wifi_id[16] = "E1PRO-2124A0078";
     memcpy(systemInfo.wifiInfo.wifi_ssid, wifi_id, 16);
     /* set EasyLogger log format */
     elog_init();
@@ -116,7 +117,8 @@ extern void StatusBar_Appear(bool en);
  * Initialize the Hardware Abstraction Layer (HAL) for the LVGL graphics
  * library
  */
-static void hal_init() {
+static void
+hal_init() {
     /* Use the 'monitor' driver which creates window on PC's monitor to simulate a display*/
     sdl_init();
 
@@ -133,13 +135,13 @@ static void hal_init() {
     disp_drv.hor_res = SDL_HOR_RES;
     disp_drv.ver_res = SDL_VER_RES;
 
-    lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
+    lv_disp_t* disp = lv_disp_drv_register(&disp_drv);
 
     // lv_theme_t *th = lv_theme_default_init(disp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
     //                                        LV_THEME_DEFAULT_DARK, LV_FONT_DEFAULT);
     // lv_disp_set_theme(disp, th);
 
-    lv_group_t *g = lv_group_create();
+    lv_group_t* g = lv_group_create();
     lv_group_set_default(g);
 
     /* Add the mouse as input device
@@ -150,24 +152,24 @@ static void hal_init() {
 
     /*This function will be called periodically (by the library) to get the mouse position and state*/
     indev_drv_1.read_cb = sdl_mouse_read;
-    lv_indev_t *mouse_indev = lv_indev_drv_register(&indev_drv_1);
+    lv_indev_t* mouse_indev = lv_indev_drv_register(&indev_drv_1);
 
     static lv_indev_drv_t indev_drv_2;
     lv_indev_drv_init(&indev_drv_2); /*Basic initialization*/
     indev_drv_2.type = LV_INDEV_TYPE_KEYPAD;
     indev_drv_2.read_cb = sdl_keyboard_read;
-    lv_indev_t *kb_indev = lv_indev_drv_register(&indev_drv_2);
+    lv_indev_t* kb_indev = lv_indev_drv_register(&indev_drv_2);
     lv_indev_set_group(kb_indev, g);
 
     static lv_indev_drv_t indev_drv_3;
     lv_indev_drv_init(&indev_drv_3); /*Basic initialization*/
     indev_drv_3.type = LV_INDEV_TYPE_ENCODER;
     indev_drv_3.read_cb = sdl_mousewheel_read;
-    lv_indev_t *enc_indev = lv_indev_drv_register(&indev_drv_3);
+    lv_indev_t* enc_indev = lv_indev_drv_register(&indev_drv_3);
     lv_indev_set_group(enc_indev, g);
 
     /*Set a cursor for the mouse*/
-    lv_obj_t *cursor_obj = lv_img_create(lv_scr_act()); /*Create an image object for the cursor */
-    lv_img_set_src(cursor_obj, &mouse_cursor_icon); /*Set the image source*/
-    lv_indev_set_cursor(mouse_indev, cursor_obj); /*Connect the image  object to the driver*/
+    lv_obj_t* cursor_obj = lv_img_create(lv_scr_act()); /*Create an image object for the cursor */
+    lv_img_set_src(cursor_obj, &mouse_cursor_icon);     /*Set the image source*/
+    lv_indev_set_cursor(mouse_indev, cursor_obj);       /*Connect the image  object to the driver*/
 }

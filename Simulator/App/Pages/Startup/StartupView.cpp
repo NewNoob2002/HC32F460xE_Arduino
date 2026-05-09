@@ -2,13 +2,12 @@
 
 using namespace Page;
 
-
-
-void StartupView::Create(lv_obj_t *root) {
-    const lv_font_t *font = ResourcePool::GetFont("oswaldBold_18");
+void
+StartupView::Create(lv_obj_t* root) {
+    const lv_font_t* font = ResourcePool::GetFont("oswaldBold_18");
 
     constexpr lv_coord_t arc_size = 126 * 0.6;
-    lv_obj_t *arc = lv_arc_create(root);
+    lv_obj_t* arc = lv_arc_create(root);
     lv_obj_set_size(arc, arc_size, arc_size);
     lv_obj_center(arc);
     lv_arc_set_range(arc, 0, 100);
@@ -21,7 +20,7 @@ void StartupView::Create(lv_obj_t *root) {
     lv_obj_set_style_arc_color(arc, lv_palette_main(LV_PALETTE_RED), LV_PART_INDICATOR);
     ui.arc = arc;
 
-    lv_obj_t *label_percent = lv_label_create(root);
+    lv_obj_t* label_percent = lv_label_create(root);
     lv_label_set_text(label_percent, "0%");
     lv_obj_center(label_percent);
     lv_obj_set_style_text_font(label_percent, font, 0);
@@ -50,7 +49,7 @@ void StartupView::Create(lv_obj_t *root) {
     lv_obj_set_style_radius(btnPress, 9, 0);
 
     static lv_style_transition_dsc_t tran;
-    static constexpr lv_style_prop_t prop[] = { LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
+    static constexpr lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
     lv_style_transition_dsc_init(
         &tran,
         prop,
@@ -58,23 +57,21 @@ void StartupView::Create(lv_obj_t *root) {
         200,
         0,
         nullptr
-    );
+        );
     lv_obj_set_style_transition(btnPress, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(btnPress, &tran, LV_STATE_FOCUSED);
     lv_obj_update_layout(btnPress);
     ui.btnPress = btnPress;
 
-    lv_obj_t *label_btn = lv_label_create(btnPress);
+    lv_obj_t* label_btn = lv_label_create(btnPress);
     lv_obj_remove_style_all(label_btn);
     lv_obj_set_style_text_font(label_btn, font, 0);
     lv_label_set_text(label_btn, "PRESS");
     lv_obj_center(label_btn);
 }
 
-void StartupView::Delete() const {
+void
+StartupView::Delete() const {}
 
-}
-
-void StartupView::Update() {
-
-}
+void
+StartupView::Update() {}
