@@ -115,6 +115,34 @@ rxBufferRead(void) {
     }
 }
 
+static uint16_t
+rxBufferReadBlock(uint8_t* buffer, uint16_t length) {
+    const uint16_t available = rxBufferAvailable();
+    if (buffer == nullptr || length == 0 || available == 0) {
+        return 0;
+    }
+
+    uint16_t readLength = length;
+    if (readLength > available) {
+        readLength = available;
+    }
+
+    uint16_t firstChunk = readLength;
+    const uint16_t tailToEnd = SLAVE_RX_BUFFER_SIZE - _rxBufferTail;
+    if (firstChunk > tailToEnd) {
+        firstChunk = tailToEnd;
+    }
+
+    memcpy(buffer, &_rxBuffer[_rxBufferTail], firstChunk);
+    const uint16_t secondChunk = readLength - firstChunk;
+    if (secondChunk > 0) {
+        memcpy(buffer + firstChunk, _rxBuffer, secondChunk);
+    }
+
+    _rxBufferTail = (uint16_t)(_rxBufferTail + readLength) % SLAVE_RX_BUFFER_SIZE;
+    return readLength;
+}
+
 void
 rxBufferWrite(uint8_t ch) {
     uint16_t i = (uint16_t)(_rxBufferHead + 1) % SLAVE_RX_BUFFER_SIZE;
@@ -271,13 +299,7 @@ slave_i2c_update() {
         uint16_t parseLength = 0;
 
         __disable_irq();
-        while (parseLength < bytesToParse) {
-            int data = rxBufferRead();
-            if (data < 0) {
-                break;
-            }
-            parseBuffer[parseLength++] = (uint8_t)data;
-        }
+        parseLength = rxBufferReadBlock(parseBuffer, bytesToParse);
         __enable_irq();
 
         for (uint16_t i = 0; i < parseLength; i++) {
