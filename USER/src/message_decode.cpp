@@ -19,7 +19,6 @@ static int
 message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
     uint8_t* msg = txBuffer;
     uint16_t messageLength = 0;
-    uint16_t packageLength = 0;
     switch (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L]) {
         case NM_PANEL_INFO1_ID: messageLength = NM_PROTOCOL_INFO1_MSG_LEN; break;
         case NM_PANEL_INFO2_ID: messageLength = NM_PROTOCOL_INFO2_MSG_LEN; break;
@@ -27,6 +26,10 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
         case NM_PANEL_INFO4_ID: messageLength = NM_PROTOCOL_INFO4_MSG_LEN; break;
         default: break;
     }
+    if (messageLength == 0) {
+        return 0;
+    }
+    memset(msg, 0, messageLength + NM_PROTOCOL_HEADER_LEN + NM_PROTOCOL_CRC_LEN);
 
     msg[0] = NM_PROTOCOL_SYN_BYTE1;
     msg[1] = NM_PROTOCOL_SYN_BYTE2;
@@ -112,6 +115,7 @@ message_reset_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
     systemInfo.powerMonitor.reset_flag = parse->buffer[NM_PROTOCOL_HEADER_LEN];
 
     const uint16_t messageLength = NM_PROTOCOL_RST_RESP_MSG_LEN;
+    memset(msg, 0, NM_PROTOCOL_RST_RESP_MSG_PACK_LEN);
     msg[0] = NM_PROTOCOL_SYN_BYTE1;
     msg[1] = NM_PROTOCOL_SYN_BYTE2;
     msg[2] = NM_PROTOCOL_SYN_BYTE3;
@@ -138,6 +142,7 @@ message_reset_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
 static int
 message_set_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
     uint8_t* msg = txBuffer;
+    bool handled = true;
 
     switch (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L]) {
         case NM_PANEL_SET1_ID:
@@ -193,10 +198,16 @@ message_set_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             memcpy(&systemInfo.wifiInfo.wifi_ip, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 4);
             memcpy(&systemInfo.wifiInfo.wifi_ssid, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 8], 16);
             break;
-        default: break;
+        default:
+            handled = false;
+            break;
+    }
+    if (!handled) {
+        return 0;
     }
 
     const uint16_t messageLength = NM_PROTOCOL_SET_MSG_LEN;
+    memset(msg, 0, NM_PROTOCOL_SET_MSG_PACK_LEN);
     msg[0] = NM_PROTOCOL_SYN_BYTE1;
     msg[1] = NM_PROTOCOL_SYN_BYTE2;
     msg[2] = NM_PROTOCOL_SYN_BYTE3;

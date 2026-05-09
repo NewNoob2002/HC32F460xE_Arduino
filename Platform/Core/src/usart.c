@@ -1,5 +1,6 @@
 #include "usart.h"
 #include <stdbool.h>
+#include <string.h>
 
 static bool usart_initialized = false;
 

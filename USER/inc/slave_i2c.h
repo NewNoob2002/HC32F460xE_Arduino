@@ -11,6 +11,7 @@
 
 #define SLAVE_TX_BUFFER_SIZE 256
 #define SLAVE_RX_BUFFER_SIZE 512
+#define SLAVE_I2C_TX_EMPTY_BYTE 0x00U
 /* Define port and pin for SDA and SCL */
 #define I2C_SCL_PORT         (GPIO_PORT_A)
 #define I2C_SCL_PIN          (GPIO_PIN_03)
@@ -40,7 +41,7 @@ void slave_i2c_update();
 
 int txBufferAvailable();
 int txBufferRead(void);
-int txBufferWrite(uint8_t* Buffer, uint16_t length);
+int txBufferWrite(const uint8_t* Buffer, uint16_t length);
 #ifdef __cplusplus
 }
 #endif

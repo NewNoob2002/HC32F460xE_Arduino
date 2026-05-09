@@ -1,6 +1,8 @@
 #include "HAL.h"
 #include "lvgl.h"
 #include "mcu_define.h"
+
+static void HardFault_HandlerC(uint32_t *stack_frame) __attribute__((used, noinline));
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */
 /******************************************************************************/
@@ -103,8 +105,29 @@ void PendSV_Handler(void)
     /* USER CODE END PendSV_IRQn 1 */
 }
 
-void HardFault_Handler(void)
+__attribute__((naked)) void HardFault_Handler(void)
 {
+    __asm volatile(
+        "TST LR, #4      \n"
+        "ITE EQ          \n"
+        "MRSEQ R0, MSP   \n"
+        "MRSNE R0, PSP   \n"
+        "B HardFault_HandlerC \n");
+}
+
+static void HardFault_HandlerC(uint32_t *stack_frame)
+{
+    shared_info.magic = SHARED_MAGIC_CRASH;
+    shared_info.command = CMD_NORMAL_BOOT;
+    shared_info.crash_pc = stack_frame[6];
+    shared_info.reset_count++;
+
+    CORE_DEBUG_PRINTF("HardFault PC=0x%08lx LR=0x%08lx CFSR=0x%08lx HFSR=0x%08lx",
+                      stack_frame[6], stack_frame[5], SCB->CFSR, SCB->HFSR);
+
+    __disable_irq();
+    while (1) {
+    }
 }
 
 void SysTick_Handler()

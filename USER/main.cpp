@@ -2,7 +2,7 @@
  * Include files
  ******************************************************************************/
 #include "HAL/HAL.h"
-#include "Simulator/App/App.h"
+#include "App.h"
 #include "slave_i2c.h"
 
 SystemInfo_t systemInfo;

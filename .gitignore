@@ -1,3 +1,30 @@
 Platform/project/Objects/
 Platform/project/*.bin
 build/
+
+# Build outputs and generated reports
+*.axf
+*.elf
+*.hex
+*.map
+*.lst
+*.o
+*.d
+*.log
+*.bak
+
+# Keil/J-Link local state
+Platform/project/Listings/
+Platform/project/JLinkLog.txt
+Platform/project/JLinkSettings.ini
+Platform/project/keil-build-viewer*.txt
+Platform/project/keil-build-viewer*.log
+Platform/project/*.uvguix.*
+
+# Simulator build outputs
+Simulator/build/
+Simulator/bin/
+
+# Personal IDE state
+.vscode/ipch/
+Simulator/.idea/

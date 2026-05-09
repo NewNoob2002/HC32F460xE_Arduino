@@ -59,25 +59,42 @@ CustomDataProcess(SEMP_PARSE_STATE* parse, uint16_t type) {
     if (length <= 0) {
         return;
     }
-    txBufferWrite(txBuffer_temp, length);
+    if (txBufferWrite(txBuffer_temp, length) < 0) {
+        systemInfo.i2c__err_count++;
+    }
 }
 
 int
 txBufferAvailable() {
-    return _txBufferHead - _txBufferTail;
+    if (_txBufferHead >= _txBufferTail) {
+        return _txBufferHead - _txBufferTail;
+    }
+    return 0;
 }
 
 int
 txBufferRead(void) {
+    if (txBufferAvailable() <= 0) {
+        return SLAVE_I2C_TX_EMPTY_BYTE;
+    }
     return _txBuffer[_txBufferTail++];
 }
 
 int
-txBufferWrite(uint8_t* Buffer, const uint16_t length) {
-    // if the head isn't ahead of the tail, we don't have any characters
+txBufferWrite(const uint8_t* Buffer, const uint16_t length) {
+    if (Buffer == nullptr || length == 0) {
+        _txBufferHead = 0;
+        _txBufferTail = 0;
+        return 0;
+    }
+    if (length > SLAVE_TX_BUFFER_SIZE) {
+        return -1;
+    }
+    __disable_irq();
     memcpy(_txBuffer, Buffer, length);
     _txBufferHead = length;
     _txBufferTail = 0;
+    __enable_irq();
     return _txBufferHead;
 }
 
@@ -104,6 +121,8 @@ rxBufferWrite(uint8_t ch) {
     if (i != _rxBufferTail) {
         _rxBuffer[_rxBufferHead] = ch;
         _rxBufferHead = i;
+    } else {
+        systemInfo.i2c__err_count++;
     }
 }
 
@@ -237,12 +256,33 @@ slave_i2c_init() {
 
 void
 slave_i2c_update() {
-    if (rxBufferAvailable() > 0 && slave_state == SLAVE_RX_DONE) {
+    if (CustomParse == nullptr) {
+        return;
+    }
+    uint16_t bytesToParse = 0;
+    if (slave_state == SLAVE_RX_DONE) {
         __disable_irq();
-        for (int i = 0; i <= rxBufferAvailable(); i++) {
-            sempParseNextByte(CustomParse, rxBufferRead());
+        bytesToParse = rxBufferAvailable();
+        slave_state = SLAVE_RX;
+        __enable_irq();
+    }
+    if (bytesToParse > 0) {
+        static uint8_t parseBuffer[SLAVE_RX_BUFFER_SIZE];
+        uint16_t parseLength = 0;
+
+        __disable_irq();
+        while (parseLength < bytesToParse) {
+            int data = rxBufferRead();
+            if (data < 0) {
+                break;
+            }
+            parseBuffer[parseLength++] = (uint8_t)data;
         }
         __enable_irq();
+
+        for (uint16_t i = 0; i < parseLength; i++) {
+            sempParseNextByte(CustomParse, parseBuffer[i]);
+        }
     }
     if (systemInfo.i2c_communicate_err_count >= 2000) {
         systemInfo.i2c_communicate_err_count = 0;
