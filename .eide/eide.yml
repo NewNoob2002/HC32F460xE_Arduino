@@ -80,6 +80,12 @@ virtualFolder:
             - path: Simulator/App/Pages/SaveConfig/SaveConfigModel.cpp
             - path: Simulator/App/Pages/SaveConfig/SaveConfigView.cpp
           folders: []
+        - name: RecordConfig
+          files:
+            - path: Simulator/App/Pages/RecordConfig/RecordConfig.cpp
+            - path: Simulator/App/Pages/RecordConfig/RecordConfigModel.cpp
+            - path: Simulator/App/Pages/RecordConfig/RecordConfigView.cpp
+          folders: []
     - name: Resource
       files:
         - path: Simulator/App/Resource/ResourcePool.cpp
@@ -122,6 +128,10 @@ virtualFolder:
             - path: Simulator/App/Resource/img/img_src_base.c
             - path: Simulator/App/Resource/img/img_src_rover.c
             - path: Simulator/App/Resource/img/img_src_ntrip.c
+            - path: Simulator/App/Resource/img/img_src_clock.c
+            - path: Simulator/App/Resource/img/img_src_mode.c
+            - path: Simulator/App/Resource/img/img_src_record.c
+            - path: Simulator/App/Resource/img/img_src_settings.c
           folders: []
     - name: Utils
       files: []

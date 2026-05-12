@@ -39,6 +39,8 @@ Resource_Init() {
     IMPORT_IMG(battery);
     IMPORT_IMG(battery_info);
     IMPORT_IMG(record);
+    IMPORT_IMG(clock);
+    IMPORT_IMG(mode);
     IMPORT_IMG(settings);
     IMPORT_IMG(menu);
     IMPORT_IMG(start);

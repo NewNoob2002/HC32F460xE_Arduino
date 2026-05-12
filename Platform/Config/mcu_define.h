@@ -9,13 +9,13 @@
 
 enum BootCommand {
     CMD_NORMAL_BOOT = 0x10, // 正常启动
-    CMD_ENTER_IAP   = 0x20, // App 请求进入升级模式
-    CMD_SKIP_DELAY  = 0x30  // 跳过 Boot 延时，直接跳 App
+    CMD_ENTER_IAP = 0x20, // App 请求进入升级模式
+    CMD_SKIP_DELAY = 0x30 // 跳过 Boot 延时，直接跳 App
 };
 
 typedef struct {
-    uint32_t magic;    // 魔数，用来判断数据是否有效（如 0x55AAAA55）
-    uint32_t command;  // 命令：1-进入升级模式, 2-跳过延时, 3-App崩溃了
+    uint32_t magic; // 魔数，用来判断数据是否有效（如 0x55AAAA55）
+    uint32_t command; // 命令：1-进入升级模式, 2-跳过延时, 3-App崩溃了
     uint32_t crash_pc; // 记录崩溃时的 PC 地址
     uint32_t reset_count;
 } SharedData_t;
@@ -40,12 +40,12 @@ typedef enum Charger_Status_t {
 
 typedef enum On_Off_Status_t {
     On_Off_Status_OFF = 0,
-    On_Off_Status_ON  = 1,
+    On_Off_Status_ON = 1,
 } On_Off_Status_t;
 
 typedef enum RadioMode_t {
-    radio_mode_tx     = 0,
-    radio_mode_rx     = 1,
+    radio_mode_tx = 0,
+    radio_mode_rx = 1,
     radio_mode_bridge = 2,
 } RadioMode_t;
 
@@ -74,6 +74,23 @@ typedef enum Channel_index_t {
     ChannelMax
 } Channel_index_t;
 
+typedef enum Redcord_Type_t {
+    Redcord_Type_XYZ,
+    Redcord_Type_Rinex,
+    Redcord_Type_MAX
+}Redcord_Type_t;
+
+typedef enum Redcord_Interval_t {
+    Redcord_Interval_infinite,
+    Redcord_Interval_15min,
+    Redcord_Interval_60min,
+    Redcord_Interval_120min,
+    Redcord_Interval_240min,
+    Redcord_Interval_24hour,
+    Redcord_Interval_MAX
+}Redcord_Interval_t;
+
+
 typedef enum WorkMode_t {
     rover_mode = 0,
     base_mode,
@@ -82,10 +99,10 @@ typedef enum WorkMode_t {
 } WorkMode_t;
 
 typedef enum PositionStatus_t {
-    position_none   = 0,
+    position_none = 0,
     position_single = 1,
-    position_fix    = 4,
-    position_float  = 5,
+    position_fix = 4,
+    position_float = 5,
 } PositionStatus_t;
 
 typedef struct BatteryInfo_t {
@@ -116,7 +133,7 @@ typedef struct Power_Monitor_t {
     uint8_t reset_flag;
     uint8_t poweroff_flag;
     uint8_t ExternalPower;
-		uint8_t ExternalPowerChange;
+    uint8_t ExternalPowerChange;
     bool panel_power_on;
     uint32_t pannel_power_on_time;
 } Power_Monitor_t, *pPower_Monitor_t;
@@ -133,7 +150,7 @@ typedef struct PositionInfo_t {
 typedef struct RecordInfo_t {
     On_Off_Status_t record_status; // 0-off, 1-on
     float record_leftspace;
-    uint8_t record_type;     // 1-xyz 2-Rinex3.02
+    uint8_t record_type; // 1-xyz 2-Rinex3.02
     uint8_t record_interval; // 0x00-15min, 0x01-60min, 0x02-120min, 0x04-240min, 0x18- 24hour
     uint8_t record_op;
     uint8_t record_name[16];

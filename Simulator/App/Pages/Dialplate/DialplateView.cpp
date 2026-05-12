@@ -114,7 +114,7 @@ DialplateView::BtnCont_Create(lv_obj_t* par) {
     ui.btnCont.cont = cont;
 
     ui.btnCont.btnMap = Btn_Create(cont, ResourcePool::GetImage("settings"), -110);
-    ui.btnCont.btnRec = Btn_Create(cont, ResourcePool::GetImage("record"), -40);
+    ui.btnCont.btnRec = Btn_Create(cont, ResourcePool::GetImage("start"), -40);
     ui.btnCont.btnMenu = Btn_Create(cont, ResourcePool::GetImage("menu"), 40);
     ui.btnCont.btnShutdown = Btn_Create(cont, ResourcePool::GetImage("shutdown"), 110);
 }

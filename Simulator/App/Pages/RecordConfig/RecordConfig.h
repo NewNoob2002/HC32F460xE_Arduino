@@ -6,12 +6,13 @@
 #define LVGL_RECORDCONFIG_H
 
 #include "RecordConfigView.h"
+#include "RecordConfigModel.h"
 
 namespace Page {
 class RecordConfig : public PageBase {
 public:
     RecordConfig()
-        : recState(RECORD_STATE_STOP), lastFocus(nullptr), timer(nullptr) {}
+        : recState(RECORD_STATE_STOP), lastFocus(nullptr), timerRecord(nullptr), timerRoller(nullptr) {}
 
     ~RecordConfig() override = default;
 
@@ -33,8 +34,6 @@ public:
 
     void onViewDidUnload() override;
 
-    void onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code);
-
 private:
     typedef enum {
         RECORD_STATE_START = 0,
@@ -42,13 +41,25 @@ private:
     } RecordState_t;
 
     RecordConfigView View{};
+    RecordConfigModel Model{};
     RecordState_t recState;
     lv_obj_t* lastFocus;
-    lv_timer_t* timer;
+    lv_timer_t* timerRecord;
+    lv_timer_t* timerRoller;
+
+    void onRecord(bool longPress);
+
+    void onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code);
+
+    void SetBtnRecImgSrc(const char* srcName) const;
 
     void AttachEvent(lv_obj_t* obj);
 
-    static void onTimerUpdate(lv_timer_t* timer);
+    void RecordUpdate();
+    void RollerUpdate() const;
+
+    static void onTimerRecordUpdate(lv_timer_t* timer);
+    static void onTimerRollerUpdate(lv_timer_t* timer);
 
     static void onEvent(lv_event_t* event);
 };

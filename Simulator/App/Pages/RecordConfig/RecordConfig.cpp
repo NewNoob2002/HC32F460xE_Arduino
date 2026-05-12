@@ -6,6 +6,9 @@
 
 using namespace Page;
 
+const uint8_t RecordConfigType[Redcord_Type_MAX] = {0x01, 0x02};
+const uint8_t RecordConfigInterval[Redcord_Interval_MAX] = {0xff, 0x00, 0x01, 0x02, 0x04, 0x18};
+
 void
 RecordConfig::onCustomAttrConfig() {
     SetCustomCacheEnable(true);
@@ -15,6 +18,7 @@ RecordConfig::onCustomAttrConfig() {
 void
 RecordConfig::onViewLoad() {
     PageBase::onViewLoad();
+    Model.Init();
     View.Create(_root);
     //lv_obj_fade_in(_root, 300, 0);
     AttachEvent(View.ui.roller.left_roller.btnUp);
@@ -54,6 +58,7 @@ RecordConfig::onViewWillAppear() {
     } else {
         lv_group_focus_obj(View.ui.btnCont.btnRecord);
     }
+    Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
 
     View.AppearAnimStart();
 }
@@ -61,14 +66,22 @@ RecordConfig::onViewWillAppear() {
 void
 RecordConfig::onViewDidAppear() {
     PageBase::onViewDidAppear();
-    if (timer == nullptr) {
-        PM_LOG_INFO("RecordConfig::Timer Create");
-        timer = lv_timer_create(onTimerUpdate, 20000, this);
-        lv_timer_ready(timer);
+    if (timerRecord) {
+        PM_LOG_INFO("RecordConfig::timerRecord Resume");
+        lv_timer_resume(timerRecord);
     } else {
-        PM_LOG_INFO("RecordConfig::Timer Resume");
-        lv_timer_resume(timer);
-        lv_timer_ready(timer);
+        PM_LOG_INFO("RecordConfig::timerRecord Create");
+        timerRecord = lv_timer_create(onTimerRecordUpdate, 1000, this);
+        lv_timer_ready(timerRecord);
+    }
+    if (timerRoller) {
+        PM_LOG_INFO("RecordConfig::timerRoller Resume");
+        lv_timer_resume(timerRoller);
+        lv_timer_ready(timerRoller);
+    }else {
+        PM_LOG_INFO("RecordConfig::timerRecord Create");
+        timerRoller = lv_timer_create(onTimerRollerUpdate, 20000, this);
+        lv_timer_ready(timerRoller);
     }
 }
 
@@ -79,9 +92,13 @@ RecordConfig::onViewWillDisappear() {
     LV_ASSERT_NULL(group);
     lastFocus = lv_group_get_focused(group);
     lv_group_remove_all_objs(group);
-    if (timer) {
-        PM_LOG_INFO("RecordConfig::Timer Pause");
-        lv_timer_pause(timer);
+    if (timerRecord) {
+        PM_LOG_INFO("RecordConfig::timerRecord Pause");
+        lv_timer_pause(timerRecord);
+    }
+    if (timerRoller) {
+        PM_LOG_INFO("RecordConfig::timerRecord Pause");
+        lv_timer_pause(timerRoller);
     }
 }
 
@@ -93,6 +110,7 @@ RecordConfig::onViewDidDisappear() {
 void
 RecordConfig::onViewUnload() {
     PageBase::onViewUnload();
+    Model.Deinit();
     View.Delete();
     if (lastFocus) {
         lastFocus = nullptr;
@@ -106,14 +124,55 @@ RecordConfig::onViewDidUnload() {
 
 void
 RecordConfig::onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code) {
+    const bool isRecording = recState == RECORD_STATE_START;
     if (code == LV_EVENT_SHORT_CLICKED) {
-        if (btn == View.ui.btnCont.btnRecord) {}
-        else if (btn == View.ui.btnCont.btnReturn) {
+        if (btn == View.ui.btnCont.btnRecord) {
+            onRecord(false);
+        } else if (btn == View.ui.btnCont.btnReturn) {
             pageManager->Pop();
+        }else if (btn == View.ui.roller.left_roller.btnUp && !isRecording) {
+            View.Roller_up(View.ui.roller.left_roller.label);
+        }else if (btn == View.ui.roller.left_roller.btnDown&& !isRecording) {
+            View.Roller_down(View.ui.roller.left_roller.label);
+        }else if (btn == View.ui.roller.right_roller.btnUp&& !isRecording) {
+            View.Roller_up(View.ui.roller.right_roller.label);
+        }else if (btn == View.ui.roller.right_roller.btnDown&& !isRecording) {
+            View.Roller_down(View.ui.roller.right_roller.label);
         }
     } else if (code == LV_EVENT_LONG_PRESSED) {
-        if (btn == View.ui.btnCont.btnRecord) {}
+        if (btn == View.ui.btnCont.btnRecord) {
+            const uint8_t RecordType_index = RecordConfigType[RecordConfigView::Roller_GetIndex(View.ui.roller.left_roller.label)];
+            const uint8_t RecordInterval_index = RecordConfigInterval[RecordConfigView::Roller_GetIndex(View.ui.roller.right_roller.label)];
+            systemInfo.recordInfo.record_type = RecordType_index;
+            systemInfo.recordInfo.record_interval = RecordInterval_index;
+            PM_LOG_INFO("RecordConfig::RollerUpdate, RecordType_index:%d, RecordInterval_index:%d", RecordType_index, RecordInterval_index);
+            onRecord(true);
+        }
     }
+}
+
+void
+RecordConfig::onRecord(const bool longPress) {
+    switch (recState) {
+        case RECORD_STATE_START: if (!longPress) {
+                Model.RecorderCommand(RecordConfigModel::REC_STOP);
+                SetBtnRecImgSrc("start");
+                recState = RECORD_STATE_STOP;
+            }
+            break;
+        case RECORD_STATE_STOP: if (longPress) {
+                Model.RecorderCommand(RecordConfigModel::REC_START);
+                SetBtnRecImgSrc("stop");
+                recState = RECORD_STATE_START;
+            }
+            break;
+        default: break;
+    }
+}
+
+void
+RecordConfig::SetBtnRecImgSrc(const char* srcName) const{
+    lv_obj_set_style_bg_img_src(View.ui.btnCont.btnRecord, ResourcePool::GetImage(srcName), 0);
 }
 
 void
@@ -122,10 +181,31 @@ RecordConfig::AttachEvent(lv_obj_t* obj) {
 }
 
 void
-RecordConfig::onTimerUpdate(lv_timer_t* timer) {
-    // auto* instance = static_cast<RecordConfig*>(timer->user_data);
-    // instance->View.Update();
-    PM_LOG_INFO("RecordConfig::onTimerUpdate");
+RecordConfig::RecordUpdate() {
+    if (systemInfo.recordInfo.record_status == On_Off_Status_OFF && recState == RECORD_STATE_START) {
+        onRecord(false);
+    } else if (systemInfo.recordInfo.record_status == On_Off_Status_ON && recState == RECORD_STATE_STOP) {
+        onRecord(true);
+    }
+}
+
+void
+RecordConfig::RollerUpdate() const {
+    View.Update();
+}
+
+void
+RecordConfig::onTimerRecordUpdate(lv_timer_t* timer) {
+    auto* instance = static_cast<RecordConfig*>(timer->user_data);
+    instance->RecordUpdate();
+    PM_LOG_INFO("RecordConfig::RecordUpdate");
+}
+
+void
+RecordConfig::onTimerRollerUpdate(lv_timer_t* timer) {
+    auto* instance = static_cast<RecordConfig*>(timer->user_data);
+    instance->RollerUpdate();
+    PM_LOG_INFO("RecordConfig::RollerUpdate");
 }
 
 void

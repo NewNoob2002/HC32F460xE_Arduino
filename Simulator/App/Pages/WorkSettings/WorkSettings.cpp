@@ -25,8 +25,8 @@ WorkSettings::onViewDidLoad() {
     PageBase::onViewDidLoad();
     AttachEvent(View.ui.roller.left_roller.btnUp);
     AttachEvent(View.ui.roller.left_roller.btnDown);
-    AttachEvent(View.ui.roller.mid_roller.btnUp);
-    AttachEvent(View.ui.roller.mid_roller.btnDown);
+    AttachEvent(View.ui.roller.right_roller.btnUp);
+    AttachEvent(View.ui.roller.right_roller.btnDown);
     AttachEvent(View.ui.roller.btnReset);
 
     AttachEvent(View.ui.btnCont.btnBase);
@@ -55,8 +55,8 @@ WorkSettings::onViewWillAppear() {
 
     lv_group_add_obj(group, View.ui.roller.left_roller.btnUp);
     lv_group_add_obj(group, View.ui.roller.left_roller.btnDown);
-    lv_group_add_obj(group, View.ui.roller.mid_roller.btnUp);
-    lv_group_add_obj(group, View.ui.roller.mid_roller.btnDown);
+    lv_group_add_obj(group, View.ui.roller.right_roller.btnUp);
+    lv_group_add_obj(group, View.ui.roller.right_roller.btnDown);
     lv_group_add_obj(group, View.ui.roller.btnReset);
     lv_group_add_obj(group, View.ui.btnCont.btnBase);
     lv_group_add_obj(group, View.ui.btnCont.btnRover);
@@ -113,7 +113,7 @@ WorkSettings::onBtnClicked(const lv_obj_t* btn) const {
     if (btn == View.ui.btnCont.btnBase) {
         const uint8_t protocol_index = RadioProtocol[
             WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
-        const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.mid_roller.label);
+        const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.right_roller.label);
         if (channel_index != 0) {
             PM_LOG_INFO("btnBase, pro:%d, freq:%d", protocol_index, channel_index);
             systemInfo.work_mode = autobase_mode;
@@ -129,7 +129,7 @@ WorkSettings::onBtnClicked(const lv_obj_t* btn) const {
     } else if (btn == View.ui.btnCont.btnRover) {
         const uint8_t protocol_index = RadioProtocol[
             WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
-        const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.mid_roller.label);
+        const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.right_roller.label);
         if (channel_index != 0) {
             PM_LOG_INFO("btnRover, pro:%d, freq:%d", protocol_index, channel_index);
             systemInfo.work_mode = rover_mode;
@@ -153,10 +153,10 @@ WorkSettings::onBtnClicked(const lv_obj_t* btn) const {
         this->View.Roller_up(View.ui.roller.left_roller.label);
     } else if (btn == View.ui.roller.left_roller.btnDown) {
         this->View.Roller_down(View.ui.roller.left_roller.label);
-    } else if (btn == View.ui.roller.mid_roller.btnUp) {
-        this->View.Roller_up(View.ui.roller.mid_roller.label);
-    } else if (btn == View.ui.roller.mid_roller.btnDown) {
-        this->View.Roller_down(View.ui.roller.mid_roller.label);
+    } else if (btn == View.ui.roller.right_roller.btnUp) {
+        this->View.Roller_up(View.ui.roller.right_roller.label);
+    } else if (btn == View.ui.roller.right_roller.btnDown) {
+        this->View.Roller_down(View.ui.roller.right_roller.label);
     } else if (btn == View.ui.roller.btnReset) {
         pageManager->Pop();
     }

@@ -7,7 +7,7 @@ const uint8_t RadioProtocol[PROTOCOL_MAX] = {1, 2, 4, 5, 9, 10, 13, 16};
 constexpr lv_coord_t font_height = 26;
 
 int8_t WorkSettingsView::left_roller_index = 0;
-int8_t WorkSettingsView::mid_roller_index = 0;
+int8_t WorkSettingsView::right_roller_index = 0;
 
 static void
 lv_anim_label_set_y(void* obj, const int32_t y) {
@@ -38,8 +38,8 @@ ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
         ANIM_DEF(100, ui.roller.left_roller.btnUp, width, 0, w_up_btn),
         ANIM_DEF(200, ui.roller.left_roller.btnDown, width, 0, w_up_btn),
-        ANIM_DEF(300, ui.roller.mid_roller.btnUp, width, 0, w_up_btn),
-        ANIM_DEF(400, ui.roller.mid_roller.btnDown, width, 0, w_up_btn),
+        ANIM_DEF(300, ui.roller.right_roller.btnUp, width, 0, w_up_btn),
+        ANIM_DEF(400, ui.roller.right_roller.btnDown, width, 0, w_up_btn),
         ANIM_DEF(500, ui.roller.btnReset, width, 0, w_up_btn),
 
         ANIM_DEF(500, ui.btnCont.btnBase, width, 0, w_tar_btn),
@@ -63,17 +63,17 @@ WorkSettingsView::Update() const {
     const uint8_t p = systemInfo.radioInfo.radio_protocol;
 
     int8_t Protocol = 0;
-    for (int8_t i = 0; i <= sizeof(RadioProtocol); i++) {
+    for (int i = 0; i <= sizeof(RadioProtocol); i++) {
         if (RadioProtocol[i] == p) {
             Protocol = i;
             break;
         }
     }
     left_roller_index = Protocol;
-    mid_roller_index = systemInfo.radioInfo.radio_channel;
+    right_roller_index = systemInfo.radioInfo.radio_channel;
 
     Roller_toIndex(ui.roller.left_roller.label, left_roller_index);
-    Roller_toIndex(ui.roller.mid_roller.label, mid_roller_index);
+    Roller_toIndex(ui.roller.right_roller.label, right_roller_index);
 
 }
 
@@ -92,7 +92,7 @@ WorkSettingsView::Roller_Create(lv_obj_t* par) {
     lv_obj_set_style_border_color(cont_left, lv_color_white(), 0);
     lv_obj_set_style_border_width(cont_left, 1, 0);
     lv_obj_set_size(cont_left, 90, 30);
-    lv_obj_align(cont_left, LV_ALIGN_LEFT_MID, 30, -20);
+    lv_obj_align(cont_left, LV_ALIGN_LEFT_MID, 20, -20);
     ui.roller.left_roller.cont = cont_left;
 
     const lv_font_t* font = ResourcePool::GetFont("oswaldBold_18");
@@ -117,7 +117,7 @@ WorkSettingsView::Roller_Create(lv_obj_t* par) {
     lv_obj_set_style_border_width(cont_right, 1, 0);
     lv_obj_set_size(cont_right, 90, 30);
     lv_obj_align_to(cont_right, cont_left, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
-    ui.roller.mid_roller.cont = cont_right;
+    ui.roller.right_roller.cont = cont_right;
 
     lv_obj_t* label_right = lv_label_create(cont_right);
     lv_obj_set_style_text_font(label_right, font, 0);
@@ -133,29 +133,29 @@ WorkSettingsView::Roller_Create(lv_obj_t* par) {
                       "[8]462.05\n"
                       "[9]463.05");
     lv_obj_set_align(label_right, LV_ALIGN_TOP_MID);
-    ui.roller.mid_roller.label = label_right;
+    ui.roller.right_roller.label = label_right;
 
-    lv_obj_t* cont_upDown1 = lv_obj_create(cont);
-    lv_obj_remove_style_all(cont_upDown1);
-    // lv_obj_set_style_border_color(cont_upDown1, lv_color_white(), 0);
-    // lv_obj_set_style_border_width(cont_upDown1, 1, 0);
-    lv_obj_set_size(cont_upDown1, 90, 40);
-    lv_obj_align_to(cont_upDown1, cont_left, LV_ALIGN_OUT_BOTTOM_MID, -20, 0);
+    lv_obj_t* cont_select_left = lv_obj_create(cont);
+    lv_obj_remove_style_all(cont_select_left);
+    // lv_obj_set_style_border_color(cont_select_left, lv_color_white(), 0);
+    // lv_obj_set_style_border_width(cont_select_left, 1, 0);
+    lv_obj_set_size(cont_select_left, 90, 40);
+    lv_obj_align_to(cont_select_left, cont_left, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
 
-    ui.roller.left_roller.btnUp = Btn_Create(cont_upDown1, ResourcePool::GetImage("up"), -20, 0);
-    ui.roller.left_roller.btnDown = Btn_Create(cont_upDown1, ResourcePool::GetImage("down"), 20, 0);
+    ui.roller.left_roller.btnUp = Btn_Create(cont_select_left, ResourcePool::GetImage("up"), -20, 0);
+    ui.roller.left_roller.btnDown = Btn_Create(cont_select_left, ResourcePool::GetImage("down"), 20, 0);
 
-    lv_obj_t* cont_upDown2 = lv_obj_create(cont);
-    lv_obj_remove_style_all(cont_upDown2);
-    // lv_obj_set_style_border_color(cont_upDown2, lv_color_white(), 0);
-    // lv_obj_set_style_border_width(cont_upDown2, 1, 0);
-    lv_obj_set_size(cont_upDown2, 120, 40);
-    lv_obj_align_to(cont_upDown2, cont_upDown1, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
+    lv_obj_t* cont_select_right = lv_obj_create(cont);
+    lv_obj_remove_style_all(cont_select_right);
+    // lv_obj_set_style_border_color(cont_select_right, lv_color_white(), 0);
+    // lv_obj_set_style_border_width(cont_select_right, 1, 0);
+    lv_obj_set_size(cont_select_right, 120, 40);
+    lv_obj_align_to(cont_select_right, cont_select_left, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
 
-    ui.roller.mid_roller.btnUp = Btn_Create(cont_upDown2, ResourcePool::GetImage("up"), -40, 0);
-    ui.roller.mid_roller.btnDown = Btn_Create(cont_upDown2, ResourcePool::GetImage("down"), 0, 0);
+    ui.roller.right_roller.btnUp = Btn_Create(cont_select_right, ResourcePool::GetImage("up"), -40, 0);
+    ui.roller.right_roller.btnDown = Btn_Create(cont_select_right, ResourcePool::GetImage("down"), 0, 0);
 
-    ui.roller.btnReset = Btn_Create(cont_upDown2, ResourcePool::GetImage("reset"), 40, 0);
+    ui.roller.btnReset = Btn_Create(cont_select_right, ResourcePool::GetImage("reset"), 40, 0);
 }
 
 void
@@ -276,10 +276,10 @@ WorkSettingsView::Roller_up(lv_obj_t* obj) const {
         left_roller_index--;
         CM_SET_VALUE_IN_RANGE_WRAP(left_roller_index, TRIMTALK, CCS);
         lv_anim_set_values(&a, current_y, -left_roller_index * font_height);
-    } else if (obj == ui.roller.mid_roller.label) {
-        mid_roller_index--;
-        CM_SET_VALUE_IN_RANGE_WRAP(mid_roller_index, Channel1, Channel9);
-        lv_anim_set_values(&a, current_y, -mid_roller_index * font_height);
+    } else if (obj == ui.roller.right_roller.label) {
+        right_roller_index--;
+        CM_SET_VALUE_IN_RANGE_WRAP(right_roller_index, Channel1, Channel9);
+        lv_anim_set_values(&a, current_y, -right_roller_index * font_height);
     }
     lv_anim_start(&a);
 }
@@ -299,10 +299,10 @@ WorkSettingsView::Roller_down(lv_obj_t* obj) const {
         left_roller_index++;
         CM_SET_VALUE_IN_RANGE_WRAP(left_roller_index, TRIMTALK, CCS);
         lv_anim_set_values(&a, current_y, -left_roller_index * font_height);
-    } else if (obj == ui.roller.mid_roller.label) {
-        mid_roller_index++;
-        CM_SET_VALUE_IN_RANGE_WRAP(mid_roller_index, Channel1, Channel9);
-        lv_anim_set_values(&a, current_y, -mid_roller_index * font_height);
+    } else if (obj == ui.roller.right_roller.label) {
+        right_roller_index++;
+        CM_SET_VALUE_IN_RANGE_WRAP(right_roller_index, Channel1, Channel9);
+        lv_anim_set_values(&a, current_y, -right_roller_index * font_height);
     }
     lv_anim_start(&a);
 }
@@ -326,7 +326,7 @@ WorkSettingsView::Roller_Reset(lv_obj_t* label) {
 uint8_t
 WorkSettingsView::Roller_GetIndex(const lv_obj_t* obj) {
     const lv_coord_t current_y = lv_obj_get_y(obj);
-    return abs(current_y) / 26;
+    return abs(current_y) / font_height;
 }
 
 void

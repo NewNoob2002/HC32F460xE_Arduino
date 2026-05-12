@@ -1,24 +1,21 @@
 CompileFlags:
   Remove:
-    - '-std:c++17'
+    - "-std:c++17"
+  Compiler: E:\LLVM\bin\clang.exe
   Add:
-    - '-Wno-implicit-int'
-    - '-std=c++17'
-    - '-fms-compatibility'
-    - '-fms-extensions'
-    - '-fdelayed-template-parsing'
-    - '-fms-compatibility-version=19'
-    - '-D_MSC_VER=1900'
-    - '-D_WIN32'
-    - '-D_WIN64'
-    - '-D_MSVC_LANG=201703L'
+    - -IE:\LLVM\lib\clang\21\include
+    - -IC:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include/libcxx
+    - "-Wno-implicit-int"
+    - "-std=c++17"
+    - "-fms-compatibility"
+    - "-fms-extensions"
+    - "-fdelayed-template-parsing"
+    - "-fms-compatibility-version=19"
+    - "-D_MSC_VER=1900"
+    - "-D_WIN32"
+    - "-D_WIN64"
+    - "-D_MSVC_LANG=201703L"
   CompilationDatabase: build
-QueryDriver:
-  - 'C:\Program Files\LLVM\bin\clang.exe'
-  - 'C:\Program Files\LLVM\bin\clang++.exe'
-  - 'C:\PROGRA~1\LLVM\bin\clang.exe'
-  - 'C:\PROGRA~1\LLVM\bin\clang++.exe'
-  - 'C:\Program Files\LLVM\bin\CLANG_~1.EXE'
 Index:
   Background: Build
 Diagnostics:

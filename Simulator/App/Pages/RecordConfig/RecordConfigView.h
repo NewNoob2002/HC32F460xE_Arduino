@@ -8,6 +8,9 @@
 
 #include "../Page.h"
 
+extern const uint8_t RecordConfigType[Redcord_Type_MAX];
+extern const uint8_t RecordConfigInterval[Redcord_Interval_MAX];
+
 namespace Page {
 class RecordConfigView {
 public:
@@ -63,15 +66,13 @@ public:
 
     void Roller_down(lv_obj_t* obj) const;
 
-    static void Roller_Reset(lv_obj_t* label);
-
     static uint8_t Roller_GetIndex(const lv_obj_t* obj);
 
     void AppearAnimStart(bool reverse = false) const;
 
 private:
     static int8_t left_roller_index;
-    static int8_t mid_roller_index;
+    static int8_t right_roller_index;
 };
 
 }

@@ -28,7 +28,7 @@ public:
                 lv_obj_t* btnCont;
                 lv_obj_t* btnUp;
                 lv_obj_t* btnDown;
-            } mid_roller;
+            } right_roller;
 
             lv_obj_t* btnReset;
         } roller;
@@ -75,7 +75,7 @@ public:
 
 private:
     static int8_t left_roller_index;
-    static int8_t mid_roller_index;
+    static int8_t right_roller_index;
 };
 
 }
