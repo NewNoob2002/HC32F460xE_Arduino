@@ -98,6 +98,14 @@ void HAL_ResumeTick(void);
 bool chagrer_begin(pBatteryInfo_t p_batteryState);
 void charger_update(pBatteryInfo_t p_batteryState);
 void checkBatteryInfo(pBatteryInfo_t p_batteryState);
+
+void Charger_Control_GPIO_Init(void);
+void USB_Switch_GPIO_Init(void);
+void USB_Switch_GPIO_Control(uint8_t state);
+void Charge_Enable_Switch(uint8_t state);
+void Charge_Current_Select(uint16_t select);
+void Charger_Control_Monitor(BatteryInfo_t *batteryState);
+
 #ifdef __cplusplus
 }
 #endif /*__cplusplus*/

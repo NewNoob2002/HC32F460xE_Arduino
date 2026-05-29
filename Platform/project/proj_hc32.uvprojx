@@ -80,9 +80,9 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>C:\Keil_v5\ARM\ARMCLANG\bin\fromelf.exe --bin --output=@L.bin !L</UserProg1Name>
+            <UserProg1Name>C:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG\bin\fromelf.exe --bin --output=@L.bin !L</UserProg1Name>
             <UserProg2Name>keil-build-viewer.exe proj_hc32.uvprojx</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -600,6 +600,11 @@
               <FileType>8</FileType>
               <FilePath>..\..\Simulator\App\Pages\RecordConfig\RecordConfigView.cpp</FilePath>
             </File>
+            <File>
+              <FileName>RecordConfigModel.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\Simulator\App\Pages\RecordConfig\RecordConfigModel.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -850,6 +855,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\Simulator\App\Resource\img\img_src_record.c</FilePath>
             </File>
+            <File>
+              <FileName>img_src_clock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_clock.c</FilePath>
+            </File>
+            <File>
+              <FileName>img_src_mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Simulator\App\Resource\img\img_src_mode.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1034,57 +1049,6 @@
               <FileName>SEGGER_RTT.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Core\src\SEGGER_RTT.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>0</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <uGnu>2</uGnu>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>2</vShortEn>
-                    <vShortWch>2</vShortWch>
-                    <v6Lto>2</v6Lto>
-                    <v6WtE>2</v6WtE>
-                    <v6Rtti>2</v6Rtti>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
             </File>
             <File>
               <FileName>SEGGER_RTT_printf.c</FileName>

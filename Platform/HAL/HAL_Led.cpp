@@ -45,10 +45,7 @@ Led_Update_Charge() {
             }
         }
     } else {
-        if (systemInfo.powerMonitor.panel_power_on == false) {
-            return;
-        }
-        digitalWrite(CHARGE_LED_PIN, LOW);
+			  digitalWrite(CHARGE_LED_PIN, LOW);
         chargerLed.currentRate = 0;
         if (systemInfo.powerMonitor.batteryInfo.Percent >= 14) {
             digitalWrite(POWER_LED_PIN, HIGH);
@@ -73,7 +70,7 @@ Led_Update_Charge() {
 
 static void
 Led_Update_Function() {
-    if (systemInfo.powerMonitor.ShutdownReq || !systemInfo.online_device.eg25_board) {
+    if (systemInfo.powerMonitor.ShutdownGoing || !systemInfo.online_device.eg25_board) {
         return;
     }
     if (systemInfo.recordInfo.record_status) {

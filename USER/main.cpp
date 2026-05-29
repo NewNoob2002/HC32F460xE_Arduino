@@ -1,9 +1,10 @@
 /*******************************************************************************
  * Include files
  ******************************************************************************/
-#include "HAL/HAL.h"
 #include "App.h"
+#include "HAL/HAL.h"
 #include "slave_i2c.h"
+
 
 SystemInfo_t systemInfo;
 

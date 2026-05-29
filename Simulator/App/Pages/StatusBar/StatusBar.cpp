@@ -348,11 +348,21 @@ StatusBar_SetRecord(const bool active) {
         systemInfo.recordInfo.record_status = On_Off_Status_ON;
         systemInfo.recordInfo.record_op = 1;
         systemInfo.recordInfo.record_change_flag = 1;
+			CORE_DEBUG_PRINTF("StatusBar_SetRecord: RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n", 
+						systemInfo.recordInfo.record_status, 
+						systemInfo.recordInfo.record_op, 
+						systemInfo.recordInfo.record_interval, 
+						systemInfo.recordInfo.record_change_flag);
     } else {
         lv_obj_set_style_text_color(ui.sd_icon, lv_color_white(), LV_STATE_DEFAULT);
         systemInfo.recordInfo.record_status = On_Off_Status_OFF;
         systemInfo.recordInfo.record_op = 1;
         systemInfo.recordInfo.record_change_flag = 1;
+						CORE_DEBUG_PRINTF("StatusBar_SetRecord: RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n", 
+						systemInfo.recordInfo.record_status, 
+						systemInfo.recordInfo.record_op, 
+						systemInfo.recordInfo.record_interval, 
+						systemInfo.recordInfo.record_change_flag);
     }
 }
 

@@ -2,7 +2,6 @@
 #include "core_debug.h"
 #include "mcu_config.h"
 
-
 static uint32_t
 calculate_crc(const char* msg, unsigned int len) {
     if (msg == nullptr || len == 0) {
@@ -57,12 +56,10 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.powerMonitor.poweroff_flag; // 主机关机控制
             msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.recordInfo.record_status;   // 静态记录状态
             msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.recordInfo.record_op;       // 静态记录开关
-            msg[NM_PROTOCOL_HEADER_LEN + 4] =
-                systemInfo.powerMonitor.batteryInfo.chargeStatus != notCharge; // 充电电源接入
-            if (systemInfo.recordInfo.record_change_flag) {
-                systemInfo.recordInfo.record_change_flag = 0;
-            }
-            systemInfo.recordInfo.record_op = 0;
+            msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus != notCharge;
+            CORE_DEBUG_PRINTF("RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n",
+                              systemInfo.recordInfo.record_status, systemInfo.recordInfo.record_op,
+                              systemInfo.recordInfo.record_interval, systemInfo.recordInfo.record_change_flag);
             if (systemInfo.powerMonitor.poweroff_flag == 1) {
                 systemInfo.powerMonitor.poweroff_flag = 0;
                 systemInfo.powerMonitor.ShutdownEnsure = true;
@@ -89,12 +86,21 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             break;
         case NM_PANEL_INFO4_ID:
             msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.recordInfo.record_status;
+            msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.recordInfo.record_op; // 静态记录开关
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 4], &systemInfo.recordInfo.record_leftspace, 4);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 8], &systemInfo.recordInfo.record_name, 16);
             msg[NM_PROTOCOL_HEADER_LEN + 24] = systemInfo.recordInfo.record_type;
             msg[NM_PROTOCOL_HEADER_LEN + 25] = systemInfo.recordInfo.record_interval;
             msg[NM_PROTOCOL_HEADER_LEN + 26] = systemInfo.recordInfo.record_change_flag;
-            systemInfo.recordInfo.record_change_flag = 0;
+            CORE_DEBUG_PRINTF("RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n",
+                              systemInfo.recordInfo.record_status, systemInfo.recordInfo.record_op,
+                              systemInfo.recordInfo.record_interval, systemInfo.recordInfo.record_change_flag);
+            if (systemInfo.recordInfo.record_change_flag) {
+                systemInfo.recordInfo.record_change_flag = 0;
+            }
+            if (systemInfo.recordInfo.record_op) {
+                systemInfo.recordInfo.record_op = 0;
+            }
             break;
         default: break;
     }
@@ -198,9 +204,7 @@ message_set_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             memcpy(&systemInfo.wifiInfo.wifi_ip, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 4);
             memcpy(&systemInfo.wifiInfo.wifi_ssid, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 8], 16);
             break;
-        default:
-            handled = false;
-            break;
+        default: handled = false; break;
     }
     if (!handled) {
         return 0;
@@ -236,28 +240,29 @@ int
 message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
     DDL_ASSERT(parse != nullptr);
     DDL_ASSERT(txBuffer != nullptr);
+    int result = 0;
     SEMP_CUSTOM_HEADER* messageHeader = (SEMP_CUSTOM_HEADER*)parse->buffer;
     uint16_t messageId = *(uint16_t*)&messageHeader->messageId_L;
     uint8_t messageType = messageHeader->messageType;
     if (!systemInfo.online_device.eg25_board) {
-        systemInfo.online_device.eg25_board = true;
+        systemInfo.online_device.eg25_board = 1;
         systemInfo.i2c__err_count = 0;
     }
     switch (messageId) {
         case NM_PANEL_INFO1_ID:
         case NM_PANEL_INFO2_ID:
         case NM_PANEL_INFO3_ID:
-        case NM_PANEL_INFO4_ID: return message_info_encode(parse, txBuffer); break;
+        case NM_PANEL_INFO4_ID: result = message_info_encode(parse, txBuffer); break;
         case NM_PANEL_RST_ID:
             CORE_DEBUG_PRINTF("[%d] Reset Panel", messageId);
-            return message_reset_encode(parse, txBuffer);
+            result = message_reset_encode(parse, txBuffer);
             break;
         case NM_PANEL_SET1_ID:
         case NM_PANEL_SET3_ID:
         case NM_PANEL_SET6_ID:
         case NM_PANEL_SET7_ID:
-        case NM_PANEL_SET3_1_ID: return message_set_encode(parse, txBuffer); break;
+        case NM_PANEL_SET3_1_ID: result = message_set_encode(parse, txBuffer); break;
         default: break;
     }
-    return 0;
+    return result;
 }

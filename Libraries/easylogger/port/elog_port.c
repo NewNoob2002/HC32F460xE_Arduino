@@ -35,8 +35,8 @@
 static HANDLE output_lock = NULL;
 #else
 #if defined(__CORE_DEBUG)
-//#include "SEGGER_RTT.h"
-#include "usart.h"
+#include "SEGGER_RTT.h"
+//#include "usart.h"
 #endif
 #endif
 char buf[32];

@@ -1,21 +1,22 @@
 #pragma once
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "../../Simulator/App/Common/DataProc/DataProc_Def.h"
+
 
 #define SHARED_MAGIC_LIVE  0x55AAAA55 // 正常运行/请求状态
 #define SHARED_MAGIC_CRASH 0xDEADBEEF // 发生崩溃状态
 
 enum BootCommand {
     CMD_NORMAL_BOOT = 0x10, // 正常启动
-    CMD_ENTER_IAP = 0x20, // App 请求进入升级模式
-    CMD_SKIP_DELAY = 0x30 // 跳过 Boot 延时，直接跳 App
+    CMD_ENTER_IAP = 0x20,   // App 请求进入升级模式
+    CMD_SKIP_DELAY = 0x30   // 跳过 Boot 延时，直接跳 App
 };
 
 typedef struct {
-    uint32_t magic; // 魔数，用来判断数据是否有效（如 0x55AAAA55）
-    uint32_t command; // 命令：1-进入升级模式, 2-跳过延时, 3-App崩溃了
+    uint32_t magic;    // 魔数，用来判断数据是否有效（如 0x55AAAA55）
+    uint32_t command;  // 命令：1-进入升级模式, 2-跳过延时, 3-App崩溃了
     uint32_t crash_pc; // 记录崩溃时的 PC 地址
     uint32_t reset_count;
 } SharedData_t;
@@ -74,11 +75,7 @@ typedef enum Channel_index_t {
     ChannelMax
 } Channel_index_t;
 
-typedef enum Redcord_Type_t {
-    Redcord_Type_XYZ,
-    Redcord_Type_Rinex,
-    Redcord_Type_MAX
-}Redcord_Type_t;
+typedef enum Redcord_Type_t { Redcord_Type_XYZ, Redcord_Type_Rinex, Redcord_Type_MAX } Redcord_Type_t;
 
 typedef enum Redcord_Interval_t {
     Redcord_Interval_infinite,
@@ -88,15 +85,9 @@ typedef enum Redcord_Interval_t {
     Redcord_Interval_240min,
     Redcord_Interval_24hour,
     Redcord_Interval_MAX
-}Redcord_Interval_t;
+} Redcord_Interval_t;
 
-
-typedef enum WorkMode_t {
-    rover_mode = 0,
-    base_mode,
-    single_mode,
-    autobase_mode
-} WorkMode_t;
+typedef enum WorkMode_t { rover_mode = 0, base_mode, single_mode, autobase_mode } WorkMode_t;
 
 typedef enum PositionStatus_t {
     position_none = 0,
@@ -106,15 +97,22 @@ typedef enum PositionStatus_t {
 } PositionStatus_t;
 
 typedef struct BatteryInfo_t {
+    float Percent_f;
+    float Voltage_f;
+    float Temp_f;
     uint16_t Actual_Percent;
     uint16_t Processed_Percent;
     uint16_t Percent;
     uint16_t Temp;
     uint16_t Voltage;
     uint16_t LowBatteryCount;
-    float Percent_f;
-    float Voltage_f;
-    float Temp_f;
+    uint8_t isOverTemp;
+    uint8_t ChargerOverTempCount;
+    uint8_t ChargerDisable;
+    uint8_t ChargerDetect;
+    uint8_t ChargerPlugCount;
+    uint8_t ChargerCurrent;
+    uint8_t mp2762_cfg0;
     Charger_Status_t chargeStatus;
 } BatteryInfo_t, *pBatteryInfo_t;
 
@@ -126,6 +124,7 @@ typedef struct Power_Monitor_t {
     bool LinuxPowerOff;
     bool LowBatteryPowerOff;
     bool ShutdownReq;
+    bool ShutdownGoing;
     bool ShutdownEnsure;
 
     bool Force_ShutDown;
@@ -150,7 +149,7 @@ typedef struct PositionInfo_t {
 typedef struct RecordInfo_t {
     On_Off_Status_t record_status; // 0-off, 1-on
     float record_leftspace;
-    uint8_t record_type; // 1-xyz 2-Rinex3.02
+    uint8_t record_type;     // 1-xyz 2-Rinex3.02
     uint8_t record_interval; // 0x00-15min, 0x01-60min, 0x02-120min, 0x04-240min, 0x18- 24hour
     uint8_t record_op;
     uint8_t record_name[16];
