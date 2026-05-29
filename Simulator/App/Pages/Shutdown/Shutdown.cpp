@@ -26,7 +26,7 @@ lv_anim_obj_set_width(void* obj, const int32_t width) {
             lv_obj_fade_out(instance->View.ui.shutdown.cont, 300, 0);
             HAL::Power_Shutdown(false);
             instance->pageManager->Push("Pages/SaveConfig");
-#if defined(_WIN32)
+#if defined(LVGL_SIMULATOR) || defined(_WIN32)
 #else
             HAL::Encoder_SetEnable(false);
 #endif

@@ -7,5 +7,6 @@ demo
 /.metadata/
 /.tracecompass
 build/
+build-*/
 bin/
 .cache

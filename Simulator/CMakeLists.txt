@@ -3,6 +3,7 @@ project(lvgl)
 set(CMAKE_C_STANDARD 11)#C11
 set(CMAKE_CXX_STANDARD 17)#C17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # 设置 CMake 策略以使用 <PackageName>_ROOT 变量
 if(POLICY CMP0074)
@@ -40,21 +41,39 @@ include_directories(
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # SDL2 配置
-set(SDL2_ROOT E:/SDL2-2.32.10)
-set(SDL2_INCLUDE_DIR ${SDL2_ROOT}/include)
-set(SDL2_LIB_DIR ${SDL2_ROOT}/lib/x64)
-
-# 手动配置 SDL2（因为 SDL2Config.cmake 不存在）
-set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIR})
-set(SDL2_LIBRARIES ${SDL2_LIB_DIR}/SDL2.lib)
-
-include_directories(${SDL2_INCLUDE_DIRS} ${CMAKE_CURRENT_LIST_DIR}/lvgl)
-link_directories(${SDL2_LIB_DIR})
+if(WIN32)
+    # Windows 版本保留手动 SDL2 路径配置，便于兼容没有 SDL2Config.cmake 的环境。
+    set(SDL2_ROOT "E:/SDL2-2.32.10" CACHE PATH "SDL2 root directory on Windows")
+    set(SDL2_INCLUDE_DIRS ${SDL2_ROOT}/include)
+    set(SDL2_LIB_DIR ${SDL2_ROOT}/lib/x64)
+    set(SDL2_LIBRARIES ${SDL2_LIB_DIR}/SDL2.lib)
+    link_directories(${SDL2_LIB_DIR})
+else()
+    # Linux/macOS 使用系统安装的 SDL2。Ubuntu/Debian: sudo apt install libsdl2-dev
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(SDL2 QUIET IMPORTED_TARGET sdl2)
+    endif()
+    if(NOT TARGET PkgConfig::SDL2)
+        find_package(SDL2 QUIET CONFIG)
+    endif()
+    if(NOT TARGET PkgConfig::SDL2 AND NOT TARGET SDL2::SDL2 AND NOT SDL2_FOUND)
+        message(FATAL_ERROR "SDL2 development files were not found. Install libsdl2-dev on Ubuntu/Debian, or provide an SDL2 CMake package.")
+    endif()
+endif()
 
 add_executable(main main.cpp mouse_cursor_icon.c ${SOURCES} ${INCLUDES} ${UI_SOURCES}
         ../Platform/Config/mcu_define.h
         ../Platform/Config/mcu_define.h)
-add_compile_definitions(LV_CONF_INCLUDE_SIMPLE LV_INCLUDE_SIMPLE)
+target_compile_definitions(main PRIVATE
+        LV_CONF_INCLUDE_SIMPLE
+        LV_INCLUDE_SIMPLE
+        LVGL_SIMULATOR
+)
+target_include_directories(main PRIVATE
+        ${SDL2_INCLUDE_DIRS}
+        ${CMAKE_CURRENT_LIST_DIR}/lvgl
+)
 
 
 add_compile_options(-Wno-deprecated-declarations)
@@ -67,5 +86,14 @@ if(MSVC)
     target_compile_options(main PRIVATE /wd5287 /wd4018 /wd4996 /wd4267)
 endif()
 
-target_link_libraries(main PRIVATE ${SDL2_LIBRARIES})
-add_custom_target(run COMMAND ${EXECUTABLE_OUTPUT_PATH}/main)
+if(WIN32)
+    target_link_libraries(main PRIVATE ${SDL2_LIBRARIES})
+elseif(TARGET PkgConfig::SDL2)
+    target_link_libraries(main PRIVATE PkgConfig::SDL2)
+elseif(TARGET SDL2::SDL2)
+    target_link_libraries(main PRIVATE SDL2::SDL2)
+else()
+    target_include_directories(main PRIVATE ${SDL2_INCLUDE_DIRS})
+    target_link_libraries(main PRIVATE ${SDL2_LIBRARIES})
+endif()
+add_custom_target(run COMMAND $<TARGET_FILE:main>)

@@ -1,13 +1,13 @@
 #include "DataProc.h"
 #include "../HAL/HAL.h"
-#if defined(_WIN32)
+#if defined(LVGL_SIMULATOR) || defined(_WIN32)
 #else
 #include "Arduino.h"
 #endif
 
 static void onTimer(Account *account)
 {
-#if defined(_WIN32)
+#if defined(LVGL_SIMULATOR) || defined(_WIN32)
 #else
     Power_Monitor_t power;
     HAL::Power_GetInfo(&power);

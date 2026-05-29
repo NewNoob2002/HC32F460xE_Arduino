@@ -27,7 +27,7 @@ public:
 
     static void
     SetEncoderEnable(const bool en) {
-#if defined(_WIN32)
+#if defined(LVGL_SIMULATOR) || defined(_WIN32)
 #else
         HAL::Encoder_SetEnable(en);
 #endif

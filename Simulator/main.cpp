@@ -8,7 +8,6 @@
 #include <unistd.h>
 #endif
 #define SDL_MAIN_HANDLED /*To fix SDL's "undefined reference to WinMain" issue*/
-#include "lvgl/lvgl.h"
 #include "lv_drivers/sdl/sdl.h"
 
 #include "App/App.h"

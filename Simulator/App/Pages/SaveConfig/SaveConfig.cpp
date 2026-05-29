@@ -9,7 +9,7 @@ syncbar_timer_callback(lv_timer_t* timer) {
     const auto* instance = static_cast<SaveConfig*>(timer->user_data);
     LV_ASSERT_NULL(instance);
     memset(&systemInfo, 0, sizeof(systemInfo));
-#if defined(_WIN32)
+#if defined(LVGL_SIMULATOR) || defined(_WIN32)
     LV_LOG_INFO("Shutdonw done\n");
 #else
     shared_info.reset_count = 0x2026;

@@ -1,21 +1,22 @@
 CompileFlags:
   Remove:
     - "-std:c++17"
-  Compiler: E:\LLVM\bin\clang.exe
-  Add:
-    - -IE:\LLVM\lib\clang\21\include
-    - -IC:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include/libcxx
-    - "-Wno-implicit-int"
-    - "-std=c++17"
-    - "-fms-compatibility"
-    - "-fms-extensions"
-    - "-fdelayed-template-parsing"
-    - "-fms-compatibility-version=19"
-    - "-D_MSC_VER=1900"
+    - "-Ic:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include"
+    - "-Ic:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include/libcxx"
+    - "-IC:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include"
+    - "-IC:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include/libcxx"
+    - "-IE:\\LLVM\\lib\\clang\\21\\include"
     - "-D_WIN32"
     - "-D_WIN64"
-    - "-D_MSVC_LANG=201703L"
-  CompilationDatabase: build
+    - "-D_MSC_VER=*"
+    - "-D_MSVC_LANG=*"
+    - "-fms-*"
+    - "-fdelayed-template-parsing"
+  Compiler: clang++
+  Add:
+    - "-Wno-implicit-int"
+    - "-DLVGL_SIMULATOR"
+  CompilationDatabase: build-linux
 Index:
   Background: Build
 Diagnostics:
