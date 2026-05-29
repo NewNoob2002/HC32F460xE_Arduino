@@ -5,13 +5,12 @@
 #include "HAL/HAL.h"
 #include "slave_i2c.h"
 
-
 SystemInfo_t systemInfo;
 
 /**
  * @brief  Main function of SPI tx/rx dma project
  * @param  None
- * @retval int32_t return value, if needed
+ * @return This function does not return.
  */
 int
 main(void) {

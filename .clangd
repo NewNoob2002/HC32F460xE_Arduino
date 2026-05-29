@@ -1,9 +1,14 @@
 CompileFlags:
+  CompilationDatabase: build/gcc-debug
   Add:
-    - -Ic:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include
-    - -Ic:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include/libcxx
-    - -IC:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include
-    - -IC:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG/include/libcxx
-  Remove: []
-  CompilationDatabase: ./build/debug
-  Compiler: C:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG\bin\armclang.exe
+    - --target=arm-none-eabi
+---
+If:
+  PathMatch: .*\.cpp
+CompileFlags:
+  Compiler: arm-none-eabi-g++
+---
+If:
+  PathMatch: .*\.c
+CompileFlags:
+  Compiler: arm-none-eabi-gcc

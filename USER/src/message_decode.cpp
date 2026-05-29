@@ -8,7 +8,7 @@ calculate_crc(const char* msg, unsigned int len) {
         return 0;
     }
     unsigned long crc = 0xFFFFFFFF;
-    for (int n = 0; n < len; n++) {
+    for (unsigned int n = 0; n < len; n++) {
         crc = semp_crc32Table[(crc ^ msg[n]) & 0xff] ^ (crc >> 8);
     }
     return crc ^ 0xFFFFFFFF;
@@ -243,7 +243,6 @@ message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
     int result = 0;
     SEMP_CUSTOM_HEADER* messageHeader = (SEMP_CUSTOM_HEADER*)parse->buffer;
     uint16_t messageId = *(uint16_t*)&messageHeader->messageId_L;
-    uint8_t messageType = messageHeader->messageType;
     if (!systemInfo.online_device.eg25_board) {
         systemInfo.online_device.eg25_board = 1;
         systemInfo.i2c__err_count = 0;
