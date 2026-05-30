@@ -44,9 +44,9 @@ SPIClass::begin(void) {
         pinMode(miso_pin, OUTPUT_AF_PP);
     }
 
-    uint16_t sclk_function;
-    uint16_t mosi_function;
-    uint16_t miso_function;
+    uint16_t sclk_function = GPIO_FUNC_0;
+    uint16_t mosi_function = GPIO_FUNC_0;
+    uint16_t miso_function = GPIO_FUNC_0;
     if (SPIx == CM_SPI1 || SPIx == CM_SPI3) {
         sclk_function = GPIO_FUNC_43;
         mosi_function = GPIO_FUNC_40;

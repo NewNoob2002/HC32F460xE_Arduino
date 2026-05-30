@@ -1,3 +1,5 @@
+#include <new>
+#include <stdlib.h>
 #include "lvgl.h"
 
 typedef void* (*alloc_func_t)(size_t);
@@ -34,5 +36,25 @@ operator delete(void* ptr) {
 
 void
 operator delete[](void* ptr) {
+    lv_mem_free(ptr);
+}
+
+void
+operator delete(void* ptr, size_t) noexcept {
+    lv_mem_free(ptr);
+}
+
+void
+operator delete[](void* ptr, size_t) noexcept {
+    lv_mem_free(ptr);
+}
+
+void
+operator delete(void* ptr, const std::nothrow_t&) noexcept {
+    lv_mem_free(ptr);
+}
+
+void
+operator delete[](void* ptr, const std::nothrow_t&) noexcept {
     lv_mem_free(ptr);
 }

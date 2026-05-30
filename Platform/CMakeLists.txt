@@ -5,7 +5,7 @@ target_include_directories(hc32_platform_headers INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/Device/HDSC/hc32f4xx/Include
     ${CMAKE_CURRENT_SOURCE_DIR}/Config
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/Driver/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/Drivers/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/HAL
     ${CMAKE_CURRENT_SOURCE_DIR}/support
     ${PROJECT_SOURCE_DIR}/Libraries/lvgl
@@ -21,7 +21,7 @@ file(GLOB PLATFORM_HAL_SOURCES CONFIGURE_DEPENDS
     HAL/*.cpp
 )
 file(GLOB PLATFORM_DRIVER_SOURCES CONFIGURE_DEPENDS
-    Driver/src/*.c
+    Drivers/src/*.c
 )
 file(GLOB PLATFORM_SUPPORT_SOURCES CONFIGURE_DEPENDS
     support/*.c

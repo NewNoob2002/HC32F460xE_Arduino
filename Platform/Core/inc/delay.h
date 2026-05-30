@@ -1,7 +1,7 @@
 #ifndef DELAY_h
 #define DELAY_h
 #include <stdint.h>
-#include "../../Driver/inc/hc32_ll.h"
+#include "../../Drivers/inc/hc32_ll.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -12,7 +12,7 @@ extern "C" {
  *
  * \return Number of milliseconds since the program started (uint32_t)
  */
-extern uint32_t millis(void) ;
+extern uint32_t millis(void);
 
 /**
  * \brief Returns the number of microseconds since the Arduino board began running the current program.
@@ -24,12 +24,12 @@ extern uint32_t millis(void) ;
  *
  * \note There are 1,000 microseconds in a millisecond and 1,000,000 microseconds in a second.
  */
-extern uint32_t micros(void) ;
+extern uint32_t micros(void);
 
 extern void delay_ms(uint32_t ms);
 
 extern void delay_us(uint32_t us);
-	
+
 #ifdef __cplusplus
 }
 #endif
