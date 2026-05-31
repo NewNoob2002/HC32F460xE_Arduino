@@ -1,5 +1,8 @@
 CompileFlags:
   Remove:
+    - "--target=*"
+    - "-U__clang__"
+    - "-D__PROGRAM_START=*"
     - "-std:c++17"
     - "-Ic:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include"
     - "-Ic:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include/libcxx"
@@ -12,11 +15,12 @@ CompileFlags:
     - "-D_MSVC_LANG=*"
     - "-fms-*"
     - "-fdelayed-template-parsing"
-  Compiler: clang++
+  Compiler: /usr/bin/g++
   Add:
+    - "--target=x86_64-linux-gnu"
     - "-Wno-implicit-int"
     - "-DLVGL_SIMULATOR"
-  CompilationDatabase: build-linux
+  CompilationDatabase: build
 Index:
   Background: Build
 Diagnostics:

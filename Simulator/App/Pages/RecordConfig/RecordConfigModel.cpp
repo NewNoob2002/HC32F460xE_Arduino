@@ -37,10 +37,8 @@ RecordConfigModel::RecorderCommand(const RecCmd_t cmd) const {
     statusInfo.cmd = DataProc::STATUS_BAR_CMD_SET_LABEL_REC;
 
     switch (cmd) {
-        case REC_START: statusInfo.param.record_active = true;
-            break;
-        case REC_STOP: statusInfo.param.record_active = false;
-            break;
+        case REC_START: statusInfo.param.record_active = true; break;
+        case REC_STOP: statusInfo.param.record_active = false; break;
         default: break;
     }
 

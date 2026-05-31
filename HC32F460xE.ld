@@ -80,19 +80,19 @@ SECTIONS
         . = ALIGN(4);
     } >FLASH
 
-    .ARM.extab :
+    .ARM.extab (READONLY) :
     {
         *(.ARM.extab* .gnu.linkonce.armextab.*)
     } >FLASH
 
     __exidx_start = .;
-    .ARM.exidx :
+    .ARM.exidx (READONLY) :
     {
         *(.ARM.exidx* .gnu.linkonce.armexidx.*)
     } >FLASH
     __exidx_end = .;
 
-    .preinit_array :
+    .preinit_array (READONLY) :
     {
         . = ALIGN(4);
         /* preinit data */
@@ -102,7 +102,7 @@ SECTIONS
         . = ALIGN(4);
     } >FLASH
 
-    .init_array :
+    .init_array (READONLY) :
     {
         . = ALIGN(4);
         /* init data */
@@ -113,7 +113,7 @@ SECTIONS
         . = ALIGN(4);
     } >FLASH
 
-    .fini_array :
+    .fini_array (READONLY) :
     {
         . = ALIGN(4);
         /* finit data */

@@ -161,6 +161,7 @@ SPIClass::setClock(uint32_t clock) {
 
 void
 SPIClass::setClockDivider(uint32_t Div) {
+    ((void)Div);
     //    if(Div == 0)
     //    {
     //        Div = 1;
@@ -174,6 +175,7 @@ SPIClass::setClockDivider(uint32_t Div) {
 
 void
 SPIClass::setBitOrder(uint16_t bitOrder) {
+    ((void)bitOrder);
     //    spi_init_struct.first_bit_transmission = (bitOrder == MSBFIRST) ? SPI_FIRST_BIT_MSB : SPI_FIRST_BIT_LSB;
     //    spi_init(SPIx, &spi_init_struct);
     //    spi_enable(SPIx, TRUE);
@@ -185,6 +187,7 @@ SPIClass::setBitOrder(uint16_t bitOrder) {
  */
 void
 SPIClass::setDataSize(uint32_t datasize) {
+    ((void)datasize);
     //    spi_init_struct.frame_bit_num = (spi_frame_bit_num_type)datasize;
     //    spi_init(SPIx, &spi_init_struct);
     //    spi_enable(SPIx, TRUE);
@@ -192,6 +195,7 @@ SPIClass::setDataSize(uint32_t datasize) {
 
 void
 SPIClass::setDataMode(uint8_t dataMode) {
+    ((void)dataMode);
     /* Notes.  As far as I can tell, the AVR numbers for dataMode appear to match the numbers required by the STM32
 
     From the AVR doc http://www.atmel.com/images/doc2585.pdf section 2.4
@@ -284,6 +288,7 @@ SPIClass::read(uint8_t* buf, uint32_t len) {
     }
 
     SPI_I2S_RXDATA_VOLATILE(SPIx);
+    (void(vn));
     SPI_I2S_TXDATA(SPIx, 0x00FF);
 
     while ((--len)) {
@@ -356,6 +361,7 @@ SPIClass::transfer(uint8_t wr_data) const {
             SPI_Cmd(SPIx, ENABLE);
         }
         SPI_I2S_RXDATA_VOLATILE(SPIx);
+        (void(vn));
         SPI_I2S_TXDATA(SPIx, wr_data);
         SPI_I2S_WAIT_TX(SPIx);
         SPI_I2S_WAIT_BUSY(SPIx);
@@ -370,6 +376,7 @@ SPIClass::transfer16(uint16_t wr_data) const {
         SPI_Cmd(SPIx, ENABLE);
     }
     SPI_I2S_RXDATA_VOLATILE(SPIx);
+    (void(vn));
     SPI_I2S_TXDATA(SPIx, wr_data);
     SPI_I2S_WAIT_TX(SPIx);
     SPI_I2S_WAIT_BUSY(SPIx);

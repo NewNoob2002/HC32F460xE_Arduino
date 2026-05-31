@@ -1,18 +1,17 @@
-#include "Arduino.h"
+#include <Arduino.h>
 #include "ButtonEvent/ButtonEvent.h"
 #include "HAL.h"
-#include "lv_port.h"
-
+#include "src/misc/lv_types.h"
 
 static ButtonEvent FuncKey;
 static volatile uint8_t ForceShutdown_count = 0;
 
 static bool EncoderEnable = true;
 static volatile int32_t EncoderDiff = 0;
-static bool EncoderDiffDisable = false;
 
 static void
 FuncKey_callback(ButtonEvent* btn, int event) {
+    LV_UNUSED(btn);
     switch (event) {
         case ButtonEvent::EVENT_DOUBLE_CLICKED: EncoderDiff++; break;
         case ButtonEvent::EVENT_CLICKED: EncoderDiff--; break;

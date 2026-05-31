@@ -3,8 +3,7 @@
 #include "HAL.h"
 #include "lvgl/lvgl.h"
 
-
-static Account* actLed = nullptr;
+// static Account* actLed = nullptr;
 
 static ledState_t powerLed = {0, 0, false};
 static ledState_t chargerLed = {0, 0, false};
@@ -45,7 +44,7 @@ Led_Update_Charge() {
             }
         }
     } else {
-			  digitalWrite(CHARGE_LED_PIN, LOW);
+        digitalWrite(CHARGE_LED_PIN, LOW);
         chargerLed.currentRate = 0;
         if (systemInfo.powerMonitor.batteryInfo.Percent >= 14) {
             digitalWrite(POWER_LED_PIN, HIGH);

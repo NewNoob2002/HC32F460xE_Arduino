@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "lvgl/lvgl.h"
+#include "src/misc/lv_types.h"
 #if defined(_WIN32)
 #include <windows.h>
 static HANDLE output_lock = NULL;
@@ -98,6 +99,9 @@ elog_port_output(const char* log, size_t size) {
 #else
     usart_write_buffer(log, size);
 #endif
+#else
+    LV_UNUSED(log);
+    LV_UNUSED(size);
 #endif // defined(__CORE_DEBUG)
 #endif
 }
@@ -148,7 +152,7 @@ elog_port_get_time(void) {
     return cur_system_time;
 #else
 
-    lv_snprintf(buf, 32, "%d", lv_tick_get());
+    lv_snprintf(buf, 32, "%" PRIu32, lv_tick_get());
     return buf;
 #endif
 }

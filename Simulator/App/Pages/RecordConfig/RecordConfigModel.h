@@ -6,17 +6,14 @@
 namespace Page {
 
 class RecordConfigModel {
-public:
+  public:
     RecordConfigModel() = default;
 
     ~RecordConfigModel() = default;
 
-    typedef enum {
-        REC_START = DataProc::RECORDER_CMD_START,
-        REC_STOP = DataProc::RECORDER_CMD_STOP
-    } RecCmd_t;
+    typedef enum { REC_START = DataProc::RECORDER_CMD_START, REC_STOP = DataProc::RECORDER_CMD_STOP } RecCmd_t;
 
-public:
+  public:
     void Init();
 
     void Deinit();
@@ -25,13 +22,13 @@ public:
 
     void SetStatusBarStyle(DataProc::StatusBar_Style_t style) const;
 
-private:
+  private:
     Account* account{};
 
-private:
+  private:
     static int onEvent(Account* account, Account::EventParam_t* param);
 };
 
-}
+} // namespace Page
 
 #endif
