@@ -1,7 +1,12 @@
 #include "slave_i2c.h"
-#include "Arduino.h"
+#include "HAL.h"
 #include "SparkFun_Extensible_Message_Parser.h"
 #include "message_decode.h"
+#include "src/misc/lv_types.h"
+
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
 
 volatile SLAVE_I2C_STATE slave_state = SLAVE_RX;
 
@@ -55,6 +60,7 @@ BAD_CRC_CALLBACK(P_SEMP_PARSE_STATE parse) {
 
 void
 CustomDataProcess(SEMP_PARSE_STATE* parse, uint16_t type) {
+    LV_UNUSED(type);
     int length = message_decode(parse, txBuffer_temp);
     if (length <= 0) {
         return;
