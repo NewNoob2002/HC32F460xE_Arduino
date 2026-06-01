@@ -5,7 +5,7 @@
 #include "HardwareCheckView.h"
 #include <cstdlib>
 
-#define BAR_WIDTH   100
+#define BAR_WIDTH 100
 
 using namespace Page;
 
@@ -64,20 +64,22 @@ HardwareCheckView::Create(lv_obj_t* root) {
 
     ui.anim_timeline = lv_anim_timeline_create();
 
-#define ANIM_DEF(start_time, obj, attr, start, end) \
-{start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
+#define ANIM_DEF(start_time, obj, attr, start, end)                                                                    \
+    { start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true }
 
-    const lv_anim_timeline_wrapper_t wrapper[] =
-    {
+    const lv_anim_timeline_wrapper_t wrapper[] = {
         ANIM_DEF(0, cont, width, 0, lv_obj_get_style_width(cont, 0)),
         ANIM_DEF(500, ui.logo_label, y, lv_obj_get_style_height(ui.cont, 0), lv_obj_get_y(ui.logo_label)),
-        LV_ANIM_TIMELINE_WRAPPER_END
-    };
+        LV_ANIM_TIMELINE_WRAPPER_END};
 
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 
     lv_obj_t* img_logo = lv_img_create(root);
+#if defined(RGK_LOGO_USE)
+    lv_img_set_src(img_logo, ResourcePool::GetImage("RGKLogo"));
+#else
     lv_img_set_src(img_logo, ResourcePool::GetImage("startupLogo"));
+#endif // RGK_LOGO_USE
     const auto* img_satellite_ext = reinterpret_cast<lv_img_t*>(img_logo);
     lv_obj_set_size(img_logo, img_satellite_ext->w, img_satellite_ext->h);
     lv_obj_center(img_logo);

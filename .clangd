@@ -1,5 +1,5 @@
 CompileFlags:
-  CompilationDatabase: build/gcc-debug
+  CompilationDatabase: build/clangd
   Add:
     - --target=arm-none-eabi
     - -U__clang__

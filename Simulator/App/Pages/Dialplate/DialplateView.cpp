@@ -40,6 +40,10 @@ DialplateView::Delete() {
         lv_anim_timeline_del(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
+    delete ui.topInfo.satellite_used;
+    ui.topInfo.satellite_used = nullptr;
+    delete ui.topInfo.satellite_tacked;
+    ui.topInfo.satellite_tacked = nullptr;
 }
 
 void

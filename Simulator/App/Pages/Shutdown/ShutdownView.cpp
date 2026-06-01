@@ -78,6 +78,23 @@ ShutdownView::Create(lv_obj_t* root) {
     lv_obj_center(label_btn);
     ui.shutdown.btnLabel = label_btn;
 
+    lv_obj_t* btnLanguage = lv_obj_create(main_cont);
+    lv_obj_remove_style_all(btnLanguage);
+    lv_obj_set_size(btnLanguage, 36, 28);
+    lv_obj_clear_flag(btnLanguage, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_align(btnLanguage, LV_ALIGN_TOP_RIGHT, -10, 34);
+    lv_obj_set_style_bg_opa(btnLanguage, LV_OPA_COVER, 0);
+    lv_obj_set_style_bg_color(btnLanguage, lv_color_hex(0x666666), 0);
+    lv_obj_set_style_bg_color(btnLanguage, lv_color_hex(0xff931e), LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_color(btnLanguage, lv_color_hex(0xbbbbbb), LV_STATE_PRESSED);
+    lv_obj_set_style_radius(btnLanguage, 6, 0);
+    ui.shutdown.btnLanguage = btnLanguage;
+
+    lv_obj_t* img_language = lv_img_create(btnLanguage);
+    lv_obj_remove_style_all(img_language);
+    lv_obj_center(img_language);
+    ui.shutdown.btnLanguageImg = img_language;
+
     ApplyLanguage();
 }
 
@@ -88,4 +105,9 @@ void
 ShutdownView::ApplyLanguage() const {
     lv_label_set_text(ui.shutdown.hintLabel, I18n::Text(I18n::TextId::ShutdownHint));
     lv_label_set_text(ui.shutdown.btnLabel, I18n::Text(I18n::TextId::Press));
+    lv_img_set_src(
+        ui.shutdown.btnLanguageImg,
+        ResourcePool::GetImage(I18n::GetLanguage() == I18n::Language::Russian ? "NationalFlag_RU" : "NationalFlag_EN")
+    );
+    lv_obj_center(ui.shutdown.btnLanguageImg);
 }

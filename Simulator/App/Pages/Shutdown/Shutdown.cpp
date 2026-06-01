@@ -1,5 +1,6 @@
 #include "Shutdown.h"
 
+#include "App.h"
 #include "HAL.h"
 
 using namespace Page;
@@ -18,7 +19,7 @@ lv_anim_obj_set_width(void* obj, const int32_t width) {
     lv_obj_set_width(static_cast<lv_obj_t*>(obj), width);
 
     if (instance->View.ui.shutdown.bar.label) {
-        lv_label_set_text_fmt(instance->View.ui.shutdown.bar.label, "%d%%", width);
+        lv_label_set_text_fmt(instance->View.ui.shutdown.bar.label, "%ld%%", static_cast<long>(width));
     }
     if (width >= 100) {
         if (!anim_complement_callback_do) {
@@ -48,6 +49,7 @@ Shutdown::onViewLoad() {
     lv_anim_set_user_data(&View.ui.shutdown.bar.anim, this);
 
     AttachEvent(View.ui.shutdown.btnPress);
+    AttachEvent(View.ui.shutdown.btnLanguage);
 }
 
 void
@@ -61,6 +63,7 @@ Shutdown::onViewWillAppear() {
     lv_group_t* group = lv_group_get_default();
     LV_ASSERT_NULL(group);
     lv_group_add_obj(group, View.ui.shutdown.btnPress);
+    lv_group_add_obj(group, View.ui.shutdown.btnLanguage);
     lv_group_focus_obj(View.ui.shutdown.btnPress);
 }
 
@@ -72,6 +75,8 @@ Shutdown::onViewDidAppear() {
 void
 Shutdown::onViewWillDisappear() {
     LV_LOG_USER("onViewWillDisappear");
+    lv_group_remove_obj(View.ui.shutdown.btnPress);
+    lv_group_remove_obj(View.ui.shutdown.btnLanguage);
 }
 
 void
@@ -103,12 +108,26 @@ Shutdown::AttachEvent(lv_obj_t* obj) {
 
 void
 Shutdown::onEvent(lv_event_t* event) {
-    const auto* instance = static_cast<Shutdown*>(lv_event_get_user_data(event));
+    auto* instance = static_cast<Shutdown*>(lv_event_get_user_data(event));
     LV_ASSERT_NULL(instance);
-    if (const lv_obj_t* obj = lv_event_get_target(event); obj != instance->View.ui.shutdown.btnPress)
-        return;
+    const lv_obj_t* obj = lv_event_get_target(event);
+    const lv_event_code_t code = lv_event_get_code(event);
 
-    if (const lv_event_code_t code = lv_event_get_code(event); code == LV_EVENT_SHORT_CLICKED) {
+    if (obj == instance->View.ui.shutdown.btnLanguage) {
+        if (code == LV_EVENT_SHORT_CLICKED) {
+            const I18n::Language nextLanguage = App_GetLanguage() == I18n::Language::Russian
+                                                    ? I18n::Language::English
+                                                    : I18n::Language::Russian;
+            App_SetLanguage(nextLanguage);
+        }
+        return;
+    }
+
+    if (obj != instance->View.ui.shutdown.btnPress) {
+        return;
+    }
+
+    if (code == LV_EVENT_SHORT_CLICKED) {
         instance->pageManager->Pop();
     } else if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESSED) {
 #if defined(HC32F460)

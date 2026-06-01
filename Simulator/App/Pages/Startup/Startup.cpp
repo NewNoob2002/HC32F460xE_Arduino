@@ -1,6 +1,5 @@
 #include "Startup.h"
 #include <cstdio>
-#include <functional>
 
 using namespace Page;
 
@@ -8,8 +7,9 @@ static void
 lv_anim_arc_set_value(void* obj, int32_t value) {
     lv_anim_t* anim = lv_anim_get(obj, lv_anim_arc_set_value);
     // 注意：在动画结束销毁时 anim 可能为空，需做保护
-    if (!anim)
+    if (!anim) {
         return;
+    }
 
     const auto* instance = static_cast<Startup*>(lv_anim_get_user_data(anim));
     LV_ASSERT_NULL(instance);
@@ -18,7 +18,7 @@ lv_anim_arc_set_value(void* obj, int32_t value) {
 
     // 更新百分比文字 (放在这里可以让文字跟随动画平滑变化)
     if (instance->View.ui.arc_percent) {
-        lv_label_set_text_fmt(instance->View.ui.arc_percent, "%d%%", value);
+        lv_label_set_text_fmt(instance->View.ui.arc_percent, "%" PRIu32 "%%", value);
     }
 
     if (value >= 100) {
@@ -108,11 +108,13 @@ void
 Startup::onEvent(lv_event_t* event) {
     auto* instance = static_cast<Startup*>(lv_event_get_user_data(event));
     LV_ASSERT_NULL(instance);
-    if (systemInfo.powerMonitor.panel_power_on)
+    if (systemInfo.powerMonitor.panel_power_on) {
         return;
+    }
 
-    if (const lv_obj_t* obj = lv_event_get_current_target(event); obj != instance->View.ui.btnPress)
+    if (const lv_obj_t* obj = lv_event_get_current_target(event); obj != instance->View.ui.btnPress) {
         return;
+    }
 
     const lv_event_code_t code = lv_event_get_code(event);
 

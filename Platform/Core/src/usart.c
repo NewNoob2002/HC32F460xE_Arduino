@@ -4,8 +4,8 @@
 
 static bool usart_initialized = false;
 
-void usart_init()
-{
+void
+usart_init() {
     stc_usart_uart_init_t stcUartInit;
 
     STRUCT_ZERO(stcUartInit);
@@ -26,34 +26,31 @@ void usart_init()
     usart_initialized = true;
 }
 
-void usart_deinit()
-{
+void
+usart_deinit() {
     USART_DeInit(USART_UNIT);
     usart_initialized = false;
 }
 
-int usart_write(int ch)
-{
-    if (!usart_initialized)
-    {
+int
+usart_write(int ch) {
+    if (!usart_initialized) {
         return 0;
     }
-    while (RESET == USART_GetStatus(USART_UNIT, USART_FLAG_TX_EMPTY))
-    {
-    }
+    while (RESET == USART_GetStatus(USART_UNIT, USART_FLAG_TX_EMPTY)) {}
     USART_WriteData(USART_UNIT, ch);
     return 1;
 }
 
-size_t usart_write_buffer(const uint8_t *buffer, size_t size)
-{
+size_t
+usart_write_buffer(const uint8_t* buffer, size_t size) {
     size_t n = 0;
-    while (size--)
-    {
-        if (usart_write(*buffer++))
+    while (size--) {
+        if (usart_write(*buffer++)) {
             n++;
-        else
+        } else {
             break;
+        }
     }
     return n;
 }

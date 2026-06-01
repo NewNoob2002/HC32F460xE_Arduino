@@ -27,7 +27,6 @@
  */
 
 #include <elog.h>
-#include <stdio.h>
 
 #include "lvgl/lvgl.h"
 #if defined(_WIN32)

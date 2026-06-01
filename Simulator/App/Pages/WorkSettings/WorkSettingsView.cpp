@@ -61,7 +61,7 @@ WorkSettingsView::Update() const {
     const uint8_t p = systemInfo.radioInfo.radio_protocol;
 
     int8_t Protocol = 0;
-    for (unsigned long i = 0; i <= sizeof(RadioProtocol); i++) {
+    for (uint8_t i = 0; i < PROTOCOL_MAX; i++) {
         if (RadioProtocol[i] == p) {
             Protocol = i;
             break;

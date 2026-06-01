@@ -5,7 +5,14 @@
 #define FIRMWARE_NAME           "PRO_Panel"
 #define AUTHOR_NAME             " "
 #define HARDWARE_VERSION        "V1.5"
-#define SOFTWARE_VERSION        "V2.4.0"
+#if defined(__has_include)
+#if __has_include("mcu_version_config.h")
+#include "mcu_version_config.h"
+#endif
+#endif
+#ifndef SOFTWARE_VERSION
+#define SOFTWARE_VERSION        "V2.4.1"
+#endif
 // 2.0 修复X1pro充电问题， 增加强制关机机制防止卡死无法关机
 // 2.0.1 增加关机充电提示和开机按键提示动画，增加设备信息页面
 // 2.1.0 使用新框架，优化响应速度和UI动画帧率
@@ -14,6 +21,7 @@
 // 2.3.3 修复电台配置界面显示不对应
 // 2.3.5 修复4G设置不成功
 // 2.4.0 增加静态记录采集设置
+// 2.4.1 增加英俄语言动态切换，完善Simulator独立编译，优化页面定时器和资源释放
 #define SOFTWARE_BUILD_DATE     __DATE__
 #define SOFTWARE_BUILD_TIME     __TIME__
 

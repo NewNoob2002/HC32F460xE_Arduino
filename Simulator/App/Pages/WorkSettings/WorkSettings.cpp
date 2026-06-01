@@ -97,6 +97,10 @@ WorkSettings::onViewDidDisappear() {
 void
 WorkSettings::onViewUnload() {
     PageBase::onViewUnload();
+    if (timer) {
+        lv_timer_del(timer);
+        timer = nullptr;
+    }
     View.Delete();
     if (lastFocus) {
         lastFocus = nullptr;

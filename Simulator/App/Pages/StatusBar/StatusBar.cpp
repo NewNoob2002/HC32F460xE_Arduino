@@ -203,8 +203,13 @@ StatusBar_Update(lv_timer_t* timer) {
             StatusBar_ConBattSetOpa(contBatt, LV_OPA_COVER);
             Is_BattChargingAnimActive = false;
         }
+        uint16_t battery_percentage = systemInfo.powerMonitor.batteryInfo.Percent;
+        if (battery_percentage > 100) {
+            battery_percentage = 100;
+        }
+
         lv_color_t battery_color;
-        if (const uint16_t battery_percentage = systemInfo.powerMonitor.batteryInfo.Percent; battery_percentage > 50) {
+        if (battery_percentage > 50) {
             battery_color = lv_color_hex(0x4CAF50); // 绿色
         } else if (battery_percentage > 20 && battery_percentage <= 50) {
             battery_color = lv_color_hex(0xFF9800); // 橙色
@@ -212,7 +217,7 @@ StatusBar_Update(lv_timer_t* timer) {
             battery_color = lv_color_hex(0xF44336); // 红色
         }
         lv_obj_set_style_bg_color(contBatt, battery_color, 0);
-        const lv_coord_t width = lv_map(systemInfo.powerMonitor.batteryInfo.Percent, 0, 100, 0, BATT_USAGE_WIDTH);
+        const lv_coord_t width = lv_map(battery_percentage, 0, 100, 0, BATT_USAGE_WIDTH);
         lv_obj_set_width(contBatt, width);
     }
 }

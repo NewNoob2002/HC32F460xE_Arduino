@@ -56,7 +56,7 @@ RecordConfig::onViewWillAppear() {
     if (lastFocus) {
         lv_group_focus_obj(lastFocus);
     } else {
-        lv_group_focus_obj(View.ui.btnCont.btnRecord);
+        lv_group_focus_obj(View.ui.btnCont.btnReturn);
     }
     Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_TRANSP);
 
@@ -78,7 +78,7 @@ RecordConfig::onViewDidAppear() {
         PM_LOG_INFO("RecordConfig::timerRoller Resume");
         lv_timer_resume(timerRoller);
         lv_timer_ready(timerRoller);
-    }else {
+    } else {
         PM_LOG_INFO("RecordConfig::timerRecord Create");
         timerRoller = lv_timer_create(onTimerRollerUpdate, 20000, this);
         lv_timer_ready(timerRoller);
@@ -110,6 +110,14 @@ RecordConfig::onViewDidDisappear() {
 void
 RecordConfig::onViewUnload() {
     PageBase::onViewUnload();
+    if (timerRecord) {
+        lv_timer_del(timerRecord);
+        timerRecord = nullptr;
+    }
+    if (timerRoller) {
+        lv_timer_del(timerRoller);
+        timerRoller = nullptr;
+    }
     Model.Deinit();
     View.Delete();
     if (lastFocus) {
@@ -135,22 +143,25 @@ RecordConfig::onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code) {
             onRecord(false);
         } else if (btn == View.ui.btnCont.btnReturn) {
             pageManager->Pop();
-        }else if (btn == View.ui.roller.left_roller.btnUp && !isRecording) {
+        } else if (btn == View.ui.roller.left_roller.btnUp && !isRecording) {
             View.Roller_up(View.ui.roller.left_roller.label);
-        }else if (btn == View.ui.roller.left_roller.btnDown&& !isRecording) {
+        } else if (btn == View.ui.roller.left_roller.btnDown && !isRecording) {
             View.Roller_down(View.ui.roller.left_roller.label);
-        }else if (btn == View.ui.roller.right_roller.btnUp&& !isRecording) {
+        } else if (btn == View.ui.roller.right_roller.btnUp && !isRecording) {
             View.Roller_up(View.ui.roller.right_roller.label);
-        }else if (btn == View.ui.roller.right_roller.btnDown&& !isRecording) {
+        } else if (btn == View.ui.roller.right_roller.btnDown && !isRecording) {
             View.Roller_down(View.ui.roller.right_roller.label);
         }
     } else if (code == LV_EVENT_LONG_PRESSED) {
         if (btn == View.ui.btnCont.btnRecord) {
-            const uint8_t RecordType_index = RecordConfigType[RecordConfigView::Roller_GetIndex(View.ui.roller.left_roller.label)];
-            const uint8_t RecordInterval_index = RecordConfigInterval[RecordConfigView::Roller_GetIndex(View.ui.roller.right_roller.label)];
+            const uint8_t RecordType_index =
+                RecordConfigType[RecordConfigView::Roller_GetIndex(View.ui.roller.left_roller.label)];
+            const uint8_t RecordInterval_index =
+                RecordConfigInterval[RecordConfigView::Roller_GetIndex(View.ui.roller.right_roller.label)];
             systemInfo.recordInfo.record_type = RecordType_index;
             systemInfo.recordInfo.record_interval = RecordInterval_index;
-            PM_LOG_INFO("RecordConfig::RollerUpdate, RecordType_index:%d, RecordInterval_index:%d", RecordType_index, RecordInterval_index);
+            PM_LOG_INFO("RecordConfig::RollerUpdate, RecordType_index:%d, RecordInterval_index:%d", RecordType_index,
+                        RecordInterval_index);
             onRecord(true);
         }
     }
@@ -159,13 +170,15 @@ RecordConfig::onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code) {
 void
 RecordConfig::onRecord(const bool longPress) {
     switch (recState) {
-        case RECORD_STATE_START: if (!longPress) {
+        case RECORD_STATE_START:
+            if (!longPress) {
                 Model.RecorderCommand(RecordConfigModel::REC_STOP);
                 SetBtnRecImgSrc("start");
                 recState = RECORD_STATE_STOP;
             }
             break;
-        case RECORD_STATE_STOP: if (longPress) {
+        case RECORD_STATE_STOP:
+            if (longPress) {
                 Model.RecorderCommand(RecordConfigModel::REC_START);
                 SetBtnRecImgSrc("stop");
                 recState = RECORD_STATE_START;
@@ -176,7 +189,7 @@ RecordConfig::onRecord(const bool longPress) {
 }
 
 void
-RecordConfig::SetBtnRecImgSrc(const char* srcName) const{
+RecordConfig::SetBtnRecImgSrc(const char* srcName) const {
     lv_obj_set_style_bg_img_src(View.ui.btnCont.btnRecord, ResourcePool::GetImage(srcName), 0);
 }
 

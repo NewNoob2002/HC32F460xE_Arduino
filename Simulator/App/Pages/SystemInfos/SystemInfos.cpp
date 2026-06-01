@@ -20,7 +20,8 @@ void
 SystemInfos::onViewDidLoad() {
     const auto item_grp = reinterpret_cast<SystemInfosView::item_t*>(&View.ui);
 
-    for (int i = 0; i < sizeof(View.ui) / sizeof(SystemInfosView::item_t); i++) {
+    constexpr size_t itemCount = sizeof(View.ui) / sizeof(SystemInfosView::item_t);
+    for (size_t i = 0; i < itemCount; i++) {
         AttachEvent(item_grp[i].icon);
     }
 }
@@ -52,7 +53,10 @@ SystemInfos::onViewWillDisappear() {
 
 void
 SystemInfos::onViewDidDisappear() {
-    lv_timer_del(timer);
+    if (timer) {
+        lv_timer_del(timer);
+        timer = nullptr;
+    }
 }
 
 void

@@ -1,5 +1,4 @@
 #include <errno.h>
-#include <stdint.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -94,6 +93,9 @@ _write(int file, char* ptr, int len) {
 #else
     usart_write_buffer(log, size);
 #endif
+#else
+    ((void)ptr);
+    ((void)len);
 #endif
     return len;
 }

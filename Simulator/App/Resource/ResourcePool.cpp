@@ -6,23 +6,23 @@ static ResourceManager Font_;
 static ResourceManager Image_;
 
 extern "C" {
-#define IMPORT_FONT(name) \
-do{\
-    LV_FONT_DECLARE(font_##name)\
-    Font_.AddResource(#name, (void*)&font_##name);\
-}while(0)
+#define IMPORT_FONT(name)                                                                                              \
+    do {                                                                                                               \
+        LV_FONT_DECLARE(font_##name)                                                                                   \
+        Font_.AddResource(#name, (void*)&font_##name);                                                                 \
+    } while (0)
 
-#define IMPORT_SYMBOL(name) \
-do{\
-    LV_FONT_DECLARE(symbol_##name)\
-    Font_.AddResource(#name, (void*)&symbol_##name);\
-}while(0)
+#define IMPORT_SYMBOL(name)                                                                                            \
+    do {                                                                                                               \
+        LV_FONT_DECLARE(symbol_##name)                                                                                 \
+        Font_.AddResource(#name, (void*)&symbol_##name);                                                               \
+    } while (0)
 
-#define IMPORT_IMG(name) \
-do{\
-    LV_IMG_DECLARE(img_src_##name)\
-    Image_.AddResource(#name, (void*)&img_src_##name);\
-}while (0)
+#define IMPORT_IMG(name)                                                                                               \
+    do {                                                                                                               \
+        LV_IMG_DECLARE(img_src_##name)                                                                                 \
+        Image_.AddResource(#name, (void*)&img_src_##name);                                                             \
+    } while (0)
 
 static void
 Resource_Init() {
@@ -60,7 +60,13 @@ Resource_Init() {
     IMPORT_IMG(base);
     IMPORT_IMG(ntrip);
 
+    IMPORT_IMG(NationalFlag_EN);
+    IMPORT_IMG(NationalFlag_RU);
+#if defined(RGK_LOGO_USE)
+    IMPORT_IMG(RGKLogo);
+#else
     IMPORT_IMG(startupLogo);
+#endif // RGK_LOGO_USE
 }
 } /* extern "C" */
 

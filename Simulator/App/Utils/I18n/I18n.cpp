@@ -26,11 +26,15 @@ I18n::GetLanguage() {
 
 bool
 I18n::SetLanguage(const Language language) {
+    if (language == currentLanguage) {
+        return false;
+    }
+
 #if APP_I18N_DYNAMIC
     currentLanguage = language;
     return true;
 #else
-    return language == currentLanguage;
+    return false;
 #endif
 }
 

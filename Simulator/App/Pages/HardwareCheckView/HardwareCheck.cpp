@@ -43,6 +43,7 @@ void
 HardwareCheck::onViewWillDisappear() {
     if (timer) {
         lv_timer_del(timer);
+        timer = nullptr;
     }
 }
 
@@ -84,4 +85,6 @@ HardwareCheck::onTimer(lv_timer_t* timer) {
 }
 
 void
-HardwareCheck::onEvent(lv_event_t* event) {}
+HardwareCheck::onEvent(lv_event_t* event) {
+    (void)event;
+}

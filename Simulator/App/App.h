@@ -22,7 +22,7 @@
  */
 #ifndef __APP_H
 #define __APP_H
-#include "../Platform/Config/mcu_config.h"
+#include "mcu_config.h"
 #include "Utils/I18n/I18n.h"
 
 void App_Init();

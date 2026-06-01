@@ -84,6 +84,10 @@ Dialplate::onViewDidDisappear() {}
 
 void
 Dialplate::onViewUnload() {
+    if (timer) {
+        lv_timer_del(timer);
+        timer = nullptr;
+    }
     Model.Deinit();
     View.Delete();
     if (lastFocus) {

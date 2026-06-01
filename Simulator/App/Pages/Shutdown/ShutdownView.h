@@ -26,6 +26,8 @@ public:
             } bar;
 
             lv_obj_t* btnPress;
+            lv_obj_t* btnLanguage;
+            lv_obj_t* btnLanguageImg;
         } shutdown;
     } ui;
 };

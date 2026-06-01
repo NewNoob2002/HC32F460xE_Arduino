@@ -66,13 +66,13 @@ RecordConfigView::Update() const {
 
     int8_t RecordConfig_Interval_index = 0;
     int8_t RecordConfig_Type_index = 0;
-    for (int i = 0; i <= sizeof(RecordConfigInterval); i++) {
+    for (uint8_t i = 0; i < Redcord_Interval_MAX; i++) {
         if (RecordConfigInterval[i] == p) {
             RecordConfig_Interval_index = i;
             break;
         }
     }
-    for (int i = 0; i <= sizeof(RecordConfigType); i++) {
+    for (uint8_t i = 0; i < Redcord_Type_MAX; i++) {
         if (RecordConfigType[i] == q) {
             RecordConfig_Type_index = i;
             break;

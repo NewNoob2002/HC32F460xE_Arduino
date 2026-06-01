@@ -8,7 +8,41 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(TARGET_NAME proj_hc32)
+set(CLANGD_COMPILE_COMMANDS_LINK "${CMAKE_CURRENT_SOURCE_DIR}/build/clangd")
+if(EXISTS "${CLANGD_COMPILE_COMMANDS_LINK}" AND NOT IS_SYMLINK "${CLANGD_COMPILE_COMMANDS_LINK}")
+    message(WARNING "Cannot update ${CLANGD_COMPILE_COMMANDS_LINK}: path exists and is not a symlink")
+else()
+    get_filename_component(CURRENT_BINARY_DIR_PARENT "${CMAKE_CURRENT_BINARY_DIR}" DIRECTORY)
+    get_filename_component(CURRENT_BINARY_DIR_NAME "${CMAKE_CURRENT_BINARY_DIR}" NAME)
+    get_filename_component(DEFAULT_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build" ABSOLUTE)
+
+    if(CURRENT_BINARY_DIR_PARENT STREQUAL DEFAULT_BUILD_DIR)
+        set(CLANGD_COMPILE_COMMANDS_TARGET "${CURRENT_BINARY_DIR_NAME}")
+    else()
+        set(CLANGD_COMPILE_COMMANDS_TARGET "${CMAKE_CURRENT_BINARY_DIR}")
+    endif()
+
+    file(REMOVE "${CLANGD_COMPILE_COMMANDS_LINK}")
+    file(CREATE_LINK
+        "${CLANGD_COMPILE_COMMANDS_TARGET}"
+        "${CLANGD_COMPILE_COMMANDS_LINK}"
+        SYMBOLIC
+        RESULT CLANGD_LINK_RESULT
+    )
+    if(CLANGD_LINK_RESULT EQUAL 0)
+        message(STATUS "clangd compilation database: ${CLANGD_COMPILE_COMMANDS_LINK} -> ${CLANGD_COMPILE_COMMANDS_TARGET}")
+    else()
+        message(WARNING "Failed to update ${CLANGD_COMPILE_COMMANDS_LINK}: ${CLANGD_LINK_RESULT}")
+    endif()
+endif()
+
+set(PROJECT_VERSION 2.4.1)
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Config/mcu_version_config.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config/mcu_version_config.h
+    @ONLY
+)
+set(TARGET_NAME MCU_PRO_${PROJECT_VERSION})
 set(CMAKE_EXECUTABLE_SUFFIX .elf)
 set(LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/HC32F460xE.ld)
 
@@ -84,12 +118,16 @@ set(CPU_FLAGS
 )
 
 add_library(hc32_project_options INTERFACE)
+target_include_directories(hc32_project_options INTERFACE
+    ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config
+)
 target_compile_definitions(hc32_project_options INTERFACE
     HC32F460
     USE_DDL_DRIVER
     ARDUINO=111
     LV_CONF_INCLUDE_SIMPLE
-    __CORE_DEBUG
+    $<$<CONFIG:Debug>:__CORE_DEBUG>
+    RGK_LOGO_USE
 )
 target_compile_options(hc32_project_options INTERFACE
     ${CPU_FLAGS}

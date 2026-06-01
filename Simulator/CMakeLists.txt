@@ -5,12 +5,21 @@ set(CMAKE_CXX_STANDARD 17)#C17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+file(STRINGS "${CMAKE_CURRENT_LIST_DIR}/../CMakeLists.txt" PROJECT_VERSION_LINE
+        REGEX "^set\\(PROJECT_VERSION [0-9]+\\.[0-9]+\\.[0-9]+\\)")
+string(REGEX REPLACE "^set\\(PROJECT_VERSION ([0-9]+\\.[0-9]+\\.[0-9]+)\\)" "\\1" PROJECT_VERSION "${PROJECT_VERSION_LINE}")
+configure_file(
+        ${CMAKE_CURRENT_LIST_DIR}/../Platform/Config/mcu_version_config.h.in
+        ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config/mcu_version_config.h
+        @ONLY
+)
+
 # 设置 CMake 策略以使用 <PackageName>_ROOT 变量
 if(POLICY CMP0074)
     cmake_policy(SET CMP0074 NEW)
 endif()
 
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
+include_directories(${PROJECT_SOURCE_DIR})
 
 file(GLOB_RECURSE INCLUDES "lv_drivers/*.h" "lvgl/demos/*.h" "lvgl/*.h" "./*.h")
 file(GLOB_RECURSE SOURCES "lv_drivers/*.c" "lvgl/demos/*.c" "lvgl/src/*.c")
@@ -32,13 +41,14 @@ include_directories(
         ${CMAKE_CURRENT_LIST_DIR}/App/Utils
         ${CMAKE_CURRENT_LIST_DIR}/App/Resource
         ${CMAKE_CURRENT_LIST_DIR}/App/config
+        ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/support
         ${CMAKE_CURRENT_LIST_DIR}/../Platform/Config
         ${CMAKE_CURRENT_LIST_DIR}/HAL
         ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/inc
 )
 
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/bin)
 
 # SDL2 配置
 if(WIN32)
@@ -69,6 +79,7 @@ target_compile_definitions(main PRIVATE
         LV_CONF_INCLUDE_SIMPLE
         LV_INCLUDE_SIMPLE
         LVGL_SIMULATOR
+        RGK_LOGO_USE
 )
 target_include_directories(main PRIVATE
         ${SDL2_INCLUDE_DIRS}
@@ -77,14 +88,6 @@ target_include_directories(main PRIVATE
 
 
 add_compile_options(-Wno-deprecated-declarations)
-# 抑制 MSVC 编译器的警告
-if(MSVC)
-    # C5287: 不同枚举类型位运算警告
-    # C4018: 有符号/无符号不匹配
-    # C4996: 不安全的函数（如 strcpy, strcat）
-    # C4267: size_t 到更小类型的转换
-    target_compile_options(main PRIVATE /wd5287 /wd4018 /wd4996 /wd4267)
-endif()
 
 if(WIN32)
     target_link_libraries(main PRIVATE ${SDL2_LIBRARIES})

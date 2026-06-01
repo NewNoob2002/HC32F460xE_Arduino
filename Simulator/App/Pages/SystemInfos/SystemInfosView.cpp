@@ -10,61 +10,33 @@ SystemInfosView::Create(lv_obj_t* root) {
     lv_obj_set_style_pad_ver(root, ITEM_PAD, 0);
 
     lv_obj_set_flex_flow(root, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(
-        root,
-        LV_FLEX_ALIGN_START,
-        LV_FLEX_ALIGN_START,
-        LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_align(root, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER);
 
     Style_Init();
 
     /* Item workmode */
-    Item_Create(
-        &ui.work,
-        root,
-        I18n::Text(I18n::TextId::SystemWorkTitle),
-        "workmode",
-        I18n::Text(I18n::TextId::SystemWorkInfo));
+    Item_Create(&ui.work, root, I18n::Text(I18n::TextId::SystemWorkTitle), "workmode",
+                I18n::Text(I18n::TextId::SystemWorkInfo));
 
     /* Item GPS */
-    Item_Create(
-        &ui.gps,
-        root,
-        I18n::Text(I18n::TextId::SystemGpsTitle),
-        "map_location",
-        I18n::Text(I18n::TextId::SystemGpsInfo));
+    Item_Create(&ui.gps, root, I18n::Text(I18n::TextId::SystemGpsTitle), "map_location",
+                I18n::Text(I18n::TextId::SystemGpsInfo));
 
     /* Item Wi-Fi */
-    Item_Create(
-        &ui.wifi,
-        root,
-        I18n::Text(I18n::TextId::SystemWifiTitle),
-        "wifi",
-        I18n::Text(I18n::TextId::SystemWifiInfo));
+    Item_Create(&ui.wifi, root, I18n::Text(I18n::TextId::SystemWifiTitle), "wifi",
+                I18n::Text(I18n::TextId::SystemWifiInfo));
 
     /* Item Battery */
-    Item_Create(
-        &ui.battery,
-        root,
-        I18n::Text(I18n::TextId::SystemBatteryTitle),
-        "battery_info",
-        I18n::Text(I18n::TextId::SystemBatteryInfo));
+    Item_Create(&ui.battery, root, I18n::Text(I18n::TextId::SystemBatteryTitle), "battery_info",
+                I18n::Text(I18n::TextId::SystemBatteryInfo));
 
     /* Item Storage */
-    Item_Create(
-        &ui.storage,
-        root,
-        I18n::Text(I18n::TextId::SystemStorageTitle),
-        "storage",
-        I18n::Text(I18n::TextId::SystemStorageInfo));
+    Item_Create(&ui.storage, root, I18n::Text(I18n::TextId::SystemStorageTitle), "storage",
+                I18n::Text(I18n::TextId::SystemStorageInfo));
 
     /* Item System */
-    Item_Create(
-        &ui.system,
-        root,
-        I18n::Text(I18n::TextId::SystemTitle),
-        "system_info",
-        I18n::Text(I18n::TextId::SystemInfo));
+    Item_Create(&ui.system, root, I18n::Text(I18n::TextId::SystemTitle), "system_info",
+                I18n::Text(I18n::TextId::SystemInfo));
 
     Group_Init();
 }
@@ -124,19 +96,10 @@ SystemInfosView::Style_Init() {
     lv_style_set_border_width(&style.focus, 2);
     lv_style_set_border_color(&style.focus, lv_color_hex(0xff931e));
 
-    static constexpr lv_style_prop_t style_prop[] =
-    {
-        LV_STYLE_WIDTH,
-        LV_STYLE_PROP_INV};
+    static constexpr lv_style_prop_t style_prop[] = {LV_STYLE_WIDTH, LV_STYLE_PROP_INV};
 
     static lv_style_transition_dsc_t trans;
-    lv_style_transition_dsc_init(
-        &trans,
-        style_prop,
-        lv_anim_path_overshoot,
-        200,
-        0,
-        nullptr);
+    lv_style_transition_dsc_init(&trans, style_prop, lv_anim_path_overshoot, 200, 0, nullptr);
     lv_style_set_transition(&style.focus, &trans);
     lv_style_set_transition(&style.icon, &trans);
 
@@ -158,12 +121,7 @@ SystemInfosView::Style_Reset() {
 }
 
 void
-SystemInfosView::Item_Create(
-    item_t* item,
-    lv_obj_t* par,
-    const char* name,
-    const char* img_src,
-    const char* infos) {
+SystemInfosView::Item_Create(item_t* item, lv_obj_t* par, const char* name, const char* img_src, const char* infos) {
     lv_obj_t* cont = lv_obj_create(par);
     lv_obj_enable_style_refresh(false);
     lv_obj_remove_style_all(cont);
@@ -180,14 +138,10 @@ SystemInfosView::Item_Create(
 
     lv_obj_add_style(icon, &style.icon, 0);
     lv_obj_add_style(icon, &style.focus, LV_STATE_FOCUSED);
-    lv_obj_align(icon, LV_ALIGN_LEFT_MID, 0, 10);
+    lv_obj_align(icon, LV_ALIGN_LEFT_MID, 10, 10);
 
     lv_obj_set_flex_flow(icon, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(
-        icon,
-        LV_FLEX_ALIGN_SPACE_AROUND,
-        LV_FLEX_ALIGN_CENTER,
-        LV_FLEX_ALIGN_CENTER);
+    lv_obj_set_flex_align(icon, LV_FLEX_ALIGN_SPACE_AROUND, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
     lv_obj_t* img = lv_img_create(icon);
     lv_obj_enable_style_refresh(false);
@@ -205,7 +159,7 @@ SystemInfosView::Item_Create(
     lv_obj_enable_style_refresh(false);
     lv_label_set_text(info_label, infos);
     lv_obj_add_style(info_label, &style.info, 0);
-    lv_obj_align(info_label, LV_ALIGN_LEFT_MID, 75, 12);
+    lv_obj_align(info_label, LV_ALIGN_LEFT_MID, 85, 12);
     item->labelInfo = info_label;
 
     /* datas */
@@ -230,10 +184,7 @@ SystemInfosView::Item_Create(
 }
 
 void
-SystemInfosView::SetWork(
-    const WorkMode_t workMode,
-    const RadioInfo_t radioInfo,
-    const NtripInfo_t& ntripInfo) const {
+SystemInfosView::SetWork(const WorkMode_t workMode, const RadioInfo_t radioInfo, const NtripInfo_t& ntripInfo) const {
     lv_label_set_text_fmt(
         ui.work.labelData,
         "%s\n"
@@ -241,100 +192,74 @@ SystemInfosView::SetWork(
         "%s",
         workMode == rover_mode ? I18n::Text(I18n::TextId::WorkModeRover) : I18n::Text(I18n::TextId::WorkModeBase),
         radioInfo.radio_status ? I18n::Text(I18n::TextId::StatusOn) : I18n::Text(I18n::TextId::StatusOff),
-        ntripInfo.NtripServer_status
-            ? I18n::Text(I18n::TextId::NtripServer)
-            : ntripInfo.NtripClient_status
-            ? I18n::Text(I18n::TextId::NtripClient)
-            : I18n::Text(I18n::TextId::NotAvailable));
+        ntripInfo.NtripServer_status   ? I18n::Text(I18n::TextId::NtripServer)
+        : ntripInfo.NtripClient_status ? I18n::Text(I18n::TextId::NtripClient)
+                                       : I18n::Text(I18n::TextId::NotAvailable));
 }
 
 void
-SystemInfosView::SetGPS(
-    const double lat,
-    const double lng,
-    const double alt) const {
-    lv_label_set_text_fmt(
-        ui.gps.labelData,
-        "%0.6f\n"
-        "%0.6f\n"
-        "%0.6fm\n",
-        lat,
-        lng,
-        alt);
+SystemInfosView::SetGPS(const double lat, const double lng, const double alt) const {
+    lv_label_set_text_fmt(ui.gps.labelData,
+                          "%0.6f\n"
+                          "%0.6f\n"
+                          "%0.6fm\n",
+                          lat, lng, alt);
 }
 
 void
 SystemInfosView::SetWifi(const WifiInfo_t& wifiInfo) const {
-    lv_label_set_text_fmt(
-        ui.wifi.labelData,
-        "%s-%s\n"
-        "%d.%d.%d.%d",
-        wifiInfo.wifi_mode ? "STA" : "AP", wifiInfo.wifi_ssid,
-        wifiInfo.wifi_ip[0], wifiInfo.wifi_ip[1], wifiInfo.wifi_ip[2], wifiInfo.wifi_ip[3]);
+    lv_label_set_text_fmt(ui.wifi.labelData,
+                          "%s-%s\n"
+                          "%d.%d.%d.%d",
+                          wifiInfo.wifi_mode ? "STA" : "AP", wifiInfo.wifi_ssid, wifiInfo.wifi_ip[0],
+                          wifiInfo.wifi_ip[1], wifiInfo.wifi_ip[2], wifiInfo.wifi_ip[3]);
 }
 
 void
 SystemInfosView::SetBattery(const BatteryInfo_t& batteryInfo) const {
-    lv_label_set_text_fmt(
-        ui.battery.labelData,
-        "%0.2f%%\n"
-        "%0.2fV\n"
-        "%0.2f\n"
-        "%s",
-        batteryInfo.Percent_f,
-        batteryInfo.Voltage_f,
-        batteryInfo.Temp_f,
-        systemInfo.powerMonitor.ExternalPower == 1
-            ? I18n::Text(I18n::TextId::BatteryExternalPower)
-            : batteryInfo.chargeStatus == notCharge
-            ? I18n::Text(I18n::TextId::BatteryNotCharge)
-            : batteryInfo.chargeStatus == fastCharge
-            ? I18n::Text(I18n::TextId::BatteryFastCharge)
-            : I18n::Text(I18n::TextId::BatteryNormalCharge));
+    lv_label_set_text_fmt(ui.battery.labelData,
+                          "%0.2f%%\n"
+                          "%0.2fV\n"
+                          "%0.2f\n"
+                          "%s",
+                          batteryInfo.Percent_f, batteryInfo.Voltage_f, batteryInfo.Temp_f,
+                          systemInfo.powerMonitor.ExternalPower == 1 ? I18n::Text(I18n::TextId::BatteryExternalPower)
+                          : batteryInfo.chargeStatus == notCharge    ? I18n::Text(I18n::TextId::BatteryNotCharge)
+                          : batteryInfo.chargeStatus == fastCharge   ? I18n::Text(I18n::TextId::BatteryFastCharge)
+                                                                     : I18n::Text(I18n::TextId::BatteryNormalCharge));
 }
 
 void
 SystemInfosView::SetStorage(const RecordInfo_t& recordInfo) const {
     if (recordInfo.record_status) {
-        lv_label_set_text_fmt(
-            ui.storage.labelData,
-            "ON\n"
-            "%s\n"
-            "%0.1f M\n"
-            "%s\n"
-            "%0.2f %s",
-            recordInfo.record_name,
-            recordInfo.record_leftspace,
-            recordInfo.record_type == 1 ? "XYZ" : "Rinex3.02",
-            recordInfo.record_interval > 0x00 ? recordInfo.record_interval : 0.25,
-            I18n::Text(I18n::TextId::StorageHour));
+        lv_label_set_text_fmt(ui.storage.labelData,
+                              "ON\n"
+                              "%s\n"
+                              "%0.1f M\n"
+                              "%s\n"
+                              "%0.2f %s",
+                              recordInfo.record_name, recordInfo.record_leftspace,
+                              recordInfo.record_type == 1 ? "XYZ" : "Rinex3.02",
+                              recordInfo.record_interval > 0x00 ? recordInfo.record_interval : 0.25,
+                              I18n::Text(I18n::TextId::StorageHour));
     } else {
-        lv_label_set_text_fmt(
-            ui.storage.labelData,
-            "OFF\n"
-            "-\n"
-            "-\n"
-            "-\n"
-            "-");
+        lv_label_set_text_fmt(ui.storage.labelData, "OFF\n"
+                                                    "-\n"
+                                                    "-\n"
+                                                    "-\n"
+                                                    "-");
     }
 }
 
 void
-SystemInfosView::SetSystem(
-    const char* firmVer,
-    const char* bootTime,
-    const uint16_t error,
-    const char* buildTime) const {
-    lv_label_set_text_fmt(
-        ui.system.labelData,
-        "%s\n"
-        "%s\n"
-        "%04x\n"
-        "%s",
-        firmVer,
-        bootTime,
-        error,
-        buildTime);
+SystemInfosView::SetSystem(const char* firmVer, const char* bootTime, const uint16_t error,
+                           const char* buildTime) const {
+    lv_label_set_text_fmt(ui.system.labelData,
+                          "%s\n"
+                          "%s\n"
+                          "%04x\n"
+                          "%s",
+                          firmVer, bootTime, error, buildTime);
 }
 
 void
