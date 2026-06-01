@@ -88,6 +88,11 @@ void
 Startup::onViewDidUnload() {}
 
 void
+Startup::onLanguageChanged() {
+    View.ApplyLanguage();
+}
+
+void
 Startup::AttachEvent(lv_obj_t* obj) {
     lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
 }

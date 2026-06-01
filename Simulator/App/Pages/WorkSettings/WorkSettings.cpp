@@ -109,6 +109,11 @@ WorkSettings::onViewDidUnload() {
 }
 
 void
+WorkSettings::onLanguageChanged() {
+    View.ApplyLanguage();
+}
+
+void
 WorkSettings::onBtnClicked(const lv_obj_t* btn) const {
     if (btn == View.ui.btnCont.btnBase) {
         const uint8_t protocol_index = RadioProtocol[

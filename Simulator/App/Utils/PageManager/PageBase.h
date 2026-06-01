@@ -130,6 +130,9 @@ class PageBase {
     virtual void
     onViewDidUnload() {}
 
+    virtual void
+    onLanguageChanged() {}
+
     /* Set whether to manually manage the cache */
     void SetCustomCacheEnable(bool en);
 

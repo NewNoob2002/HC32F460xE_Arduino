@@ -1,0 +1,53 @@
+#include "I18n.h"
+
+namespace {
+
+const char* const texts[] = {
+    "НАЖАТЬ",
+    "Удерж.: выкл.\nКоротко: назад",
+    "Внимание: не выключать",
+    "Внимание: сохранение настроек",
+    "XYZ\nRinex",
+    "бескон.\n15мин\n1час\n2час\n4час\n24час",
+    "TRIMTALK\nTRIMMK3\nTT450S\nTRANSEOT\nSOUTH\nHUACE\nSATEL\nCSS",
+    "CUSTOM\n[1]455.05\n[2]456.05\n[3]457.05\n[4]458.05\n[5]459.05\n[6]460.05\n[7]461.05\n[8]462.05\n[9]463.05",
+    "Работа",
+    "Режим\nРадио\nNtrip",
+    "GPS",
+    "Широта\nДолгота\nВысота\n",
+    "WIFI",
+    "Режим\nIP",
+    "Батарея",
+    "Заряд\nНапряж.\nТемп.\nСтатус",
+    "Память",
+    "Статус\nИмя\nРазмер\nТип\nИнтервал",
+    "Система",
+    "Прошивка\nВремя\nОшибки\nСборка\n",
+    "Ровер",
+    "База",
+    "ВКЛ",
+    "ВЫКЛ",
+    "Сервер",
+    "Клиент",
+    "Н/Д",
+    "Внешнее питание",
+    "нет заряда",
+    "быстрый заряд",
+    "обычный заряд",
+    "ч",
+    "БАЗА",
+    "НЕТ",
+    "SINGLE",
+    "FIX",
+    "FLOAT",
+};
+
+static_assert(sizeof(texts) / sizeof(texts[0]) == static_cast<size_t>(I18n::TextId::Count));
+
+} // namespace
+
+const I18n::LanguagePack&
+I18n::RussianPack() {
+    static const LanguagePack pack = {Language::Russian, texts};
+    return pack;
+}

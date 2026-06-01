@@ -33,6 +33,8 @@ public:
 
     void onViewDidUnload() override;
 
+    void onLanguageChanged() override;
+
     ShutdownView View{};
 
 private:

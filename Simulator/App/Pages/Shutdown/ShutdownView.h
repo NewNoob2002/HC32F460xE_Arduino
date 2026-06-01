@@ -10,9 +10,13 @@ public:
 
     void Delete();
 
+    void ApplyLanguage() const;
+
     struct {
         struct {
             lv_obj_t* cont;
+            lv_obj_t* hintLabel;
+            lv_obj_t* btnLabel;
 
             struct {
                 lv_obj_t* cont;

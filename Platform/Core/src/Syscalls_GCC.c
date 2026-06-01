@@ -4,7 +4,8 @@
 #include <sys/types.h>
 
 #if defined(__CORE_DEBUG)
-#include "usart.h"
+#include "SEGGER_RTT.h"
+//#include "usart.h"
 #endif
 
 extern char __HeapLimit;
@@ -88,9 +89,11 @@ int
 _write(int file, char* ptr, int len) {
     (void)file;
 #if defined(__CORE_DEBUG)
-    usart_write_buffer((const uint8_t*)ptr, (uint32_t)len);
+#ifdef SEGGER_RTT_H
+    SEGGER_RTT_Write(0, ptr, len);
 #else
-    (void)ptr;
+    usart_write_buffer(log, size);
+#endif
 #endif
     return len;
 }

@@ -177,6 +177,15 @@ PageManager::Register(PageBase* base, const char* name) {
     return true;
 }
 
+void
+PageManager::NotifyLanguageChanged() const {
+    for (PageBase* base : PagePool) {
+        if (base != nullptr && base->_root != nullptr) {
+            base->onLanguageChanged();
+        }
+    }
+}
+
 /**
   * @brief  Log out the page from the page pool
   * @param  name: Page application name

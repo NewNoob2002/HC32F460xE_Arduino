@@ -10,6 +10,8 @@ public:
 
     void Delete();
 
+    void ApplyLanguage() const;
+
     struct {
         struct {
             lv_obj_t* cont;

@@ -141,28 +141,28 @@ StatusBar_Update(lv_timer_t* timer) {
     if (systemInfo.work_mode == base_mode ||
         systemInfo.work_mode == autobase_mode) {
         lv_obj_set_style_text_color(ui.position.position_icon, lv_palette_main(LV_PALETTE_BLUE), 0);
-        lv_label_set_text(ui.position.position_label, "BASE");
+        lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionBase));
     } else {
         switch (systemInfo.positionInfo.coordinate_status) {
             case position_none: // NONE
                 lv_obj_set_style_text_color(ui.position.position_icon,
                                             lv_palette_main(LV_PALETTE_RED), 0);
-                lv_label_set_text(ui.position.position_label, "NONE");
+                lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionNone));
                 break;
             case position_single: // Single
                 lv_obj_set_style_text_color(ui.position.position_icon,
                                             lv_palette_main(LV_PALETTE_YELLOW), 0);
-                lv_label_set_text(ui.position.position_label, "SINGLE");
+                lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionSingle));
                 break;
             case position_fix: // FIX
                 lv_obj_set_style_text_color(ui.position.position_icon,
                                             lv_palette_main(LV_PALETTE_GREEN), 0);
-                lv_label_set_text(ui.position.position_label, "FIX");
+                lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionFix));
                 break;
             case position_float: // FLOAT
                 lv_obj_set_style_text_color(ui.position.position_icon,
                                             lv_palette_main(LV_PALETTE_YELLOW), 0);
-                lv_label_set_text(ui.position.position_label, "FLOAT");
+                lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionFloat));
                 break;
             default: ;
         }
@@ -253,7 +253,7 @@ Page::StatusBar_Create(lv_obj_t* par) {
     lv_obj_remove_style_all(position_label);
     lv_obj_set_style_text_font(position_label, font2, 0);
     lv_obj_set_style_text_color(position_label, lv_color_white(), LV_STATE_DEFAULT);
-    lv_label_set_text(position_label, "FLOAT");
+    lv_label_set_text(position_label, I18n::Text(I18n::TextId::PositionFloat));
     lv_obj_align_to(position_label, position_icon, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
     ui.position.position_label = position_label;
 
@@ -305,6 +305,13 @@ Page::StatusBar_Create(lv_obj_t* par) {
     lv_timer_ready(timer);
 
     return ui.cont;
+}
+
+void
+Page::StatusBar_ApplyLanguage() {
+    if (ui.position.position_label != nullptr) {
+        StatusBar_Update(nullptr);
+    }
 }
 
 

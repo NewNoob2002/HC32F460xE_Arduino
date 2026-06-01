@@ -32,6 +32,8 @@ public:
 
     void onViewDidUnload() override;
 
+    void onLanguageChanged() override;
+
     HardwareCheckView View{};
     HardwareCheckModel Model;
 

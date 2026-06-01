@@ -15,6 +15,8 @@ public:
 
     void Update() const;
 
+    void ApplyLanguage() const;
+
     struct {
         lv_obj_t* cont;
         lv_obj_t* logo_label;

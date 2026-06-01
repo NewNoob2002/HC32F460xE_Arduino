@@ -114,9 +114,6 @@ RecordConfigView::Roller_Create(lv_obj_t* par) {
 
     lv_obj_t* label_left = lv_label_create(cont_left);
     lv_obj_set_style_text_font(label_left, font, 0);
-    lv_label_set_text(label_left,
-                      "XYZ\n"
-                      "Rinex\n");
     lv_obj_set_align(label_left, LV_ALIGN_TOP_MID);
     ui.roller.left_roller.label = label_left;
 
@@ -135,13 +132,6 @@ RecordConfigView::Roller_Create(lv_obj_t* par) {
 
     lv_obj_t* label_right = lv_label_create(cont_right);
     lv_obj_set_style_text_font(label_right, font, 0);
-    lv_label_set_text(label_right,
-                      "infinite\n"
-                      "15min\n"
-                      "1hour\n"
-                      "2hour\n"
-                      "4hour\n"
-                      "24hour");
     lv_obj_set_align(label_right, LV_ALIGN_TOP_MID);
     ui.roller.right_roller.label = label_right;
 
@@ -164,6 +154,16 @@ RecordConfigView::Roller_Create(lv_obj_t* par) {
 
     ui.roller.right_roller.btnUp = Btn_Create(cont_select_right, ResourcePool::GetImage("up"), -20, 0);
     ui.roller.right_roller.btnDown = Btn_Create(cont_select_right, ResourcePool::GetImage("down"), 20, 0);
+
+    ApplyLanguage();
+}
+
+void
+RecordConfigView::ApplyLanguage() const {
+    lv_label_set_text(ui.roller.left_roller.label, I18n::Text(I18n::TextId::RecordTypeOptions));
+    lv_label_set_text(ui.roller.right_roller.label, I18n::Text(I18n::TextId::RecordIntervalOptions));
+    Roller_toIndex(ui.roller.left_roller.label, left_roller_index);
+    Roller_toIndex(ui.roller.right_roller.label, right_roller_index);
 }
 
 void

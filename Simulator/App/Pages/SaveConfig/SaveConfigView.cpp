@@ -22,7 +22,6 @@ SaveConfigView::Create(lv_obj_t* root) {
     lv_obj_t* sync_label = lv_label_create(second_cont);
     lv_obj_set_style_text_font(sync_label, font, 0);
     lv_obj_set_style_text_color(sync_label, lv_palette_main(LV_PALETTE_GREEN), 0);
-    lv_label_set_text(sync_label, "Warming: Saving SystemConfig");
     lv_obj_center(sync_label);
     ui.sync.label = sync_label;
 
@@ -62,6 +61,7 @@ SaveConfigView::Create(lv_obj_t* root) {
     };
 
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
+    ApplyLanguage();
 }
 
 void
@@ -70,4 +70,10 @@ SaveConfigView::Delete() {
         lv_anim_timeline_del(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
+}
+
+void
+SaveConfigView::ApplyLanguage() const {
+    lv_label_set_text(ui.sync.label, I18n::Text(I18n::TextId::SaveConfigWarning));
+    lv_obj_center(ui.sync.label);
 }

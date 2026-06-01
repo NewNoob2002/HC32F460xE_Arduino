@@ -20,9 +20,12 @@ namespace Page
 
         void Delete();
 
+        void ApplyLanguage() const;
+
         typedef struct {
             lv_obj_t *cont;
             lv_obj_t *icon;
+            lv_obj_t *labelName;
             lv_obj_t *labelInfo;
             lv_obj_t *labelData;
         } item_t;

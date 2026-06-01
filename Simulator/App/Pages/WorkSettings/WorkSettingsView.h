@@ -53,6 +53,8 @@ public:
 
     void Update() const;
 
+    void ApplyLanguage() const;
+
     void Roller_Create(lv_obj_t* par);
 
     static void Roller_Style_Init(lv_obj_t* obj);

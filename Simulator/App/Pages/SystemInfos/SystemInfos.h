@@ -30,6 +30,8 @@ public:
 
     void onViewDidUnload() override;
 
+    void onLanguageChanged() override;
+
 private:
     void Update() const;
 

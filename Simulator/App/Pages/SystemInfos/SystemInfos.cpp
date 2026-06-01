@@ -65,6 +65,12 @@ void
 SystemInfos::onViewDidUnload() {}
 
 void
+SystemInfos::onLanguageChanged() {
+    View.ApplyLanguage();
+    Update();
+}
+
+void
 SystemInfos::AttachEvent(lv_obj_t* obj) {
     lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
 }

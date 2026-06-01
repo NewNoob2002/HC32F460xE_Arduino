@@ -26,6 +26,7 @@
 #include "Pages/AppFactory.h"
 #include "Pages/StatusBar/StatusBar.h"
 #include "Resource/ResourcePool.h"
+#include "Utils/I18n/I18n.h"
 #include "Utils/PageManager/PageManager.h"
 #if defined(LVGL_SIMULATOR) || defined(_WIN32)
 #else
@@ -94,6 +95,22 @@ App_Init() {
     manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP);
 
     manager.Push("Pages/Startup");
+}
+
+bool
+App_SetLanguage(const I18n::Language language) {
+    if (!I18n::SetLanguage(language)) {
+        return false;
+    }
+
+    manager.NotifyLanguageChanged();
+    Page::StatusBar_ApplyLanguage();
+    return true;
+}
+
+I18n::Language
+App_GetLanguage() {
+    return I18n::GetLanguage();
 }
 
 void

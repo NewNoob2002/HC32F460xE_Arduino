@@ -28,6 +28,8 @@ public:
 
     void onViewDidUnload() override;
 
+    void onLanguageChanged() override;
+
     void onBtnClicked(const lv_obj_t* btn) const;
 
 private:

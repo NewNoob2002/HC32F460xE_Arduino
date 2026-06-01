@@ -33,6 +33,7 @@
 #include "Utils/lv_anim_label/numberFlow_clock.h"
 #include "Utils/lv_anim_label/lv_anim_label.h"
 #include "Utils/lv_ext/lv_anim_timeline_wrapper.h"
+#include "Utils/I18n/I18n.h"
 #include "Resource/ResourcePool.h"
 #include "StatusBar/StatusBar.h"
 

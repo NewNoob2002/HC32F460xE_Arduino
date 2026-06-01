@@ -32,7 +32,7 @@ const char* const CustomParserNames[] = {
 };
 const int CustomParserNameCount = sizeof(CustomParserNames) / sizeof(CustomParserNames[0]);
 
-#if defined(__DEBUG)
+#if defined(__CORE_DEBUG)
 static void
 PRINT_ERROR(const char* format, ...) {
     va_list args;
@@ -276,8 +276,14 @@ slave_i2c_init() {
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
 
         if (CustomParse == nullptr) {
+#if defined(__CORE_DEBUG)
+            CustomParse =
+                sempBeginParser(CustomParserTable, CustomParserCount, CustomParserNames, CustomParserNameCount, 0, 512,
+                                CustomDataProcess, "CustomParser", PRINT_ERROR, PRINT_DEBUG, BAD_CRC_CALLBACK);
+#else
             CustomParse = sempBeginParser(CustomParserTable, CustomParserCount, CustomParserNames,
                                           CustomParserNameCount, 0, 512, CustomDataProcess, "CustomParser");
+#endif
             if (!CustomParse) {
                 CORE_DEBUG_PRINTF("Failed to initialize the parser");
             }

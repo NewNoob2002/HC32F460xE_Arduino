@@ -16,8 +16,8 @@ ShutdownView::Create(lv_obj_t* root) {
     lv_obj_t* label = lv_label_create(main_cont);
     lv_obj_remove_style_all(label);
     lv_obj_set_style_text_font(label, font_small, 0);
-    lv_label_set_text(label, "Keep Press Shutdown\nShort Press Return");
     lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 30);
+    ui.shutdown.hintLabel = label;
 
     lv_obj_t* cont = lv_obj_create(main_cont);
     lv_obj_remove_style_all(cont);
@@ -51,7 +51,7 @@ ShutdownView::Create(lv_obj_t* root) {
 
     lv_obj_t* btnPress = lv_obj_create(main_cont);
     lv_obj_remove_style_all(btnPress);
-    lv_obj_set_size(btnPress, 60, 30);
+    lv_obj_set_size(btnPress, 65, 30);
     lv_obj_clear_flag(btnPress, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_align(btnPress, LV_ALIGN_BOTTOM_MID, 0, -10);
@@ -66,14 +66,7 @@ ShutdownView::Create(lv_obj_t* root) {
 
     static lv_style_transition_dsc_t tran;
     static constexpr lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
-    lv_style_transition_dsc_init(
-        &tran,
-        prop,
-        lv_anim_path_ease_out,
-        200,
-        0,
-        nullptr
-        );
+    lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
     lv_obj_set_style_transition(btnPress, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(btnPress, &tran, LV_STATE_FOCUSED);
     lv_obj_update_layout(btnPress);
@@ -82,9 +75,17 @@ ShutdownView::Create(lv_obj_t* root) {
     lv_obj_t* label_btn = lv_label_create(btnPress);
     lv_obj_remove_style_all(label_btn);
     lv_obj_set_style_text_font(label_btn, font, 0);
-    lv_label_set_text(label_btn, "PRESS");
     lv_obj_center(label_btn);
+    ui.shutdown.btnLabel = label_btn;
+
+    ApplyLanguage();
 }
 
 void
 ShutdownView::Delete() {}
+
+void
+ShutdownView::ApplyLanguage() const {
+    lv_label_set_text(ui.shutdown.hintLabel, I18n::Text(I18n::TextId::ShutdownHint));
+    lv_label_set_text(ui.shutdown.btnLabel, I18n::Text(I18n::TextId::Press));
+}

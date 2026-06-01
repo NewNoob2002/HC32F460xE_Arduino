@@ -30,7 +30,6 @@
 #include <stdio.h>
 
 #include "lvgl/lvgl.h"
-#include "src/misc/lv_types.h"
 #if defined(_WIN32)
 #include <windows.h>
 static HANDLE output_lock = NULL;

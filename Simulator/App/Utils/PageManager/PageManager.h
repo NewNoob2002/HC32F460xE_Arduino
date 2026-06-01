@@ -127,6 +127,8 @@ class PageManager {
 			return PageCurrent;
 		}
 
+    void NotifyLanguageChanged() const;
+
   private:
     /* Page Pool */
     PageBase* FindPageInPool(const char* name) const;

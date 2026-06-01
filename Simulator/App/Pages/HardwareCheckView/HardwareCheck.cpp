@@ -65,6 +65,11 @@ HardwareCheck::onViewDidUnload() {
 }
 
 void
+HardwareCheck::onLanguageChanged() {
+    View.ApplyLanguage();
+}
+
+void
 HardwareCheck::onTimer(lv_timer_t* timer) {
     const auto* instance = static_cast<HardwareCheck*>(timer->user_data);
     instance->View.Update();

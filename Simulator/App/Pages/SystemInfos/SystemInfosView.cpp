@@ -22,64 +22,49 @@ SystemInfosView::Create(lv_obj_t* root) {
     Item_Create(
         &ui.work,
         root,
-        "Work",
+        I18n::Text(I18n::TextId::SystemWorkTitle),
         "workmode",
-        "Mode\n"
-        "Radio\n"
-        "Ntrip");
+        I18n::Text(I18n::TextId::SystemWorkInfo));
 
     /* Item GPS */
     Item_Create(
         &ui.gps,
         root,
-        "GPS",
+        I18n::Text(I18n::TextId::SystemGpsTitle),
         "map_location",
-        "Latitude\n"
-        "Longitude\n"
-        "Altitude\n");
+        I18n::Text(I18n::TextId::SystemGpsInfo));
 
     /* Item Wi-Fi */
     Item_Create(
         &ui.wifi,
         root,
-        "WIFI",
+        I18n::Text(I18n::TextId::SystemWifiTitle),
         "wifi",
-        "Mode\n"
-        "Ip");
+        I18n::Text(I18n::TextId::SystemWifiInfo));
 
     /* Item Battery */
     Item_Create(
         &ui.battery,
         root,
-        "Battery",
+        I18n::Text(I18n::TextId::SystemBatteryTitle),
         "battery_info",
-        "Usage\n"
-        "Voltage\n"
-        "Temperature\n"
-        "Status");
+        I18n::Text(I18n::TextId::SystemBatteryInfo));
 
     /* Item Storage */
     Item_Create(
         &ui.storage,
         root,
-        "Storage",
+        I18n::Text(I18n::TextId::SystemStorageTitle),
         "storage",
-        "Status\n"
-        "Name\n"
-        "Size\n"
-        "Type\n"
-        "Interval");
+        I18n::Text(I18n::TextId::SystemStorageInfo));
 
     /* Item System */
     Item_Create(
         &ui.system,
         root,
-        "System",
+        I18n::Text(I18n::TextId::SystemTitle),
         "system_info",
-        "Firmware\n"
-        "RunTime\n"
-        "ErrorCount\n"
-        "Build\n");
+        I18n::Text(I18n::TextId::SystemInfo));
 
     Group_Init();
 }
@@ -211,6 +196,7 @@ SystemInfosView::Item_Create(
     lv_obj_t* label = lv_label_create(icon);
     lv_obj_enable_style_refresh(false);
     lv_label_set_text(label, name);
+    item->labelName = label;
     item->icon = icon;
 
     /* infos */
@@ -253,13 +239,13 @@ SystemInfosView::SetWork(
         "%s\n"
         "%s\n"
         "%s",
-        workMode == rover_mode ? "Rover" : "Base",
-        radioInfo.radio_status ? "ON" : "OFF",
+        workMode == rover_mode ? I18n::Text(I18n::TextId::WorkModeRover) : I18n::Text(I18n::TextId::WorkModeBase),
+        radioInfo.radio_status ? I18n::Text(I18n::TextId::StatusOn) : I18n::Text(I18n::TextId::StatusOff),
         ntripInfo.NtripServer_status
-            ? "Server"
+            ? I18n::Text(I18n::TextId::NtripServer)
             : ntripInfo.NtripClient_status
-            ? "Client"
-            : "N/A");
+            ? I18n::Text(I18n::TextId::NtripClient)
+            : I18n::Text(I18n::TextId::NotAvailable));
 }
 
 void
@@ -299,12 +285,12 @@ SystemInfosView::SetBattery(const BatteryInfo_t& batteryInfo) const {
         batteryInfo.Voltage_f,
         batteryInfo.Temp_f,
         systemInfo.powerMonitor.ExternalPower == 1
-            ? "externalPower"
+            ? I18n::Text(I18n::TextId::BatteryExternalPower)
             : batteryInfo.chargeStatus == notCharge
-            ? "notCharge"
+            ? I18n::Text(I18n::TextId::BatteryNotCharge)
             : batteryInfo.chargeStatus == fastCharge
-            ? "fastCharge"
-            : "normalCharge");
+            ? I18n::Text(I18n::TextId::BatteryFastCharge)
+            : I18n::Text(I18n::TextId::BatteryNormalCharge));
 }
 
 void
@@ -316,11 +302,12 @@ SystemInfosView::SetStorage(const RecordInfo_t& recordInfo) const {
             "%s\n"
             "%0.1f M\n"
             "%s\n"
-            "%0.2f Hour",
+            "%0.2f %s",
             recordInfo.record_name,
             recordInfo.record_leftspace,
             recordInfo.record_type == 1 ? "XYZ" : "Rinex3.02",
-            recordInfo.record_interval > 0x00 ? recordInfo.record_interval : 0.25);
+            recordInfo.record_interval > 0x00 ? recordInfo.record_interval : 0.25,
+            I18n::Text(I18n::TextId::StorageHour));
     } else {
         lv_label_set_text_fmt(
             ui.storage.labelData,
@@ -348,4 +335,20 @@ SystemInfosView::SetSystem(
         bootTime,
         error,
         buildTime);
+}
+
+void
+SystemInfosView::ApplyLanguage() const {
+    lv_label_set_text(ui.work.labelName, I18n::Text(I18n::TextId::SystemWorkTitle));
+    lv_label_set_text(ui.work.labelInfo, I18n::Text(I18n::TextId::SystemWorkInfo));
+    lv_label_set_text(ui.gps.labelName, I18n::Text(I18n::TextId::SystemGpsTitle));
+    lv_label_set_text(ui.gps.labelInfo, I18n::Text(I18n::TextId::SystemGpsInfo));
+    lv_label_set_text(ui.wifi.labelName, I18n::Text(I18n::TextId::SystemWifiTitle));
+    lv_label_set_text(ui.wifi.labelInfo, I18n::Text(I18n::TextId::SystemWifiInfo));
+    lv_label_set_text(ui.battery.labelName, I18n::Text(I18n::TextId::SystemBatteryTitle));
+    lv_label_set_text(ui.battery.labelInfo, I18n::Text(I18n::TextId::SystemBatteryInfo));
+    lv_label_set_text(ui.storage.labelName, I18n::Text(I18n::TextId::SystemStorageTitle));
+    lv_label_set_text(ui.storage.labelInfo, I18n::Text(I18n::TextId::SystemStorageInfo));
+    lv_label_set_text(ui.system.labelName, I18n::Text(I18n::TextId::SystemTitle));
+    lv_label_set_text(ui.system.labelInfo, I18n::Text(I18n::TextId::SystemInfo));
 }

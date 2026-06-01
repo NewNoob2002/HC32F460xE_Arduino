@@ -3,6 +3,7 @@ target_include_directories(hc32_arduino_headers INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/avr
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/variants/hc32f460xx
+    ${PROJECT_SOURCE_DIR}/Libraries/easylogger/inc
 )
 target_link_libraries(hc32_arduino_headers INTERFACE
     hc32_project_options

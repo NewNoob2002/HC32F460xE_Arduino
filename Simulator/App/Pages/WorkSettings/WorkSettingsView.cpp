@@ -1,5 +1,6 @@
 #include "WorkSettingsView.h"
 #include <cmath>
+#include <cstdint>
 
 using namespace Page;
 
@@ -22,18 +23,16 @@ WorkSettingsView::Create(lv_obj_t* root) {
     BtnCont_Create(root);
     ui.anim_timeline = lv_anim_timeline_create();
 
-#define ANIM_DEF(start_time, obj, attr, start, end) \
-{start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
+#define ANIM_DEF(start_time, obj, attr, start, end)                                                                    \
+    {start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
 
-#define ANIM_OPA_DEF(start_time, obj) \
-ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
+#define ANIM_OPA_DEF(start_time, obj) ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
     const lv_coord_t x_tar_top = lv_obj_get_x(ui.roller.cont);
     const lv_coord_t w_up_btn = lv_obj_get_width(ui.roller.left_roller.btnUp);
     const lv_coord_t w_tar_btn = lv_obj_get_width(ui.btnCont.btnBase);
 
-    const lv_anim_timeline_wrapper_t wrapper[] =
-    {
+    const lv_anim_timeline_wrapper_t wrapper[] = {
         ANIM_DEF(0, ui.roller.cont, x, -lv_obj_get_width(ui.roller.cont), x_tar_top),
 
         ANIM_DEF(100, ui.roller.left_roller.btnUp, width, 0, w_up_btn),
@@ -45,8 +44,7 @@ ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
         ANIM_DEF(500, ui.btnCont.btnBase, width, 0, w_tar_btn),
         ANIM_DEF(600, ui.btnCont.btnRover, width, 0, w_tar_btn),
         ANIM_DEF(700, ui.btnCont.btnNtrip, width, 0, w_tar_btn),
-        LV_ANIM_TIMELINE_WRAPPER_END
-    };
+        LV_ANIM_TIMELINE_WRAPPER_END};
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 }
 
@@ -63,7 +61,7 @@ WorkSettingsView::Update() const {
     const uint8_t p = systemInfo.radioInfo.radio_protocol;
 
     int8_t Protocol = 0;
-    for (int i = 0; i <= sizeof(RadioProtocol); i++) {
+    for (unsigned long i = 0; i <= sizeof(RadioProtocol); i++) {
         if (RadioProtocol[i] == p) {
             Protocol = i;
             break;
@@ -74,7 +72,6 @@ WorkSettingsView::Update() const {
 
     Roller_toIndex(ui.roller.left_roller.label, left_roller_index);
     Roller_toIndex(ui.roller.right_roller.label, right_roller_index);
-
 }
 
 void
@@ -99,15 +96,6 @@ WorkSettingsView::Roller_Create(lv_obj_t* par) {
 
     lv_obj_t* label_left = lv_label_create(cont_left);
     lv_obj_set_style_text_font(label_left, font, 0);
-    lv_label_set_text(label_left,
-                      "TRIMTALK\n"
-                      "TRIMMK3\n"
-                      "TT450S\n"
-                      "TRANSEOT\n"
-                      "SOUTH\n"
-                      "HUACE\n"
-                      "SATEL\n"
-                      "CSS");
     lv_obj_set_align(label_left, LV_ALIGN_TOP_MID);
     ui.roller.left_roller.label = label_left;
 
@@ -121,17 +109,6 @@ WorkSettingsView::Roller_Create(lv_obj_t* par) {
 
     lv_obj_t* label_right = lv_label_create(cont_right);
     lv_obj_set_style_text_font(label_right, font, 0);
-    lv_label_set_text(label_right,
-                      "CUSTOM\n"
-                      "[1]455.05\n"
-                      "[2]456.05\n"
-                      "[3]457.05\n"
-                      "[4]458.05\n"
-                      "[5]459.05\n"
-                      "[6]460.05\n"
-                      "[7]461.05\n"
-                      "[8]462.05\n"
-                      "[9]463.05");
     lv_obj_set_align(label_right, LV_ALIGN_TOP_MID);
     ui.roller.right_roller.label = label_right;
 
@@ -156,6 +133,15 @@ WorkSettingsView::Roller_Create(lv_obj_t* par) {
     ui.roller.right_roller.btnDown = Btn_Create(cont_select_right, ResourcePool::GetImage("down"), 0, 0);
 
     ui.roller.btnReset = Btn_Create(cont_select_right, ResourcePool::GetImage("reset"), 40, 0);
+    ApplyLanguage();
+}
+
+void
+WorkSettingsView::ApplyLanguage() const {
+    lv_label_set_text(ui.roller.left_roller.label, I18n::Text(I18n::TextId::WorkRadioProtocolOptions));
+    lv_label_set_text(ui.roller.right_roller.label, I18n::Text(I18n::TextId::WorkRadioChannelOptions));
+    Roller_toIndex(ui.roller.left_roller.label, left_roller_index);
+    Roller_toIndex(ui.roller.right_roller.label, right_roller_index);
 }
 
 void
@@ -170,14 +156,7 @@ WorkSettingsView::Roller_Style_Init(lv_obj_t* obj) {
 
     static lv_style_transition_dsc_t tran;
     static constexpr lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
-    lv_style_transition_dsc_init(
-        &tran,
-        prop,
-        lv_anim_path_ease_out,
-        200,
-        0,
-        nullptr
-        );
+    lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_FOCUSED);
 
@@ -208,8 +187,7 @@ WorkSettingsView::BtnCont_Create(lv_obj_t* par) {
 }
 
 lv_obj_t*
-WorkSettingsView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_t x_ofs,
-                             const lv_coord_t y_ofs) {
+WorkSettingsView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_t x_ofs, const lv_coord_t y_ofs) {
     lv_obj_t* obj = lv_obj_create(par);
     lv_obj_remove_style_all(obj);
     lv_obj_set_size(obj, 35, 26);
@@ -228,14 +206,7 @@ WorkSettingsView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_
 
     static lv_style_transition_dsc_t tran;
     static constexpr lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
-    lv_style_transition_dsc_init(
-        &tran,
-        prop,
-        lv_anim_path_ease_out,
-        200,
-        0,
-        nullptr
-        );
+    lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_FOCUSED);
 

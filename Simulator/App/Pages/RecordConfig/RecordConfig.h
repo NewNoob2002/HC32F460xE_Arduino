@@ -34,6 +34,8 @@ public:
 
     void onViewDidUnload() override;
 
+    void onLanguageChanged() override;
+
 private:
     typedef enum {
         RECORD_STATE_START = 0,

@@ -34,7 +34,6 @@ HardwareCheckView::Create(lv_obj_t* root) {
     lv_obj_t* label = lv_label_create(cont);
     lv_obj_set_style_text_font(label, ResourcePool::GetFont("oswaldBold_18"), 0);
     lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_RED), 0);
-    lv_label_set_text(label, "Warming: Don't Shutdown Now");
     lv_obj_center(label);
     ui.logo_label = label;
 
@@ -83,6 +82,8 @@ HardwareCheckView::Create(lv_obj_t* root) {
     lv_obj_set_size(img_logo, img_satellite_ext->w, img_satellite_ext->h);
     lv_obj_center(img_logo);
     ui.img_logo = img_logo;
+
+    ApplyLanguage();
 }
 
 void
@@ -107,4 +108,10 @@ HardwareCheckView::Update() const {
     }
     check_time += 5;
     lv_label_set_text_fmt(ui.bar_percent, "%d%%", check_time);
+}
+
+void
+HardwareCheckView::ApplyLanguage() const {
+    lv_label_set_text(ui.logo_label, I18n::Text(I18n::TextId::HardwareCheckWarning));
+    lv_obj_center(ui.logo_label);
 }

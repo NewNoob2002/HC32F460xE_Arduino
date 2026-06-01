@@ -123,6 +123,11 @@ RecordConfig::onViewDidUnload() {
 }
 
 void
+RecordConfig::onLanguageChanged() {
+    View.ApplyLanguage();
+}
+
+void
 RecordConfig::onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code) {
     const bool isRecording = recState == RECORD_STATE_START;
     if (code == LV_EVENT_SHORT_CLICKED) {
