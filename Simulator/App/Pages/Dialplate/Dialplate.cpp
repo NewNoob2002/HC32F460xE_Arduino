@@ -3,12 +3,9 @@
 
 using namespace Page;
 
-Dialplate::Dialplate()
-    : recState(RECORD_STATE_STOP)
-      , lastFocus(nullptr) {}
+Dialplate::Dialplate() : recState(RECORD_STATE_STOP), lastFocus(nullptr) {}
 
-Dialplate::~Dialplate()
-= default;
+Dialplate::~Dialplate() = default;
 
 void
 Dialplate::onCustomAttrConfig() {
@@ -115,18 +112,20 @@ Dialplate::Update() {
     }
     switch (systemInfo.work_mode) {
         case rover_mode:
-        case single_mode: lv_label_set_text(View.ui.topInfo.icon_mode, CUSTOM_SYMBOL_ROVER);
-            if (systemInfo.radioInfo.radio_status)
+        case single_mode:
+            lv_label_set_text(View.ui.topInfo.icon_mode, CUSTOM_SYMBOL_ROVER);
+            if (systemInfo.radioInfo.radio_status) {
                 lv_obj_set_style_text_color(View.ui.topInfo.icon_radio, lv_palette_main(LV_PALETTE_GREEN), 0);
-            else {
+            } else {
                 lv_obj_set_style_text_color(View.ui.topInfo.icon_radio, lv_color_white(), 0);
             }
             break;
         case base_mode:
-        case autobase_mode: lv_label_set_text(View.ui.topInfo.icon_mode, CUSTOM_SYMBOL_BASE);
-            if (systemInfo.radioInfo.radio_status)
+        case autobase_mode:
+            lv_label_set_text(View.ui.topInfo.icon_mode, CUSTOM_SYMBOL_BASE);
+            if (systemInfo.radioInfo.radio_status) {
                 lv_obj_set_style_text_color(View.ui.topInfo.icon_radio, lv_palette_main(LV_PALETTE_BLUE), 0);
-            else {
+            } else {
                 lv_obj_set_style_text_color(View.ui.topInfo.icon_radio, lv_color_white(), 0);
             }
             break;
@@ -141,7 +140,7 @@ Dialplate::onTimerUpdate(lv_timer_t* timer) {
 }
 
 void
-Dialplate::onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code) const{
+Dialplate::onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code) const {
     if (code == LV_EVENT_SHORT_CLICKED) {
         if (btn == View.ui.btnCont.btnMap) {
             pageManager->Push("Pages/WorkSettings");
@@ -158,13 +157,15 @@ Dialplate::onBtnClicked(const lv_obj_t* btn, const lv_event_code_t& code) const{
 void
 Dialplate::onRecord(const bool longPress) {
     switch (recState) {
-        case RECORD_STATE_START: if (!longPress) {
+        case RECORD_STATE_START:
+            if (!longPress) {
                 Model.RecorderCommand(DialplateModel::REC_STOP);
                 SetBtnRecImgSrc("start");
                 recState = RECORD_STATE_STOP;
             }
             break;
-        case RECORD_STATE_STOP: if (longPress) {
+        case RECORD_STATE_STOP:
+            if (longPress) {
                 Model.RecorderCommand(DialplateModel::REC_START);
                 SetBtnRecImgSrc("stop");
                 recState = RECORD_STATE_START;
