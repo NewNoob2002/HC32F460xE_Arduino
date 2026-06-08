@@ -70,11 +70,11 @@
  * @brief usart BRR division calculate structure definition
  */
 typedef struct {
-    uint32_t u32UsartClock;             /*!< USART clock. */
-    uint32_t u32Baudrate;               /*!< USART baudrate. */
-    uint32_t u32Integer;                /*!< Pointer to BRR integer division value. */
-    uint32_t u32Fraction;               /*!< Pointer to BRR fraction division value. */
-    float32_t f32Error;                 /*!< E(%) baudrate error rate. */
+    uint32_t u32UsartClock; /*!< USART clock. */
+    uint32_t u32Baudrate;   /*!< USART baudrate. */
+    uint32_t u32Integer;    /*!< Pointer to BRR integer division value. */
+    uint32_t u32Fraction;   /*!< Pointer to BRR fraction division value. */
+    float32_t f32Error;     /*!< E(%) baudrate error rate. */
 } stc_usart_brr_t;
 
 /**
@@ -98,77 +98,47 @@ typedef struct {
  * @defgroup USART_Check_Parameters_Validity_Unit USART Check Parameters Validity Unit
  * @{
  */
-#define IS_USART_UNIT(x)                                                       \
-(   ((x) == CM_USART1)                  ||                                     \
-    ((x) == CM_USART2)                  ||                                     \
-    ((x) == CM_USART3)                  ||                                     \
-    ((x) == CM_USART4))
-#define IS_USART_SMARTCARD_UNIT(x)      (IS_USART_UNIT(x))
-#define IS_USART_TIMEOUT_UNIT(x)        (IS_USART_UNIT(x))
+#define IS_USART_UNIT(x)               (((x) == CM_USART1) || ((x) == CM_USART2) || ((x) == CM_USART3) || ((x) == CM_USART4))
+#define IS_USART_SMARTCARD_UNIT(x)     (IS_USART_UNIT(x))
+#define IS_USART_TIMEOUT_UNIT(x)       (IS_USART_UNIT(x))
 
 /**
  * @}
  */
 
-#define IS_USART_FUNC(x)                                                       \
-(   ((x) != 0UL)                        &&                                     \
-    (((x) | USART_FUNC_ALL) == USART_FUNC_ALL))
+#define IS_USART_FUNC(x)               (((x) != 0UL) && (((x) | USART_FUNC_ALL) == USART_FUNC_ALL))
 
-#define IS_USART_FLAG(x)                                                       \
-(   ((x) != 0UL)                        &&                                     \
-    (((x) | USART_FLAG_ALL) == USART_FLAG_ALL))
+#define IS_USART_FLAG(x)               (((x) != 0UL) && (((x) | USART_FLAG_ALL) == USART_FLAG_ALL))
 
-#define IS_USART_TRANS_TYPE(x)                                                 \
-(   ((x) == USART_TRANS_ID)             ||                                     \
-    ((x) == USART_TRANS_DATA))
+#define IS_USART_TRANS_TYPE(x)         (((x) == USART_TRANS_ID) || ((x) == USART_TRANS_DATA))
 
-#define IS_USART_PARITY(x)                                                     \
-(   ((x) == USART_PARITY_ODD)           ||                                     \
-    ((x) == USART_PARITY_EVEN)          ||                                     \
-    ((x) == USART_PARITY_NONE))
+#define IS_USART_PARITY(x)             (((x) == USART_PARITY_ODD) || ((x) == USART_PARITY_EVEN) || ((x) == USART_PARITY_NONE))
 
-#define IS_USART_DATA_WIDTH(x)                                                 \
-(   ((x) == USART_DATA_WIDTH_8BIT)      ||                                     \
-    ((x) == USART_DATA_WIDTH_9BIT))
+#define IS_USART_DATA_WIDTH(x)         (((x) == USART_DATA_WIDTH_8BIT) || ((x) == USART_DATA_WIDTH_9BIT))
 
-#define IS_USART_STOPBIT(x)                                                    \
-(   ((x) == USART_STOPBIT_1BIT)         ||                                     \
-    ((x) == USART_STOPBIT_2BIT))
+#define IS_USART_STOPBIT(x)            (((x) == USART_STOPBIT_1BIT) || ((x) == USART_STOPBIT_2BIT))
 
-#define IS_USART_FIRST_BIT(x)                                                  \
-(   ((x) == USART_FIRST_BIT_MSB)        ||                                     \
-    ((x) == USART_FIRST_BIT_LSB))
+#define IS_USART_FIRST_BIT(x)          (((x) == USART_FIRST_BIT_MSB) || ((x) == USART_FIRST_BIT_LSB))
 
-#define IS_USART_OVER_SAMPLE_BIT(x)                                            \
-(   ((x) == USART_OVER_SAMPLE_8BIT)     ||                                     \
-    ((x) == USART_OVER_SAMPLE_16BIT))
+#define IS_USART_OVER_SAMPLE_BIT(x)    (((x) == USART_OVER_SAMPLE_8BIT) || ((x) == USART_OVER_SAMPLE_16BIT))
 
-#define IS_USART_START_BIT_POLARITY(x)                                         \
-(   ((x) == USART_START_BIT_LOW)        ||                                     \
-    ((x) == USART_START_BIT_FALLING))
+#define IS_USART_START_BIT_POLARITY(x) (((x) == USART_START_BIT_LOW) || ((x) == USART_START_BIT_FALLING))
 
-#define IS_USART_CLK_SRC(x)                                                    \
-(   ((x) == USART_CLK_SRC_EXTCLK)       ||                                     \
-    ((x) == USART_CLK_SRC_INTERNCLK))
+#define IS_USART_CLK_SRC(x)            (((x) == USART_CLK_SRC_EXTCLK) || ((x) == USART_CLK_SRC_INTERNCLK))
 
-#define IS_USART_CK_OUTPUT(x)                                                  \
-(   ((x) == USART_CK_OUTPUT_ENABLE)     ||                                     \
-    ((x) == USART_CK_OUTPUT_DISABLE))
+#define IS_USART_CK_OUTPUT(x)          (((x) == USART_CK_OUTPUT_ENABLE) || ((x) == USART_CK_OUTPUT_DISABLE))
 
-#define IS_USART_CLK_DIV(x)             ((x) <= USART_CLK_DIV_MAX)
+#define IS_USART_CLK_DIV(x)            ((x) <= USART_CLK_DIV_MAX)
 
-#define IS_USART_DATA(x)                ((x) <= 0x01FFUL)
+#define IS_USART_DATA(x)               ((x) <= 0x01FFUL)
 
-#define IS_USART_RX_TX_DISABLE(x)                                              \
-(   ((x)->CR1 & (USART_CR1_RE | USART_CR1_TE)) == 0UL)
+#define IS_USART_RX_TX_DISABLE(x)      (((x)->CR1 & (USART_CR1_RE | USART_CR1_TE)) == 0UL)
 
 /**
  * @defgroup USART_Check_Parameters_Validity_Hardware_Flow_Control USART Check Parameters Validity Hardware Flow Control
  * @{
  */
-#define IS_USART_HW_FLOWCTRL(x)                                                \
-(   ((x) == USART_HW_FLOWCTRL_CTS)      ||                                     \
-    ((x) == USART_HW_FLOWCTRL_RTS))
+#define IS_USART_HW_FLOWCTRL(x)        (((x) == USART_HW_FLOWCTRL_CTS) || ((x) == USART_HW_FLOWCTRL_RTS))
 /**
  * @}
  */
@@ -177,12 +147,9 @@ typedef struct {
  * @defgroup USART_Check_Parameters_Validity_Smartcard_Clock USART Check Parameters Validity Smartcard Clock
  * @{
  */
-#define IS_USART_SMARTCARD_ETU_CLK(x)                                          \
-(   ((x) == USART_SC_ETU_CLK32)         ||                                     \
-    ((x) == USART_SC_ETU_CLK64)         ||                                     \
-    ((x) == USART_SC_ETU_CLK128)        ||                                     \
-    ((x) == USART_SC_ETU_CLK256)        ||                                     \
-    ((x) == USART_SC_ETU_CLK372))
+#define IS_USART_SMARTCARD_ETU_CLK(x)                                                                                  \
+    (((x) == USART_SC_ETU_CLK32) || ((x) == USART_SC_ETU_CLK64) || ((x) == USART_SC_ETU_CLK128)                        \
+     || ((x) == USART_SC_ETU_CLK256) || ((x) == USART_SC_ETU_CLK372))
 /**
  * @}
  */
@@ -195,9 +162,7 @@ typedef struct {
  * @defgroup USART_Flag_Error_Mask USART Flag Error Mask
  * @{
  */
-#define USART_FLAG_ERR_MASK             (USART_FLAG_OVERRUN     |              \
-                                         USART_FLAG_FRAME_ERR   |              \
-                                         USART_FLAG_PARITY_ERR)
+#define USART_FLAG_ERR_MASK        (USART_FLAG_OVERRUN | USART_FLAG_FRAME_ERR | USART_FLAG_PARITY_ERR)
 /**
  * @}
  */
@@ -206,9 +171,9 @@ typedef struct {
  * @defgroup USART_Registers_Reset_Value_definition USART Registers Reset Value
  * @{
  */
-#define USART_CR1_RST_VALUE             (0x80000000UL)
+#define USART_CR1_RST_VALUE        (0x80000000UL)
 
-#define USART_CR2_RST_VALUE             (0UL)
+#define USART_CR2_RST_VALUE        (0UL)
 /**
  * @}
  */
@@ -217,8 +182,8 @@ typedef struct {
  * @defgroup USART_BRR_Division_Max USART BRR Register Division Max
  * @{
  */
-#define USART_BRR_DIV_INTEGER_MAX       (0xFFUL)
-#define USART_BRR_DIV_FRACTION_MAX      (0x7FUL)
+#define USART_BRR_DIV_INTEGER_MAX  (0xFFUL)
+#define USART_BRR_DIV_FRACTION_MAX (0x7FUL)
 /**
  * @}
  */
@@ -227,7 +192,7 @@ typedef struct {
  * @defgroup USART_Clock_Division_Max USART Clock Division Max
  * @{
  */
-#define USART_CLK_DIV_MAX               (USART_CLK_DIV64)
+#define USART_CLK_DIV_MAX          (USART_CLK_DIV64)
 /**
  * @}
  */
@@ -236,7 +201,8 @@ typedef struct {
  * @defgroup USART_Default_Baudrate USART Default Baudrate
  * @{
  */
-#define USART_DEFAULT_BAUDRATE          (9600UL)
+#define USART_DEFAULT_BAUDRATE     (9600UL)
+
 /**
  * @}
  */
@@ -282,11 +248,8 @@ typedef struct {
  *           - LL_ERR_TIMEOUT:          Wait timeout.
  * @note Block checking flag if u32Timeout value is USART_MAX_TIMEOUT.
  */
-static int32_t USART_WaitStatus(const CM_USART_TypeDef *USARTx,
-                                uint32_t u32Flag,
-                                en_flag_status_t enStatus,
-                                uint32_t u32Timeout)
-{
+static int32_t
+USART_WaitStatus(const CM_USART_TypeDef* USARTx, uint32_t u32Flag, en_flag_status_t enStatus, uint32_t u32Timeout) {
     int32_t i32Ret = LL_OK;
     __IO uint32_t u32To = 0UL;
 
@@ -316,8 +279,8 @@ static int32_t USART_WaitStatus(const CM_USART_TypeDef *USARTx,
  *           - LL_OK:                   Set successfully.
  *           - LL_ERR:                  Set unsuccessfully.
  */
-static int32_t UART_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_brr_t *pstcUartBrr)
-{
+static int32_t
+UART_CalculateBrr(const CM_USART_TypeDef* USARTx, stc_usart_brr_t* pstcUartBrr) {
     uint32_t B;
     uint32_t C;
     uint32_t OVER8;
@@ -353,12 +316,12 @@ static int32_t UART_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_brr_t
                 /*      B = C * (128 + DIV_Fraction) / (8 * (2 - OVER8) * (DIV_Integer + 1) * 256)  */
                 /*      DIV_Fraction = (256 * (8 * (2 - OVER8) * (DIV_Integer + 1) * B) / C) - 128  */
                 /* u64Temp = (8 * (2 - OVER8) * (DIV_Integer + 1) * B)  */
-                u64Temp0 = (uint64_t)((uint64_t)8UL * ((uint64_t)2UL - (uint64_t)OVER8) * \
-                                      ((uint64_t)DIV_Integer + (uint64_t)1UL) * (uint64_t)B);
+                u64Temp0 = (uint64_t)((uint64_t)8UL * ((uint64_t)2UL - (uint64_t)OVER8)
+                                      * ((uint64_t)DIV_Integer + (uint64_t)1UL) * (uint64_t)B);
 
                 /* u64Temp = u64Temp0 *256 + C/2 */
                 u64Temp0 = (u64Temp0 << 8UL);
-                u64Temp = u64Temp0 + ((uint64_t)C >> 1);    /*  +(C >> 1) for rounding off */
+                u64Temp = u64Temp0 + ((uint64_t)C >> 1); /*  +(C >> 1) for rounding off */
                 if (u64Temp > (uint64_t)(UINT32_MAX)) {
                     DIV_Fraction = (uint32_t)(u64Temp / C) - 128UL;
                 } else {
@@ -384,8 +347,8 @@ static int32_t UART_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_brr_t
                 pstcUartBrr->u32Integer = DIV_Integer;
                 /* E(%) = C / (8 * (2 - OVER8) * (DIV_Integer + 1) * B) - 1 */
                 /* u64Temp = (8 * (2 - OVER8) * (DIV_Integer + 1) * B)  */
-                u64Temp = (uint64_t)((uint64_t)8UL * ((uint64_t)2UL - (uint64_t)OVER8) * ((uint64_t)DIV_Integer + \
-                                                                                          (uint64_t)1UL) * (uint64_t)B);
+                u64Temp = (uint64_t)((uint64_t)8UL * ((uint64_t)2UL - (uint64_t)OVER8)
+                                     * ((uint64_t)DIV_Integer + (uint64_t)1UL) * (uint64_t)B);
                 f32CalcError = (float32_t)((float64_t)C / (float64_t)u64Temp) - 1.0F;
                 pstcUartBrr->f32Error = f32CalcError;
                 i32Ret = LL_OK;
@@ -405,8 +368,9 @@ static int32_t UART_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_brr_t
  *           - LL_OK:                   Set successfully.
  *           - LL_ERR:                  Set unsuccessfully.
  */
-static int32_t ClockSync_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_brr_t *pstcClockSyncBrr)
-{
+static int32_t
+ClockSync_CalculateBrr(const CM_USART_TypeDef* USARTx, stc_usart_brr_t* pstcClockSyncBrr) {
+    (void)USARTx;
     uint32_t B;
     uint32_t C;
     uint64_t u64Temp;
@@ -441,7 +405,8 @@ static int32_t ClockSync_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_
 
                 /* u64Temp = (4 * (DIV_Integer + 1) * B)  */
                 u64Temp = (uint64_t)((uint64_t)4U * ((uint64_t)DIV_Integer + (uint64_t)1UL) * (uint64_t)B);
-                DIV_Fraction = (uint32_t)((256UL * u64Temp + ((uint64_t)C >> 1)) / C - 128UL);  /*  +(C >> 1) for rounding off */
+                DIV_Fraction =
+                    (uint32_t)((256UL * u64Temp + ((uint64_t)C >> 1)) / C - 128UL); /*  +(C >> 1) for rounding off */
                 if (DIV_Fraction <= USART_BRR_DIV_FRACTION_MAX) {
                     pstcClockSyncBrr->u32Fraction = DIV_Fraction;
                     /* E(%) = C * (128 + DIV_Fraction) / (4 * (DIV_Integer + 1) * B * 256) - 1 */
@@ -482,8 +447,8 @@ static int32_t ClockSync_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_
  *           - LL_OK:                   Set successfully.
  *           - LL_ERR:                  Set unsuccessfully.
  */
-static int32_t SmartCard_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_brr_t *pstcSmartCardBrr)
-{
+static int32_t
+SmartCard_CalculateBrr(const CM_USART_TypeDef* USARTx, stc_usart_brr_t* pstcSmartCardBrr) {
     uint32_t B;
     uint32_t C;
     uint32_t BCN;
@@ -522,7 +487,8 @@ static int32_t SmartCard_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_
 
                 /* u64Temp = (2 * BCN * (DIV_Integer + 1) * B)  */
                 u64Temp = (uint64_t)((uint64_t)2UL * BCN * ((uint64_t)DIV_Integer + (uint64_t)1UL) * B);
-                DIV_Fraction = (uint32_t)((256UL * u64Temp + ((uint64_t)C >> 1)) / C - 128UL);  /*  +(C >> 1) for rounding off */
+                DIV_Fraction =
+                    (uint32_t)((256UL * u64Temp + ((uint64_t)C >> 1)) / C - 128UL); /*  +(C >> 1) for rounding off */
                 if (DIV_Fraction <= USART_BRR_DIV_FRACTION_MAX) {
                     pstcSmartCardBrr->u32Fraction = DIV_Fraction;
                     /* E(%) = C * (128 + DIV_Fraction) / (4 * (DIV_Integer + 1) * B * 256) - 1 */
@@ -558,8 +524,8 @@ static int32_t SmartCard_CalculateBrr(const CM_USART_TypeDef *USARTx, stc_usart_
  *           @arg CM_USARTx:            USART unit instance register base
  * @retval USART clock frequency value
  */
-static uint32_t USART_GetBusClockFreq(const CM_USART_TypeDef *USARTx)
-{
+static uint32_t
+USART_GetBusClockFreq(const CM_USART_TypeDef* USARTx) {
     uint32_t u32BusClock;
 
     (void)USARTx;
@@ -576,8 +542,8 @@ static uint32_t USART_GetBusClockFreq(const CM_USART_TypeDef *USARTx)
  *           @arg CM_USARTx:            USART unit instance register base
  * @retval USART clock frequency value
  */
-static uint32_t USART_GetUsartClockFreq(const CM_USART_TypeDef *USARTx)
-{
+static uint32_t
+USART_GetUsartClockFreq(const CM_USART_TypeDef* USARTx) {
     uint32_t u32BusClock;
     uint32_t u32UsartClockDiv;
     uint32_t u32UsartClock;
@@ -608,8 +574,8 @@ static uint32_t USART_GetUsartClockFreq(const CM_USART_TypeDef *USARTx)
  *           - LL_OK:                   Initialize successfully.
  *           - LL_ERR_INVD_PARAM:       The pointer pstcClockSyncInit value is NULL.
  */
-int32_t USART_ClockSync_StructInit(stc_usart_clocksync_init_t *pstcClockSyncInit)
-{
+int32_t
+USART_ClockSync_StructInit(stc_usart_clocksync_init_t* pstcClockSyncInit) {
     int32_t i32Ret = LL_ERR_INVD_PARAM;
 
     if (NULL != pstcClockSyncInit) {
@@ -635,9 +601,9 @@ int32_t USART_ClockSync_StructInit(stc_usart_clocksync_init_t *pstcClockSyncInit
  *           - LL_OK:                   Initialize successfully.
  *           - LL_ERR_INVD_PARAM:       The pointer pstcClockSyncInit value is NULL or baudrate set unsuccessfully.
  */
-int32_t USART_ClockSync_Init(CM_USART_TypeDef *USARTx,
-                             const stc_usart_clocksync_init_t *pstcClockSyncInit, float32_t *pf32Error)
-{
+int32_t
+USART_ClockSync_Init(CM_USART_TypeDef* USARTx, const stc_usart_clocksync_init_t* pstcClockSyncInit,
+                     float32_t* pf32Error) {
     uint32_t u32CR1Value;
     uint32_t u32CR2Value;
     uint32_t u32CR3Value;
@@ -684,8 +650,8 @@ int32_t USART_ClockSync_Init(CM_USART_TypeDef *USARTx,
  *           - LL_OK:                   Initialize successfully.
  *           - LL_ERR_INVD_PARAM:       The pointer pstcMultiProcessorInit value is NULL.
  */
-int32_t USART_MultiProcessor_StructInit(stc_usart_multiprocessor_init_t *pstcMultiProcessorInit)
-{
+int32_t
+USART_MultiProcessor_StructInit(stc_usart_multiprocessor_init_t* pstcMultiProcessorInit) {
     int32_t i32Ret = LL_ERR_INVD_PARAM;
 
     if (NULL != pstcMultiProcessorInit) {
@@ -716,9 +682,9 @@ int32_t USART_MultiProcessor_StructInit(stc_usart_multiprocessor_init_t *pstcMul
  *           - LL_OK:                   Initialize successfully.
  *           - LL_ERR_INVD_PARAM:       The pointer pstcMxProcessorInit value is NULL or baudrate set unsuccessfully.
  */
-int32_t USART_MultiProcessor_Init(CM_USART_TypeDef *USARTx,
-                                  const stc_usart_multiprocessor_init_t *pstcMultiProcessorInit, float32_t *pf32Error)
-{
+int32_t
+USART_MultiProcessor_Init(CM_USART_TypeDef* USARTx, const stc_usart_multiprocessor_init_t* pstcMultiProcessorInit,
+                          float32_t* pf32Error) {
     uint32_t u32CR1Value;
     uint32_t u32CR2Value;
     uint32_t u32CR3Value;
@@ -735,10 +701,10 @@ int32_t USART_MultiProcessor_Init(CM_USART_TypeDef *USARTx,
         DDL_ASSERT(IS_USART_START_BIT_POLARITY(pstcMultiProcessorInit->u32StartBitPolarity));
         DDL_ASSERT(IS_USART_HW_FLOWCTRL(pstcMultiProcessorInit->u32HWFlowControl));
 
-        u32CR1Value = (pstcMultiProcessorInit->u32DataWidth | pstcMultiProcessorInit->u32OverSampleBit | \
-                       pstcMultiProcessorInit->u32FirstBit  | pstcMultiProcessorInit->u32StartBitPolarity);
-        u32CR2Value = (USART_CR2_RST_VALUE | USART_CR2_MPE | pstcMultiProcessorInit->u32ClockSrc | \
-                       pstcMultiProcessorInit->u32CKOutput | pstcMultiProcessorInit->u32StopBit);
+        u32CR1Value = (pstcMultiProcessorInit->u32DataWidth | pstcMultiProcessorInit->u32OverSampleBit
+                       | pstcMultiProcessorInit->u32FirstBit | pstcMultiProcessorInit->u32StartBitPolarity);
+        u32CR2Value = (USART_CR2_RST_VALUE | USART_CR2_MPE | pstcMultiProcessorInit->u32ClockSrc
+                       | pstcMultiProcessorInit->u32CKOutput | pstcMultiProcessorInit->u32StopBit);
         u32CR3Value = (pstcMultiProcessorInit->u32HWFlowControl == USART_HW_FLOWCTRL_CTS) ? USART_HW_FLOWCTRL_CTS : 0UL;
 
         /* Set control register: CR1/CR2/CR3 */
@@ -769,8 +735,8 @@ int32_t USART_MultiProcessor_Init(CM_USART_TypeDef *USARTx,
  *           - LL_OK:                   Initialize successfully.
  *           - LL_ERR_INVD_PARAM:       The pointer pstcUartInit value is NULL.
  */
-int32_t USART_UART_StructInit(stc_usart_uart_init_t *pstcUartInit)
-{
+int32_t
+USART_UART_StructInit(stc_usart_uart_init_t* pstcUartInit) {
     int32_t i32Ret = LL_ERR_INVD_PARAM;
 
     if (NULL != pstcUartInit) {
@@ -802,8 +768,8 @@ int32_t USART_UART_StructInit(stc_usart_uart_init_t *pstcUartInit)
  *           - LL_OK:                   Initialize successfully.
  *           - LL_ERR_INVD_PARAM:       The pointer pstcUartInit value is NULL or baudrate set unsuccessfully.
  */
-int32_t USART_UART_Init(CM_USART_TypeDef *USARTx, const stc_usart_uart_init_t *pstcUartInit, float32_t *pf32Error)
-{
+int32_t
+USART_UART_Init(CM_USART_TypeDef* USARTx, const stc_usart_uart_init_t* pstcUartInit, float32_t* pf32Error) {
     uint32_t u32CR1Value;
     uint32_t u32CR2Value;
     uint32_t u32CR3Value;
@@ -821,10 +787,10 @@ int32_t USART_UART_Init(CM_USART_TypeDef *USARTx, const stc_usart_uart_init_t *p
         DDL_ASSERT(IS_USART_START_BIT_POLARITY(pstcUartInit->u32StartBitPolarity));
         DDL_ASSERT(IS_USART_HW_FLOWCTRL(pstcUartInit->u32HWFlowControl));
 
-        u32CR1Value = (pstcUartInit->u32Parity | pstcUartInit->u32DataWidth | pstcUartInit->u32FirstBit | \
-                       pstcUartInit->u32OverSampleBit | pstcUartInit->u32StartBitPolarity);
-        u32CR2Value = (USART_CR2_RST_VALUE | pstcUartInit->u32ClockSrc | \
-                       pstcUartInit->u32CKOutput | pstcUartInit->u32StopBit);
+        u32CR1Value = (pstcUartInit->u32Parity | pstcUartInit->u32DataWidth | pstcUartInit->u32FirstBit
+                       | pstcUartInit->u32OverSampleBit | pstcUartInit->u32StartBitPolarity);
+        u32CR2Value =
+            (USART_CR2_RST_VALUE | pstcUartInit->u32ClockSrc | pstcUartInit->u32CKOutput | pstcUartInit->u32StopBit);
         u32CR3Value = (pstcUartInit->u32HWFlowControl == USART_HW_FLOWCTRL_CTS) ? USART_HW_FLOWCTRL_CTS : 0UL;
 
         /* Set control register: CR1/CR2/CR3 */
@@ -855,8 +821,8 @@ int32_t USART_UART_Init(CM_USART_TypeDef *USARTx, const stc_usart_uart_init_t *p
  *           - LL_OK:                   Initialize successfully.
  *           - LL_ERR_INVD_PARAM:       The pointer pstcSmartCardInit value is NULL.
  */
-int32_t USART_SmartCard_StructInit(stc_usart_smartcard_init_t *pstcSmartCardInit)
-{
+int32_t
+USART_SmartCard_StructInit(stc_usart_smartcard_init_t* pstcSmartCardInit) {
     int32_t i32Ret = LL_ERR_INVD_PARAM;
 
     if (NULL != pstcSmartCardInit) {
@@ -869,6 +835,7 @@ int32_t USART_SmartCard_StructInit(stc_usart_smartcard_init_t *pstcSmartCardInit
 
     return i32Ret;
 }
+
 /**
  * @brief  Initialize smartcard function.
  * @param  [in] USARTx                  Pointer to USART instance register base
@@ -880,9 +847,9 @@ int32_t USART_SmartCard_StructInit(stc_usart_smartcard_init_t *pstcSmartCardInit
  *           - LL_OK:                   Initialize successfully.
  *           - LL_ERR_INVD_PARAM:       The pointer pstcSmartCardInit value is NULL or baudrate set unsuccessfully.
  */
-int32_t USART_SmartCard_Init(CM_USART_TypeDef *USARTx,
-                             const stc_usart_smartcard_init_t *pstcSmartCardInit, float32_t *pf32Error)
-{
+int32_t
+USART_SmartCard_Init(CM_USART_TypeDef* USARTx, const stc_usart_smartcard_init_t* pstcSmartCardInit,
+                     float32_t* pf32Error) {
     uint32_t u32CR1Value;
     uint32_t u32CR2Value;
     uint32_t u32CR3Value;
@@ -921,8 +888,8 @@ int32_t USART_SmartCard_Init(CM_USART_TypeDef *USARTx,
  * @retval int32_t:
  *           - LL_OK:           Reset success.
  */
-int32_t USART_DeInit(CM_USART_TypeDef *USARTx)
-{
+int32_t
+USART_DeInit(CM_USART_TypeDef* USARTx) {
     int32_t i32Ret = LL_OK;
 
     DDL_ASSERT(IS_USART_UNIT(USARTx));
@@ -948,8 +915,8 @@ int32_t USART_DeInit(CM_USART_TypeDef *USARTx)
  * @note   In clock synchronization mode, the bit TE or RE of register USART_CR can only be
  *         written to 1 when TE = 0 and RE = 0 (transmit and receive disabled)
  */
-void USART_FuncCmd(CM_USART_TypeDef *USARTx, uint32_t u32Func, en_functional_state_t enNewState)
-{
+void
+USART_FuncCmd(CM_USART_TypeDef* USARTx, uint32_t u32Func, en_functional_state_t enNewState) {
     uint32_t u32BaseFunc;
 
     DDL_ASSERT(IS_USART_UNIT(USARTx));
@@ -960,7 +927,6 @@ void USART_FuncCmd(CM_USART_TypeDef *USARTx, uint32_t u32Func, en_functional_sta
     if (u32BaseFunc > 0UL) {
         (ENABLE == enNewState) ? SET_REG32_BIT(USARTx->CR1, u32BaseFunc) : CLR_REG32_BIT(USARTx->CR1, u32BaseFunc);
     }
-
 }
 
 /**
@@ -976,8 +942,8 @@ void USART_FuncCmd(CM_USART_TypeDef *USARTx, uint32_t u32Func, en_functional_sta
  * @note   In clock synchronization mode, the bit TE or RE of register USART_CR can only be
  *         written to 1 when TE = 0 and RE = 0 (transmit and receive disabled)
  */
-en_functional_state_t USART_GetFuncState(CM_USART_TypeDef *USARTx, uint32_t u32Func)
-{
+en_functional_state_t
+USART_GetFuncState(CM_USART_TypeDef* USARTx, uint32_t u32Func) {
     uint32_t u32BaseFunc;
     en_functional_state_t enNewState = DISABLE;
 
@@ -1002,8 +968,8 @@ en_functional_state_t USART_GetFuncState(CM_USART_TypeDef *USARTx, uint32_t u32F
  *         This parameter can be any composed value of the macros group @ref USART_Flag.
  * @retval An @ref en_flag_status_t enumeration type value.
  */
-en_flag_status_t USART_GetStatus(const CM_USART_TypeDef *USARTx, uint32_t u32Flag)
-{
+en_flag_status_t
+USART_GetStatus(const CM_USART_TypeDef* USARTx, uint32_t u32Flag) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_FLAG(u32Flag));
 
@@ -1019,8 +985,8 @@ en_flag_status_t USART_GetStatus(const CM_USART_TypeDef *USARTx, uint32_t u32Fla
  *         This parameter can be any composed value of the macros group @ref USART_Flag.
  * @retval None
  */
-void USART_ClearStatus(CM_USART_TypeDef *USARTx, uint32_t u32Flag)
-{
+void
+USART_ClearStatus(CM_USART_TypeDef* USARTx, uint32_t u32Flag) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_FLAG(u32Flag));
 
@@ -1046,8 +1012,8 @@ void USART_ClearStatus(CM_USART_TypeDef *USARTx, uint32_t u32Flag)
  *           @arg USART_PARITY_EVEN:    Parity control enabled and Even Parity is selected
  * @retval None
  */
-void USART_SetParity(CM_USART_TypeDef *USARTx, uint32_t u32Parity)
-{
+void
+USART_SetParity(CM_USART_TypeDef* USARTx, uint32_t u32Parity) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_USART_PARITY(u32Parity));
@@ -1066,8 +1032,8 @@ void USART_SetParity(CM_USART_TypeDef *USARTx, uint32_t u32Parity)
  *           @arg USART_PARITY_EVEN:    Parity control enabled and Even Parity is selected
  *  None
  */
-uint32_t USART_GetParity(CM_USART_TypeDef *USARTx)
-{
+uint32_t
+USART_GetParity(CM_USART_TypeDef* USARTx) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
 
     if (0U == READ_REG32_BIT(USARTx->CR1, USART_CR1_PCE)) {
@@ -1092,8 +1058,8 @@ uint32_t USART_GetParity(CM_USART_TypeDef *USARTx)
  *           @arg  USART_FIRST_BIT_LSB: LSB(Least Significant Bit)
  * @retval None
  */
-void USART_SetFirstBit(CM_USART_TypeDef *USARTx, uint32_t u32FirstBit)
-{
+void
+USART_SetFirstBit(CM_USART_TypeDef* USARTx, uint32_t u32FirstBit) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_USART_FIRST_BIT(u32FirstBit));
@@ -1112,8 +1078,8 @@ void USART_SetFirstBit(CM_USART_TypeDef *USARTx, uint32_t u32FirstBit)
  *           @arg USART_STOPBIT_2BIT:   2 stop bit
  * @retval None
  */
-void USART_SetStopBit(CM_USART_TypeDef *USARTx, uint32_t u32StopBit)
-{
+void
+USART_SetStopBit(CM_USART_TypeDef* USARTx, uint32_t u32StopBit) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_STOPBIT(u32StopBit));
 
@@ -1129,8 +1095,8 @@ void USART_SetStopBit(CM_USART_TypeDef *USARTx, uint32_t u32StopBit)
  *           @arg USART_STOPBIT_1BIT:   1 stop bit
  *           @arg USART_STOPBIT_2BIT:   2 stop bits
  */
-uint32_t USART_GetStopBit(CM_USART_TypeDef *USARTx)
-{
+uint32_t
+USART_GetStopBit(CM_USART_TypeDef* USARTx) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
 
     return READ_REG32_BIT(USARTx->CR2, USART_CR2_STOP);
@@ -1147,8 +1113,8 @@ uint32_t USART_GetStopBit(CM_USART_TypeDef *USARTx)
  *           @arg USART_DATA_WIDTH_9BIT: 9 bits word width
  * @retval None
  */
-void USART_SetDataWidth(CM_USART_TypeDef *USARTx, uint32_t u32DataWidth)
-{
+void
+USART_SetDataWidth(CM_USART_TypeDef* USARTx, uint32_t u32DataWidth) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_USART_DATA_WIDTH(u32DataWidth));
@@ -1165,8 +1131,8 @@ void USART_SetDataWidth(CM_USART_TypeDef *USARTx, uint32_t u32DataWidth)
  *           @arg USART_DATA_WIDTH_8BIT: 8 bits word width
  *           @arg USART_DATA_WIDTH_9BIT: 9 bits word width
  */
-uint32_t USART_GetDataWidth(CM_USART_TypeDef *USARTx)
-{
+uint32_t
+USART_GetDataWidth(CM_USART_TypeDef* USARTx) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
 
     return READ_REG32_BIT(USARTx->CR1, USART_CR1_M);
@@ -1183,8 +1149,8 @@ uint32_t USART_GetDataWidth(CM_USART_TypeDef *USARTx)
  *           @arg USART_OVER_SAMPLE_16BIT: Oversampling by 16 bit
  * @retval None
  */
-void USART_SetOverSampleBit(CM_USART_TypeDef *USARTx, uint32_t u32OverSampleBit)
-{
+void
+USART_SetOverSampleBit(CM_USART_TypeDef* USARTx, uint32_t u32OverSampleBit) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_USART_OVER_SAMPLE_BIT(u32OverSampleBit));
@@ -1203,8 +1169,8 @@ void USART_SetOverSampleBit(CM_USART_TypeDef *USARTx, uint32_t u32OverSampleBit)
  *           @arg USART_START_BIT_FALLING: Detect RX pin falling edge
  * @retval None
  */
-void USART_SetStartBitPolarity(CM_USART_TypeDef *USARTx, uint32_t u32Polarity)
-{
+void
+USART_SetStartBitPolarity(CM_USART_TypeDef* USARTx, uint32_t u32Polarity) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_USART_START_BIT_POLARITY(u32Polarity));
@@ -1223,8 +1189,8 @@ void USART_SetStartBitPolarity(CM_USART_TypeDef *USARTx, uint32_t u32Polarity)
  *           @arg USART_TRANS_DATA:     USART transmission content type is frame data
  * @retval None
  */
-void USART_SetTransType(CM_USART_TypeDef *USARTx, uint16_t u16Type)
-{
+void
+USART_SetTransType(CM_USART_TypeDef* USARTx, uint16_t u16Type) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_TRANS_TYPE(u16Type));
 
@@ -1241,8 +1207,8 @@ void USART_SetTransType(CM_USART_TypeDef *USARTx, uint16_t u16Type)
  * @retval None
  * @note   The clock division function is valid only when clock source is internal clock.
  */
-void USART_SetClockDiv(CM_USART_TypeDef *USARTx, uint32_t u32ClockDiv)
-{
+void
+USART_SetClockDiv(CM_USART_TypeDef* USARTx, uint32_t u32ClockDiv) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_USART_CLK_DIV(u32ClockDiv));
@@ -1258,8 +1224,8 @@ void USART_SetClockDiv(CM_USART_TypeDef *USARTx, uint32_t u32ClockDiv)
  * @retval Returned value can be one of the macros group @ref USART_Clock_Division
  * @note   The clock division function is valid only when clock source is internal clock.
  */
-uint32_t USART_GetClockDiv(const CM_USART_TypeDef *USARTx)
-{
+uint32_t
+USART_GetClockDiv(const CM_USART_TypeDef* USARTx) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
 
     return READ_REG32_BIT(USARTx->PR, USART_PR_PSC);
@@ -1276,8 +1242,8 @@ uint32_t USART_GetClockDiv(const CM_USART_TypeDef *USARTx)
  *           @arg USART_CLK_SRC_INTERNCLK: Clock source is internal clock.
  * @retval None
  */
-void USART_SetClockSrc(CM_USART_TypeDef *USARTx, uint32_t u32ClockSrc)
-{
+void
+USART_SetClockSrc(CM_USART_TypeDef* USARTx, uint32_t u32ClockSrc) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_USART_CLK_SRC(u32ClockSrc));
@@ -1294,8 +1260,8 @@ void USART_SetClockSrc(CM_USART_TypeDef *USARTx, uint32_t u32ClockSrc)
  *           - USART_CLK_SRC_EXTCLK:    Clock source is external clock(USART_CK).
  *           - USART_CLK_SRC_INTERNCLK: Clock source is internal clock.
  */
-uint32_t USART_GetClockSrc(const CM_USART_TypeDef *USARTx)
-{
+uint32_t
+USART_GetClockSrc(const CM_USART_TypeDef* USARTx) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
 
     return READ_REG32_BIT(USARTx->CR2, USART_CR2_CLKC_1);
@@ -1309,8 +1275,8 @@ uint32_t USART_GetClockSrc(const CM_USART_TypeDef *USARTx)
  * @param  [in] enNewState              An @ref en_functional_state_t enumeration value.
  * @retval None
  */
-void USART_FilterCmd(CM_USART_TypeDef *USARTx, en_functional_state_t enNewState)
-{
+void
+USART_FilterCmd(CM_USART_TypeDef* USARTx, en_functional_state_t enNewState) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
@@ -1330,8 +1296,8 @@ void USART_FilterCmd(CM_USART_TypeDef *USARTx, en_functional_state_t enNewState)
  * @param  [in] enNewState              An @ref en_functional_state_t enumeration value.
  * @retval None
  */
-void USART_SilenceCmd(CM_USART_TypeDef *USARTx, en_functional_state_t enNewState)
-{
+void
+USART_SilenceCmd(CM_USART_TypeDef* USARTx, en_functional_state_t enNewState) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
 
@@ -1351,8 +1317,8 @@ void USART_SilenceCmd(CM_USART_TypeDef *USARTx, en_functional_state_t enNewState
  *         This parameter can be one of the macros group @ref USART_Hardware_Flow_Control.
  * @retval None
  */
-void USART_SetHWFlowControl(CM_USART_TypeDef *USARTx, uint32_t u32HWFlowControl)
-{
+void
+USART_SetHWFlowControl(CM_USART_TypeDef* USARTx, uint32_t u32HWFlowControl) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_USART_HW_FLOWCTRL(u32HWFlowControl));
@@ -1371,14 +1337,14 @@ void USART_SetHWFlowControl(CM_USART_TypeDef *USARTx, uint32_t u32HWFlowControl)
  *           @arg CM_USARTx:            USART unit instance register base
  * @retval This parameter can be one of the macros group @ref USART_Hardware_Flow_Control.
  */
-uint32_t USART_GetHWFlowControl(CM_USART_TypeDef *USARTx)
-{
+uint32_t
+USART_GetHWFlowControl(CM_USART_TypeDef* USARTx) {
     uint32_t ret;
 
     DDL_ASSERT(IS_USART_UNIT(USARTx));
 
-    ret = (READ_REG32_BIT(USARTx->CR3, USART_CR3_CTSE) == USART_CR3_CTSE)  ?
-          USART_HW_FLOWCTRL_CTS : USART_HW_FLOWCTRL_RTS;
+    ret =
+        (READ_REG32_BIT(USARTx->CR3, USART_CR3_CTSE) == USART_CR3_CTSE) ? USART_HW_FLOWCTRL_CTS : USART_HW_FLOWCTRL_RTS;
     return ret;
 }
 
@@ -1389,8 +1355,8 @@ uint32_t USART_GetHWFlowControl(CM_USART_TypeDef *USARTx)
  *           @arg CM_USARTx:            USART unit instance register base
  * @retval Receive data
  */
-uint16_t USART_ReadData(const CM_USART_TypeDef *USARTx)
-{
+uint16_t
+USART_ReadData(const CM_USART_TypeDef* USARTx) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
 
     return READ_REG16(USARTx->RDR);
@@ -1404,8 +1370,8 @@ uint16_t USART_ReadData(const CM_USART_TypeDef *USARTx)
  * @param  [in] u16Data                 Transmit data
  * @retval None
  */
-void USART_WriteData(CM_USART_TypeDef *USARTx, uint16_t u16Data)
-{
+void
+USART_WriteData(CM_USART_TypeDef* USARTx, uint16_t u16Data) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_DATA(u16Data));
 
@@ -1420,8 +1386,8 @@ void USART_WriteData(CM_USART_TypeDef *USARTx, uint16_t u16Data)
  ** @param [in] u16ID                   Processor ID
  * @retval None
  */
-void USART_WriteID(CM_USART_TypeDef *USARTx, uint16_t u16ID)
-{
+void
+USART_WriteID(CM_USART_TypeDef* USARTx, uint16_t u16ID) {
     DDL_ASSERT(IS_USART_UNIT(USARTx));
     DDL_ASSERT(IS_USART_DATA(u16ID));
 
@@ -1440,8 +1406,8 @@ void USART_WriteID(CM_USART_TypeDef *USARTx, uint16_t u16ID)
  *           - LL_ERR_INVD_PARAM:       Set unsuccessfully.
  * @note The function uses fraction division to ensure baudrate accuracy if USART unit supports baudrate fraction division.
  */
-int32_t USART_SetBaudrate(CM_USART_TypeDef *USARTx, uint32_t u32Baudrate, float32_t *pf32Error)
-{
+int32_t
+USART_SetBaudrate(CM_USART_TypeDef* USARTx, uint32_t u32Baudrate, float32_t* pf32Error) {
     uint32_t u32Mode;
     stc_usart_brr_t stcUsartBrr;
     int32_t i32Ret;
@@ -1452,9 +1418,9 @@ int32_t USART_SetBaudrate(CM_USART_TypeDef *USARTx, uint32_t u32Baudrate, float3
 
     /* Get USART clock frequency */
     stcUsartBrr.u32UsartClock = USART_GetUsartClockFreq(USARTx);
-    stcUsartBrr.u32Baudrate   = u32Baudrate;
-    stcUsartBrr.f32Error      = 0.0F;
-    stcUsartBrr.u32Fraction   = 0xFFUL;
+    stcUsartBrr.u32Baudrate = u32Baudrate;
+    stcUsartBrr.f32Error = 0.0F;
+    stcUsartBrr.u32Fraction = 0xFFUL;
 
     /* Get usart mode */
     u32Mode = READ_REG32_BIT(USARTx->CR1, USART_CR1_MS);
@@ -1474,7 +1440,7 @@ int32_t USART_SetBaudrate(CM_USART_TypeDef *USARTx, uint32_t u32Baudrate, float3
 
     if (LL_OK == i32Ret) {
         /* Set BRR value(integer & fraction) */
-        MODIFY_REG32(USARTx->BRR, (USART_BRR_DIV_INTEGER | USART_BRR_DIV_FRACTION), \
+        MODIFY_REG32(USARTx->BRR, (USART_BRR_DIV_INTEGER | USART_BRR_DIV_FRACTION),
                      (stcUsartBrr.u32Fraction | (stcUsartBrr.u32Integer << USART_BRR_DIV_INTEGER_POS)));
 
         if (0xFFUL != stcUsartBrr.u32Fraction) {
@@ -1504,8 +1470,8 @@ int32_t USART_SetBaudrate(CM_USART_TypeDef *USARTx, uint32_t u32Baudrate, float3
  *           @arg USART_SC_ETU_CLK372:  1 etu = 372/f
  * @retval None
  */
-void USART_SmartCard_SetEtuClock(CM_USART_TypeDef *USARTx, uint32_t u32EtuClock)
-{
+void
+USART_SmartCard_SetEtuClock(CM_USART_TypeDef* USARTx, uint32_t u32EtuClock) {
     DDL_ASSERT(IS_USART_SMARTCARD_UNIT(USARTx));
     DDL_ASSERT(IS_USART_RX_TX_DISABLE(USARTx));
     DDL_ASSERT(IS_USART_SMARTCARD_ETU_CLK(u32EtuClock));
@@ -1527,8 +1493,8 @@ void USART_SmartCard_SetEtuClock(CM_USART_TypeDef *USARTx, uint32_t u32EtuClock)
  *           - LL_ERR_INVD_PARAM:       u32Len value is 0 or pvBuf is NULL.
  * @note Block checking flag if u32Timeout value is USART_MAX_TIMEOUT
  */
-int32_t USART_UART_Trans(CM_USART_TypeDef *USARTx, const void *pvBuf, uint32_t u32Len, uint32_t u32Timeout)
-{
+int32_t
+USART_UART_Trans(CM_USART_TypeDef* USARTx, const void* pvBuf, uint32_t u32Len, uint32_t u32Timeout) {
     uint32_t i;
     uint32_t u32DataWidth;
     int32_t i32Ret = LL_ERR_INVD_PARAM;
@@ -1541,7 +1507,7 @@ int32_t USART_UART_Trans(CM_USART_TypeDef *USARTx, const void *pvBuf, uint32_t u
         if ((USART_DATA_WIDTH_8BIT == u32DataWidth) || (USART_DATA_WIDTH_9BIT == u32DataWidth)) {
 #ifdef __DEBUG
             if (USART_DATA_WIDTH_9BIT == u32DataWidth) {
-                DDL_ASSERT(IS_ADDR_ALIGN_HALFWORD((const uint16_t *)pvBuf));
+                DDL_ASSERT(IS_ADDR_ALIGN_HALFWORD((const uint16_t*)pvBuf));
             }
 #endif
             for (i = 0UL; i < u32Len; i++) {
@@ -1552,9 +1518,9 @@ int32_t USART_UART_Trans(CM_USART_TypeDef *USARTx, const void *pvBuf, uint32_t u
                 }
 
                 if (u32DataWidth == USART_DATA_WIDTH_8BIT) {
-                    USART_WriteData(USARTx, ((const uint8_t *)pvBuf)[i]);
+                    USART_WriteData(USARTx, ((const uint8_t*)pvBuf)[i]);
                 } else {
-                    USART_WriteData(USARTx, ((const uint16_t *)pvBuf)[i]);
+                    USART_WriteData(USARTx, ((const uint16_t*)pvBuf)[i]);
                 }
             }
 
@@ -1581,8 +1547,8 @@ int32_t USART_UART_Trans(CM_USART_TypeDef *USARTx, const void *pvBuf, uint32_t u
  *           - LL_ERR_INVD_PARAM:       u32Len value is 0 or the pointer pvBuf value is NULL.
  * @note Block checking flag if u32Timeout value is USART_MAX_TIMEOUT
  */
-int32_t USART_UART_Receive(const CM_USART_TypeDef *USARTx, void *pvBuf, uint32_t u32Len, uint32_t u32Timeout)
-{
+int32_t
+USART_UART_Receive(const CM_USART_TypeDef* USARTx, void* pvBuf, uint32_t u32Len, uint32_t u32Timeout) {
     uint32_t u32Count;
     uint32_t u32DataWidth;
     uint16_t u16ReceiveData;
@@ -1594,7 +1560,7 @@ int32_t USART_UART_Receive(const CM_USART_TypeDef *USARTx, void *pvBuf, uint32_t
         u32DataWidth = READ_REG32_BIT(USARTx->CR1, USART_CR1_M);
 #ifdef __DEBUG
         if (USART_DATA_WIDTH_9BIT == u32DataWidth) {
-            DDL_ASSERT(IS_ADDR_ALIGN_HALFWORD((uint16_t *)pvBuf));
+            DDL_ASSERT(IS_ADDR_ALIGN_HALFWORD((uint16_t*)pvBuf));
         }
 #endif
 
@@ -1603,9 +1569,9 @@ int32_t USART_UART_Receive(const CM_USART_TypeDef *USARTx, void *pvBuf, uint32_t
             if (LL_OK == i32Ret) {
                 u16ReceiveData = USART_ReadData(USARTx);
                 if (USART_DATA_WIDTH_8BIT == u32DataWidth) {
-                    ((uint8_t *)pvBuf)[u32Count] = (uint8_t)(u16ReceiveData & 0xFFU);
+                    ((uint8_t*)pvBuf)[u32Count] = (uint8_t)(u16ReceiveData & 0xFFU);
                 } else {
-                    ((uint16_t *)pvBuf)[u32Count] = (uint16_t)(u16ReceiveData & 0x1FFU);
+                    ((uint16_t*)pvBuf)[u32Count] = (uint16_t)(u16ReceiveData & 0x1FFU);
                 }
             } else {
                 break;
@@ -1630,8 +1596,8 @@ int32_t USART_UART_Receive(const CM_USART_TypeDef *USARTx, void *pvBuf, uint32_t
  *           - LL_ERR_INVD_PARAM:       u32Len value is 0 or the pointer au8Buf value is NULL.
  * @note Block checking flag if u32Timeout value is USART_MAX_TIMEOUT
  */
-int32_t USART_ClockSync_Trans(CM_USART_TypeDef *USARTx, const uint8_t au8Buf[], uint32_t u32Len, uint32_t u32Timeout)
-{
+int32_t
+USART_ClockSync_Trans(CM_USART_TypeDef* USARTx, const uint8_t au8Buf[], uint32_t u32Len, uint32_t u32Timeout) {
     uint32_t i;
     int32_t i32Ret = LL_ERR_INVD_PARAM;
 
@@ -1678,8 +1644,8 @@ int32_t USART_ClockSync_Trans(CM_USART_TypeDef *USARTx, const uint8_t au8Buf[], 
  *           - LL_ERR_INVD_PARAM:       u32Len value is 0 or the pointer au8Buf value is NULL.
  * @note Block checking flag if u32Timeout value is USART_MAX_TIMEOUT.
  */
-int32_t USART_ClockSync_Receive(CM_USART_TypeDef *USARTx, uint8_t au8Buf[], uint32_t u32Len, uint32_t u32Timeout)
-{
+int32_t
+USART_ClockSync_Receive(CM_USART_TypeDef* USARTx, uint8_t au8Buf[], uint32_t u32Len, uint32_t u32Timeout) {
     uint32_t i;
     en_functional_state_t enTX;
     en_functional_state_t enMasterMode;
@@ -1735,9 +1701,9 @@ int32_t USART_ClockSync_Receive(CM_USART_TypeDef *USARTx, uint8_t au8Buf[], uint
  *           - LL_ERR_INVD_PARAM:       u32Len value is 0.
  * @note Block checking flag if u32Timeout value is USART_MAX_TIMEOUT.
  */
-int32_t USART_ClockSync_TransReceive(CM_USART_TypeDef *USARTx, const uint8_t au8TxBuf[], uint8_t au8RxBuf[],
-                                     uint32_t u32Len, uint32_t u32Timeout)
-{
+int32_t
+USART_ClockSync_TransReceive(CM_USART_TypeDef* USARTx, const uint8_t au8TxBuf[], uint8_t au8RxBuf[], uint32_t u32Len,
+                             uint32_t u32Timeout) {
     uint32_t i;
     uint8_t u8ReceiveData;
     int32_t i32Ret = LL_ERR_INVD_PARAM;

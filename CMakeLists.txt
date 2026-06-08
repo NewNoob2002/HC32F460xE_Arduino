@@ -36,7 +36,7 @@ else()
     endif()
 endif()
 
-set(PROJECT_VERSION 2.4.1)
+set(PROJECT_VERSION 2.4.2)
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Config/mcu_version_config.h.in
     ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config/mcu_version_config.h

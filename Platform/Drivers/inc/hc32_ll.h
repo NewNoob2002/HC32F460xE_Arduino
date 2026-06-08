@@ -26,8 +26,7 @@
 
 /* C binding of definitions if building with C++ compiler */
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 /*******************************************************************************
@@ -63,22 +62,23 @@ extern "C"
  * @defgroup Peripheral_Register_WP_Global_Macros Peripheral Register Write Protection Global Macros
  * @{
  */
-#define LL_PERIPH_EFM           (1UL << 0U)
-#define LL_PERIPH_FCG           (1UL << 1U)
-#define LL_PERIPH_GPIO          (1UL << 2U)
-#define LL_PERIPH_INTC          (1UL << 3U)
-#define LL_PERIPH_LVD           (1UL << 4U)
-#define LL_PERIPH_MPU           (1UL << 5U)
-#define LL_PERIPH_PWC_CLK_RMU   (1UL << 6U)
-#define LL_PERIPH_SRAM          (1UL << 7U)
-#define LL_PERIPH_ALL           (LL_PERIPH_EFM | LL_PERIPH_FCG | LL_PERIPH_GPIO | LL_PERIPH_INTC  | \
-                                 LL_PERIPH_LVD | LL_PERIPH_MPU | LL_PERIPH_SRAM | LL_PERIPH_PWC_CLK_RMU)
+#define LL_PERIPH_EFM         (1UL << 0U)
+#define LL_PERIPH_FCG         (1UL << 1U)
+#define LL_PERIPH_GPIO        (1UL << 2U)
+#define LL_PERIPH_INTC        (1UL << 3U)
+#define LL_PERIPH_LVD         (1UL << 4U)
+#define LL_PERIPH_MPU         (1UL << 5U)
+#define LL_PERIPH_PWC_CLK_RMU (1UL << 6U)
+#define LL_PERIPH_SRAM        (1UL << 7U)
+#define LL_PERIPH_ALL                                                                                                  \
+    (LL_PERIPH_EFM | LL_PERIPH_FCG | LL_PERIPH_GPIO | LL_PERIPH_INTC | LL_PERIPH_LVD | LL_PERIPH_MPU | LL_PERIPH_SRAM  \
+     | LL_PERIPH_PWC_CLK_RMU)
 /**
  * @}
  */
 
 /* Defined use Device Driver Library */
-#if !defined (USE_DDL_DRIVER)
+#if !defined(USE_DDL_DRIVER)
 /**
  * @brief Comment the line below if you will not use the Device Driver Library.
  * In this case, the application code will be based on direct access to
@@ -91,12 +91,12 @@ extern "C"
 * @defgroup HC32_Series_DDL_Release_Version HC32 Series DDL Release Version
 * @{
 */
-#define HC32_DDL_REV_MAIN               0x03U  /*!< [31:24] main version  */
-#define HC32_DDL_REV_SUB1               0x03U  /*!< [23:16] sub1 version  */
-#define HC32_DDL_REV_SUB2               0x00U  /*!< [15:8]  sub2 version  */
-#define HC32_DDL_REV_PATCH              0x00U  /*!< [7:0]   patch version */
-#define HC32_DDL_REV                    ((HC32_DDL_REV_MAIN << 24) | (HC32_DDL_REV_SUB1 << 16) | \
-                                         (HC32_DDL_REV_SUB2 << 8 ) | (HC32_DDL_REV_PATCH))
+#define HC32_DDL_REV_MAIN  0x03U /*!< [31:24] main version  */
+#define HC32_DDL_REV_SUB1  0x03U /*!< [23:16] sub1 version  */
+#define HC32_DDL_REV_SUB2  0x00U /*!< [15:8]  sub2 version  */
+#define HC32_DDL_REV_PATCH 0x00U /*!< [7:0]   patch version */
+#define HC32_DDL_REV                                                                                                   \
+    ((HC32_DDL_REV_MAIN << 24) | (HC32_DDL_REV_SUB1 << 16) | (HC32_DDL_REV_SUB2 << 8) | (HC32_DDL_REV_PATCH))
 /**
  * @}
  */
@@ -106,7 +106,7 @@ extern "C"
  */
 
 /* Use Device Driver Library */
-#if defined (USE_DDL_DRIVER)
+#if defined(USE_DDL_DRIVER)
 
 /**
  * @brief Include peripheral module's header file

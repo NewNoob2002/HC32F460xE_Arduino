@@ -12,7 +12,6 @@
 #include "HAL/HAL.h"
 #include "lv_port.h"
 
-
 /*********************
  *      DEFINES
  *********************/
@@ -84,6 +83,7 @@ encoder_init(void) {
 /* Will be called by the library to read the encoder */
 static void
 encoder_read(lv_indev_drv_t* indev_drv, lv_indev_data_t* data) {
+    (void)indev_drv;
     static bool lastState;
     data->enc_diff = HAL::Encoder_GetDiff();
 

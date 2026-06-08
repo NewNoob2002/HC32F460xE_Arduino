@@ -99,6 +99,7 @@ typedef struct BatteryInfo_t {
     float Percent_f;
     float Voltage_f;
     float Temp_f;
+    float fOtsTemp;
     uint16_t Actual_Percent;
     uint16_t Processed_Percent;
     uint16_t Percent;
@@ -113,6 +114,7 @@ typedef struct BatteryInfo_t {
     uint8_t ChargerCurrent;
     uint8_t mp2762_cfg0;
     Charger_Status_t chargeStatus;
+
 } BatteryInfo_t, *pBatteryInfo_t;
 
 typedef struct Power_Monitor_t {

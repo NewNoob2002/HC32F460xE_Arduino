@@ -90,8 +90,8 @@ StartupView::Create(lv_obj_t* root) {
 
     CreateInfoLabel(content, font_small, "FW", systemInfo.software_version, LV_ALIGN_TOP_LEFT, 18, 15);
     CreateInfoLabel(content, font_small, "HW", systemInfo.hardware_version, LV_ALIGN_TOP_LEFT, 18, 54);
-    CreateInfoLabel(content, font_small, "BAT", batteryText, LV_ALIGN_TOP_RIGHT, -18, 15, GetBatteryColor());
-    CreateInfoLabel(content, font_small, "PWR", GetPowerStateText(), LV_ALIGN_TOP_RIGHT, -18, 54);
+    CreateInfoLabel(content, font_small, "BAT", batteryText, LV_ALIGN_TOP_RIGHT, -8, 15, GetBatteryColor());
+    CreateInfoLabel(content, font_small, "PWR", GetPowerStateText(), LV_ALIGN_TOP_RIGHT, -8, 54);
 
     lv_obj_t* accent = lv_obj_create(content);
     lv_obj_remove_style_all(accent);

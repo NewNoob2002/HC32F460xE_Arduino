@@ -58,7 +58,7 @@
  * @defgroup SRAM_Configuration_Bits_Mask SRAM Configuration Bits Mask
  * @{
  */
-#define SRAM_CYCLE_MASK                 (0x00000007UL)
+#define SRAM_CYCLE_MASK           (0x00000007UL)
 /**
  * @}
  */
@@ -67,7 +67,7 @@
  * @defgroup SRAM_Ecc_Mode_Mask SRAM ecc mode mask
  * @{
  */
-#define SRAM_ECC_MD_MASK                (SRAMC_CKCR_ECCMOD)
+#define SRAM_ECC_MD_MASK          (SRAMC_CKCR_ECCMOD)
 /**
  * @}
  */
@@ -76,7 +76,7 @@
  * @defgroup SRAM_Exception_Type_Mask SRAM exception type mask
  * @{
  */
-#define SRAM_EXP_TYPE_MASK              (SRAMC_CKCR_ECCOAD | SRAMC_CKCR_PYOAD)
+#define SRAM_EXP_TYPE_MASK        (SRAMC_CKCR_ECCOAD | SRAMC_CKCR_PYOAD)
 /**
  * @}
  */
@@ -85,36 +85,34 @@
  * @defgroup SRAM_Check_Parameters_Validity SRAM check parameters validity
  * @{
  */
-#define IS_SRAM_BIT_MASK(x, mask)       (((x) != 0U) && (((x) | (mask)) == (mask)))
+#define IS_SRAM_BIT_MASK(x, mask) (((x) != 0U) && (((x) | (mask)) == (mask)))
 
 /* Parameter valid check for SRAM wait cycle */
-#define IS_SRAM_WAIT_CYCLE(x)           ((x) <= SRAM_WAIT_CYCLE7)
+#define IS_SRAM_WAIT_CYCLE(x)     ((x) <= SRAM_WAIT_CYCLE7)
 
 /* Parameter valid check for SRAM selection */
-#define IS_SRAM_SEL(x)                  IS_SRAM_BIT_MASK(x, SRAM_SRAM_ALL)
+#define IS_SRAM_SEL(x)            IS_SRAM_BIT_MASK(x, SRAM_SRAM_ALL)
 
 /* Parameter valid check for SRAM ECC SRAM */
-#define IS_SRAM_ECC_SRAM(x)             IS_SRAM_BIT_MASK(x, SRAM_ECC_SRAM_ALL)
+#define IS_SRAM_ECC_SRAM(x)       IS_SRAM_BIT_MASK(x, SRAM_ECC_SRAM_ALL)
 
 /* Parameter valid check for SRAM ECC SRAM */
-#define IS_SRAM_CHECK_SRAM(x)           IS_SRAM_BIT_MASK(x, SRAM_CHECK_SRAM_ALL)
+#define IS_SRAM_CHECK_SRAM(x)     IS_SRAM_BIT_MASK(x, SRAM_CHECK_SRAM_ALL)
 
 /* Parameter valid check for SRAM flag */
-#define IS_SRAM_FLAG(x)                 IS_SRAM_BIT_MASK(x, SRAM_FLAG_ALL)
+#define IS_SRAM_FLAG(x)           IS_SRAM_BIT_MASK(x, SRAM_FLAG_ALL)
 
 /* Check SRAM  WTPR register lock status. */
-#define IS_SRAM_WTPR_UNLOCK()           (CM_SRAMC->WTPR == SRAM_REG_UNLOCK_KEY)
+#define IS_SRAM_WTPR_UNLOCK()     (CM_SRAMC->WTPR == SRAM_REG_UNLOCK_KEY)
 
 /* Check SRAM CKPR register lock status. */
-#define IS_SRAM_CKPR_UNLOCK()           (CM_SRAMC->CKPR == SRAM_REG_UNLOCK_KEY)
+#define IS_SRAM_CKPR_UNLOCK()     (CM_SRAMC->CKPR == SRAM_REG_UNLOCK_KEY)
 
 /* Parameter valid check for SRAM exception type mode */
-#define IS_SRAM_EXP_TYPE(x)                                                    \
-(   ((x) == SRAM_EXP_TYPE_NMI)                  ||                             \
-    ((x) == SRAM_EXP_TYPE_RST))
+#define IS_SRAM_EXP_TYPE(x)       (((x) == SRAM_EXP_TYPE_NMI) || ((x) == SRAM_EXP_TYPE_RST))
 
 /* Parameter valid check for SRAM ECC mode */
-#define IS_SRAM_ECC_MD(x)               (((x) | SRAM_ECC_MD_MASK) == SRAM_ECC_MD_MASK)
+#define IS_SRAM_ECC_MD(x)         (((x) | SRAM_ECC_MD_MASK) == SRAM_ECC_MD_MASK)
 
 /**
  * @}
@@ -149,8 +147,8 @@
  * @param  None
  * @retval None
  */
-void SRAM_Init(void)
-{
+void
+SRAM_Init(void) {
     SET_REG32_BIT(CM_SRAMC->CKSR, SRAM_FLAG_ALL);
 }
 
@@ -160,8 +158,8 @@ void SRAM_Init(void)
  * @retval None
  * @note   Call SRAM_REG_Unlock to unlock registers WTCR and CKCR first.
  */
-void SRAM_DeInit(void)
-{
+void
+SRAM_DeInit(void) {
     /* Call SRAM_REG_Unlock to unlock register WTCR and CKCR. */
     DDL_ASSERT(IS_SRAM_CKPR_UNLOCK());
     DDL_ASSERT(IS_SRAM_WTPR_UNLOCK());
@@ -190,8 +188,8 @@ void SRAM_DeInit(void)
  * @retval None
  * @note   Call SRAM_REG_Unlock to unlock register WTCR first.
  */
-void SRAM_SetWaitCycle(uint32_t u32SramSel, uint32_t u32WriteCycle, uint32_t u32ReadCycle)
-{
+void
+SRAM_SetWaitCycle(uint32_t u32SramSel, uint32_t u32WriteCycle, uint32_t u32ReadCycle) {
     uint8_t i = 0U;
     uint8_t u8OfsWt;
     uint8_t u8OfsRd;
@@ -205,8 +203,7 @@ void SRAM_SetWaitCycle(uint32_t u32SramSel, uint32_t u32WriteCycle, uint32_t u32
         if ((u32SramSel & 0x1UL) != 0UL) {
             u8OfsRd = i * 8U;
             u8OfsWt = u8OfsRd + 4U;
-            MODIFY_REG32(CM_SRAMC->WTCR,
-                         ((SRAM_CYCLE_MASK << u8OfsWt) | (SRAM_CYCLE_MASK << u8OfsRd)),
+            MODIFY_REG32(CM_SRAMC->WTCR, ((SRAM_CYCLE_MASK << u8OfsWt) | (SRAM_CYCLE_MASK << u8OfsRd)),
                          ((u32WriteCycle << u8OfsWt) | (u32ReadCycle << u8OfsRd)));
         }
         u32SramSel >>= 1U;
@@ -224,9 +221,9 @@ void SRAM_SetWaitCycle(uint32_t u32SramSel, uint32_t u32WriteCycle, uint32_t u32
  * @note   Call SRAM_REG_Unlock to unlock register CKCR first.
  *         The sram of u32EccMode should be the same with the sram of u32EccSram.
  */
-void SRAM_SetEccMode(uint32_t u32EccSram, uint32_t u32EccMode)
-{
-
+void
+SRAM_SetEccMode(uint32_t u32EccSram, uint32_t u32EccMode) {
+    (void)u32EccSram;
     DDL_ASSERT(IS_SRAM_ECC_SRAM(u32EccSram));
     DDL_ASSERT(IS_SRAM_ECC_MD(u32EccMode));
     DDL_ASSERT(IS_SRAM_CKPR_UNLOCK());
@@ -243,8 +240,8 @@ void SRAM_SetEccMode(uint32_t u32EccSram, uint32_t u32EccMode)
  * @retval None
  * @note   Call SRAM_REG_Unlock to unlock register CKCR first.
  */
-void SRAM_SetExceptionType(uint32_t u32CheckSram, uint32_t u32ExceptionType)
-{
+void
+SRAM_SetExceptionType(uint32_t u32CheckSram, uint32_t u32ExceptionType) {
     DDL_ASSERT(IS_SRAM_CHECK_SRAM(u32CheckSram));
     DDL_ASSERT(IS_SRAM_EXP_TYPE(u32ExceptionType));
     DDL_ASSERT(IS_SRAM_CKPR_UNLOCK());
@@ -262,8 +259,8 @@ void SRAM_SetExceptionType(uint32_t u32CheckSram, uint32_t u32ExceptionType)
  *                                      This parameter can be a value of @ref SRAM_Err_Status_Flag
  * @retval An @ref en_flag_status_t enumeration type value.
  */
-en_flag_status_t SRAM_GetStatus(uint32_t u32Flag)
-{
+en_flag_status_t
+SRAM_GetStatus(uint32_t u32Flag) {
     en_flag_status_t enStatus = RESET;
 
     DDL_ASSERT(IS_SRAM_FLAG(u32Flag));
@@ -280,8 +277,8 @@ en_flag_status_t SRAM_GetStatus(uint32_t u32Flag)
  *                                      This parameter can be values of @ref SRAM_Err_Status_Flag
  * @retval None
  */
-void SRAM_ClearStatus(uint32_t u32Flag)
-{
+void
+SRAM_ClearStatus(uint32_t u32Flag) {
     DDL_ASSERT(IS_SRAM_FLAG(u32Flag));
     WRITE_REG32(CM_SRAMC->CKSR, u32Flag);
 }

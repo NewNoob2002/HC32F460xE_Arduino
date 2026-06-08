@@ -98,20 +98,8 @@ StatusBar_StyleInit(lv_obj_t* cont) {
     lv_obj_set_style_shadow_width(cont, 10, LV_STATE_USER_1);
 
     static lv_style_transition_dsc_t tran;
-    static constexpr lv_style_prop_t prop[] =
-    {
-        LV_STYLE_BG_COLOR,
-        LV_STYLE_OPA,
-        LV_STYLE_PROP_INV
-    };
-    lv_style_transition_dsc_init(
-        &tran,
-        prop,
-        lv_anim_path_ease_out,
-        200,
-        0,
-        nullptr
-        );
+    static constexpr lv_style_prop_t prop[] = {LV_STYLE_BG_COLOR, LV_STYLE_OPA, LV_STYLE_PROP_INV};
+    lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
     lv_obj_set_style_transition(cont, &tran, LV_STATE_USER_1);
 }
 
@@ -119,17 +107,18 @@ static void
 StatusBar_SetStyle(const DataProc::StatusBar_Style_t style) {
     lv_obj_t* cont = ui.cont;
     switch (style) {
-        case DataProc::STATUS_BAR_STYLE_TRANSP: lv_obj_add_state(cont, LV_STATE_DEFAULT);
+        case DataProc::STATUS_BAR_STYLE_TRANSP:
+            lv_obj_add_state(cont, LV_STATE_DEFAULT);
             lv_obj_clear_state(cont, LV_STATE_USER_1);
             break;
-        case DataProc::STATUS_BAR_STYLE_BLACK: lv_obj_add_state(cont, LV_STATE_USER_1);
-            break;
+        case DataProc::STATUS_BAR_STYLE_BLACK: lv_obj_add_state(cont, LV_STATE_USER_1); break;
         default: break;
     }
 }
 
 static void
 StatusBar_Update(lv_timer_t* timer) {
+    (void)timer;
     // HAL::GPS_Info_t gps;
     // if(actStatusBar->Pull("GPS", &gps, sizeof(gps)) == Account::RES_OK)
     // {
@@ -138,33 +127,28 @@ StatusBar_Update(lv_timer_t* timer) {
     /* satellite */
     ui.position.satellite_num->setValue(systemInfo.positionInfo.satellite_number_used);
     // Position
-    if (systemInfo.work_mode == base_mode ||
-        systemInfo.work_mode == autobase_mode) {
+    if (systemInfo.work_mode == base_mode || systemInfo.work_mode == autobase_mode) {
         lv_obj_set_style_text_color(ui.position.position_icon, lv_palette_main(LV_PALETTE_BLUE), 0);
         lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionBase));
     } else {
         switch (systemInfo.positionInfo.coordinate_status) {
             case position_none: // NONE
-                lv_obj_set_style_text_color(ui.position.position_icon,
-                                            lv_palette_main(LV_PALETTE_RED), 0);
+                lv_obj_set_style_text_color(ui.position.position_icon, lv_palette_main(LV_PALETTE_RED), 0);
                 lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionNone));
                 break;
             case position_single: // Single
-                lv_obj_set_style_text_color(ui.position.position_icon,
-                                            lv_palette_main(LV_PALETTE_YELLOW), 0);
+                lv_obj_set_style_text_color(ui.position.position_icon, lv_palette_main(LV_PALETTE_YELLOW), 0);
                 lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionSingle));
                 break;
             case position_fix: // FIX
-                lv_obj_set_style_text_color(ui.position.position_icon,
-                                            lv_palette_main(LV_PALETTE_GREEN), 0);
+                lv_obj_set_style_text_color(ui.position.position_icon, lv_palette_main(LV_PALETTE_GREEN), 0);
                 lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionFix));
                 break;
             case position_float: // FLOAT
-                lv_obj_set_style_text_color(ui.position.position_icon,
-                                            lv_palette_main(LV_PALETTE_YELLOW), 0);
+                lv_obj_set_style_text_color(ui.position.position_icon, lv_palette_main(LV_PALETTE_YELLOW), 0);
                 lv_label_set_text(ui.position.position_label, I18n::Text(I18n::TextId::PositionFloat));
                 break;
-            default: ;
+            default:;
         }
     }
     //
@@ -175,10 +159,11 @@ StatusBar_Update(lv_timer_t* timer) {
     //     lv_obj_set_style_text_color(ui.sd_icon, lv_color_white(), LV_STATE_DEFAULT);
 
     /* wifi */
-    if (systemInfo.wifiInfo.wifi_status == 1)
+    if (systemInfo.wifiInfo.wifi_status == 1) {
         lv_obj_set_style_text_color(ui.wifi_icon, lv_palette_main(LV_PALETTE_BLUE), LV_STATE_DEFAULT);
-    else
+    } else {
         lv_obj_set_style_text_color(ui.wifi_icon, lv_color_white(), LV_STATE_DEFAULT);
+    }
 
     /* clock */
     makeTime_t clock;
@@ -319,7 +304,6 @@ Page::StatusBar_ApplyLanguage() {
     }
 }
 
-
 void
 StatusBar_Appear(const bool en, const bool delay) {
     int32_t start = -STATUS_BAR_HEIGHT;
@@ -340,15 +324,17 @@ StatusBar_Appear(const bool en, const bool delay) {
     lv_anim_set_var(&a, ui.cont);
     lv_anim_set_values(&a, start, end);
     lv_anim_set_time(&a, 500);
-    if (delay)
+    if (delay) {
         lv_anim_set_delay(&a, 1000);
-    else
+    } else {
         lv_anim_set_delay(&a, 0);
+    }
     lv_anim_set_exec_cb(&a, LV_ANIM_EXEC(y));
-    if (en)
+    if (en) {
         lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
-    else
+    } else {
         lv_anim_set_path_cb(&a, lv_anim_path_overshoot);
+    }
     lv_anim_set_early_apply(&a, true);
     lv_anim_start(&a);
 }
@@ -360,26 +346,23 @@ StatusBar_SetRecord(const bool active) {
         systemInfo.recordInfo.record_status = On_Off_Status_ON;
         systemInfo.recordInfo.record_op = 1;
         systemInfo.recordInfo.record_change_flag = 1;
-			CORE_DEBUG_PRINTF("StatusBar_SetRecord: RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n", 
-						systemInfo.recordInfo.record_status, 
-						systemInfo.recordInfo.record_op, 
-						systemInfo.recordInfo.record_interval, 
-						systemInfo.recordInfo.record_change_flag);
+        CORE_DEBUG_PRINTF("StatusBar_SetRecord: RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n",
+                          systemInfo.recordInfo.record_status, systemInfo.recordInfo.record_op,
+                          systemInfo.recordInfo.record_interval, systemInfo.recordInfo.record_change_flag);
     } else {
         lv_obj_set_style_text_color(ui.sd_icon, lv_color_white(), LV_STATE_DEFAULT);
         systemInfo.recordInfo.record_status = On_Off_Status_OFF;
         systemInfo.recordInfo.record_op = 1;
         systemInfo.recordInfo.record_change_flag = 1;
-						CORE_DEBUG_PRINTF("StatusBar_SetRecord: RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n", 
-						systemInfo.recordInfo.record_status, 
-						systemInfo.recordInfo.record_op, 
-						systemInfo.recordInfo.record_interval, 
-						systemInfo.recordInfo.record_change_flag);
+        CORE_DEBUG_PRINTF("StatusBar_SetRecord: RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n",
+                          systemInfo.recordInfo.record_status, systemInfo.recordInfo.record_op,
+                          systemInfo.recordInfo.record_interval, systemInfo.recordInfo.record_change_flag);
     }
 }
 
 static int
 onEvent(Account* account, Account::EventParam_t* param) {
+    (void)account;
     if (param->event != Account::EVENT_NOTIFY) {
         return Account::RES_UNSUPPORTED_REQUEST;
     }
@@ -389,12 +372,9 @@ onEvent(Account* account, Account::EventParam_t* param) {
     }
 
     switch (const auto* info = static_cast<DataProc::StatusBar_Info_t*>(param->data_p); info->cmd) {
-        case DataProc::STATUS_BAR_CMD_APPEAR: StatusBar_Appear(info->param.appear, info->param.delay);
-            break;
-        case DataProc::STATUS_BAR_CMD_SET_STYLE: StatusBar_SetStyle(info->param.style);
-            break;
-        case DataProc::STATUS_BAR_CMD_SET_LABEL_REC: StatusBar_SetRecord(info->param.record_active);
-            break;
+        case DataProc::STATUS_BAR_CMD_APPEAR: StatusBar_Appear(info->param.appear, info->param.delay); break;
+        case DataProc::STATUS_BAR_CMD_SET_STYLE: StatusBar_SetStyle(info->param.style); break;
+        case DataProc::STATUS_BAR_CMD_SET_LABEL_REC: StatusBar_SetRecord(info->param.record_active); break;
         default: return Account::RES_PARAM_ERROR;
     }
 
