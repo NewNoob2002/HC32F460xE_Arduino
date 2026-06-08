@@ -77,3 +77,12 @@ SaveConfigView::ApplyLanguage() const {
     lv_label_set_text(ui.sync.label, I18n::Text(I18n::TextId::SaveConfigWarning));
     lv_obj_center(ui.sync.label);
 }
+
+void
+SaveConfigView::SetPowerOffCause(const I18n::TextId causeId) const {
+    lv_label_set_text_fmt(
+        ui.sync.label,
+        I18n::Text(I18n::TextId::SaveConfigMessage),
+        I18n::Text(causeId));
+    lv_obj_center(ui.sync.label);
+}

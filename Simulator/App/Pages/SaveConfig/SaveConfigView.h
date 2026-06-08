@@ -12,6 +12,8 @@ public:
 
     void ApplyLanguage() const;
 
+    void SetPowerOffCause(I18n::TextId causeId) const;
+
     struct {
         struct {
             lv_obj_t* cont;

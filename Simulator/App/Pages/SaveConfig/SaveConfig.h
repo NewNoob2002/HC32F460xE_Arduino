@@ -34,8 +34,14 @@ public:
 
     void onViewDidUnload() override;
 
+    void onLanguageChanged() override;
+
     SaveConfigView View{};
     SaveConfigModel Model{};
+
+private:
+    void UpdatePowerOffCauseText() const;
+    static I18n::TextId GetPowerOffCauseTextId();
 };
 }
 

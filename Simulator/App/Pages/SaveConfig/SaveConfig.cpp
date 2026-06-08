@@ -39,7 +39,7 @@ SaveConfig::onViewLoad() {
     Model.Init();
     View.Create(_root);
     Model.SetStatusBarDisappear(false);
-    lv_label_set_text_fmt(View.ui.sync.label, "Info: %s", HAL::Power_GetPowerOffCause());
+    UpdatePowerOffCauseText();
     lv_anim_set_deleted_cb(&View.ui.sync.bar.anim, syncbar_anim_done_callback);
     lv_anim_set_user_data(&View.ui.sync.bar.anim, this);
     lv_anim_timeline_start(View.ui.anim_timeline);
@@ -81,4 +81,28 @@ SaveConfig::onViewUnload() {
 void
 SaveConfig::onViewDidUnload() {
     LV_LOG_USER("onViewDidUnload");
+}
+
+void
+SaveConfig::onLanguageChanged() {
+    UpdatePowerOffCauseText();
+}
+
+void
+SaveConfig::UpdatePowerOffCauseText() const {
+    View.SetPowerOffCause(GetPowerOffCauseTextId());
+}
+
+I18n::TextId
+SaveConfig::GetPowerOffCauseTextId() {
+    if (systemInfo.powerMonitor.LinuxPowerOff) {
+        return I18n::TextId::SaveConfigPowerOffBoard;
+    }
+    if (systemInfo.powerMonitor.LowBatteryPowerOff) {
+        return I18n::TextId::SaveConfigPowerOffLowBattery;
+    }
+    if (systemInfo.powerMonitor.Force_ShutDown) {
+        return I18n::TextId::SaveConfigPowerOffForced;
+    }
+    return I18n::TextId::SaveConfigPowerOffPushKey;
 }
