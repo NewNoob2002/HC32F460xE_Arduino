@@ -43,10 +43,10 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
 
     switch (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L]) {
         case NM_PANEL_INFO1_ID: {
-            const char hardware[8] = HARDWARE_VERSION;
-            const char software[8] = SOFTWARE_VERSION;
-            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 0], hardware, strlen(hardware)); // HardWare_Version
-            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 8], software, strlen(software)); // SoftWare_Version
+            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 0], systemInfo.hardware_version,
+                   strlen(systemInfo.hardware_version)); // HardWare_Version
+            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 8], systemInfo.software_version,
+                   strlen(systemInfo.software_version)); // SoftWare_Version
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 18], &systemInfo.powerMonitor.batteryInfo.Percent, 2);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 20], &systemInfo.powerMonitor.batteryInfo.Temp, 2);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 22], &systemInfo.powerMonitor.batteryInfo.Voltage, 2);

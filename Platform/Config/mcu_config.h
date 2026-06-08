@@ -2,16 +2,14 @@
 #include "../support/support.h"
 #include "mcu_define.h"
 
-#define FIRMWARE_NAME           "PRO_Panel"
-#define AUTHOR_NAME             " "
-#define HARDWARE_VERSION        "V1.5"
+#define FIRMWARE_NAME "PRO_Panel"
 #if defined(__has_include)
 #if __has_include("mcu_version_config.h")
 #include "mcu_version_config.h"
 #endif
 #endif
 #ifndef SOFTWARE_VERSION
-#define SOFTWARE_VERSION        "V2.4.1"
+#define SOFTWARE_VERSION "V2.4.1"
 #endif
 // 2.0 修复X1pro充电问题， 增加强制关机机制防止卡死无法关机
 // 2.0.1 增加关机充电提示和开机按键提示动画，增加设备信息页面

@@ -79,7 +79,7 @@ target_compile_definitions(main PRIVATE
     LV_CONF_INCLUDE_SIMPLE
     LV_INCLUDE_SIMPLE
     LVGL_SIMULATOR
-    # RGK_LOGO_USE
+    RGK_LOGO_USE
 )
 target_include_directories(main PRIVATE
     ${SDL2_INCLUDE_DIRS}

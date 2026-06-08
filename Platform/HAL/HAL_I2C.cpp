@@ -26,6 +26,7 @@ i2c_scan_callback(void* e) {
             systemInfo.online_device.mp2762 = true;
             mp2762aBegin(&Wire);
             chagrer_begin(&systemInfo.powerMonitor.batteryInfo);
+            strcpy(systemInfo.hardware_version, "V1.5");
             break;
         }
     }
@@ -38,6 +39,7 @@ HAL::I2C_Scan() {
         return -1;
     }
     CORE_DEBUG_PRINTF("I2C: device scanning...");
-
+    strcpy(systemInfo.software_version, SOFTWARE_VERSION);
+    strcpy(systemInfo.hardware_version, "V1.3");
     return Wire.scanDeivces(i2c_scan_callback);
 }

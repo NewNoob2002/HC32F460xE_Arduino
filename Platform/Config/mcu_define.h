@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include "../../Simulator/App/Common/DataProc/DataProc_Def.h"
 
-
 #define SHARED_MAGIC_LIVE  0x55AAAA55 // 正常运行/请求状态
 #define SHARED_MAGIC_CRASH 0xDEADBEEF // 发生崩溃状态
 
@@ -186,9 +185,10 @@ typedef struct NtripInfo_t {
 
 typedef struct SystemInfo_t {
     bool eg25_overtime;
-    uint8_t work_status;
     uint16_t i2c_communicate_err_count;
     uint16_t i2c__err_count;
+    char software_version[16];
+    char hardware_version[16];
 
     online_device_t online_device;
     WifiInfo_t wifiInfo;
