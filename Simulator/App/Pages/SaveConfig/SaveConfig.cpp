@@ -10,7 +10,8 @@ syncbar_timer_callback(lv_timer_t* timer) {
     LV_ASSERT_NULL(instance);
     memset(&systemInfo, 0, sizeof(systemInfo));
 #if defined(LVGL_SIMULATOR) || defined(_WIN32)
-    LV_LOG_INFO("Shutdonw done\n");
+    LV_LOG_USER("Shutdonw done\n");
+    return;
 #else
     shared_info.reset_count = 0x2026;
     shared_info.command = CMD_SKIP_DELAY;

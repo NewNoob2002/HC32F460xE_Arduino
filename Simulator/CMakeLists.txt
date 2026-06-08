@@ -1,17 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
 project(lvgl)
-set(CMAKE_C_STANDARD 11)#C11
-set(CMAKE_CXX_STANDARD 17)#C17
+set(CMAKE_C_STANDARD 11) #C11
+set(CMAKE_CXX_STANDARD 17) #C17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(STRINGS "${CMAKE_CURRENT_LIST_DIR}/../CMakeLists.txt" PROJECT_VERSION_LINE
-        REGEX "^set\\(PROJECT_VERSION [0-9]+\\.[0-9]+\\.[0-9]+\\)")
+    REGEX "^set\\(PROJECT_VERSION [0-9]+\\.[0-9]+\\.[0-9]+\\)")
 string(REGEX REPLACE "^set\\(PROJECT_VERSION ([0-9]+\\.[0-9]+\\.[0-9]+)\\)" "\\1" PROJECT_VERSION "${PROJECT_VERSION_LINE}")
 configure_file(
-        ${CMAKE_CURRENT_LIST_DIR}/../Platform/Config/mcu_version_config.h.in
-        ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config/mcu_version_config.h
-        @ONLY
+    ${CMAKE_CURRENT_LIST_DIR}/../Platform/Config/mcu_version_config.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config/mcu_version_config.h
+    @ONLY
 )
 
 # 设置 CMake 策略以使用 <PackageName>_ROOT 变量
@@ -25,27 +25,27 @@ file(GLOB_RECURSE INCLUDES "lv_drivers/*.h" "lvgl/demos/*.h" "lvgl/*.h" "./*.h")
 file(GLOB_RECURSE SOURCES "lv_drivers/*.c" "lvgl/demos/*.c" "lvgl/src/*.c")
 
 file(GLOB_RECURSE UI_SOURCES
-        ${CMAKE_CURRENT_LIST_DIR}/App/*.c
-        ${CMAKE_CURRENT_LIST_DIR}/App/*.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/App/Utils/*.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/HAL/*.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/../Platform/support/support.c
-        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog.c
-        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog_utils.c
-        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/port/*.c
+    ${CMAKE_CURRENT_LIST_DIR}/App/*.c
+    ${CMAKE_CURRENT_LIST_DIR}/App/*.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/App/Utils/*.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/HAL/*.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/../Platform/support/support.c
+    ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog.c
+    ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/src/elog_utils.c
+    ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/port/*.c
 )
 
 include_directories(
-        ${CMAKE_CURRENT_LIST_DIR}/App
-        ${CMAKE_CURRENT_LIST_DIR}/App/Pages
-        ${CMAKE_CURRENT_LIST_DIR}/App/Utils
-        ${CMAKE_CURRENT_LIST_DIR}/App/Resource
-        ${CMAKE_CURRENT_LIST_DIR}/App/config
-        ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config
-        ${CMAKE_CURRENT_LIST_DIR}/../Platform/support
-        ${CMAKE_CURRENT_LIST_DIR}/../Platform/Config
-        ${CMAKE_CURRENT_LIST_DIR}/HAL
-        ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/inc
+    ${CMAKE_CURRENT_LIST_DIR}/App
+    ${CMAKE_CURRENT_LIST_DIR}/App/Pages
+    ${CMAKE_CURRENT_LIST_DIR}/App/Utils
+    ${CMAKE_CURRENT_LIST_DIR}/App/Resource
+    ${CMAKE_CURRENT_LIST_DIR}/App/config
+    ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config
+    ${CMAKE_CURRENT_LIST_DIR}/../Platform/support
+    ${CMAKE_CURRENT_LIST_DIR}/../Platform/Config
+    ${CMAKE_CURRENT_LIST_DIR}/HAL
+    ${CMAKE_CURRENT_LIST_DIR}/../Libraries/easylogger/inc
 )
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/bin)
@@ -73,17 +73,17 @@ else()
 endif()
 
 add_executable(main main.cpp mouse_cursor_icon.c ${SOURCES} ${INCLUDES} ${UI_SOURCES}
-        ../Platform/Config/mcu_define.h
-        ../Platform/Config/mcu_define.h)
+    ../Platform/Config/mcu_define.h
+    ../Platform/Config/mcu_define.h)
 target_compile_definitions(main PRIVATE
-        LV_CONF_INCLUDE_SIMPLE
-        LV_INCLUDE_SIMPLE
-        LVGL_SIMULATOR
-        RGK_LOGO_USE
+    LV_CONF_INCLUDE_SIMPLE
+    LV_INCLUDE_SIMPLE
+    LVGL_SIMULATOR
+    # RGK_LOGO_USE
 )
 target_include_directories(main PRIVATE
-        ${SDL2_INCLUDE_DIRS}
-        ${CMAKE_CURRENT_LIST_DIR}/lvgl
+    ${SDL2_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_LIST_DIR}/lvgl
 )
 
 
