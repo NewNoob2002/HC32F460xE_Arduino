@@ -1,9 +1,12 @@
 CompileFlags:
-  CompilationDatabase: build
+  CompilationDatabase: build/
   Add:
     - --target=arm-none-eabi
     - -U__clang__
     - -D__PROGRAM_START=Reset_Handler
+  QueryDriver:
+    - /opt/st/stm32cubeclt_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc
+    - /opt/st/stm32cubeclt_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-g++
 ---
 If:
   PathMatch: .*\.cpp

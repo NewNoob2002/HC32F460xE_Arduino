@@ -9,12 +9,6 @@ project(hc32_project C CXX ASM)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Clangd compilation database symlink logic (from example)
-set(CLANGD_COMPILE_COMMANDS_LINK "${CMAKE_CURRENT_SOURCE_DIR}/.clangd_compile_commands")
-if(NOT IS_SYMLINK "${CLANGD_COMPILE_COMMANDS_LINK}")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_BINARY_DIR}/compile_commands.json" "${CLANGD_COMPILE_COMMANDS_LINK}")
-endif()
-
 # CPU Flags
 set(CPU_FLAGS
     -mcpu=cortex-m4
@@ -77,12 +71,14 @@ target_compile_options(hc32_project_options INTERFACE
 )
 
 # Linker script
-set(LINKER_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Platform/CMSIS/Device/HDSC/hc32f4xx/Source/GCC/linker/HC32F460xE.ld")
+set(LINKER_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/HC32F460xE.ld")
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T ${LINKER_SCRIPT} -Wl,-Map=${PROJECT_NAME}.map,--cref -Wl,--gc-sections -Wl,--print-memory-usage -specs=nosys.specs -specs=nano.specs -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mcpu=cortex-m4 -mthumb")
 
 # Main executable
-add_executable(${PROJECT_NAME}.elf)
+add_executable(${PROJECT_NAME}.elf 
+    Platform/Core/src/Syscalls_GCC.c
+)
 
 # Add subdirectories
 add_subdirectory(Platform)
@@ -92,9 +88,11 @@ add_subdirectory(App)
 
 # Link modules
 target_link_libraries(${PROJECT_NAME}.elf PRIVATE
-    hc32_platform
-    hc32_arduino
+    -Wl,--start-group
     hc32_libraries
+    hc32_arduino
+    hc32_platform
+    -Wl,--end-group
 )
 
 # Generate hex and bin files

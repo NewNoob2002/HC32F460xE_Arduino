@@ -2,6 +2,10 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define SHARED_MAGIC_LIVE  0x55AAAA55
 #define SHARED_MAGIC_CRASH 0xDEADBEEF
 
@@ -110,3 +114,7 @@ typedef struct SystemInfo_t
 }SystemInfo_t, *pSystemInfo_t;
 
 extern SystemInfo_t systemInfo;
+
+#ifdef __cplusplus
+}
+#endif

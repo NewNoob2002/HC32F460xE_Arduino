@@ -6,7 +6,9 @@
 #include "SparkFun_Extensible_Message_Parser.h"
 #include "message_decode.h"
 
+extern "C" {
 extern volatile SharedData_t shared_info;
+}
 
 volatile SLAVE_I2C_STATE slave_state = SLAVE_RX;
 
