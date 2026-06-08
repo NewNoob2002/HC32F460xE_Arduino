@@ -1,4 +1,5 @@
 #include "SaveConfigView.h"
+#include "src/misc/lv_log.h"
 
 using namespace Page;
 
@@ -36,7 +37,7 @@ CreateBrandLogo(lv_obj_t* parent, const char* brandName, const lv_font_t* font) 
     lv_obj_set_style_bg_color(cont, lv_color_hex(0x1D1C18), 0);
     lv_obj_set_style_bg_opa(cont, LV_OPA_60, 0);
     lv_obj_set_style_border_color(cont, kLineGrey, 0);
-    lv_obj_set_style_border_width(cont, 3, 0);
+    lv_obj_set_style_border_width(cont, 2, 0);
     lv_obj_set_style_radius(cont, 0, 0);
 
     lv_obj_t* label = lv_label_create(cont);
@@ -57,76 +58,24 @@ CreateBrandLogo(lv_obj_t* parent, const char* brandName, const lv_font_t* font) 
         lv_obj_set_width(label, labelWidth);
         lv_label_set_long_mode(label, LV_LABEL_LONG_DOT);
     }
-
-    lv_obj_set_size(cont, contWidth, kBrandHeight + 8);
+    LV_LOG_USER("BrandWidth [1] :%d", contWidth);
+    lv_obj_set_size(cont, contWidth, kBrandHeight + kBrandPadX);
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_update_layout(cont);
 
     return cont;
 }
 
-lv_obj_t*
-CreateBrandShineEdge(lv_obj_t* parent, const lv_grad_dir_t gradDir) {
-    lv_obj_t* edge = lv_obj_create(parent);
-    lv_obj_remove_style_all(edge);
-    lv_obj_clear_flag(edge, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_add_flag(edge, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_set_style_bg_color(edge, kLineGrey, 0);
-    lv_obj_set_style_bg_grad_color(edge, kAmberBright, 0);
-    lv_obj_set_style_bg_grad_dir(edge, gradDir, 0);
-    lv_obj_set_style_bg_opa(edge, LV_OPA_90, 0);
-    return edge;
-}
-
 void
-brand_shine_edges_exec(void* obj, int32_t value) {
-    auto* view = static_cast<SaveConfigView*>(obj);
-    if (view == nullptr || view->ui.sync.brandCont == nullptr) {
+brand_shine_bottom_exec(void* obj, int32_t value) {
+    auto* shine = static_cast<lv_obj_t*>(obj);
+    if (shine == nullptr) {
         return;
     }
 
-    const int32_t width = lv_obj_get_width(view->ui.sync.brandCont);
-    const int32_t height = lv_obj_get_height(view->ui.sync.brandCont);
-    const int32_t horizontalSpan = width - kShineLength;
-    const int32_t verticalSpan = height - kShineLength;
-    const int32_t perimeter = 2 * (horizontalSpan + verticalSpan);
-    if (horizontalSpan <= 0 || verticalSpan <= 0 || perimeter <= 0) {
-        return;
-    }
-
-    value %= perimeter;
-
-    const int32_t rightStart = horizontalSpan;
-    const int32_t topStart = rightStart + verticalSpan;
-    const int32_t leftStart = topStart + horizontalSpan;
-
-    for (auto* edge : view->ui.sync.brandShine) {
-        if (edge != nullptr) {
-            lv_obj_add_flag(edge, LV_OBJ_FLAG_HIDDEN);
-        }
-    }
-
-    if (value < rightStart) {
-        lv_obj_t* edge = view->ui.sync.brandShine[0];
-        lv_obj_clear_flag(edge, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_set_size(edge, kShineLength, kShineThickness);
-        lv_obj_set_pos(edge, static_cast<lv_coord_t>(value), height - kShineThickness);
-    } else if (value < topStart) {
-        lv_obj_t* edge = view->ui.sync.brandShine[1];
-        lv_obj_clear_flag(edge, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_set_size(edge, kShineThickness, kShineLength);
-        lv_obj_set_pos(edge, width - kShineThickness,
-                       static_cast<lv_coord_t>(height - kShineLength - (value - rightStart)));
-    } else if (value < leftStart) {
-        lv_obj_t* edge = view->ui.sync.brandShine[2];
-        lv_obj_clear_flag(edge, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_set_size(edge, kShineLength, kShineThickness);
-        lv_obj_set_pos(edge, static_cast<lv_coord_t>(width - kShineLength - (value - topStart)), 0);
-    } else {
-        lv_obj_t* edge = view->ui.sync.brandShine[3];
-        lv_obj_clear_flag(edge, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_set_size(edge, kShineThickness, kShineLength);
-        lv_obj_set_pos(edge, 0, static_cast<lv_coord_t>(value - leftStart));
-    }
+    lv_obj_t* cont = lv_obj_get_parent(shine);
+    const lv_coord_t bottomY = lv_obj_get_height(cont) - kShineThickness;
+    lv_obj_set_pos(shine, static_cast<lv_coord_t>(value), bottomY);
 }
 
 void
@@ -174,22 +123,30 @@ SaveConfigView::Create(lv_obj_t* root) {
     lv_obj_align(top_line, LV_ALIGN_TOP_MID, 0, 7);
 
     lv_obj_t* brand_cont = CreateBrandLogo(second_cont, GetBrandName(), font_brand);
-    lv_obj_set_opa_scale(brand_cont, LV_OPA_TRANSP);
     lv_obj_align(brand_cont, LV_ALIGN_TOP_MID, 0, 15);
     ui.sync.brandCont = brand_cont;
-    ui.sync.brandShine[0] = CreateBrandShineEdge(brand_cont, LV_GRAD_DIR_HOR);
-    ui.sync.brandShine[1] = CreateBrandShineEdge(brand_cont, LV_GRAD_DIR_VER);
-    ui.sync.brandShine[2] = CreateBrandShineEdge(brand_cont, LV_GRAD_DIR_HOR);
-    ui.sync.brandShine[3] = CreateBrandShineEdge(brand_cont, LV_GRAD_DIR_VER);
+
+    lv_obj_t* brand_shine = lv_obj_create(brand_cont);
+    lv_obj_remove_style_all(brand_shine);
+    lv_obj_clear_flag(brand_shine, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_size(brand_shine, kShineLength, kShineThickness);
+    lv_obj_set_style_bg_color(brand_shine, kLineGrey, 0);
+    lv_obj_set_style_bg_grad_color(brand_shine, kAmberBright, 0);
+    lv_obj_set_style_bg_grad_dir(brand_shine, LV_GRAD_DIR_HOR, 0);
+    lv_obj_set_style_bg_opa(brand_shine, LV_OPA_90, 0);
+    lv_obj_set_pos(brand_shine, 0, lv_obj_get_height(brand_cont) - kShineThickness);
+    ui.sync.brandShine = brand_shine;
 
     lv_anim_init(&ui.sync.shineAnim);
-    lv_anim_set_var(&ui.sync.shineAnim, this);
-    lv_anim_set_exec_cb(&ui.sync.shineAnim, brand_shine_edges_exec);
+    lv_anim_set_var(&ui.sync.shineAnim, brand_shine);
+    lv_anim_set_exec_cb(&ui.sync.shineAnim, brand_shine_bottom_exec);
     const lv_coord_t brandWidth = lv_obj_get_width(brand_cont);
-    const lv_coord_t brandHeight = lv_obj_get_height(brand_cont);
-    const int32_t shinePerimeter = 2 * ((brandWidth - kShineLength) + (brandHeight - kShineLength));
-    lv_anim_set_values(&ui.sync.shineAnim, 0, shinePerimeter - 1);
-    lv_anim_set_time(&ui.sync.shineAnim, 2200);
+    LV_LOG_USER("BrandWidth [2]:%d", brandWidth);
+    const lv_coord_t shineStart = kBrandPadX;
+    const lv_coord_t shineEnd = brandWidth - kBrandPadX - kShineLength;
+    lv_anim_set_values(&ui.sync.shineAnim, shineStart, LV_MAX(shineStart, shineEnd));
+    lv_anim_set_time(&ui.sync.shineAnim, 1000);
+    lv_anim_set_playback_time(&ui.sync.shineAnim, 1000);
     lv_anim_set_delay(&ui.sync.shineAnim, 500);
     lv_anim_set_repeat_delay(&ui.sync.shineAnim, 0);
     lv_anim_set_repeat_count(&ui.sync.shineAnim, LV_ANIM_REPEAT_INFINITE);
@@ -290,8 +247,8 @@ SaveConfigView::Delete() {
         lv_anim_timeline_del(ui.anim_timeline);
         ui.anim_timeline = nullptr;
     }
-    if (ui.sync.brandCont) {
-        lv_anim_del(this, brand_shine_edges_exec);
+    if (ui.sync.brandShine) {
+        lv_anim_del(ui.sync.brandShine, brand_shine_bottom_exec);
     }
     for (auto& dot : ui.sync.dots) {
         if (dot) {
