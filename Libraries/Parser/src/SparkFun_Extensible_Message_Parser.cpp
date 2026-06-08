@@ -9,6 +9,7 @@ License: MIT. Please see LICENSE.md for more details
 #include <cstdio>
 #include <cstring>
 #include <cstdarg>
+#include <cstdlib>
 #include <vector>
 #include "SparkFun_Extensible_Message_Parser.h"
 

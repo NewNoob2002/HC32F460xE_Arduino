@@ -1,6 +1,6 @@
 #include <stdarg.h>
 #include <stdio.h>
-#include <hc32_ddl.h>
+#include <hc32_ll.h>
 #include "../gpio/gpio.h"
 
 #ifdef __cplusplus

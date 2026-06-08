@@ -36,7 +36,7 @@ uint8_t bq40z50ReadRegister8(uint8_t reg);
 
 uint16_t bq40z50ReadRegister16(uint8_t reg);
 
-uint16_t bq40z50getTemperatureC();
+uint16_t bq40z50getTemperatureC(float *temp_f);
 
 uint16_t bq40z50getVoltageMv();
 

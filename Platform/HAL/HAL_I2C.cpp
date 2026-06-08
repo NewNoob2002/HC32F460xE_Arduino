@@ -26,7 +26,7 @@ void i2c_scan_callback(void *e)
             CORE_DEBUG_PRINTF("0x%02X - MP27692A Power Management / Charger", addr);
             systemInfo.online_device.mp2762 = 1;
 						mp2762aBegin(&Wire);
-						chagrer_begin(&systemInfo.powerMonitor.batteryInfo);
+						ChagrerMp2762_begin(&systemInfo.powerMonitor.batteryInfo);
             break;
         }
     }

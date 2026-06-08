@@ -566,6 +566,11 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>ots.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\src\ots.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -851,6 +856,11 @@
               <FileName>hc32f460_ll_interrupts_share.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Driver\src\hc32f460_ll_interrupts_share.c</FilePath>
+            </File>
+            <File>
+              <FileName>hc32_ll_ots.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\src\hc32_ll_ots.c</FilePath>
             </File>
           </Files>
         </Group>

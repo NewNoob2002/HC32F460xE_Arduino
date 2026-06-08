@@ -6,7 +6,7 @@
  */
 #include "fault_handlers.h"
 #include "panic.h"
-#include <hc32_ddl.h>
+#include <hc32_ll.h>
 
 typedef union hardfault_stack_frame_t
 {

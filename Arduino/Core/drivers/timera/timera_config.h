@@ -1,5 +1,5 @@
 #pragma once
-#include <hc32_ddl.h>
+#include <hc32_ll.h>
 
 #define TIMERA_UNIT1 M4_TMRA1
 #define TIMERA_UNIT1_CLOCK PWC_FCG2_PERIPH_TIMA1

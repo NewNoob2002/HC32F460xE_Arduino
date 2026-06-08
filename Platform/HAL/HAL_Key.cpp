@@ -2,24 +2,20 @@
 #include "Arduino.h"
 #include "multi_button.h"
 
-// static ButtonEvent PowerKey;
-// static ButtonEvent FuncKey;
+extern SystemInfo_t systemInfo;
 
 static Button PowerKey, FuncKey;
-
-static volatile uint8_t ForceShutdown_count = 0;
-static volatile uint16_t PowerKeyPressCount = 0;
 
 static void PowerKey_Pressing_Callback(Button *btn)
 {
     CORE_DEBUG_PRINTF("[PowerKey] PRESSING\n");
-    PowerKeyPressCount++;
-    if (PowerKeyPressCount >= 200) {
-        PowerKeyPressCount = 0;
+    systemInfo.powerMonitor.PowerKeyPressCount++;
+    if (systemInfo.powerMonitor.PowerKeyPressCount >= 200) {
+        systemInfo.powerMonitor.PowerKeyPressCount = 0;
         if (!systemInfo.powerMonitor.panel_power_on) {
             systemInfo.powerMonitor.panel_power_on = 1;
-        } else {
-            PowerKeyPressCount = 0;
+        } else{
+            systemInfo.powerMonitor.PowerKeyPressCount = 0;
             HAL::Power_Shutdown(false);
         }
     }
@@ -28,7 +24,7 @@ static void PowerKey_Pressing_Callback(Button *btn)
 static void PowerKey_Realse_Callback(Button *btn)
 {
     CORE_DEBUG_PRINTF("[PowerKey] REALSE\n");
-    PowerKeyPressCount = 0;
+    systemInfo.powerMonitor.PowerKeyPressCount = 0;
 }
 
 static void FuncKey_DoubleClick_Callback(Button *btn)
@@ -45,15 +41,15 @@ static void FuncKey_DoubleClick_Callback(Button *btn)
 static void FuncKey_LongPressRepeat_Callback(Button *btn)
 {
     CORE_DEBUG_PRINTF("[FuncKey] LongPressRepeat\n");
-    ForceShutdown_count++;
-    if (ForceShutdown_count >= 10)
+    systemInfo.powerMonitor.ForceShutdown_count++;
+    if (systemInfo.powerMonitor.ForceShutdown_count >= 10)
         systemInfo.powerMonitor.Force_ShutDown = true;
 }
 
 static void FuncKey_Realse_Callback(Button *btn)
 {
     CORE_DEBUG_PRINTF("[FuncKey] REALSE\n");
-    ForceShutdown_count = 0;
+    systemInfo.powerMonitor.ForceShutdown_count = 0;
 }
 
 uint8_t read_button_gpio(uint8_t button_id)

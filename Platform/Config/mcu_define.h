@@ -51,8 +51,16 @@ typedef struct BatteryInfo_t
     uint16_t Percent;
     uint16_t Temp;
     uint16_t Voltage;
-    uint16_t LowBatteryCount;
-
+		uint16_t LowBatteryCount;
+		float fTemp;
+		float fOtsTemp;
+		uint8_t isOverTemp;
+		uint8_t ChargerOverTempCount;
+		uint8_t ChargerDisable;
+		uint8_t ChargerDetect;
+		uint8_t ChargerPlugCount;
+		uint8_t ChargerCurrent;
+		uint8_t mp2762_cfg0;
     Charger_Status_t chargeStatus;
 		Battery_Compensate_t Compensate;
 } BatteryInfo_t, *pBatteryInfo_t;
@@ -72,6 +80,9 @@ typedef struct Power_Monitor_t
 	
     uint32_t pannel_power_on_time;
 		uint32_t pannel_shutdown_req_time;
+	
+		volatile uint16_t PowerKeyPressCount;
+		volatile uint8_t ForceShutdown_count;
 	
     uint8_t LinuxPowerOff;
     uint8_t LowBatteryPowerOff;

@@ -7,8 +7,8 @@
 uint8_t irqn_bitfield[IRQN_AA_AVAILABLE_COUNT / 8] = {0};
 
 #define IRQN_BITFIELD_GET_FIELD_INDEX(irqn) (irqn / 8)
-#define IRQN_BITFIELD_GET_FIELD_BIT(irqn) (irqn % 8)
-#define IRQN_BITFIELD_GET_FIELD_MASK(irqn) (1 << IRQN_BITFIELD_GET_FIELD_BIT(irqn))
+#define IRQN_BITFIELD_GET_FIELD_BIT(irqn)   (irqn % 8)
+#define IRQN_BITFIELD_GET_FIELD_MASK(irqn)  (1 << IRQN_BITFIELD_GET_FIELD_BIT(irqn))
 
 /**
  * @brief get IRQn bitfield value
@@ -23,12 +23,9 @@ inline bool irqn_bitfield_get(size_t irqn_index)
  */
 inline void irqn_bitfield_set(size_t irqn_index, bool value)
 {
-    if (value)
-    {
+    if (value) {
         irqn_bitfield[IRQN_BITFIELD_GET_FIELD_INDEX(irqn_index)] |= IRQN_BITFIELD_GET_FIELD_MASK(irqn_index);
-    }
-    else
-    {
+    } else {
         irqn_bitfield[IRQN_BITFIELD_GET_FIELD_INDEX(irqn_index)] &= ~IRQN_BITFIELD_GET_FIELD_MASK(irqn_index);
     }
 }
@@ -40,10 +37,8 @@ inline void irqn_bitfield_set(size_t irqn_index, bool value)
  */
 inline bool irqn_bitfield_next(size_t &irqn_index)
 {
-    for (size_t i = 0; i < IRQN_AA_AVAILABLE_COUNT; i++)
-    {
-        if (!irqn_bitfield_get(i))
-        {
+    for (size_t i = 0; i < IRQN_AA_AVAILABLE_COUNT; i++) {
+        if (!irqn_bitfield_get(i)) {
             irqn_index = i;
             return true;
         }
@@ -94,8 +89,7 @@ int32_t _irqn_aa_get(IRQn_Type &irqn)
 {
     // get next available IRQn index
     size_t irqn_index;
-    if (!irqn_bitfield_next(irqn_index))
-    {
+    if (!irqn_bitfield_next(irqn_index)) {
         // no more IRQn available
         return LL_ERR;
     }

@@ -128,7 +128,7 @@ void mp2762setFastChargeVoltageMv(uint16_t mVoltLevel)
     mp2762aWriteRegister8(MP2762A_PRECHARGE_THRESHOLD_OPTION, status);
 }
 
-void mp2762setFastChargeCurrentMa(uint16_t currentLevelMa)
+uint8_t mp2762setFastChargeCurrentMa(uint16_t currentLevelMa)
 {
     // defualt to 1A
     uint8_t newIFast = 0x01;
@@ -142,6 +142,7 @@ void mp2762setFastChargeCurrentMa(uint16_t currentLevelMa)
 		}
 		
     mp2762aWriteRegister8(MP2762A_SETCHARGE_CURRENT, newIFast);
+		return mp2762aReadRegister8(MP2762A_SETCHARGE_CURRENT);
 }
 
 void mp2762setPrechargeCurrentMa(uint16_t currentLevelMa)
@@ -237,6 +238,35 @@ void mp2762resetSafetyTimer()
 
     status |= (1 << 4); // Set the CHG_EN bit
     mp2762aWriteRegister8(MP2762A_CONFIG_0, status);
+}
+
+uint8_t mp2762disableCharger()
+{
+		uint8_t status = 0;
+    status = mp2762aReadRegister8(MP2762A_CONFIG_0);
+
+    status &= ~(1 << 4); // Clear the CHG_EN bit
+    mp2762aWriteRegister8(MP2762A_CONFIG_0, status);
+	
+		status = mp2762aReadRegister8(MP2762A_CONFIG_0);
+		return status;
+}
+
+uint8_t mp2762enableCharger()
+{
+		uint8_t status = 0;
+    status = mp2762aReadRegister8(MP2762A_CONFIG_0);
+
+    status |= (1 << 4); // Set the CHG_EN bit
+    mp2762aWriteRegister8(MP2762A_CONFIG_0, status);
+	
+		status = mp2762aReadRegister8(MP2762A_CONFIG_0);
+		return status;
+}
+
+void mp2762updateConfig0Status(uint8_t *config)
+{
+	*config = mp2762aReadRegister8(MP2762A_CONFIG_0);
 }
 
 void mp2762registerReset()

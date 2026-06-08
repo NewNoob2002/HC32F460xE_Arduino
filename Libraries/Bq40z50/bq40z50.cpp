@@ -33,12 +33,11 @@ uint16_t bq40z50ReadRegister16(uint8_t reg)
     return value;
 }
 
-uint16_t bq40z50getTemperatureC()
+uint16_t bq40z50getTemperatureC(float *temp_f)
 {
     uint16_t temperature = bq40z50ReadRegister16(BQ40Z50_TEMPERATURE); // In 0.1 K
-    // printf("read temp :%d", temperature);
-    // uint16_t tempC = temperature / 10;
-    // tempC -= 273;
+    *temp_f = temperature / 10.0f;
+    *temp_f -= 273;
     return (temperature);
 }
 

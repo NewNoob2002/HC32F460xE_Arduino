@@ -27,6 +27,8 @@ namespace HAL
 	bool Power_ShutdownLowBattery();
 	bool Power_ShutdownSoftReset();
 	void Power_Update();
+	void Power_EnableCharger(BatteryInfo_t *pBatteryState);
+	void Power_DisableCharger(BatteryInfo_t *pBatteryState);
 	void Power_GetInfo(Power_Monitor_t *info);
 	const char *Power_GetPowerOffCause();
 	void WatchDog_Feed();
@@ -97,9 +99,11 @@ HAL_TickFreqTypeDef HAL_GetTickFreq(void);
 void HAL_SuspendTick(void);
 void HAL_ResumeTick(void);
 
-bool chagrer_begin(pBatteryInfo_t p_batteryState);
-void charger_update(pBatteryInfo_t p_batteryState);
+bool ChagrerMp2762_begin(pBatteryInfo_t p_batteryState);
+void ChargerMp2762_update(pBatteryInfo_t p_batteryState);
 void checkBatteryInfo(pBatteryInfo_t p_batteryState);
+
+void BatteryTemp_Monitor(pBatteryInfo_t pBatteryState);
 
 void Charger_Control_GPIO_Init(void);
 void USB_Switch_GPIO_Init(void);

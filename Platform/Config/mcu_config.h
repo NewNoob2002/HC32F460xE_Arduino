@@ -2,7 +2,9 @@
 #include "mcu_define.h"
 
 #define  HW_VERSION    "V1.4"
-#define  SW_VERSION    "V1.28"
+#define  SW_VERSION    "V1.29"
+
+//1.29 Update Charger Disable in 45'C
 
 /*POWER*/
 #define POWER_CONTROL_PIN  PB3
@@ -25,6 +27,7 @@
 #define CHARGER_CTRL_PIN 			PB7
 #define CHARGER_CTRL_FAST_PIN PB6
 #define CHARGER_SWITCH_PIN 		PB10
+#define BATTERY_TERMINATE_TEMP	(float)45.0f
 
 #define CHARGER_ADC_DETECT_PIN PA1
 

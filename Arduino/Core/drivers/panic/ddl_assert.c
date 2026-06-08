@@ -1,4 +1,4 @@
-#include <hc32_ddl.h>
+#include <hc32_ll.h>
 #include "panic.h"
 
 void Ddl_AssertHandler(uint8_t *file, int16_t line)

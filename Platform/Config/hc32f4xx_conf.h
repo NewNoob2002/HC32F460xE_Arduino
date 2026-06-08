@@ -74,7 +74,7 @@ extern "C"
 #define LL_INTERRUPTS_SHARE_ENABLE                  (DDL_OFF)
 #define LL_KEYSCAN_ENABLE                           (DDL_ON)
 #define LL_MPU_ENABLE                               (DDL_OFF)
-#define LL_OTS_ENABLE                               (DDL_OFF)
+#define LL_OTS_ENABLE                               (DDL_ON)
 #define LL_PWC_ENABLE                               (DDL_ON)
 #define LL_QSPI_ENABLE                              (DDL_OFF)
 #define LL_RMU_ENABLE                               (DDL_ON)

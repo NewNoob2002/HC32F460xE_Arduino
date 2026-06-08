@@ -1,4 +1,4 @@
-#include <hc32_ddl.h>
+#include <hc32_ll.h>
 #include <addon_usart.h>
 #include "Usart.h"
 #include "core_hooks.h"

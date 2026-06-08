@@ -3,7 +3,7 @@
 #if ENABLE_PANIC_HANDLER
 
   #include "../usart/usart_sync.h"
-  #include <hc32_ddl.h>
+  #include <hc32_ll.h>
   #include <stdarg.h>
   #include <stdio.h>
 
