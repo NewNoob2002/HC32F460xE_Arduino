@@ -1,12 +1,26 @@
 CompileFlags:
-  CompilationDatabase: build/
+  CompilationDatabase: .
   Add:
     - --target=arm-none-eabi
+    - -mcpu=cortex-m4
+    - -mthumb
+    - -isystem
+    - /opt/st/stm32cubeclt_1.21.0/GNU-tools-for-STM32/lib/gcc/arm-none-eabi/14.3.1/include
+    - -isystem
+    - /opt/st/stm32cubeclt_1.21.0/GNU-tools-for-STM32/arm-none-eabi/include
+    - -isystem
+    - /opt/st/stm32cubeclt_1.21.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/14.3.1
+    - -isystem
+    - /opt/st/stm32cubeclt_1.21.0/GNU-tools-for-STM32/arm-none-eabi/include/c++/14.3.1/arm-none-eabi
     - -U__clang__
     - -D__PROGRAM_START=Reset_Handler
-  QueryDriver:
-    - /opt/st/stm32cubeclt_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc
-    - /opt/st/stm32cubeclt_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-g++
+
+Index:
+  Background: Build
+
+Diagnostics:
+  UnusedIncludes: None
+
 ---
 If:
   PathMatch: .*\.cpp

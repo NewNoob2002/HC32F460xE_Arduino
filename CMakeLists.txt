@@ -9,6 +9,69 @@ project(hc32_project C CXX ASM)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+get_filename_component(C_COMPILER_NAME "${CMAKE_C_COMPILER}" NAME)
+if(C_COMPILER_NAME MATCHES "^arm-none-eabi-gcc")
+    set(ARM_GCC_SYSTEM_INCLUDE_DIRS)
+    set(ARM_GXX_SYSTEM_INCLUDE_DIRS)
+
+    foreach(GCC_INCLUDE_QUERY IN ITEMS -print-file-name=include -print-file-name=include-fixed)
+        execute_process(
+            COMMAND ${CMAKE_C_COMPILER} ${GCC_INCLUDE_QUERY}
+            OUTPUT_VARIABLE GCC_INCLUDE_DIR
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            ERROR_QUIET
+        )
+        if(GCC_INCLUDE_DIR AND EXISTS "${GCC_INCLUDE_DIR}")
+            list(APPEND ARM_GCC_SYSTEM_INCLUDE_DIRS "${GCC_INCLUDE_DIR}")
+        endif()
+    endforeach()
+
+    execute_process(
+        COMMAND ${CMAKE_C_COMPILER} -print-sysroot
+        OUTPUT_VARIABLE ARM_GCC_SYSROOT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(ARM_GCC_SYSROOT AND EXISTS "${ARM_GCC_SYSROOT}/include")
+        list(APPEND ARM_GCC_SYSTEM_INCLUDE_DIRS "${ARM_GCC_SYSROOT}/include")
+    endif()
+
+    if(CMAKE_CXX_COMPILER)
+        execute_process(
+            COMMAND ${CMAKE_CXX_COMPILER} -dumpversion
+            OUTPUT_VARIABLE ARM_GXX_VERSION
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            ERROR_QUIET
+        )
+        set(ARM_GXX_INCLUDE_DIR "${ARM_GCC_SYSROOT}/include/c++/${ARM_GXX_VERSION}")
+        foreach(ARM_GXX_SYSTEM_INCLUDE_DIR IN ITEMS
+            "${ARM_GXX_INCLUDE_DIR}"
+            "${ARM_GXX_INCLUDE_DIR}/arm-none-eabi"
+            "${ARM_GXX_INCLUDE_DIR}/backward")
+            if(EXISTS "${ARM_GXX_SYSTEM_INCLUDE_DIR}")
+                list(APPEND ARM_GXX_SYSTEM_INCLUDE_DIRS "${ARM_GXX_SYSTEM_INCLUDE_DIR}")
+            endif()
+        endforeach()
+    endif()
+
+    set(ARM_GCC_SYSTEM_INCLUDE_OPTIONS)
+    if(ARM_GCC_SYSTEM_INCLUDE_DIRS)
+        list(REMOVE_DUPLICATES ARM_GCC_SYSTEM_INCLUDE_DIRS)
+        foreach(ARM_SYSTEM_INCLUDE_DIR IN LISTS ARM_GCC_SYSTEM_INCLUDE_DIRS)
+            list(APPEND ARM_GCC_SYSTEM_INCLUDE_OPTIONS "SHELL:-isystem \"${ARM_SYSTEM_INCLUDE_DIR}\"")
+        endforeach()
+        add_compile_options("$<$<COMPILE_LANGUAGE:C,ASM>:${ARM_GCC_SYSTEM_INCLUDE_OPTIONS}>")
+    endif()
+
+    if(ARM_GXX_SYSTEM_INCLUDE_DIRS OR ARM_GCC_SYSTEM_INCLUDE_DIRS)
+        set(ARM_GXX_SYSTEM_INCLUDE_OPTIONS)
+        foreach(ARM_SYSTEM_INCLUDE_DIR IN LISTS ARM_GXX_SYSTEM_INCLUDE_DIRS ARM_GCC_SYSTEM_INCLUDE_DIRS)
+            list(APPEND ARM_GXX_SYSTEM_INCLUDE_OPTIONS "SHELL:-isystem \"${ARM_SYSTEM_INCLUDE_DIR}\"")
+        endforeach()
+        add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:${ARM_GXX_SYSTEM_INCLUDE_OPTIONS}>")
+        message(STATUS "ARM GCC system includes: ${ARM_GCC_SYSTEM_INCLUDE_DIRS};${ARM_GXX_SYSTEM_INCLUDE_DIRS}")
+    endif()
+endif()
 # CPU Flags
 set(CPU_FLAGS
     -mcpu=cortex-m4

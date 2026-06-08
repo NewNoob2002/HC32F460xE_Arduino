@@ -21,110 +21,101 @@
 #include <string.h>
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-  extern char *itoa(int value, char *string, int radix)
-  {
+extern char*
+itoa(int value, char* string, int radix) {
     return ltoa(value, string, radix);
-  }
+}
 
-  extern char *ltoa(long value, char *string, int radix)
-  {
+extern char*
+ltoa(long value, char* string, int radix) {
     char tmp[33];
-    char *tp = tmp;
+    char* tp = tmp;
     long i;
     unsigned long v;
     int sign;
-    char *sp;
+    char* sp;
 
-    if (string == NULL)
-    {
-      return 0;
+    if (string == NULL) {
+        return 0;
     }
 
-    if (radix > 36 || radix <= 1)
-    {
-      return 0;
+    if (radix > 36 || radix <= 1) {
+        return 0;
     }
 
     sign = (radix == 10 && value < 0);
-    if (sign)
-    {
-      v = -value;
-    }
-    else
-    {
-      v = (unsigned long)value;
+    if (sign) {
+        v = -value;
+    } else {
+        v = (unsigned long)value;
     }
 
-    while (v || tp == tmp)
-    {
-      i = v % radix;
-      v = v / radix;
-      if (i < 10)
-        *tp++ = i + '0';
-      else
-        *tp++ = i + 'a' - 10;
+    while (v || tp == tmp) {
+        i = v % radix;
+        v = v / radix;
+        if (i < 10) {
+            *tp++ = i + '0';
+        } else {
+            *tp++ = i + 'a' - 10;
+        }
     }
 
     sp = string;
 
-    if (sign)
-      *sp++ = '-';
-    while (tp > tmp)
-      *sp++ = *--tp;
+    if (sign) {
+        *sp++ = '-';
+    }
+    while (tp > tmp) {
+        *sp++ = *--tp;
+    }
     *sp = 0;
 
     return string;
-  }
+}
 
-#if __GNUC__ > 4 || (__GNUC__ == 4 && (__GNUC_MINOR__ > 9 || (__GNUC_MINOR__ == 9 && __GNUC_PATCHLEVEL__ > 2)))
-  extern char *utoa(unsigned value, char *string, int radix)
-#else
-extern char *utoa(unsigned long value, char *string, int radix)
-#endif
-  {
+extern char*
+utoa(unsigned value, char* string, int radix) {
     return ultoa(value, string, radix);
-  }
+}
 
-  extern char *ultoa(unsigned long value, char *string, int radix)
-  {
+extern char*
+ultoa(unsigned long value, char* string, int radix) {
     char tmp[33];
-    char *tp = tmp;
+    char* tp = tmp;
     long i;
     unsigned long v = value;
-    char *sp;
+    char* sp;
 
-    if (string == NULL)
-    {
-      return 0;
+    if (string == NULL) {
+        return 0;
     }
 
-    if (radix > 36 || radix <= 1)
-    {
-      return 0;
+    if (radix > 36 || radix <= 1) {
+        return 0;
     }
 
-    while (v || tp == tmp)
-    {
-      i = v % radix;
-      v = v / radix;
-      if (i < 10)
-        *tp++ = i + '0';
-      else
-        *tp++ = i + 'a' - 10;
+    while (v || tp == tmp) {
+        i = v % radix;
+        v = v / radix;
+        if (i < 10) {
+            *tp++ = i + '0';
+        } else {
+            *tp++ = i + 'a' - 10;
+        }
     }
 
     sp = string;
 
-    while (tp > tmp)
-      *sp++ = *--tp;
+    while (tp > tmp) {
+        *sp++ = *--tp;
+    }
     *sp = 0;
 
     return string;
-  }
+}
 
 #ifdef __cplusplus
 } // extern "C"
