@@ -82,9 +82,9 @@ if(C_COMPILER_NAME MATCHES "^arm-none-eabi-gcc")
         )
         set(ARM_GXX_INCLUDE_DIR "${ARM_GCC_SYSROOT}/include/c++/${ARM_GXX_VERSION}")
         foreach(ARM_GXX_SYSTEM_INCLUDE_DIR IN ITEMS
-                "${ARM_GXX_INCLUDE_DIR}"
-                "${ARM_GXX_INCLUDE_DIR}/arm-none-eabi"
-                "${ARM_GXX_INCLUDE_DIR}/backward")
+            "${ARM_GXX_INCLUDE_DIR}"
+            "${ARM_GXX_INCLUDE_DIR}/arm-none-eabi"
+            "${ARM_GXX_INCLUDE_DIR}/backward")
             if(EXISTS "${ARM_GXX_SYSTEM_INCLUDE_DIR}")
                 list(APPEND ARM_GXX_SYSTEM_INCLUDE_DIRS "${ARM_GXX_SYSTEM_INCLUDE_DIR}")
             endif()
@@ -127,7 +127,7 @@ target_compile_definitions(hc32_project_options INTERFACE
     ARDUINO=111
     LV_CONF_INCLUDE_SIMPLE
     $<$<CONFIG:Debug>:__CORE_DEBUG>
-    RGK_LOGO_USE
+    # RGK_LOGO_USE
 )
 target_compile_options(hc32_project_options INTERFACE
     ${CPU_FLAGS}

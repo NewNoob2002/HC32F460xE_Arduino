@@ -29,7 +29,7 @@ Led_Update_Charge() {
     }
 
     if (systemInfo.powerMonitor.batteryInfo.chargeStatus != 0x00) {
-        CORE_DEBUG_PRINTF("CHARGE\n");
+        // CORE_DEBUG_PRINTF("CHARGE\n");
         digitalWrite(POWER_LED_PIN, LOW);
         powerLed.currentRate = 0;
         bool isFullCharge = (systemInfo.powerMonitor.batteryInfo.Percent >= 100);

@@ -229,6 +229,25 @@ I2C_RXI_Callback(void) {
     rxBufferWrite(I2C_ReadData(I2C_UNIT));
 }
 
+static int32_t
+slave_i2c_irq_sign_in(stc_irq_signin_config_t* irq_cfg, uint32_t priority) {
+    NVIC_DisableIRQ(irq_cfg->enIRQn);
+    NVIC_ClearPendingIRQ(irq_cfg->enIRQn);
+
+    const int32_t ret = INTC_IrqSignIn(irq_cfg);
+    if (ret != LL_OK) {
+        CORE_DEBUG_PRINTF("I2C1 INTC_IrqSignIn failed irq=%d src=%lu cb=0x%08lx ret=%ld\r\n", irq_cfg->enIRQn,
+                          (unsigned long)irq_cfg->enIntSrc, (unsigned long)irq_cfg->pfnCallback, (long)ret);
+        return ret;
+    }
+
+    NVIC_SetPriority(irq_cfg->enIRQn, priority);
+    NVIC_EnableIRQ(irq_cfg->enIRQn);
+    CORE_DEBUG_PRINTF("I2C1 IRQ registered irq=%d src=%lu cb=0x%08lx\r\n", irq_cfg->enIRQn,
+                      (unsigned long)irq_cfg->enIntSrc, (unsigned long)irq_cfg->pfnCallback);
+    return ret;
+}
+
 int32_t
 slave_i2c_init() {
     FCG_Fcg1PeriphClockCmd(I2C_FCG_USE, ENABLE);
@@ -246,7 +265,7 @@ slave_i2c_init() {
     stcI2cInit.u32ClockDiv = I2C_CLK_DIV2;
     stcI2cInit.u32Baudrate = 400000;
     stcI2cInit.u32SclTime = 5UL;
-    const int32_t i32Ret = I2C_Init(I2C_UNIT, &stcI2cInit, &fErr);
+    int32_t i32Ret = I2C_Init(I2C_UNIT, &stcI2cInit, &fErr);
 
     if (LL_OK == i32Ret) {
         I2C_SlaveAddrConfig(I2C_UNIT, I2C_ADDR0, I2C_ADDR_7BIT, DEVICE_ADDR);
@@ -254,26 +273,26 @@ slave_i2c_init() {
         stcIrqRegCfg.enIRQn = I2C_EEI_IRQN_DEF;
         stcIrqRegCfg.enIntSrc = I2C_INT_EEI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_EEI_Callback;
-        (void)INTC_IrqSignIn(&stcIrqRegCfg);
-        NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
-        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_06);
-        NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
+        i32Ret = slave_i2c_irq_sign_in(&stcIrqRegCfg, DDL_IRQ_PRIO_06);
+        if (i32Ret != LL_OK) {
+            return i32Ret;
+        }
 
         stcIrqRegCfg.enIRQn = I2C_RXI_IRQN_DEF;
         stcIrqRegCfg.enIntSrc = I2C_INT_RXI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_RXI_Callback;
-        (void)INTC_IrqSignIn(&stcIrqRegCfg);
-        NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
-        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_10);
-        NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
+        i32Ret = slave_i2c_irq_sign_in(&stcIrqRegCfg, DDL_IRQ_PRIO_10);
+        if (i32Ret != LL_OK) {
+            return i32Ret;
+        }
 
         stcIrqRegCfg.enIRQn = I2C_TEI_IRQN_DEF;
         stcIrqRegCfg.enIntSrc = I2C_INT_TEI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_TEI_Callback;
-        (void)INTC_IrqSignIn(&stcIrqRegCfg);
-        NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
-        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_10);
-        NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
+        i32Ret = slave_i2c_irq_sign_in(&stcIrqRegCfg, DDL_IRQ_PRIO_10);
+        if (i32Ret != LL_OK) {
+            return i32Ret;
+        }
 
         if (CustomParse == nullptr) {
 #if defined(__CORE_DEBUG)
@@ -288,9 +307,9 @@ slave_i2c_init() {
                 CORE_DEBUG_PRINTF("Failed to initialize the parser");
             }
         }
+        I2C_Cmd(I2C_UNIT, ENABLE);
+        I2C_IntCmd(I2C_UNIT, I2C_INT_MATCH_ADDR0 | I2C_INT_RX_FULL, ENABLE);
     }
-    I2C_Cmd(I2C_UNIT, ENABLE);
-    I2C_IntCmd(I2C_UNIT, I2C_INT_MATCH_ADDR0 | I2C_INT_RX_FULL, ENABLE);
     return i32Ret;
 }
 
