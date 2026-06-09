@@ -3,20 +3,57 @@
  ******************************************************************************/
 #include "Arduino.h"
 #include "SEGGER_RTT.h"
+#include "dynamic_memory.h"
 #include "slave_i2c.h"
 
 extern "C" {
 SystemInfo_t systemInfo;
-volatile SharedData_t shared_info __attribute__((section(".noinit")));
+}
+
+static void
+reset_interrupt_controller() {
+    constexpr uint32_t irq_count = 128U;
+    constexpr uint32_t vector_irq_count = 16U;
+    constexpr uint32_t intc_sel_reset_value = 0x1FFUL;
+
+    __disable_irq();
+
+    for (uint32_t i = 0; i < irq_count / 32U; i++) {
+        NVIC->ICER[i] = 0xFFFFFFFFUL;
+        NVIC->ICPR[i] = 0xFFFFFFFFUL;
+    }
+
+    volatile uint32_t* const intc_sel = &CM_INTC->SEL0;
+    for (uint32_t i = 0; i < irq_count; i++) {
+        intc_sel[i] = intc_sel_reset_value;
+    }
+
+    volatile uint32_t* const intc_vssel = &CM_INTC->VSSEL128;
+    for (uint32_t i = 0; i < vector_irq_count; i++) {
+        intc_vssel[i] = 0UL;
+    }
+
+    CM_INTC->SWIER = 0UL;
+    CM_INTC->EVTER = 0UL;
+    CM_INTC->WUPEN = 0UL;
+    CM_INTC->EIFCR = 0xFFFFUL;
+
+    __DSB();
+    __ISB();
+    __enable_irq();
 }
 
 /**
- * @brief  Main function of SPI tx/rx dma project
+ * @brief  Main function
  * @param  None
  * @retval int32_t return value, if needed
  */
 int
 main(void) {
+    reset_interrupt_controller();
+    if (!dynamic_memory_init()) {
+        while (1) {}
+    }
     /* Peripheral registers write unprotected */
     LL_PERIPH_WE(EXAMPLE_PERIPH_WE);
     /* Configure BSP */

@@ -1,11 +1,17 @@
-file(GLOB APP_SRC "src/*.cpp")
-
-# We add sources directly to the elf target defined in the root
-target_sources(${PROJECT_NAME}.elf PRIVATE
-    ${APP_SRC}
+file(GLOB APP_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
-# App specific includes
-target_include_directories(${PROJECT_NAME}.elf PRIVATE
-    inc
+add_library(hc32_app STATIC ${APP_SOURCES})
+
+target_include_directories(hc32_app PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/inc"
+)
+
+target_link_libraries(hc32_app PUBLIC
+    hc32_project_options
+    hc32_config
+    hc32_platform
+    hc32_arduino
+    hc32_libraries
 )

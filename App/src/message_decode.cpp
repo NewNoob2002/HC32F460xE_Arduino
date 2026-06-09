@@ -40,8 +40,13 @@ message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_MSG_LEN_INDEX_H] = (char)((len >> 8) & 0x00FF);
             msg[NM_PROTOCOL_MSG_SENDER_INDEX] = NM_PROTOCOL_MSG_SENDER_PANNEL;
             msg[NM_PROTOCOL_MSG_TYPE_INDEX] = NM_MSG_QUERY_RES_TYPE;
-            memcpy(&msg[NM_PROTOCOL_PHV_OFFSET], HW_VERSION, strlen(HW_VERSION));
-            memcpy(&msg[NM_PROTOCOL_PFV_OFFSET], SW_VERSION, strlen(SW_VERSION));
+            constexpr size_t version_field_length = 8U;
+            const size_t hardware_version_length =
+                strlen(HW_VERSION) < version_field_length ? strlen(HW_VERSION) : version_field_length;
+            const size_t software_version_length =
+                strlen(SoftwareVersion) < version_field_length ? strlen(SoftwareVersion) : version_field_length;
+            memcpy(&msg[NM_PROTOCOL_PHV_OFFSET], HW_VERSION, hardware_version_length);
+            memcpy(&msg[NM_PROTOCOL_PFV_OFFSET], SoftwareVersion, software_version_length);
 
             memcpy(&msg[NM_PROTOCOL_PBL_OFFSET], &systemInfo.powerMonitor.batteryInfo.Percent, 2);
             memcpy(&msg[NM_PROTOCOL_PBT_OFFSET], &systemInfo.powerMonitor.batteryInfo.Temp, 2);
@@ -57,7 +62,6 @@ message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_PINFO_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
             msg[NM_PROTOCOL_PINFO_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
             return NM_PROTOCOL_PINFO_MSG_PACK_LEN;
-            break;
         }
         case NM_PANNEL_CTRL_ID: {
             uint16_t len = NM_PROTOCOL_PCTRL_MSG_LEN;
@@ -93,7 +97,6 @@ message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_PCTRL_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
             msg[NM_PROTOCOL_PCTRL_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
             return NM_PROTOCOL_PCTRL_MSG_PACK_LEN;
-            break;
         }
         case NM_PANNEL_HOST_ID: {
             if (systemInfo.recordInfo.record_change_flag == 0) {
@@ -129,7 +132,6 @@ message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_HOST_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
             msg[NM_PROTOCOL_HOST_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
             return NM_PROTOCOL_HOST_MSG_PACK_LEN;
-            break;
         }
         case NM_PANNEL_RST_ID: {
             systemInfo.powerMonitor.reset_flag = parse->buffer[NM_PROTOCOL_HEADER_LEN];
@@ -156,7 +158,6 @@ message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_RST_RESP_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
             msg[NM_PROTOCOL_RST_RESP_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
             return NM_PROTOCOL_RST_RESP_MSG_PACK_LEN;
-            break;
         }
         case NM_PANNEL_POWER_ID: {
             if (parse->buffer[NM_PROTOCOL_HEADER_LEN]) {
@@ -185,9 +186,7 @@ message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN - 3] = (char)((crc >> 8) & 0x000000FF);
             msg[NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN - 4] = (char)(crc & 0x000000FF);
             return NM_PROTOCOL_POWER_RESP_MSG_PACK_LEN;
-            break;
         }
-        default: break;
+        default: return 0;
     }
-    return 0;
 }

@@ -10,13 +10,6 @@
 extern char __HeapLimit;
 extern char __StackLimit;
 
-void
-DDL_AssertHandler(const char* file, int line) {
-    (void)file;
-    (void)line;
-    while (1) {}
-}
-
 int
 _close(int file) {
     (void)file;

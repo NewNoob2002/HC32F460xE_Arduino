@@ -1,84 +1,155 @@
+#include <errno.h>
+#include <new>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+#include "dynamic_memory.h"
 #include "lwmem/lwmem.h"
 
-#ifdef LWMEM_HDR_H
-#define pool_size        8 * 1024
-uint8_t malloc_memory_area[pool_size] = {};
-static lwmem_region_t regions[]       = {{malloc_memory_area, sizeof(malloc_memory_area)},
-                                         {NULL, 0}};
-#endif
+extern "C" {
+extern uint8_t __HeapBase;
+extern uint8_t __HeapLimit;
+}
 
-static uint8_t is_initialized            = 0;
-																				 
-typedef void *(*alloc_func_t)(size_t);
+namespace {
 
-static void *first_alloc(size_t size);
+bool memory_initialized = false;
+uint8_t heap_buffer[64 * 1024];
 
-static alloc_func_t alloc_func = first_alloc;
-
-static void *first_alloc(const size_t size)
-{
-#ifdef LWMEM_HDR_H
-    if (!is_initialized) {
-        if (lwmem_assignmem(regions)) {
-					is_initialized = 1;
-				}
-				else{
-					return nullptr;
-				}
+bool
+initialize_memory() noexcept {
+    if (memory_initialized) {
+        return true;
     }
 
-    alloc_func = lwmem_malloc;
-    return lwmem_malloc(size);
-#endif
+    const uintptr_t heap_begin = reinterpret_cast<uintptr_t>(&__HeapBase);
+    const uintptr_t heap_end = reinterpret_cast<uintptr_t>(&__HeapLimit);
+    if (heap_end <= heap_begin) {
+        return false;
+    }
+
+    const lwmem_region_t regions[] = {
+        {heap_buffer, sizeof(heap_buffer)},
+        {reinterpret_cast<void*>(heap_begin), heap_end - heap_begin},
+        {nullptr, 0U},
+    };
+    memory_initialized = lwmem_assignmem(regions) != 0U;
+    return memory_initialized;
 }
 
-void *operator new(size_t size)
-{
-    return alloc_func(size);
+void*
+allocate(size_t size) noexcept {
+    if (!initialize_memory()) {
+        errno = ENOMEM;
+        return nullptr;
+    }
+
+    const size_t allocation_size = size == 0U ? 1U : size;
+    void* const ptr = lwmem_malloc(allocation_size);
+    if (ptr == nullptr) {
+        errno = ENOMEM;
+    }
+    return ptr;
 }
 
-void *operator new[](size_t size)
-{
-    return alloc_func(size);
+} // namespace
+
+extern "C" bool
+dynamic_memory_init(void) {
+    return initialize_memory();
 }
 
-void operator delete(void *ptr)
-{
-#ifdef LWMEM_HDR_H
-    lwmem_free(ptr);
-#endif
+extern "C" void*
+malloc(size_t size) {
+    return allocate(size);
 }
 
-void operator delete[](void *ptr)
-{
-#ifdef LWMEM_HDR_H
-    lwmem_free(ptr);
-#endif
+extern "C" void*
+calloc(size_t count, size_t size) {
+    if (size != 0U && count > (SIZE_MAX / size)) {
+        errno = ENOMEM;
+        return nullptr;
+    }
+    if (!initialize_memory()) {
+        errno = ENOMEM;
+        return nullptr;
+    }
+
+    void* const ptr = lwmem_calloc(count, size);
+    if (ptr == nullptr && count != 0U && size != 0U) {
+        errno = ENOMEM;
+    }
+    return ptr;
 }
 
-//__asm(".global __use_no_heap_region\n\t");
-void *malloc(size_t size)
-{
-    return alloc_func(size);
+extern "C" void*
+realloc(void* ptr, size_t size) {
+    if (!initialize_memory()) {
+        errno = ENOMEM;
+        return nullptr;
+    }
+
+    void* const resized = lwmem_realloc(ptr, size);
+    if (resized == nullptr && size != 0U) {
+        errno = ENOMEM;
+    }
+    return resized;
 }
 
-void free(void *p)
-{
-#ifdef LWMEM_HDR_H
-    lwmem_free(p);
-#endif
+extern "C" void
+free(void* ptr) {
+    if (ptr != nullptr && initialize_memory()) {
+        lwmem_free(ptr);
+    }
 }
 
-void *realloc(void *p, size_t want)
-{
-#ifdef LWMEM_HDR_H
-    return lwmem_realloc(p, want);
-#endif
+void*
+operator new(size_t size) {
+    return allocate(size);
 }
 
-void *calloc(size_t nmemb, size_t size)
-{
-#ifdef LWMEM_HDR_H
-    return lwmem_calloc(nmemb, size);
-#endif
+void*
+operator new[](size_t size) {
+    return allocate(size);
+}
+
+void*
+operator new(size_t size, const std::nothrow_t&) noexcept {
+    return allocate(size);
+}
+
+void*
+operator new[](size_t size, const std::nothrow_t&) noexcept {
+    return allocate(size);
+}
+
+void
+operator delete(void* ptr) noexcept {
+    free(ptr);
+}
+
+void
+operator delete[](void* ptr) noexcept {
+    free(ptr);
+}
+
+void
+operator delete(void* ptr, size_t) noexcept {
+    free(ptr);
+}
+
+void
+operator delete[](void* ptr, size_t) noexcept {
+    free(ptr);
+}
+
+void
+operator delete(void* ptr, const std::nothrow_t&) noexcept {
+    free(ptr);
+}
+
+void
+operator delete[](void* ptr, const std::nothrow_t&) noexcept {
+    free(ptr);
 }

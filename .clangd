@@ -1,5 +1,5 @@
 CompileFlags:
-  CompilationDatabase: .
+  CompilationDatabase: build/clangd
   Add:
     - --target=arm-none-eabi
     - -mcpu=cortex-m4

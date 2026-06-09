@@ -1,10 +1,8 @@
 #pragma once
 #include "mcu_define.h"
+#include "mcu_version_config.h"
 
-#define  HW_VERSION    "V1.4"
-#define  SW_VERSION    "V1.29"
-
-//1.29 Update Charger Disable in 45'C
+#define HW_VERSION "V1.4"
 
 /*POWER*/
 #define POWER_CONTROL_PIN  PB3

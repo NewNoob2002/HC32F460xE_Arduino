@@ -1,14 +1,10 @@
 #include <stdbool.h>
-#include <string.h>
 #include <stdio.h>
-#include "slave_i2c.h"
+#include <string.h>
 #include "Arduino.h"
 #include "SparkFun_Extensible_Message_Parser.h"
 #include "message_decode.h"
-
-extern "C" {
-extern volatile SharedData_t shared_info;
-}
+#include "slave_i2c.h"
 
 volatile SLAVE_I2C_STATE slave_state = SLAVE_RX;
 
@@ -21,7 +17,7 @@ uint8_t _rxBuffer[SLAVE_RX_BUFFER_SIZE];
 
 uint8_t txBuffer_temp[NM_PROTOCOL_PINFO_MSG_PACK_LEN];
 
-SEMP_PARSE_STATE *CustomParse = nullptr;
+SEMP_PARSE_STATE* CustomParse = nullptr;
 /// @brief Bluetooth parser
 SEMP_PARSE_ROUTINE const CustomParserTable[] = {
     sempCustomPreamble,
@@ -29,34 +25,33 @@ SEMP_PARSE_ROUTINE const CustomParserTable[] = {
 const int CustomParserCount = sizeof(CustomParserTable) / sizeof(CustomParserTable[0]);
 
 // List the names of the parsers
-const char *const CustomParserNames[] = {
+const char* const CustomParserNames[] = {
     "CUSTOM",
 };
 const int CustomParserNameCount = sizeof(CustomParserNames) / sizeof(CustomParserNames[0]);
 
-
-void CustomDataProcess(SEMP_PARSE_STATE *parse, uint16_t type)
-{
+void
+CustomDataProcess(SEMP_PARSE_STATE* parse, uint16_t type) {
     int length = message_decode(parse, txBuffer_temp);
     if (length <= 0) {
         return;
     }
-		systemInfo.i2c_communicate_err_count = 0;
+    systemInfo.i2c_communicate_err_count = 0;
     txBufferWrite(txBuffer_temp, length);
 }
 
-int txBufferAvailable()
-{
+int
+txBufferAvailable() {
     return _txBufferHead - _txBufferTail;
 }
 
-int txBufferRead(void)
-{
+int
+txBufferRead(void) {
     return _txBuffer[_txBufferTail++];
 }
 
-int txBufferWrite(uint8_t *Buffer, const uint16_t length)
-{
+int
+txBufferWrite(uint8_t* Buffer, const uint16_t length) {
     // if the head isn't ahead of the tail, we don't have any characters
     memcpy(_txBuffer, Buffer, length);
     _txBufferHead = length;
@@ -64,36 +59,37 @@ int txBufferWrite(uint8_t *Buffer, const uint16_t length)
     return _txBufferHead;
 }
 
-int rxBufferAvailable(void)
-{
+int
+rxBufferAvailable(void) {
     return ((unsigned int)(SLAVE_RX_BUFFER_SIZE + _rxBufferHead - _rxBufferTail)) % SLAVE_RX_BUFFER_SIZE;
 }
 
-int rxBufferRead(void)
-{
+int
+rxBufferRead(void) {
     // if the head isn't ahead of the tail, we don't have any characters
     if (_rxBufferHead == _rxBufferTail) {
         return -1;
     } else {
-        uint8_t c     = _rxBuffer[_rxBufferTail];
+        uint8_t c = _rxBuffer[_rxBufferTail];
         _rxBufferTail = (uint16_t)(_rxBufferTail + 1) % SLAVE_RX_BUFFER_SIZE;
         return c;
     }
 }
 
-void rxBufferWrite(uint8_t ch)
-{
+void
+rxBufferWrite(uint8_t ch) {
     uint16_t i = (uint16_t)(_rxBufferHead + 1) % SLAVE_RX_BUFFER_SIZE;
     if (i != _rxBufferTail) {
         _rxBuffer[_rxBufferHead] = ch;
-        _rxBufferHead            = i;
+        _rxBufferHead = i;
     }
 }
+
 /**
  * @brief   I2C EEI(communication error or event) interrupt callback function
  */
-static void I2C_EEI_Callback(void)
-{
+static void
+I2C_EEI_Callback(void) {
     /* If address interrupt occurred */
     if (SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_MATCH_ADDR0)) {
         I2C_ClearStatus(I2C_UNIT, I2C_CLR_SLADDR0FCLR | I2C_CLR_NACKFCLR | I2C_CLR_STOPFCLR);
@@ -133,35 +129,33 @@ static void I2C_EEI_Callback(void)
             slave_state = SLAVE_RX_DONE;
         } else if (slave_state == SLAVE_TX) {
             systemInfo.i2c_communicate_err_count = 0;
-            _txBufferHead                        = 0;
-            _txBufferTail                        = 0;
-            slave_state                          = SLAVE_TX_DONE;
+            _txBufferHead = 0;
+            _txBufferTail = 0;
+            slave_state = SLAVE_TX_DONE;
         }
     } else {
     }
 }
 
-static void I2C_TEI_Callback(void)
-{
-    if ((SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_TX_CPLT)) &&
-        (RESET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_NACKF))) {
+static void
+I2C_TEI_Callback(void) {
+    if ((SET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_TX_CPLT)) && (RESET == I2C_GetStatus(I2C_UNIT, I2C_FLAG_NACKF))) {
         I2C_WriteData(I2C_UNIT, txBufferRead());
     }
 }
-
 
 /**
  * @brief   I2C RXI(receive buffer full) interrupt callback function
  * @param   None
  * @retval  None
  */
-static void I2C_RXI_Callback(void)
-{
+static void
+I2C_RXI_Callback(void) {
     rxBufferWrite(I2C_ReadData(I2C_UNIT));
 }
 
-int32_t slave_i2c_init()
-{
+int32_t
+slave_i2c_init() {
     FCG_Fcg1PeriphClockCmd(I2C_FCG_USE, ENABLE);
     /* Initialize I2C port*/
     GPIO_SetFunc(I2C_SCL_PORT, I2C_SCL_PIN, I2C_GPIO_SCL_FUNC);
@@ -176,30 +170,30 @@ int32_t slave_i2c_init()
     (void)I2C_StructInit(&stcI2cInit);
     stcI2cInit.u32ClockDiv = I2C_CLK_DIV2;
     stcI2cInit.u32Baudrate = 400000;
-    stcI2cInit.u32SclTime  = 5UL;
-    const int32_t i32Ret   = I2C_Init(I2C_UNIT, &stcI2cInit, &fErr);
+    stcI2cInit.u32SclTime = 5UL;
+    const int32_t i32Ret = I2C_Init(I2C_UNIT, &stcI2cInit, &fErr);
 
     if (LL_OK == i32Ret) {
         I2C_SlaveAddrConfig(I2C_UNIT, I2C_ADDR0, I2C_ADDR_7BIT, DEVICE_ADDR);
 
-        stcIrqRegCfg.enIRQn      = I2C_EEI_IRQN_DEF;
-        stcIrqRegCfg.enIntSrc    = I2C_INT_EEI_DEF;
+        stcIrqRegCfg.enIRQn = I2C_EEI_IRQN_DEF;
+        stcIrqRegCfg.enIntSrc = I2C_INT_EEI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_EEI_Callback;
         (void)INTC_IrqSignIn(&stcIrqRegCfg);
         NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
         NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_06);
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
 
-        stcIrqRegCfg.enIRQn      = I2C_RXI_IRQN_DEF;
-        stcIrqRegCfg.enIntSrc    = I2C_INT_RXI_DEF;
+        stcIrqRegCfg.enIRQn = I2C_RXI_IRQN_DEF;
+        stcIrqRegCfg.enIntSrc = I2C_INT_RXI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_RXI_Callback;
         (void)INTC_IrqSignIn(&stcIrqRegCfg);
         NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
         NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_10);
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
 
-        stcIrqRegCfg.enIRQn      = I2C_TEI_IRQN_DEF;
-        stcIrqRegCfg.enIntSrc    = I2C_INT_TEI_DEF;
+        stcIrqRegCfg.enIRQn = I2C_TEI_IRQN_DEF;
+        stcIrqRegCfg.enIntSrc = I2C_INT_TEI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_TEI_Callback;
         (void)INTC_IrqSignIn(&stcIrqRegCfg);
         NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
@@ -207,10 +201,11 @@ int32_t slave_i2c_init()
         NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
 
         if (CustomParse == nullptr) {
-            CustomParse = sempBeginParser(CustomParserTable, CustomParserCount,
-                                          CustomParserNames, CustomParserNameCount, 0, 512,
-                                          CustomDataProcess, "CustomParser");
-            if (!CustomParse) CORE_DEBUG_PRINTF("Failed to initialize the parser");
+            CustomParse = sempBeginParser(CustomParserTable, CustomParserCount, CustomParserNames,
+                                          CustomParserNameCount, 0, 512, CustomDataProcess, "CustomParser");
+            if (!CustomParse) {
+                log_e("Failed to initialize the parser");
+            }
         }
     }
     I2C_Cmd(I2C_UNIT, ENABLE);
@@ -218,25 +213,22 @@ int32_t slave_i2c_init()
     return i32Ret;
 }
 
-void slave_i2c_update()
-{
+void
+slave_i2c_update() {
     if (rxBufferAvailable() > 0 && slave_state == SLAVE_RX_DONE) {
-			__disable_irq();
-			for (int i = 0; i <= rxBufferAvailable(); i++) {
+        __disable_irq();
+        for (int i = 0; i <= rxBufferAvailable(); i++) {
             sempParseNextByte(CustomParse, rxBufferRead());
-       }
-			__enable_irq();
+        }
+        __enable_irq();
     }
-		if (systemInfo.i2c_communicate_err_count >= 2000) {
+    if (systemInfo.i2c_communicate_err_count >= 2000) {
         systemInfo.i2c_communicate_err_count = 0;
         systemInfo.i2c__err_count++;
         slave_i2c_init();
     }
-		if(systemInfo.powerMonitor.reset_flag)
-		{
-			shared_info.command = CMD_ENTER_IAP;
-			delay_ms(1000);
-			NVIC_SystemReset();
-		}
-
+    if (systemInfo.powerMonitor.reset_flag) {
+        delay_ms(1000);
+        NVIC_SystemReset();
+    }
 }
