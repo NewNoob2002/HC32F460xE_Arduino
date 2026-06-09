@@ -34,7 +34,6 @@ Resource_Init() {
     /* Import Fonts */
     IMPORT_SYMBOL(statusbar);
     IMPORT_SYMBOL(dialplate);
-    IMPORT_SYMBOL(satellite);
     // /* Import Images */
     IMPORT_IMG(battery);
     IMPORT_IMG(battery_info);
@@ -45,7 +44,8 @@ Resource_Init() {
     IMPORT_IMG(menu);
     IMPORT_IMG(start);
     IMPORT_IMG(stop);
-    IMPORT_IMG(satellite);
+    IMPORT_IMG(satellite_small);
+    IMPORT_IMG(satellite_big);
     IMPORT_IMG(map_location);
     IMPORT_IMG(storage);
     IMPORT_IMG(system_info);

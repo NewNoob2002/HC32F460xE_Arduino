@@ -185,6 +185,17 @@ typedef struct NtripInfo_t {
     uint8_t NtripClient_Mountpoint[32];
 } NtripInfo_t;
 
+typedef struct StarMapInfo_t {
+    bool syncStatus;
+    uint8_t numberGPS;
+    uint8_t numberGLONASS;
+    uint8_t numberGALILEO;
+    uint8_t numberBDS;
+    uint8_t numberSBAS;
+    uint8_t numberQZSS;
+    uint8_t numberIRNSS;
+} StarMapInfo_t;
+
 typedef struct SystemInfo_t {
     bool eg25_overtime;
     uint16_t i2c_communicate_err_count;
@@ -196,6 +207,7 @@ typedef struct SystemInfo_t {
     WifiInfo_t wifiInfo;
     RecordInfo_t recordInfo;
     PositionInfo_t positionInfo;
+    StarMapInfo_t starMapInfo;
     RadioInfo_t radioInfo;
     Power_Monitor_t powerMonitor;
     NtripInfo_t ntripInfo;

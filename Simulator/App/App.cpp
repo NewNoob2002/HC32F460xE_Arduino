@@ -91,6 +91,7 @@ App_Init() {
     manager.Install("SystemInfos", "Pages/SystemInfos");
     manager.Install("Shutdown", "Pages/Shutdown");
     manager.Install("SaveConfig", "Pages/SaveConfig");
+    manager.Install("StarMap", "Pages/StarMap");
 
     manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP);
 

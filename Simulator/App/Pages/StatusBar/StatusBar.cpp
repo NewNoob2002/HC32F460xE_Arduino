@@ -220,7 +220,7 @@ Page::StatusBar_Create(lv_obj_t* par) {
     ui.cont = cont;
 
     lv_obj_t* satellite_img = lv_img_create(cont);
-    lv_img_set_src(satellite_img, ResourcePool::GetImage("satellite"));
+    lv_img_set_src(satellite_img, ResourcePool::GetImage("satellite_small"));
     const auto* img_satellite_ext = reinterpret_cast<lv_img_t*>(satellite_img);
     lv_obj_set_size(satellite_img, img_satellite_ext->w, img_satellite_ext->h);
     lv_obj_align(satellite_img, LV_ALIGN_TOP_LEFT, 10, 5);

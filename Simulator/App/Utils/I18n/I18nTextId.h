@@ -48,6 +48,11 @@ enum class TextId : size_t {
     PositionSingle,
     PositionFix,
     PositionFloat,
+    StarMapTitle,
+    StarMapGps,
+    StarMapBds,
+    StarMapGlonass,
+    StarMapGalileo,
     Count
 };
 

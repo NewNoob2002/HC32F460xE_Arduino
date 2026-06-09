@@ -92,6 +92,10 @@ main(const int argc, char** argv) {
     // lv_timer_ready(timer);
     // systemInfo.powerMonitor.batteryInfo.chargeStatus = normalCharge;
     systemInfo.powerMonitor.batteryInfo.Percent = 18;
+    systemInfo.starMapInfo.numberGPS = 8;
+    systemInfo.starMapInfo.numberBDS = 14;
+    systemInfo.starMapInfo.numberGLONASS = 6;
+    systemInfo.starMapInfo.numberGALILEO = 4;
     while (true) {
         /* Periodically call the lv_task handler.
          * It could be done in a timer interrupt or an OS task too.*/

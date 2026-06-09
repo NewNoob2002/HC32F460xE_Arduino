@@ -29,6 +29,7 @@
 #include "Startup/Startup.h"
 #include "SystemInfos/SystemInfos.h"
 #include "WorkSettings/WorkSettings.h"
+#include "StarMap/StarMap.h"
 
 
 #define APP_CLASS_MATCH(className)                                                                                     \
@@ -48,5 +49,6 @@ AppFactory::CreatePage(const char* name) {
     APP_CLASS_MATCH(Startup);
     APP_CLASS_MATCH(HardwareCheck);
     APP_CLASS_MATCH(SaveConfig);
+    APP_CLASS_MATCH(StarMap);
     return nullptr;
 }

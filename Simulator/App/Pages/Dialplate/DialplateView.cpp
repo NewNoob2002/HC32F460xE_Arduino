@@ -1,8 +1,6 @@
 #include "DialplateView.h"
 #include <cstdio>
 
-#define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
-
 using namespace Page;
 
 void
@@ -12,25 +10,22 @@ DialplateView::Create(lv_obj_t* root) {
 
     ui.anim_timeline = lv_anim_timeline_create();
 
-#define ANIM_DEF(start_time, obj, attr, start, end) \
-    {start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
+#define ANIM_DEF(start_time, obj, attr, start, end)                                                                    \
+    { start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true }
 
-#define ANIM_OPA_DEF(start_time, obj) \
-    ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
+#define ANIM_OPA_DEF(start_time, obj) ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
     const lv_coord_t y_tar_top = lv_obj_get_y(ui.topInfo.cont);
     const lv_coord_t h_tar_btn = lv_obj_get_height(ui.btnCont.btnRec);
 
-    const lv_anim_timeline_wrapper_t wrapper[] =
-    {
+    const lv_anim_timeline_wrapper_t wrapper[] = {
         ANIM_DEF(0, ui.topInfo.cont, y, -lv_obj_get_height(ui.topInfo.cont), y_tar_top),
 
         ANIM_DEF(500, ui.btnCont.btnMap, height, 0, h_tar_btn),
         ANIM_DEF(600, ui.btnCont.btnRec, height, 0, h_tar_btn),
         ANIM_DEF(700, ui.btnCont.btnMenu, height, 0, h_tar_btn),
         ANIM_DEF(800, ui.btnCont.btnShutdown, height, 0, h_tar_btn),
-        LV_ANIM_TIMELINE_WRAPPER_END
-    };
+        LV_ANIM_TIMELINE_WRAPPER_END};
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 }
 
@@ -59,11 +54,8 @@ DialplateView::TopInfo_Create(lv_obj_t* par) {
     lv_obj_set_y(cont, 26);
     ui.topInfo.cont = cont;
 
-    lv_obj_t* icon_satellite = lv_label_create(cont);
-    lv_obj_set_style_text_font(icon_satellite, ResourcePool::GetFont("satellite"), 0);
-    lv_obj_set_style_text_color(icon_satellite, lv_palette_main(LV_PALETTE_BLUE), 0);
-    lv_label_set_text(icon_satellite, CUSTOM_SYMBOL_SATELLITE);
-    lv_obj_align(icon_satellite, LV_ALIGN_LEFT_MID, 20, 0);
+    TransformInfo_t transform = {45, 35, 50, 30};
+    lv_obj_t* icon_satellite = Btn_Create(cont, ResourcePool::GetImage("satellite_big"), -110, transform);
     ui.topInfo.icon_satellite = icon_satellite;
 
     const lv_font_t* font_large = ResourcePool::GetFont("rajdhaniBold_40");
@@ -72,7 +64,7 @@ DialplateView::TopInfo_Create(lv_obj_t* par) {
     ui.topInfo.satellite_used = new numberFlow(font_large, 2);
     ui.topInfo.satellite_used->create(cont);
     ui.topInfo.satellite_used->setValue(0);
-    ui.topInfo.satellite_used->setAlignTo(icon_satellite, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
+    ui.topInfo.satellite_used->setAlignTo(icon_satellite, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
 
     lv_obj_t* separator = lv_label_create(cont);
     lv_obj_remove_style_all(separator);
@@ -116,26 +108,28 @@ DialplateView::BtnCont_Create(lv_obj_t* par) {
     );*/
 
     ui.btnCont.cont = cont;
+    TransformInfo_t transform = {40, 31, 45, 25};
 
-    ui.btnCont.btnMap = Btn_Create(cont, ResourcePool::GetImage("settings"), -110);
-    ui.btnCont.btnRec = Btn_Create(cont, ResourcePool::GetImage("start"), -40);
-    ui.btnCont.btnMenu = Btn_Create(cont, ResourcePool::GetImage("menu"), 40);
-    ui.btnCont.btnShutdown = Btn_Create(cont, ResourcePool::GetImage("shutdown"), 110);
+    ui.btnCont.btnMap = Btn_Create(cont, ResourcePool::GetImage("settings"), -110, transform);
+    ui.btnCont.btnRec = Btn_Create(cont, ResourcePool::GetImage("start"), -40, transform);
+    ui.btnCont.btnMenu = Btn_Create(cont, ResourcePool::GetImage("menu"), 40, transform);
+    ui.btnCont.btnShutdown = Btn_Create(cont, ResourcePool::GetImage("shutdown"), 110, transform);
 }
 
 lv_obj_t*
-DialplateView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_t x_ofs) {
+DialplateView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_t x_ofs,
+                          const TransformInfo_t& transform) {
     lv_obj_t* obj = lv_obj_create(par);
     lv_obj_remove_style_all(obj);
-    lv_obj_set_size(obj, 40, 31);
+    lv_obj_set_size(obj, transform.width_default, transform.height_default);
     lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_align(obj, LV_ALIGN_CENTER, x_ofs, 0);
     lv_obj_set_style_bg_img_src(obj, img_src, 0);
 
     lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
-    lv_obj_set_style_width(obj, 45, LV_STATE_PRESSED);
-    lv_obj_set_style_height(obj, 25, LV_STATE_PRESSED);
+    lv_obj_set_style_width(obj, transform.transform_width, LV_STATE_PRESSED);
+    lv_obj_set_style_height(obj, transform.transform_height, LV_STATE_PRESSED);
     lv_obj_set_style_bg_color(obj, lv_color_hex(0x666666), 0);
     lv_obj_set_style_bg_color(obj, lv_color_hex(0xbbbbbb), LV_STATE_PRESSED);
     lv_obj_set_style_bg_color(obj, lv_color_hex(0xff931e), LV_STATE_FOCUSED);
@@ -143,14 +137,7 @@ DialplateView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_t x
 
     static lv_style_transition_dsc_t tran;
     static constexpr lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
-    lv_style_transition_dsc_init(
-        &tran,
-        prop,
-        lv_anim_path_ease_out,
-        200,
-        0,
-        nullptr
-        );
+    lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_FOCUSED);
 
