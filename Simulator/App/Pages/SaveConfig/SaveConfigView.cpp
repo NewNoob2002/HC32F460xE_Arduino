@@ -234,7 +234,7 @@ SaveConfigView::Create(lv_obj_t* root) {
         ANIM_DEF(100, brand_cont, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER),
         ANIM_DEF(220, sync_label, y, lv_obj_get_style_height(second_cont, 0), lv_obj_get_y(sync_label)),
         ANIM_DEF(350, bar_cont, width, 0, lv_obj_get_style_width(bar_cont, 0)),
-        ANIM_DEF(450, percent_label, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER),
+        // ANIM_DEF(450, percent_label, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER),
         LV_ANIM_TIMELINE_WRAPPER_END};
 
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
