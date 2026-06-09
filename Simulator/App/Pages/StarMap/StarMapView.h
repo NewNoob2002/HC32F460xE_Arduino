@@ -6,7 +6,7 @@
 namespace Page {
 
 class StarMapView {
-public:
+  public:
     struct {
         lv_obj_t* radar_bg;
         lv_obj_t* radar_inner;
@@ -16,6 +16,7 @@ public:
 
         lv_obj_t* info_cont;
         lv_obj_t* label_title;
+        lv_obj_t* blink_dot;
 
         struct {
             lv_obj_t* cont;
@@ -25,12 +26,15 @@ public:
         } constell[8]; // GPS, BDS, GLONASS, GALILEO, SBAS, QZSS, IRNSS, (unused)
     } ui;
 
+    bool is_blink_dot_changed = false;
+
     void Create(lv_obj_t* root);
     void Delete();
+    void UpdateStatusIndicator();
     void ApplyLanguage() const;
     void UpdateValues(int gps, int bds, int gln, int gal, int sbas, int qzss, int irnss);
 };
 
-}
+} // namespace Page
 
 #endif // STAR_MAP_VIEW_H

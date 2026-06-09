@@ -82,6 +82,8 @@ void
 StarMap::onTimerUpdate(lv_timer_t* timer) {
     auto* instance = static_cast<StarMap*>(timer->user_data);
     LV_ASSERT_NULL(instance);
+
+    instance->View.UpdateStatusIndicator();
     instance->Update();
 }
 
