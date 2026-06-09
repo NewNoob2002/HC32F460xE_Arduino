@@ -330,6 +330,7 @@ FCM_SetRefClock(CM_FCM_TypeDef* FCMx, uint32_t u32ClockSrc, uint32_t u32Div) {
  */
 void
 FCM_ResetCmd(CM_FCM_TypeDef* FCMx, en_functional_state_t enNewState) {
+    (void)FCMx;
     DDL_ASSERT(IS_FCM_UNIT(FCMx));
 
     DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
@@ -371,6 +372,7 @@ FCM_IntCmd(CM_FCM_TypeDef* FCMx, uint32_t u32IntType, en_functional_state_t enNe
  */
 void
 FCM_Cmd(CM_FCM_TypeDef* FCMx, en_functional_state_t enNewState) {
+    (void)FCMx;
     DDL_ASSERT(IS_FCM_UNIT(FCMx));
     DDL_ASSERT(IS_FUNCTIONAL_STATE(enNewState));
     WRITE_REG32(bCM_FCM->STR_b.START, enNewState);
