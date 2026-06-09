@@ -2,12 +2,11 @@
 #define STAR_MAP_H
 
 #include "StarMapView.h"
-#include "StarMapModel.h"
 
 namespace Page {
 
 class StarMap final : public PageBase {
-public:
+  public:
     StarMap();
     ~StarMap() override;
 
@@ -22,17 +21,16 @@ public:
     void onViewDidUnload() override;
     void onLanguageChanged() override;
 
-private:
+  private:
     void Update();
     void AttachEvent(lv_obj_t* obj);
     static void onTimerUpdate(lv_timer_t* timer);
     static void onEvent(lv_event_t* event);
 
     StarMapView View;
-    StarMapModel Model;
     lv_timer_t* timer{};
 };
 
-}
+} // namespace Page
 
 #endif // STAR_MAP_H
