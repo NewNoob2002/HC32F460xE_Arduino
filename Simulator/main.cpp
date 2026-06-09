@@ -96,6 +96,9 @@ main(const int argc, char** argv) {
     systemInfo.starMapInfo.numberBDS = 14;
     systemInfo.starMapInfo.numberGLONASS = 6;
     systemInfo.starMapInfo.numberGALILEO = 4;
+    systemInfo.starMapInfo.numberSBAS = 2;
+    systemInfo.starMapInfo.numberQZSS = 3;
+    systemInfo.starMapInfo.numberIRNSS = 1;
     while (true) {
         /* Periodically call the lv_task handler.
          * It could be done in a timer interrupt or an OS task too.*/

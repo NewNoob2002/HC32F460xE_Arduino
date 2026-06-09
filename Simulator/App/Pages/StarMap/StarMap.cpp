@@ -8,13 +8,13 @@ StarMap::~StarMap() = default;
 
 void
 StarMap::onCustomAttrConfig() {
-    LV_LOG_USER("StarMap onCustomAttrConfig");
     SetCustomCacheEnable(false);
+    SetCustomLoadAnimType(PageManager::LOAD_ANIM_NONE);
 }
 
 void
 StarMap::onViewLoad() {
-    LV_LOG_USER("StarMap onViewLoad");
+    Model.Init();
     View.Create(_root);
     AttachEvent(_root);
 }
@@ -24,21 +24,20 @@ StarMap::onViewDidLoad() {}
 
 void
 StarMap::onViewWillAppear() {
+    Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_BLACK);
+
     timer = lv_timer_create(onTimerUpdate, 1000, this);
     lv_timer_ready(timer);
-    lv_group_t* group = lv_group_get_default();
-    LV_ASSERT_NULL(group);
-    lv_group_add_obj(group, _root);
-    lv_group_focus_obj(_root);
+
+    lv_obj_set_style_opa(_root, LV_OPA_TRANSP, 0);
+    lv_obj_fade_in(_root, 300, 0);
 }
 
 void
 StarMap::onViewDidAppear() {}
 
 void
-StarMap::onViewWillDisappear() {
-    lv_group_remove_obj(_root);
-}
+StarMap::onViewWillDisappear() {}
 
 void
 StarMap::onViewDidDisappear() {
@@ -51,6 +50,7 @@ StarMap::onViewDidDisappear() {
 void
 StarMap::onViewUnload() {
     View.Delete();
+    Model.Deinit();
 }
 
 void
@@ -73,8 +73,11 @@ StarMap::Update() {
     int bds = systemInfo.starMapInfo.numberBDS;
     int gln = systemInfo.starMapInfo.numberGLONASS;
     int gal = systemInfo.starMapInfo.numberGALILEO;
+    int sbas = systemInfo.starMapInfo.numberSBAS;
+    int qzss = systemInfo.starMapInfo.numberQZSS;
+    int irnss = systemInfo.starMapInfo.numberIRNSS;
 
-    View.UpdateValues(gps, bds, gln, gal);
+    View.UpdateValues(gps, bds, gln, gal, sbas, qzss, irnss);
 }
 
 void

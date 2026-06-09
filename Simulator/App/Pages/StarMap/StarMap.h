@@ -1,6 +1,7 @@
 #ifndef STAR_MAP_H
 #define STAR_MAP_H
 
+#include "StarMapModel.h"
 #include "StarMapView.h"
 
 namespace Page {
@@ -28,6 +29,7 @@ class StarMap final : public PageBase {
     static void onEvent(lv_event_t* event);
 
     StarMapView View;
+    StarMapModel Model;
     lv_timer_t* timer{};
 };
 

@@ -50,6 +50,9 @@ const char* const texts[] = {
     "BDS",
     "ГЛОНАСС",
     "GALILEO",
+    "SBAS",
+    "QZSS",
+    "IRNSS",
 };
 
 static_assert(sizeof(texts) / sizeof(texts[0]) == static_cast<size_t>(I18n::TextId::Count));

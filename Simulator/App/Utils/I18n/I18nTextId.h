@@ -53,6 +53,9 @@ enum class TextId : size_t {
     StarMapBds,
     StarMapGlonass,
     StarMapGalileo,
+    StarMapSbas,
+    StarMapQzss,
+    StarMapIrnss,
     Count
 };
 
