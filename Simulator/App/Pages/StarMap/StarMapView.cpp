@@ -10,13 +10,13 @@ constexpr lv_color_t kLineDark = LV_COLOR_MAKE(0x33, 0x33, 0x30);
 constexpr lv_color_t kTextWarm = LV_COLOR_MAKE(0xE8, 0xE1, 0xCF);
 
 // Constellation Colors
-constexpr lv_color_t kColorGps = LV_COLOR_MAKE(0xE1, 0xAA, 0x22); // Amber/Yellow
-constexpr lv_color_t kColorBds = LV_COLOR_MAKE(0x34, 0x98, 0xDB); // Blue
-constexpr lv_color_t kColorGln = LV_COLOR_MAKE(0x2E, 0xCC, 0x71); // Green
-constexpr lv_color_t kColorGal = LV_COLOR_MAKE(0xE7, 0x4C, 0x3C); // Red
-constexpr lv_color_t kColorSba = LV_COLOR_MAKE(0x9B, 0x59, 0xB6); // Purple
-constexpr lv_color_t kColorQzs = LV_COLOR_MAKE(0x1A, 0xBC, 0x9C); // Cyan/Teal
-constexpr lv_color_t kColorIrn = LV_COLOR_MAKE(0xE6, 0x7E, 0x22); // Orange
+constexpr lv_color_t kColorGps = LV_COLOR_MAKE(0xE1, 0xAA, 0x22);     // Amber/Yellow
+constexpr lv_color_t kColorBds = LV_COLOR_MAKE(0x34, 0x98, 0xDB);     // Blue
+constexpr lv_color_t kColorGln = LV_COLOR_MAKE(0x2E, 0xCC, 0x71);     // Green
+constexpr lv_color_t kColorGal = LV_COLOR_MAKE(0xE7, 0x4C, 0x3C);     // Red
+constexpr lv_color_t kColorSba = LV_COLOR_MAKE(0x9B, 0x59, 0xB6);     // Purple
+constexpr lv_color_t kColorQzs = LV_COLOR_MAKE(0x1A, 0xBC, 0x9C);     // Cyan/Teal
+constexpr lv_color_t kColorIrn = LV_COLOR_MAKE(0xE6, 0x7E, 0x22);     // Orange
 
 // Statically scattered dot coordinates relative to radar center (40, 40)
 const int dot_offsets_x[28] = {
@@ -33,7 +33,8 @@ const int dot_offsets_x[28] = {
     // QZSS (20-23)
     -15, 28, -20, 10,
     // IRNSS (24-27)
-    -25, 5, 25, -12};
+    -25, 5, 25, -12
+};
 
 const int dot_offsets_y[28] = {
     // GPS (0-3)
@@ -49,7 +50,8 @@ const int dot_offsets_y[28] = {
     // QZSS (20-23)
     -30, 18, 15, -18,
     // IRNSS (24-27)
-    -5, 25, -25, -22};
+    -5, 25, -25, -22
+};
 } // namespace
 
 void
@@ -113,19 +115,12 @@ StarMapView::Create(lv_obj_t* root) {
 
         // Color coding by index
         lv_color_t c = kColorGps;
-        if (i >= 4 && i < 8) {
-            c = kColorBds;
-        } else if (i >= 8 && i < 12) {
-            c = kColorGln;
-        } else if (i >= 12 && i < 16) {
-            c = kColorGal;
-        } else if (i >= 16 && i < 20) {
-            c = kColorSba;
-        } else if (i >= 20 && i < 24) {
-            c = kColorQzs;
-        } else if (i >= 24) {
-            c = kColorIrn;
-        }
+        if (i >= 4 && i < 8) c = kColorBds;
+        else if (i >= 8 && i < 12) c = kColorGln;
+        else if (i >= 12 && i < 16) c = kColorGal;
+        else if (i >= 16 && i < 20) c = kColorSba;
+        else if (i >= 20 && i < 24) c = kColorQzs;
+        else if (i >= 24) c = kColorIrn;
 
         lv_obj_set_style_bg_color(dot, c, 0);
 
@@ -142,7 +137,7 @@ StarMapView::Create(lv_obj_t* root) {
     // 6. Right Side Information Panel
     lv_obj_t* info_cont = lv_obj_create(root);
     lv_obj_remove_style_all(info_cont);
-    lv_obj_set_size(info_cont, 175, 100);
+    lv_obj_set_size(info_cont, 175, 80);
     lv_obj_align(info_cont, LV_ALIGN_LEFT_MID, 110, 0);
     ui.info_cont = info_cont;
 
@@ -159,16 +154,17 @@ StarMapView::Create(lv_obj_t* root) {
     const char* names[7] = {"GPS", "BDS", "GLN", "GAL", "SBA", "QZS", "IRN"};
     lv_color_t colors[7] = {kColorGps, kColorBds, kColorGln, kColorGal, kColorSba, kColorQzs, kColorIrn};
 
-    for (int i = 0; i < sizeof(ui.constell) / sizeof(ui.constell[0]); ++i) {
+    for (int i = 0; i < 7; ++i) {
         int row = i / 2;
         int col = i % 2;
         int x_base = col * 90;
-        int y_base = 20 + row * 15;
+        // Shift starting Y down to Y=24 to leave a small gap below the title
+        int y_base = 24 + row * 14;
 
         // Container/cont for item
         lv_obj_t* cont = lv_obj_create(info_cont);
         lv_obj_remove_style_all(cont);
-        lv_obj_set_size(cont, 85, 15);
+        lv_obj_set_size(cont, 85, 14);
         lv_obj_set_pos(cont, x_base, y_base);
         ui.constell[i].cont = cont;
 
@@ -254,9 +250,7 @@ StarMapView::UpdateValues(int gps, int bds, int gln, int gal, int sbas, int qzss
         int show_dots = 0;
         if (used > 0) {
             show_dots = (used + 1) / 2; // e.g. 1 used -> 1 dot, 3 used -> 2 dots, 5 used -> 3 dots, >=7 used -> 4 dots
-            if (show_dots > 4) {
-                show_dots = 4;
-            }
+            if (show_dots > 4) show_dots = 4;
         }
 
         for (int d = 0; d < 4; ++d) {

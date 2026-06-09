@@ -9,12 +9,10 @@ StarMap::~StarMap() = default;
 void
 StarMap::onCustomAttrConfig() {
     SetCustomCacheEnable(false);
-    SetCustomLoadAnimType(PageManager::LOAD_ANIM_NONE);
 }
 
 void
 StarMap::onViewLoad() {
-    Model.Init();
     View.Create(_root);
     AttachEvent(_root);
 }
@@ -24,20 +22,21 @@ StarMap::onViewDidLoad() {}
 
 void
 StarMap::onViewWillAppear() {
-    Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_BLACK);
-
     timer = lv_timer_create(onTimerUpdate, 1000, this);
     lv_timer_ready(timer);
-
-    lv_obj_set_style_opa(_root, LV_OPA_TRANSP, 0);
-    lv_obj_fade_in(_root, 300, 0);
+    lv_group_t* group = lv_group_get_default();
+    LV_ASSERT_NULL(group);
+    lv_group_add_obj(group, _root);
+    lv_group_focus_obj(_root);
 }
 
 void
 StarMap::onViewDidAppear() {}
 
 void
-StarMap::onViewWillDisappear() {}
+StarMap::onViewWillDisappear() {
+    lv_group_remove_obj(_root);
+}
 
 void
 StarMap::onViewDidDisappear() {
@@ -50,7 +49,6 @@ StarMap::onViewDidDisappear() {
 void
 StarMap::onViewUnload() {
     View.Delete();
-    Model.Deinit();
 }
 
 void
@@ -95,12 +93,8 @@ StarMap::onEvent(lv_event_t* event) {
     const lv_obj_t* obj = lv_event_get_current_target(event);
     const lv_event_code_t code = lv_event_get_code(event);
 
-    if (code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_PRESSED) {
-        instance->pageManager->Pop();
-    }
-
-    if (obj == instance->_root) {
-        if (code == LV_EVENT_LEAVE) {
+    if (code == LV_EVENT_SHORT_CLICKED) {
+        if (obj == instance->_root) {
             instance->pageManager->Pop();
         }
     }
