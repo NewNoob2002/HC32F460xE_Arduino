@@ -185,25 +185,37 @@ PageManager::SwitchTo(PageBase* newNode, const bool isEnterAct, const PageBase::
     if (stash != nullptr) {
         PM_LOG_INFO("stash is detect, %s >> stash(0x%p) >> %s", GetPagePrevName(), stash, newNode->pageName);
 
-        void* buffer = nullptr;
+        if (stash->ptr == nullptr || stash->size == 0) {
+            PM_LOG_ERROR("stash data is invalid");
+        } else {
+            void* buffer = nullptr;
 
-        if (newNode->priv.Stash.ptr == nullptr) {
-            buffer = lv_mem_alloc(stash->size);
-            if (buffer == nullptr) {
-                PM_LOG_ERROR("stash malloc failed");
-            } else {
-                PM_LOG_INFO("stash(0x%p) malloc[%d]", buffer, stash->size);
+            if (newNode->priv.Stash.ptr != nullptr && newNode->priv.Stash.size != stash->size) {
+                PM_LOG_INFO("stash(0x%p) resize[%d -> %d]", newNode->priv.Stash.ptr, newNode->priv.Stash.size,
+                            stash->size);
+                lv_mem_free(newNode->priv.Stash.ptr);
+                newNode->priv.Stash.ptr = nullptr;
+                newNode->priv.Stash.size = 0;
             }
-        } else if (newNode->priv.Stash.size == stash->size) {
-            buffer = newNode->priv.Stash.ptr;
-            PM_LOG_INFO("stash(0x%p) is exist", buffer);
-        }
 
-        if (buffer != nullptr) {
-            memcpy(buffer, stash->ptr, stash->size);
-            PM_LOG_INFO("stash memcpy[%d] 0x%p >> 0x%p", stash->size, stash->ptr, buffer);
-            newNode->priv.Stash.ptr = buffer;
-            newNode->priv.Stash.size = stash->size;
+            if (newNode->priv.Stash.ptr == nullptr) {
+                buffer = lv_mem_alloc(stash->size);
+                if (buffer == nullptr) {
+                    PM_LOG_ERROR("stash malloc failed");
+                } else {
+                    PM_LOG_INFO("stash(0x%p) malloc[%d]", buffer, stash->size);
+                }
+            } else if (newNode->priv.Stash.size == stash->size) {
+                buffer = newNode->priv.Stash.ptr;
+                PM_LOG_INFO("stash(0x%p) is exist", buffer);
+            }
+
+            if (buffer != nullptr) {
+                memcpy(buffer, stash->ptr, stash->size);
+                PM_LOG_INFO("stash memcpy[%d] 0x%p >> 0x%p", stash->size, stash->ptr, buffer);
+                newNode->priv.Stash.ptr = buffer;
+                newNode->priv.Stash.size = stash->size;
+            }
         }
     }
 
@@ -315,11 +327,12 @@ PageManager::BackHome() {
   */
 bool
 PageManager::SwitchAnimStateCheck() const {
-    if (AnimState.IsSwitchReq || AnimState.IsBusy) {
+    if (AnimState.IsSwitchReq || AnimState.IsBusy || AnimState.IsDragging) {
         PM_LOG_WARN("Page switch busy[AnimState.IsSwitchReq = %d,"
-                    "AnimState.IsBusy = %d],"
+                    "AnimState.IsBusy = %d,"
+                    "AnimState.IsDragging = %d],"
                     "request ignored",
-                    AnimState.IsSwitchReq, AnimState.IsBusy);
+                    AnimState.IsSwitchReq, AnimState.IsBusy, AnimState.IsDragging);
         return false;
     }
 

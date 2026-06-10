@@ -69,18 +69,25 @@ PageManager::onRootDragEvent(lv_event_t* event) {
             return;
         }
 
-        if (!manager->AnimState.IsBusy) {
-            return;
+        if (manager->AnimState.IsBusy) {
+            PM_LOG_INFO("Root drag anim interrupted");
+            lv_anim_del(root, animAttr.setter);
+            manager->AnimState.IsBusy = false;
         }
-
-        PM_LOG_INFO("Root anim interrupted");
-        lv_anim_del(root, animAttr.setter);
-        manager->AnimState.IsBusy = false;
 
         /* Temporary showing the bottom page */
         const PageBase* bottomPage = manager->GetStackTopAfter();
+        if (bottomPage == nullptr || bottomPage->_root == nullptr) {
+            return;
+        }
+
         lv_obj_clear_flag(bottomPage->_root, LV_OBJ_FLAG_HIDDEN);
+        manager->AnimState.IsDragging = true;
     } else if (eventCode == LV_EVENT_PRESSING) {
+        if (!manager->AnimState.IsDragging) {
+            return;
+        }
+
         lv_coord_t cur = animAttr.getter(root);
 
         const lv_coord_t max = std::max(animAttr.pop.exit.start, animAttr.pop.exit.end);
@@ -97,9 +104,10 @@ PageManager::onRootDragEvent(lv_event_t* event) {
 
         animAttr.setter(root, CONSTRAIN(cur, min, max));
     } else if (eventCode == LV_EVENT_RELEASED) {
-        if (manager->AnimState.IsSwitchReq) {
+        if (manager->AnimState.IsSwitchReq || !manager->AnimState.IsDragging) {
             return;
         }
+        manager->AnimState.IsDragging = false;
 
         const lv_coord_t offset_sum = animAttr.push.enter.end - animAttr.push.enter.start;
 

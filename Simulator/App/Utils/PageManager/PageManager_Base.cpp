@@ -35,7 +35,6 @@
 PageManager::PageManager(PageFactory* factory)
     : pageFactory(factory), PagePrev(nullptr), PageCurrent(nullptr), RootDefaultStyle(nullptr) {
     lv_memset(&AnimState, 0, sizeof(AnimState));
-		PageInfoIndex = 0;
     SetGlobalLoadAnimType();
 }
 
@@ -44,7 +43,17 @@ PageManager::PageManager(PageFactory* factory)
   * @param
   * @retval None
   */
-PageManager::~PageManager() { SetStackClear(); }
+PageManager::~PageManager() {
+    SetStackClear();
+
+    for (PageBase* base : PagePool) {
+        if (base->_root != nullptr) {
+            ForceUnload(base);
+        }
+        delete base;
+    }
+    PagePool.clear();
+}
 
 /**
   * @brief  Search pages in the page pool
@@ -117,10 +126,14 @@ PageManager::Install(const char* className, const char* appName) {
 
     PM_LOG_INFO("Install Page[class = %s, name = %s]", className, appName);
     const bool retval = Register(base, appName);
+    if (!retval) {
+        delete base;
+        return false;
+    }
 
     base->onCustomAttrConfig();
 
-    return retval;
+    return true;
 }
 
 /**
@@ -171,7 +184,6 @@ PageManager::Register(PageBase* base, const char* name) {
 
     base->pageManager = this;
     base->pageName = name;
-		PageInfo[PageInfoIndex++] = base;
     PagePool.push_back(base);
 
     return true;

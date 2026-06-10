@@ -198,8 +198,9 @@ PageManager::StateUnloadExecute(PageBase* base) {
         base->priv.Stash.size = 0;
     }
 
-    /* Delete after the end of the root animation life cycle */
-    lv_obj_del_async(base->_root);
+    /* StateUnloadExecute runs after the switch animation has finished. Delete
+       synchronously so callbacks cannot outlive the owning PageBase instance. */
+    lv_obj_del(base->_root);
     base->_root = nullptr;
     base->priv.IsCached = false;
     base->onViewDidUnload();
