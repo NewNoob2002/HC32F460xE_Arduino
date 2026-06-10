@@ -2,29 +2,21 @@
     "version": 3,
     "configurePresets": [
         {
-            "name": "base",
-            "hidden": true,
-            "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/build/${presetName}",
-            "toolchainFile": "${sourceDir}/arm-none-eabi.cmake",
-            "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
-            }
-        },
-        {
-            "name": "debug",
-            "displayName": "Debug",
-            "description": "Debug build with -Og -g3",
-            "inherits": "base",
+            "name": "gcc-debug",
+            "displayName": "GCC Debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/gcc-debug",
+            "toolchainFile": "${sourceDir}/cmake/arm-none-eabi.cmake",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
-            "name": "release",
-            "displayName": "Release",
-            "description": "Release build with -Os",
-            "inherits": "base",
+            "name": "gcc-release",
+            "displayName": "GCC Release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/gcc-release",
+            "toolchainFile": "${sourceDir}/cmake/arm-none-eabi.cmake",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
@@ -32,12 +24,12 @@
     ],
     "buildPresets": [
         {
-            "name": "debug",
-            "configurePreset": "debug"
+            "name": "gcc-debug",
+            "configurePreset": "gcc-debug"
         },
         {
-            "name": "release",
-            "configurePreset": "release"
+            "name": "gcc-release",
+            "configurePreset": "gcc-release"
         }
     ]
 }

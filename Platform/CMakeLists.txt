@@ -1,3 +1,5 @@
+add_subdirectory(Config)
+
 file(GLOB PLATFORM_CMSIS_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/Device/HDSC/hc32f4xx/Source/*.c"
 )
