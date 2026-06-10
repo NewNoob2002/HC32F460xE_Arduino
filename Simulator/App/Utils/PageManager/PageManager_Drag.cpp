@@ -43,6 +43,11 @@ PageManager::onRootDragEvent(lv_event_t* event) {
         return;
     }
 
+    const lv_indev_t* indev = lv_indev_get_act();
+    if (indev == nullptr || lv_indev_get_type(indev) != LV_INDEV_TYPE_POINTER) {
+        return;
+    }
+
     auto* root = lv_event_get_current_target(event);
     auto* base = static_cast<PageBase*>(lv_event_get_user_data(event));
 

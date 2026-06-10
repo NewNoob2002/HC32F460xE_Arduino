@@ -23,6 +23,9 @@ class StarMap final : public PageBase {
 
   private:
     void Update();
+#if defined(LVGL_SIMULATOR)
+    static void GenerateTestData();
+#endif
     void AttachEvent(lv_obj_t* obj);
     static void onTimerUpdate(lv_timer_t* timer);
     static void onEvent(lv_event_t* event);

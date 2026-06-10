@@ -78,12 +78,29 @@ StarMap::Update() {
     View.UpdateValues(gps, bds, gln, gal, sbas, qzss, irnss);
 }
 
+#if defined(LVGL_SIMULATOR)
+void
+StarMap::GenerateTestData() {
+    constexpr uint32_t maxSatelliteCount = 32;
+
+    systemInfo.starMapInfo.numberGPS = lv_rand(0, maxSatelliteCount);
+    systemInfo.starMapInfo.numberBDS = lv_rand(0, maxSatelliteCount);
+    systemInfo.starMapInfo.numberGLONASS = lv_rand(0, maxSatelliteCount);
+    systemInfo.starMapInfo.numberGALILEO = lv_rand(0, maxSatelliteCount);
+    systemInfo.starMapInfo.numberSBAS = lv_rand(0, maxSatelliteCount);
+    systemInfo.starMapInfo.numberQZSS = lv_rand(0, maxSatelliteCount);
+    systemInfo.starMapInfo.numberIRNSS = lv_rand(0, maxSatelliteCount);
+}
+#endif
+
 void
 StarMap::onTimerUpdate(lv_timer_t* timer) {
     auto* instance = static_cast<StarMap*>(timer->user_data);
     LV_ASSERT_NULL(instance);
 
-    instance->View.UpdateStatusIndicator();
+#if defined(LVGL_SIMULATOR)
+    GenerateTestData();
+#endif
     instance->Update();
 }
 
