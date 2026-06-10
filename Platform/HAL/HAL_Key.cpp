@@ -1,34 +1,37 @@
-#include "HAL.h"
 #include "Arduino.h"
+#include "HAL.h"
 #include "multi_button.h"
 
 extern SystemInfo_t systemInfo;
 
 static Button PowerKey, FuncKey;
 
-static void PowerKey_Pressing_Callback(Button *btn)
-{
+static void
+PowerKey_Pressing_Callback(Button* btn) {
+    (void)btn;
     CORE_DEBUG_PRINTF("[PowerKey] PRESSING\n");
     systemInfo.powerMonitor.PowerKeyPressCount++;
     if (systemInfo.powerMonitor.PowerKeyPressCount >= 200) {
         systemInfo.powerMonitor.PowerKeyPressCount = 0;
         if (!systemInfo.powerMonitor.panel_power_on) {
             systemInfo.powerMonitor.panel_power_on = 1;
-        } else{
+        } else {
             systemInfo.powerMonitor.PowerKeyPressCount = 0;
             HAL::Power_Shutdown(false);
         }
     }
 }
 
-static void PowerKey_Realse_Callback(Button *btn)
-{
+static void
+PowerKey_Realse_Callback(Button* btn) {
     CORE_DEBUG_PRINTF("[PowerKey] REALSE\n");
+    (void)btn;
     systemInfo.powerMonitor.PowerKeyPressCount = 0;
 }
 
-static void FuncKey_DoubleClick_Callback(Button *btn)
-{
+static void
+FuncKey_DoubleClick_Callback(Button* btn) {
+    (void)btn;
     CORE_DEBUG_PRINTF("[FuncKey] Double Click\n");
     systemInfo.recordInfo.record_op = 1;
     if (systemInfo.recordInfo.record_status == 1) {
@@ -38,34 +41,34 @@ static void FuncKey_DoubleClick_Callback(Button *btn)
     }
 }
 
-static void FuncKey_LongPressRepeat_Callback(Button *btn)
-{
+static void
+FuncKey_LongPressRepeat_Callback(Button* btn) {
+    (void)btn;
     CORE_DEBUG_PRINTF("[FuncKey] LongPressRepeat\n");
     systemInfo.powerMonitor.ForceShutdown_count++;
-    if (systemInfo.powerMonitor.ForceShutdown_count >= 10)
+    if (systemInfo.powerMonitor.ForceShutdown_count >= 10) {
         systemInfo.powerMonitor.Force_ShutDown = true;
+    }
 }
 
-static void FuncKey_Realse_Callback(Button *btn)
-{
+static void
+FuncKey_Realse_Callback(Button* btn) {
+    (void)btn;
     CORE_DEBUG_PRINTF("[FuncKey] REALSE\n");
     systemInfo.powerMonitor.ForceShutdown_count = 0;
 }
 
-uint8_t read_button_gpio(uint8_t button_id)
-{
+uint8_t
+read_button_gpio(uint8_t button_id) {
     switch (button_id) {
-        case 1:
-            return digitalRead(POWER_KEY_PIN);
-        case 2:
-            return digitalRead(FUNCTION_KEY_PIN);
-        default:
-            return 0;
+        case 1: return digitalRead(POWER_KEY_PIN);
+        case 2: return digitalRead(FUNCTION_KEY_PIN);
+        default: return 0;
     }
 }
 
-void HAL::Key_Init()
-{
+void
+HAL::Key_Init() {
     CORE_DEBUG_PRINTF("KEY: Init");
     pinMode(POWER_KEY_PIN, INPUT_PULLUP);
     pinMode(FUNCTION_KEY_PIN, INPUT_PULLUP);
@@ -90,8 +93,8 @@ void HAL::Key_Init()
     button_start(&FuncKey);
 }
 
-void HAL::Key_Update()
-{
+void
+HAL::Key_Update() {
     button_ticks();
     //    PowerKey.EventMonitor(digitalRead(POWER_KEY_PIN) == HIGH);
     //    FuncKey.EventMonitor(digitalRead(FUNCTION_KEY_PIN) == LOW);

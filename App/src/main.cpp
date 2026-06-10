@@ -2,7 +2,6 @@
  * Include files
  ******************************************************************************/
 #include "Arduino.h"
-#include "SEGGER_RTT.h"
 #include "dynamic_memory.h"
 #include "slave_i2c.h"
 

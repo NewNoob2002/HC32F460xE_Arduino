@@ -20,13 +20,14 @@
 #define _WIRING_DIGITAL_
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
-#include "hc32_ll.h"
 #include "WVariant.h"
-#include "wiring_constants.h"
 #include "core_types.h"
+#include "hc32_ll.h"
+#include "wiring_constants.h"
+
 
 #ifdef __cplusplus
 /**
@@ -35,9 +36,9 @@
  * \param ulPin The number of the pin whose mode you wish to set
  * \param ulMode Can be INPUT, OUTPUT, INPUT_PULLUP, INPUT_PULLDOWN, OUTPUT_PWM
  */
-extern void pinMode( gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State = LOW);
+extern void pinMode(gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State = LOW);
 #else
-extern void pinMode( gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State);
+extern void pinMode(gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State);
 #endif
 /**
  * \brief get the current pin mode
@@ -45,7 +46,7 @@ extern void pinMode( gpio_pin_t dwPin, PinMode_TypeDef dwMode, uint8_t State);
  * \param dwPin The number of the pin whose mode you wish to get
  * \return the current pin mode. Can be INPUT, OUTPUT, INPUT_PULLUP or INPUT_PULLDOWN
 */
-extern uint32_t getPinMode( gpio_pin_t dwPin) ;
+extern uint32_t getPinMode(gpio_pin_t dwPin);
 
 /**
  * \brief Write a HIGH or a LOW value to a digital pin.
@@ -67,7 +68,7 @@ extern uint32_t getPinMode( gpio_pin_t dwPin) ;
  * \param dwPin the pin number
  * \param dwVal HIGH or LOW
  */
-extern void digitalWrite( gpio_pin_t dwPin, uint32_t dwVal ) ;
+extern void digitalWrite(gpio_pin_t dwPin, uint32_t dwVal);
 
 /**
  * \brief Reads the value from a specified digital pin, either HIGH or LOW.
@@ -76,14 +77,14 @@ extern void digitalWrite( gpio_pin_t dwPin, uint32_t dwVal ) ;
  *
  * \return HIGH or LOW
  */
-extern int digitalRead( gpio_pin_t ulPin ) ;
+extern int digitalRead(gpio_pin_t ulPin);
 
 /**
  * \brief Toggle the value of a digital pin
  *
  * \param ulPin The number of the pin you want to toggle
  */
-extern void digitalToggle( gpio_pin_t ulPin ) ;
+extern void digitalToggle(gpio_pin_t ulPin);
 
 #ifdef __cplusplus
 }

@@ -26,40 +26,37 @@ extern "C" {
 
 static bool dwt_enabled = false;
 
-uint32_t dwt_init(void)
-{
+uint32_t
+dwt_init(void) {
 
-  /* Enable use of DWT */
-  if (!(CoreDebug->DEMCR & CoreDebug_DEMCR_TRCENA_Msk)) {
-    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-  }
+    /* Enable use of DWT */
+    if (!(CoreDebug->DEMCR & CoreDebug_DEMCR_TRCENA_Msk)) {
+        CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    }
 
-  /* Reset the clock cycle counter value */
-  DWT->CYCCNT = 0;
+    /* Reset the clock cycle counter value */
+    DWT->CYCCNT = 0;
 
-  /* Enable  clock cycle counter */
-  DWT->CTRL |=  DWT_CTRL_CYCCNTENA_Msk;
+    /* Enable  clock cycle counter */
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 
-  /* 3 NO OPERATION instructions */
-  __asm volatile(" nop      \n\t"
-                 " nop      \n\t"
-                 " nop      \n\t");
+    /* 3 NO OPERATION instructions */
+    __asm volatile(" nop      \n\t"
+                   " nop      \n\t"
+                   " nop      \n\t");
 
-  /* Check if clock cycle counter has started */
-	if(DWT->CYCCNT > 0)
-	{
-		dwt_enabled = true;
-	}
-	else
-	{
-		dwt_enabled = false;
-	}
-  return 0;
+    /* Check if clock cycle counter has started */
+    if (DWT->CYCCNT > 0) {
+        dwt_enabled = true;
+    } else {
+        dwt_enabled = false;
+    }
+    return 0;
 }
 
-bool dwt_getStatus()
-{
-	return dwt_enabled;
+bool
+dwt_getStatus() {
+    return dwt_enabled;
 }
 
 #ifdef __cplusplus

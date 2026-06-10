@@ -88,7 +88,7 @@ public:
     void set_tx_timeout(uint32_t timeout) { this->_tx_timeout = timeout; }
     void begin(uint32_t baud);
     void begin(uint32_t baud, uint16_t config);
-    void begin(const stc_usart_uart_init_t *config, const bool rxNoiseFilter = true);
+    void begin(const stc_usart_uart_init_t *config);
     void end();
     virtual int available(void);
     int availableForWrite(void);

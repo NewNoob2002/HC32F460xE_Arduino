@@ -1,11 +1,11 @@
+#include <core_debug.h>
+#include <gpio.h>
+#include <hc32_ll.h>
+#include <irqn.h>
+#include <sysclock.h>
 #include "core_log.h"
 #include "hc32_ll_usart.h"
 #include "hc32f460.h"
-#include <hc32_ll.h>
-#include <gpio.h>
-#include <irqn.h>
-#include <core_debug.h>
-#include <sysclock.h>
 
 #include <HardwareSerial.h>
 
@@ -26,8 +26,8 @@ HardwareSerial Serial3(&USART3_config, SERIAL_3_TX_PIN, SERIAL_3_RX_PIN);
 //
 // IRQ register / unregister helper
 //
-inline void usart_irq_register(usart_interrupt_config_t &irq, const char *name, uint32_t priority = DDL_IRQ_PRIO_05)
-{
+inline void
+usart_irq_register(usart_interrupt_config_t& irq, const char* name, uint32_t priority = DDL_IRQ_PRIO_05) {
     // get auto-assigned irqn and set in irq struct
     IRQn_Type irqn;
     irqn_aa_get(irqn, name);
@@ -35,8 +35,8 @@ inline void usart_irq_register(usart_interrupt_config_t &irq, const char *name, 
 
     // create irq registration struct
     stc_irq_signin_config_t irqConf = {
-        .enIntSrc    = irq.interrupt_source,
-        .enIRQn      = irq.interrupt_number,
+        .enIntSrc = irq.interrupt_source,
+        .enIRQn = irq.interrupt_number,
         .pfnCallback = irq.interrupt_handler,
     };
 
@@ -47,8 +47,8 @@ inline void usart_irq_register(usart_interrupt_config_t &irq, const char *name, 
     NVIC_EnableIRQ(irqConf.enIRQn);
 }
 
-inline void usart_irq_resign(usart_interrupt_config_t &irq, const char *name)
-{
+inline void
+usart_irq_resign(usart_interrupt_config_t& irq, const char* name) {
     // disable interrupt and clear pending
     NVIC_DisableIRQ(irq.interrupt_number);
     NVIC_ClearPendingIRQ(irq.interrupt_number);
@@ -61,13 +61,9 @@ inline void usart_irq_resign(usart_interrupt_config_t &irq, const char *name)
 //
 // debug print helpers
 //
-#define USART_REG_TO_X(reg) \
-    reg == CM_USART1   ? 1  \
-    : reg == CM_USART2 ? 2  \
-    : reg == CM_USART3 ? 3  \
-    : reg == CM_USART4 ? 4  \
-                       : 0
-#define USART_DEBUG_PRINTF(fmt, ...) \
+#define USART_REG_TO_X(reg)                                                                                            \
+    reg == CM_USART1 ? 1 : reg == CM_USART2 ? 2 : reg == CM_USART3 ? 3 : reg == CM_USART4 ? 4 : 0
+#define USART_DEBUG_PRINTF(fmt, ...)                                                                                   \
     CORE_DEBUG_PRINTF("[USART%d] " fmt, USART_REG_TO_X(this->usart_config->peripheral.register_base), ##__VA_ARGS__)
 
 // void HardwareSerial::USART_rx_data_available_irq(void)
@@ -77,17 +73,14 @@ inline void usart_irq_resign(usart_interrupt_config_t &irq, const char *name)
 //     this->usart_config->state.rx_buffer->push(ch, true, rxOverrun);
 // }
 
-HardwareSerial::HardwareSerial(struct usart_config_t *usart_config,
-                               gpio_pin_t tx_pin,
-                               gpio_pin_t rx_pin)
-{
+HardwareSerial::HardwareSerial(struct usart_config_t* usart_config, gpio_pin_t tx_pin, gpio_pin_t rx_pin) {
     CORE_ASSERT(usart_config != NULL, "usart_config is NULL");
     ASSERT_GPIO_PIN_VALID(tx_pin, "tx_pin is invalid");
     ASSERT_GPIO_PIN_VALID(rx_pin, "rx_pin is invalid");
 
     this->usart_config = usart_config;
-    this->tx_pin       = tx_pin;
-    this->rx_pin       = rx_pin;
+    this->tx_pin = tx_pin;
+    this->rx_pin = rx_pin;
 
     // // 关联RingBuffer到USART状态结构体
     this->_rx_buffer = nullptr;
@@ -100,8 +93,7 @@ HardwareSerial::HardwareSerial(struct usart_config_t *usart_config,
     this->_is_initialized = false;
 }
 
-HardwareSerial::~HardwareSerial()
-{
+HardwareSerial::~HardwareSerial() {
     // 释放RingBuffer
     delete this->_rx_buffer;
     delete this->_tx_buffer;
@@ -113,52 +105,37 @@ HardwareSerial::~HardwareSerial()
     this->usart_config->state.tx_buffer = nullptr;
 }
 
-void HardwareSerial::begin(uint32_t baud)
-{
+void
+HardwareSerial::begin(uint32_t baud) {
     begin(baud, SERIAL_8N1);
 }
 
-void HardwareSerial::begin(uint32_t baud, uint16_t config)
-{
+void
+HardwareSerial::begin(uint32_t baud, uint16_t config) {
     stc_usart_uart_init_t uart_init;
     (void)USART_UART_StructInit(&uart_init);
-    uart_init.u32ClockDiv      = USART_CLK_DIV4;
-    uart_init.u32Baudrate      = baud;
+    uart_init.u32ClockDiv = USART_CLK_DIV4;
+    uart_init.u32Baudrate = baud;
     uart_init.u32OverSampleBit = USART_OVER_SAMPLE_8BIT;
     // stop bits
     switch (config & HARDSER_STOP_BIT_MASK) {
-        default:
-            CORE_ASSERT_FAIL("USART: invalid stop bit configuration");
-        case HARDSER_STOP_BIT_1:
-            uart_init.u32StopBit = USART_STOPBIT_1BIT;
-            break;
-        case HARDSER_STOP_BIT_2:
-            uart_init.u32StopBit = USART_STOPBIT_2BIT;
-            break;
+        default: CORE_ASSERT_FAIL("USART: invalid stop bit configuration");
+        case HARDSER_STOP_BIT_1: uart_init.u32StopBit = USART_STOPBIT_1BIT; break;
+        case HARDSER_STOP_BIT_2: uart_init.u32StopBit = USART_STOPBIT_2BIT; break;
     }
 
     // parity
     switch (config & HARDSER_PARITY_MASK) {
-        default:
-            CORE_ASSERT_FAIL("USART: invalid parity configuration");
-        case HARDSER_PARITY_NONE:
-            uart_init.u32Parity = USART_PARITY_NONE;
-            break;
-        case HARDSER_PARITY_EVEN:
-            uart_init.u32Parity = USART_PARITY_EVEN;
-            break;
-        case HARDSER_PARITY_ODD:
-            uart_init.u32Parity = USART_PARITY_ODD;
-            break;
+        default: CORE_ASSERT_FAIL("USART: invalid parity configuration");
+        case HARDSER_PARITY_NONE: uart_init.u32Parity = USART_PARITY_NONE; break;
+        case HARDSER_PARITY_EVEN: uart_init.u32Parity = USART_PARITY_EVEN; break;
+        case HARDSER_PARITY_ODD: uart_init.u32Parity = USART_PARITY_ODD; break;
     }
 
     // data bits
     switch (config & HARDSER_DATA_MASK) {
-        default:
-            CORE_ASSERT_FAIL("USART: invalid data bits configuration");
-        case HARDSER_DATA_8:
-            uart_init.u32DataWidth = USART_DATA_WIDTH_8BIT;
-            break;
+        default: CORE_ASSERT_FAIL("USART: invalid data bits configuration");
+        case HARDSER_DATA_8: uart_init.u32DataWidth = USART_DATA_WIDTH_8BIT; break;
     }
 
 #ifdef USART_AUTO_CLKDIV_OS_CONFIG
@@ -170,11 +147,11 @@ void HardwareSerial::begin(uint32_t baud, uint16_t config)
     begin(&uart_init);
 }
 
-void HardwareSerial::begin(const stc_usart_uart_init_t *config, const bool rxNoiseFilter)
-{
+void
+HardwareSerial::begin(const stc_usart_uart_init_t* config) {
     // this->_rx_buffer->clear();
     // this->_tx_buffer->clear();
-    CM_USART_TypeDef *USARTx = this->usart_config->peripheral.register_base;
+    CM_USART_TypeDef* USARTx = this->usart_config->peripheral.register_base;
     // set io
     GPIO_SetFunction(this->tx_pin, this->usart_config->peripheral.tx_pin_function);
     GPIO_SetFunction(this->rx_pin, this->usart_config->peripheral.rx_pin_function);
@@ -224,8 +201,8 @@ void HardwareSerial::begin(const stc_usart_uart_init_t *config, const bool rxNoi
     this->_is_initialized = true;
 }
 
-void HardwareSerial::end()
-{
+void
+HardwareSerial::end() {
     USART_DEBUG_PRINTF("end");
 
     // flush buffers
@@ -258,34 +235,30 @@ void HardwareSerial::end()
     USART_DEBUG_PRINTF("end completed\n");
 }
 
-int HardwareSerial::available()
-{
+int
+HardwareSerial::available() {
     // return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rxBufferHead - _rxBufferTail)) % SERIAL_RX_BUFFER_SIZE;
     return this->_rx_buffer->count();
 }
 
-int HardwareSerial::availableForWrite()
-{
+int
+HardwareSerial::availableForWrite() {
     // return this->_tx_buffer->capacity() - this->_tx_buffer->count();
     return USART_GetStatus(this->usart_config->peripheral.register_base, USART_FLAG_TX_EMPTY);
 }
 
-int HardwareSerial::peek()
-{
+int
+HardwareSerial::peek() {
     // if (_rxBufferHead == _rxBufferTail) {
     //     return -1;
     // } else {
     //     return _rxBuffer[_rxBufferTail];
     // }
-    uint8_t ch;
-    if (this->_rx_buffer->peek()) {
-        return ch;
-    }
-    return -1;
+    return this->_rx_buffer->peek();
 }
 
-int HardwareSerial::read()
-{
+int
+HardwareSerial::read() {
     // if the head isn't ahead of the tail, we don't have any characters
     // if (_rxBufferHead == _rxBufferTail) {
     //     return -1;
@@ -305,8 +278,8 @@ int HardwareSerial::read()
     return -1;
 }
 
-void HardwareSerial::flush()
-{
+void
+HardwareSerial::flush() {
     _rxBufferHead = _rxBufferTail;
     // if (!this->_is_initialized) {
     //     return;
@@ -317,14 +290,13 @@ void HardwareSerial::flush()
     // }
 }
 
-size_t HardwareSerial::write(uint8_t ch)
-{
+size_t
+HardwareSerial::write(uint8_t ch) {
     if (!this->_is_initialized) {
         return 0;
     }
 
-    while (RESET == USART_GetStatus(this->usart_config->peripheral.register_base, USART_FLAG_TX_EMPTY)) {
-    }
+    while (RESET == USART_GetStatus(this->usart_config->peripheral.register_base, USART_FLAG_TX_EMPTY)) {}
     USART_WriteData(this->usart_config->peripheral.register_base, ch);
     // wrote one byte
     return 1;

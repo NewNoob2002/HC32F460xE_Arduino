@@ -20,14 +20,13 @@
 #define _WIRING_CONSTANTS_
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
 
-#define LOW             (0x0)
-#define HIGH            (0x1)
+#define LOW  (0x0)
+#define HIGH (0x1)
 
-typedef enum
-{
+typedef enum {
     INPUT,
     INPUT_PULLUP,
     INPUT_PULLDOWN,
@@ -35,25 +34,22 @@ typedef enum
     INPUT_ANALOG_DMA,
     OUTPUT,
     OUTPUT_OPEN_DRAIN,
-//    OUTPUT_AF_PP,
-		OUTPUT_AF_ALTER,
+    //    OUTPUT_AF_PP,
+    OUTPUT_AF_ALTER,
     PWM
 } PinMode_TypeDef;
 
-#define PI 3.1415926535897932384626433832795
-#define HALF_PI 1.5707963267948966192313216916398
-#define TWO_PI 6.283185307179586476925286766559
+#define PI         3.1415926535897932384626433832795
+#define HALF_PI    1.5707963267948966192313216916398
+#define TWO_PI     6.283185307179586476925286766559
 #define DEG_TO_RAD 0.017453292519943295769236907684886
 #define RAD_TO_DEG 57.295779513082320876798154814105
-#define EULER 2.718281828459045235360287471352
+#define EULER      2.718281828459045235360287471352
 
-#define SERIAL  0x0
-#define DISPLAY 0x1
+#define SERIAL     0x0
+#define DISPLAY    0x1
 
-enum BitOrder {
-	LSBFIRST = 0,
-	MSBFIRST = 1
-};
+enum BitOrder { LSBFIRST = 0, MSBFIRST = 1 };
 
 // moved to WInterrupts.h
 ////      LOW 0

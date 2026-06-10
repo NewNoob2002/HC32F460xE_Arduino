@@ -4,7 +4,6 @@
     "cmake.ignoreCMakeListsMissing": true,
     "clangd.arguments": [
         "--query-driver=/opt/st/stm32cubeclt_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-*",
-        "--compile-commands-dir=${workspaceFolder}",
         "--background-index",
         "--clang-tidy",
         "--header-insertion=never"

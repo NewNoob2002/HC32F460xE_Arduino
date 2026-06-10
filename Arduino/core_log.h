@@ -15,37 +15,28 @@
 #endif
 
 #if (LOG_LEVEL >= LOG_LEVEL_ERROR)
-#define LOG_ERROR(fmt, ...)                                                                        \
-    {                                                                                              \
-        SEGGER_RTT_printf(0, "[E]" fmt "\n", ##__VA_ARGS__);                                       \
-    }
+#define LOG_ERROR(fmt, ...)                                                                                            \
+    { SEGGER_RTT_printf(0, "[E]" fmt "\n", ##__VA_ARGS__); }
 #else
 #define LOG_ERROR(fmt, ...)
 #endif
 #if (LOG_LEVEL >= LOG_LEVEL_WARNING)
-#define LOG_WARN(fmt, ...)                                                                         \
-    {                                                                                              \
-        SEGGER_RTT_printf(0, "[W]" fmt "\n", ##__VA_ARGS__);                                       \
-    }
+#define LOG_WARN(fmt, ...)                                                                                             \
+    { SEGGER_RTT_printf(0, "[W]" fmt "\n", ##__VA_ARGS__); }
 #else
 #define LOG_WARN(fmt, ...)
 #endif
 #if (LOG_LEVEL >= LOG_LEVEL_INFO)
-#define LOG_INFO(fmt, ...)                                                                         \
-    {                                                                                              \
-        SEGGER_RTT_printf(0, "[I]" fmt "\n", ##__VA_ARGS__);                                       \
-    }
+#define LOG_INFO(fmt, ...)                                                                                             \
+    { SEGGER_RTT_printf(0, "[I]" fmt "\n", ##__VA_ARGS__); }
 #else
 #define LOG_INFO(fmt, ...)
 #endif
 #if (LOG_LEVEL >= LOG_LEVEL_DEBUG)
-#define LOG_DEBUG(fmt, ...)                                                                        \
-    {                                                                                              \
-        SEGGER_RTT_printf(0, "[D]" fmt "\n", ##__VA_ARGS__);                                       \
-    }
+#define LOG_DEBUG(fmt, ...)                                                                                            \
+    { SEGGER_RTT_printf(0, "[D]" fmt "\n", ##__VA_ARGS__); }
 #else
 #define LOG_DEBUG(fmt, ...)
 #endif
 
 #endif
-

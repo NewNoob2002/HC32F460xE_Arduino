@@ -1,16 +1,2 @@
 CompileFlags:
   CompilationDatabase: build/clangd
-  Add:
-    - --target=arm-none-eabi
-    - -U__clang__
-    - -D__PROGRAM_START=Reset_Handler
----
-If:
-  PathMatch: .*\.cpp
-CompileFlags:
-  Compiler: arm-none-eabi-g++
----
-If:
-  PathMatch: .*\.c
-CompileFlags:
-  Compiler: arm-none-eabi-gcc

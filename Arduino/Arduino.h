@@ -21,8 +21,8 @@
 #define Arduino_h
 
 /* c lib header*/
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -32,22 +32,22 @@
 // some libraries and sketches depend on this AVR stuff,
 // assuming Arduino.h or WProgram.h automatically includes it...
 //
-#include "pgmspace.h"
 #include "dtostrf.h"
+#include "pgmspace.h"
 
 #include "binary.h"
 #include "itoa.h"
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
-#include "yield.h"
 #include "delay.h"
 #include "dwt.h"
-#include "gpio.h"
 #include "flash.h"
+#include "gpio.h"
 #include "mcu_config.h"
-  /* sketch */
+#include "yield.h"
+/* sketch */
 //void setup( void ) ;
 //void loop( void ) ;
 
@@ -78,32 +78,32 @@ extern "C"{
 #undef abs
 #endif // abs
 
-#define radians(deg) ((deg)*DEG_TO_RAD)
-#define degrees(rad) ((rad)*RAD_TO_DEG)
-#define sq(x) ((x)*(x))
+#define radians(deg)                   ((deg) * DEG_TO_RAD)
+#define degrees(rad)                   ((rad) * RAD_TO_DEG)
+#define sq(x)                          ((x) * (x))
 
-#define interrupts() __enable_irq()
-#define noInterrupts() __disable_irq()
+#define interrupts()                   __enable_irq()
+#define noInterrupts()                 __disable_irq()
 
-#define lowByte(w) ((uint8_t) ((w) & 0xff))
-#define highByte(w) ((uint8_t) ((w) >> 8))
+#define lowByte(w)                     ((uint8_t)((w) & 0xff))
+#define highByte(w)                    ((uint8_t)((w) >> 8))
 
-#define bitRead(value, bit) (((value) >> (bit)) & 0x01)
-#define bitSet(value, bit) ((value) |= (1UL << (bit)))
-#define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
+#define bitRead(value, bit)            (((value) >> (bit)) & 0x01)
+#define bitSet(value, bit)             ((value) |= (1UL << (bit)))
+#define bitClear(value, bit)           ((value) &= ~(1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
-#define bit(b) (1UL << (b))
+#define bit(b)                         (1UL << (b))
 
-#define delay(ms)                    delay_ms(ms)
-#define delayMicroseconds(us)        delay_us(us)
+#define delay(ms)                      delay_ms(ms)
+#define delayMicroseconds(us)          delay_us(us)
 
-#define NOT_A_PIN                    0xFF
-#define NOT_A_PORT                   0xFF
-#define NOT_AN_INTERRUPT             -1
+#define NOT_A_PIN                      0xFF
+#define NOT_A_PORT                     0xFF
+#define NOT_AN_INTERRUPT               -1
 // dynamic F_CPU
 #ifndef F_CPU
-  #define F_CPU (SystemCoreClock)
+#define F_CPU (SystemCoreClock)
 #endif
 
 #endif // Arduino_h

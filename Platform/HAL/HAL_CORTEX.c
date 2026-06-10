@@ -19,15 +19,14 @@
   *         The pending IRQ priority will be managed only by the subpriority. 
   * @retval None
   */
-void HAL_NVIC_SetPriorityGrouping(uint32_t PriorityGroup)
-{
-  /* Check the parameters */
-  DDL_ASSERT(IS_NVIC_PRIORITY_GROUP(PriorityGroup));
-  
-  /* Set the PRIGROUP[10:8] bits according to the PriorityGroup parameter value */
-  NVIC_SetPriorityGrouping(PriorityGroup);
-}
+void
+HAL_NVIC_SetPriorityGrouping(uint32_t PriorityGroup) {
+    /* Check the parameters */
+    DDL_ASSERT(IS_NVIC_PRIORITY_GROUP(PriorityGroup));
 
+    /* Set the PRIGROUP[10:8] bits according to the PriorityGroup parameter value */
+    NVIC_SetPriorityGrouping(PriorityGroup);
+}
 
 /**
   * @brief  Sets the priority of an interrupt.
@@ -42,19 +41,18 @@ void HAL_NVIC_SetPriorityGrouping(uint32_t PriorityGroup)
   *         A lower priority value indicates a higher priority.          
   * @retval None
   */
-void HAL_NVIC_SetPriority(IRQn_Type IRQn, uint32_t PreemptPriority, uint32_t SubPriority)
-{ 
-  uint32_t prioritygroup = 0x00U;
-  
-  /* Check the parameters */
-  DDL_ASSERT(IS_NVIC_SUB_PRIORITY(SubPriority));
-  DDL_ASSERT(IS_NVIC_PREEMPTION_PRIORITY(PreemptPriority));
-  
-  prioritygroup = NVIC_GetPriorityGrouping();
-  
-  NVIC_SetPriority(IRQn, NVIC_EncodePriority(prioritygroup, PreemptPriority, SubPriority));
-}
+void
+HAL_NVIC_SetPriority(IRQn_Type IRQn, uint32_t PreemptPriority, uint32_t SubPriority) {
+    uint32_t prioritygroup = 0x00U;
 
+    /* Check the parameters */
+    DDL_ASSERT(IS_NVIC_SUB_PRIORITY(SubPriority));
+    DDL_ASSERT(IS_NVIC_PREEMPTION_PRIORITY(PreemptPriority));
+
+    prioritygroup = NVIC_GetPriorityGrouping();
+
+    NVIC_SetPriority(IRQn, NVIC_EncodePriority(prioritygroup, PreemptPriority, SubPriority));
+}
 
 /**
   * @brief  Enables a device specific interrupt in the NVIC interrupt controller.
@@ -65,13 +63,13 @@ void HAL_NVIC_SetPriority(IRQn_Type IRQn, uint32_t PreemptPriority, uint32_t Sub
   *         (For the complete STM32 Devices IRQ Channels list, please refer to the appropriate CMSIS device file (stm32f4xxxx.h))
   * @retval None
   */
-void HAL_NVIC_EnableIRQ(IRQn_Type IRQn)
-{
-  /* Check the parameters */
-  DDL_ASSERT(IS_NVIC_DEVICE_IRQ(IRQn));
-  
-  /* Enable interrupt */
-  NVIC_EnableIRQ(IRQn);
+void
+HAL_NVIC_EnableIRQ(IRQn_Type IRQn) {
+    /* Check the parameters */
+    DDL_ASSERT(IS_NVIC_DEVICE_IRQ(IRQn));
+
+    /* Enable interrupt */
+    NVIC_EnableIRQ(IRQn);
 }
 
 /**
@@ -81,25 +79,24 @@ void HAL_NVIC_EnableIRQ(IRQn_Type IRQn)
   *         (For the complete STM32 Devices IRQ Channels list, please refer to the appropriate CMSIS device file (stm32f4xxxx.h))
   * @retval None
   */
-void HAL_NVIC_DisableIRQ(IRQn_Type IRQn)
-{
-  /* Check the parameters */
-  DDL_ASSERT(IS_NVIC_DEVICE_IRQ(IRQn));
-  
-  /* Disable interrupt */
-  NVIC_DisableIRQ(IRQn);
+void
+HAL_NVIC_DisableIRQ(IRQn_Type IRQn) {
+    /* Check the parameters */
+    DDL_ASSERT(IS_NVIC_DEVICE_IRQ(IRQn));
+
+    /* Disable interrupt */
+    NVIC_DisableIRQ(IRQn);
 }
 
 /**
   * @brief  Initiates a system reset request to reset the MCU.
   * @retval None
   */
-void HAL_NVIC_SystemReset(void)
-{
-  /* System Reset */
-  NVIC_SystemReset();
+void
+HAL_NVIC_SystemReset(void) {
+    /* System Reset */
+    NVIC_SystemReset();
 }
-
 
 /**
   * @brief  Initializes the System Timer and its interrupt, and starts the System Tick Timer.
@@ -108,7 +105,7 @@ void HAL_NVIC_SystemReset(void)
   * @retval status:  - 0  Function succeeded.
   *                  - 1  Function failed.
   */
-uint32_t HAL_SYSTICK_Config(uint32_t TicksNumb)
-{
-   return SysTick_Config(TicksNumb);
+uint32_t
+HAL_SYSTICK_Config(uint32_t TicksNumb) {
+    return SysTick_Config(TicksNumb);
 }
