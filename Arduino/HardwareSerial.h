@@ -84,7 +84,7 @@ public:
     ~HardwareSerial();
     
     const usart_config_t *get_config() const { return this->usart_config; }
-    const usart_receive_error_t get_rx_error() const { return this->usart_config->state.rx_error; }
+    usart_receive_error_t get_rx_error() const { return this->usart_config->state.rx_error; }
     void set_tx_timeout(uint32_t timeout) { this->_tx_timeout = timeout; }
     void begin(uint32_t baud);
     void begin(uint32_t baud, uint16_t config);

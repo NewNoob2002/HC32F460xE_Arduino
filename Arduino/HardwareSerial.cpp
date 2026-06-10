@@ -119,14 +119,18 @@ HardwareSerial::begin(uint32_t baud, uint16_t config) {
     uart_init.u32OverSampleBit = USART_OVER_SAMPLE_8BIT;
     // stop bits
     switch (config & HARDSER_STOP_BIT_MASK) {
-        default: CORE_ASSERT_FAIL("USART: invalid stop bit configuration");
+        default:
+            CORE_ASSERT_FAIL("USART: invalid stop bit configuration");
+            return;
         case HARDSER_STOP_BIT_1: uart_init.u32StopBit = USART_STOPBIT_1BIT; break;
         case HARDSER_STOP_BIT_2: uart_init.u32StopBit = USART_STOPBIT_2BIT; break;
     }
 
     // parity
     switch (config & HARDSER_PARITY_MASK) {
-        default: CORE_ASSERT_FAIL("USART: invalid parity configuration");
+        default:
+            CORE_ASSERT_FAIL("USART: invalid parity configuration");
+            return;
         case HARDSER_PARITY_NONE: uart_init.u32Parity = USART_PARITY_NONE; break;
         case HARDSER_PARITY_EVEN: uart_init.u32Parity = USART_PARITY_EVEN; break;
         case HARDSER_PARITY_ODD: uart_init.u32Parity = USART_PARITY_ODD; break;
@@ -134,7 +138,9 @@ HardwareSerial::begin(uint32_t baud, uint16_t config) {
 
     // data bits
     switch (config & HARDSER_DATA_MASK) {
-        default: CORE_ASSERT_FAIL("USART: invalid data bits configuration");
+        default:
+            CORE_ASSERT_FAIL("USART: invalid data bits configuration");
+            return;
         case HARDSER_DATA_8: uart_init.u32DataWidth = USART_DATA_WIDTH_8BIT; break;
     }
 
