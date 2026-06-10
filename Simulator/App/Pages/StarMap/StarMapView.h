@@ -9,6 +9,7 @@ class StarMapView {
   public:
     struct {
         lv_obj_t* label_title;
+        lv_obj_t* activity_indicator;
         lv_obj_t* divider;
 
         struct {
@@ -19,9 +20,12 @@ class StarMapView {
         } constell[7];
     } ui;
 
+    bool activity_indicator_on = false;
+
     void Create(lv_obj_t* root);
     void Delete();
     void ApplyLanguage() const;
+    void UpdateActivityIndicator();
     void UpdateValues(int gps, int bds, int gln, int gal, int sbas, int qzss, int irnss);
 };
 

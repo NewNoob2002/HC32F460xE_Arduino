@@ -8,6 +8,7 @@ constexpr lv_color_t kBackground = LV_COLOR_MAKE(0x15, 0x15, 0x13);
 constexpr lv_color_t kDivider = LV_COLOR_MAKE(0x33, 0x33, 0x30);
 constexpr lv_color_t kLabel = LV_COLOR_MAKE(0x72, 0x6E, 0x63);
 constexpr lv_color_t kValue = LV_COLOR_MAKE(0xE8, 0xE1, 0xCF);
+constexpr lv_color_t kActivity = LV_COLOR_MAKE(0x2E, 0xCC, 0x71);
 
 constexpr lv_color_t kColors[7] = {
     LV_COLOR_MAKE(0xE1, 0xAA, 0x22),
@@ -39,6 +40,14 @@ StarMapView::Create(lv_obj_t* root) {
     lv_obj_set_style_text_color(label_title, kValue, 0);
     lv_obj_set_pos(label_title, 10, 4);
     ui.label_title = label_title;
+
+    lv_obj_t* activity_indicator = lv_obj_create(root);
+    lv_obj_remove_style_all(activity_indicator);
+    lv_obj_set_size(activity_indicator, 6, 6);
+    lv_obj_set_style_radius(activity_indicator, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_bg_color(activity_indicator, kActivity, 0);
+    lv_obj_set_style_bg_opa(activity_indicator, LV_OPA_30, 0);
+    ui.activity_indicator = activity_indicator;
 
     lv_obj_t* divider = lv_obj_create(root);
     lv_obj_remove_style_all(divider);
@@ -106,6 +115,13 @@ StarMapView::Delete() {}
 void
 StarMapView::ApplyLanguage() const {
     lv_label_set_text(ui.label_title, I18n::Text(I18n::TextId::StarMapTitle));
+    lv_obj_align_to(ui.activity_indicator, ui.label_title, LV_ALIGN_OUT_RIGHT_MID, 7, 0);
+}
+
+void
+StarMapView::UpdateActivityIndicator() {
+    activity_indicator_on = !activity_indicator_on;
+    lv_obj_set_style_bg_opa(ui.activity_indicator, activity_indicator_on ? LV_OPA_COVER : LV_OPA_30, 0);
 }
 
 void
