@@ -11,10 +11,9 @@ syncbar_timer_callback(lv_timer_t* timer) {
     memset(&systemInfo, 0, sizeof(systemInfo));
 #if defined(LVGL_SIMULATOR) || defined(_WIN32)
     LV_LOG_USER("Shutdonw done\n");
+    systemInfo.powerMonitor.ShutdownEnsure = true;
     return;
 #else
-    shared_info.reset_count = 0x2026;
-    shared_info.command = CMD_SKIP_DELAY;
     NVIC_SystemReset();
 #endif
 }

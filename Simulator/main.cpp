@@ -65,7 +65,7 @@ extern void StatusBar_Appear(bool en);
  *   GLOBAL FUNCTIONS
  **********************/
 
-[[noreturn]] int
+int
 main(const int argc, char** argv) {
     /*Initialize LVGL*/
     lv_init();
@@ -111,9 +111,13 @@ main(const int argc, char** argv) {
 #if defined(_WIN32)
         Sleep(5);
 #else
+        if (systemInfo.powerMonitor.ShutdownEnsure) {
+            break;
+        }
         usleep(5 * 1000);
 #endif
     }
+    return 0;
 }
 
 /**********************
