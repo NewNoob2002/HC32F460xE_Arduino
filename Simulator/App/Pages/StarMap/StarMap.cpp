@@ -74,7 +74,7 @@ StarMap::Update() {
     int sbas = systemInfo.starMapInfo.numberSBAS;
     int qzss = systemInfo.starMapInfo.numberQZSS;
     int irnss = systemInfo.starMapInfo.numberIRNSS;
-
+    systemInfo.starMapInfo.syncStatus = false;
     View.UpdateValues(gps, bds, gln, gal, sbas, qzss, irnss);
 }
 

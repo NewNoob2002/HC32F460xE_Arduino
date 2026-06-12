@@ -196,6 +196,21 @@ typedef struct StarMapInfo_t {
     uint8_t numberIRNSS;
 } StarMapInfo_t;
 
+typedef struct MessageDecode_Count_t {
+    uint32_t Info1_count;
+    uint32_t Info2_count;
+    uint32_t Info3_count;
+    uint32_t Info4_count;
+
+    uint32_t Set1_count;
+    uint32_t Set3_count;
+    uint32_t Set6_count;
+    uint32_t SetWifi_count;
+    uint32_t SetSatellite_count;
+
+    uint32_t error_count;
+} MessageDecode_Count_t;
+
 typedef struct SystemInfo_t {
     bool eg25_overtime;
     uint16_t i2c_communicate_err_count;
@@ -212,6 +227,7 @@ typedef struct SystemInfo_t {
     Power_Monitor_t powerMonitor;
     NtripInfo_t ntripInfo;
     WorkMode_t work_mode;
+    MessageDecode_Count_t messageDecode;
 } SystemInfo_t, *pSystemInfo_t;
 
 extern SystemInfo_t systemInfo;

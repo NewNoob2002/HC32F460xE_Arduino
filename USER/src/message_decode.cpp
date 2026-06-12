@@ -1,4 +1,6 @@
 #include "message_decode.h"
+#include <cstdint>
+#include <cstdio>
 #include "core_debug.h"
 #include "mcu_config.h"
 
@@ -18,7 +20,8 @@ static int
 message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
     uint8_t* msg = txBuffer;
     uint16_t messageLength = 0;
-    switch (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L]) {
+    uint16_t messageId = parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L] | (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_H] << 8);
+    switch (messageId) {
         case NM_PANEL_INFO1_ID: messageLength = NM_PROTOCOL_INFO1_MSG_LEN; break;
         case NM_PANEL_INFO2_ID: messageLength = NM_PROTOCOL_INFO2_MSG_LEN; break;
         case NM_PANEL_INFO3_ID: messageLength = NM_PROTOCOL_INFO3_MSG_LEN; break;
@@ -41,8 +44,9 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
     msg[NM_PROTOCOL_MSG_SENDER_INDEX] = NM_PROTOCOL_MSG_SENDER_PANEL;
     msg[NM_PROTOCOL_MSG_TYPE_INDEX] = NM_MSG_QUERY_RES_TYPE;
 
-    switch (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L]) {
+    switch (messageId) {
         case NM_PANEL_INFO1_ID: {
+            systemInfo.messageDecode.Info1_count++;
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 0], systemInfo.hardware_version,
                    strlen(systemInfo.hardware_version)); // HardWare_Version
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 8], systemInfo.software_version,
@@ -51,22 +55,22 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 20], &systemInfo.powerMonitor.batteryInfo.Temp, 2);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 22], &systemInfo.powerMonitor.batteryInfo.Voltage, 2);
         } break;
-        case NM_PANEL_INFO2_ID:
+        case NM_PANEL_INFO2_ID: {
+            systemInfo.messageDecode.Info2_count++;
             msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.powerMonitor.reset_flag;    // 主机复位控制
             msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.powerMonitor.poweroff_flag; // 主机关机控制
             msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.recordInfo.record_status;   // 静态记录状态
             msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.recordInfo.record_op;       // 静态记录开关
             msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus != notCharge;
-            // CORE_DEBUG_PRINTF("RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n",
-            //                   systemInfo.recordInfo.record_status, systemInfo.recordInfo.record_op,
-            //                   systemInfo.recordInfo.record_interval, systemInfo.recordInfo.record_change_flag);
             if (systemInfo.powerMonitor.poweroff_flag == 1) {
                 systemInfo.powerMonitor.poweroff_flag = 0;
                 systemInfo.powerMonitor.ShutdownEnsure = true;
                 CORE_DEBUG_PRINTF("Shutdown Sync");
             }
             break;
-        case NM_PANEL_INFO3_ID:
+        }
+        case NM_PANEL_INFO3_ID: {
+            systemInfo.messageDecode.Info3_count++;
             msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.work_mode;
             msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.positionInfo.satellite_number_used;
             msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.positionInfo.coordinate_status;
@@ -84,7 +88,9 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_HEADER_LEN + 86] = systemInfo.radioInfo.radio_channel;
             systemInfo.radioInfo.radio_change_flag = 0;
             break;
-        case NM_PANEL_INFO4_ID:
+        }
+        case NM_PANEL_INFO4_ID: {
+            systemInfo.messageDecode.Info4_count++;
             msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.recordInfo.record_status;
             msg[NM_PROTOCOL_HEADER_LEN + 1] = systemInfo.recordInfo.record_op; // 静态记录开关
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 4], &systemInfo.recordInfo.record_leftspace, 4);
@@ -92,9 +98,6 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_HEADER_LEN + 24] = systemInfo.recordInfo.record_type;
             msg[NM_PROTOCOL_HEADER_LEN + 25] = systemInfo.recordInfo.record_interval;
             msg[NM_PROTOCOL_HEADER_LEN + 26] = systemInfo.recordInfo.record_change_flag;
-            CORE_DEBUG_PRINTF("RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n",
-                              systemInfo.recordInfo.record_status, systemInfo.recordInfo.record_op,
-                              systemInfo.recordInfo.record_interval, systemInfo.recordInfo.record_change_flag);
             if (systemInfo.recordInfo.record_change_flag) {
                 systemInfo.recordInfo.record_change_flag = 0;
             }
@@ -102,7 +105,12 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
                 systemInfo.recordInfo.record_op = 0;
             }
             break;
-        default: break;
+        }
+        default: {
+            systemInfo.messageDecode.error_count++;
+            CORE_DEBUG_PRINTF("default unkonw info query message id: 0x%04X, len: %d", messageId, parse->length);
+            break;
+        }
     }
 
     const uint32_t crc = calculate_crc((const char*)msg, (messageLength + NM_PROTOCOL_HEADER_LEN));
@@ -149,9 +157,10 @@ static int
 message_set_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
     uint8_t* msg = txBuffer;
     bool handled = true;
-
-    switch (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L]) {
+    uint16_t messageId = parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L] | (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_H] << 8);
+    switch (messageId) {
         case NM_PANEL_SET1_ID:
+            systemInfo.messageDecode.Set1_count++;
             if (systemInfo.radioInfo.radio_change_flag == 0) {
                 systemInfo.work_mode = (WorkMode_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
                 systemInfo.positionInfo.satellite_number_used = parse->buffer[NM_PROTOCOL_HEADER_LEN + 1];
@@ -183,12 +192,14 @@ message_set_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             }
             break;
         case NM_PANEL_SET3_ID:
+            systemInfo.messageDecode.Set3_count++;
             systemInfo.positionInfo.coordinate_status = (PositionStatus_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
             memcpy(&systemInfo.positionInfo.coordinate_lon, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 8);
             memcpy(&systemInfo.positionInfo.coordinate_lat, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 12], 8);
             memcpy(&systemInfo.positionInfo.coordinate_alt, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 20], 8);
             break;
         case NM_PANEL_SET6_ID:
+            systemInfo.messageDecode.Set6_count++;
             if (systemInfo.recordInfo.record_change_flag == 0) {
                 systemInfo.recordInfo.record_status = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
                 memcpy(&systemInfo.recordInfo.record_leftspace, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 4);
@@ -198,13 +209,35 @@ message_set_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
                 systemInfo.recordInfo.record_change_flag = parse->buffer[NM_PROTOCOL_HEADER_LEN + 26];
             }
             break;
-        case NM_PANEL_SET7_ID:
+        case NM_PANEL_SET_WIFI_ID:
+            systemInfo.messageDecode.SetWifi_count++;
             systemInfo.wifiInfo.wifi_status = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
             systemInfo.wifiInfo.wifi_mode = parse->buffer[NM_PROTOCOL_HEADER_LEN + 1];
             memcpy(&systemInfo.wifiInfo.wifi_ip, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 4);
             memcpy(&systemInfo.wifiInfo.wifi_ssid, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 8], 16);
             break;
-        default: handled = false; break;
+        case NM_PANEL_SET_SATELLITE_ID:
+            systemInfo.messageDecode.SetSatellite_count++;
+            systemInfo.starMapInfo.numberGPS = parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
+            systemInfo.starMapInfo.numberGLONASS = parse->buffer[NM_PROTOCOL_HEADER_LEN + 1];
+            systemInfo.starMapInfo.numberGALILEO = parse->buffer[NM_PROTOCOL_HEADER_LEN + 2];
+            systemInfo.starMapInfo.numberBDS = parse->buffer[NM_PROTOCOL_HEADER_LEN + 3];
+            systemInfo.starMapInfo.numberSBAS = parse->buffer[NM_PROTOCOL_HEADER_LEN + 4];
+            systemInfo.starMapInfo.numberQZSS = parse->buffer[NM_PROTOCOL_HEADER_LEN + 5];
+            systemInfo.starMapInfo.numberIRNSS = parse->buffer[NM_PROTOCOL_HEADER_LEN + 6];
+            systemInfo.starMapInfo.syncStatus = true;
+            break;
+        default:
+            handled = false;
+            systemInfo.messageDecode.error_count++;
+            CORE_DEBUG_PRINTF("default unkonw info set message id: 0x%04X, len: %d", messageId, parse->length);
+            // char buf[512] = {0};
+            // size_t offset = 0;
+            // for (int i = 0; i < parse->length && offset < sizeof(buf) - 5; i++) {
+            //     offset += snprintf(buf + offset, sizeof(buf) - offset, "0x%02X ", parse->buffer[i]);
+            // }
+            // CORE_DEBUG_PRINTF(buf);
+            break;
     }
     if (!handled) {
         return 0;
@@ -259,7 +292,8 @@ message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
         case NM_PANEL_SET1_ID:
         case NM_PANEL_SET3_ID:
         case NM_PANEL_SET6_ID:
-        case NM_PANEL_SET7_ID:
+        case NM_PANEL_SET_WIFI_ID:
+        case NM_PANEL_SET_SATELLITE_ID:
         case NM_PANEL_SET3_1_ID: result = message_set_encode(parse, txBuffer); break;
         default: break;
     }

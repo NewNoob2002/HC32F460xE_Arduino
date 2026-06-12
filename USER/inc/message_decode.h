@@ -52,7 +52,8 @@
 #define NM_PANEL_SET1_ID                  0x06
 #define NM_PANEL_SET3_ID                  0x08
 #define NM_PANEL_SET6_ID                  0x09
-#define NM_PANEL_SET7_ID                  0x0C
+#define NM_PANEL_SET_WIFI_ID              0x0C
+#define NM_PANEL_SET_SATELLITE_ID         0x0D
 #define NM_PANEL_SET3_1_ID                0x03
 
 #define NM_PROTOCOL_SET_MSG_LEN           2  //2 bytes message length
