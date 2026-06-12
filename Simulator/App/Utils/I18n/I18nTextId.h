@@ -42,6 +42,7 @@ enum class TextId : size_t {
     BatteryNotCharge,
     BatteryFastCharge,
     BatteryNormalCharge,
+    BatteryTemperatureCritical,
     StorageHour,
     PositionBase,
     PositionNone,

@@ -39,6 +39,7 @@ const char* const texts[] = {
     "notCharge",
     "fastCharge",
     "normalCharge",
+    "BATTERY HOT %.1f C - PLACE IN COOL PLACE",
     "Hour",
     "BASE",
     "NONE",

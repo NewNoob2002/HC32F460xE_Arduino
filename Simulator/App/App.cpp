@@ -24,10 +24,13 @@
 #include "Common/DataProc/DataProc.h"
 #include "HAL/HAL.h"
 #include "Pages/AppFactory.h"
+#include "Pages/BatteryWarning/BatteryWarning.h"
 #include "Pages/StatusBar/StatusBar.h"
 #include "Resource/ResourcePool.h"
 #include "Utils/I18n/I18n.h"
 #include "Utils/PageManager/PageManager.h"
+#include "mcu_define.h"
+#include "src/hal/lv_hal_tick.h"
 #if defined(LVGL_SIMULATOR) || defined(_WIN32)
 #else
 #include "lv_port.h"
@@ -81,6 +84,7 @@ App_Init() {
 
     /* Initialize status bar */
     Page::StatusBar_Create(lv_layer_top());
+    Page::BatteryWarning_Create(lv_layer_top());
 
     /* Initialize pages */
     manager.Install("Startup", "Pages/Startup");
@@ -106,6 +110,7 @@ App_SetLanguage(const I18n::Language language) {
 
     manager.NotifyLanguageChanged();
     Page::StatusBar_ApplyLanguage();
+    Page::BatteryWarning_ApplyLanguage();
     return true;
 }
 
@@ -116,6 +121,8 @@ App_GetLanguage() {
 
 void
 App_Update() {
+    Page::BatteryWarning_Update();
+
     if (systemInfo.powerMonitor.Force_ShutDown || systemInfo.powerMonitor.LowBatteryPowerOff
         || systemInfo.powerMonitor.LinuxPowerOff) {
         if (!Shutdown_pushed) {
@@ -125,6 +132,14 @@ App_Update() {
         }
     }
 #if defined(LVGL_SIMULATOR) || defined(_WIN32)
+    static uint32_t lastTick = 0;
+    if (lv_tick_get() - lastTick > 1000) {
+        lastTick = lv_tick_get();
+        systemInfo.powerMonitor.batteryInfo.Temp_f++;
+    }
+    if (systemInfo.powerMonitor.batteryInfo.Temp_f >= 80) {
+        systemInfo.powerMonitor.batteryInfo.Temp_f = 10;
+    }
 #else
     if (systemInfo.powerMonitor.ExternalPowerChange) {
         systemInfo.powerMonitor.ExternalPowerChange = 0;

@@ -10,8 +10,11 @@
 #define SDL_MAIN_HANDLED /*To fix SDL's "undefined reference to WinMain" issue*/
 #include "lv_drivers/sdl/sdl.h"
 
+#include <cstdlib>
+#include <cstring>
 #include "App/App.h"
 #include "elog.h"
+
 /*********************
  *      DEFINES
  *********************/
@@ -64,14 +67,12 @@ extern void StatusBar_Appear(bool en);
 
 [[noreturn]] int
 main(const int argc, char** argv) {
-    (void)argc; /*Unused*/
-    (void)argv; /*Unused*/
-
     /*Initialize LVGL*/
     lv_init();
     /*Initialize the HAL (display, input devices, tick) for LVGL*/
     hal_init();
     memset(&systemInfo, 0, sizeof(systemInfo));
+    systemInfo.powerMonitor.batteryInfo.Temp_f = 25.0f;
     systemInfo.positionInfo.satellite_number_used = 32;
     systemInfo.positionInfo.satellite_number_track = 48;
     constexpr char wifi_id[16] = "E1PRO-2124A0078";
