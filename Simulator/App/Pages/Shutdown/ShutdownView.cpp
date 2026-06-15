@@ -87,7 +87,14 @@ ShutdownView::Create(lv_obj_t* root) {
     lv_obj_set_style_bg_color(btnWifi, lv_color_hex(0x666666), 0);
     lv_obj_set_style_bg_color(btnWifi, lv_color_hex(0xff931e), LV_STATE_FOCUSED);
     lv_obj_set_style_bg_color(btnWifi, lv_color_hex(0xbbbbbb), LV_STATE_PRESSED);
+    lv_obj_set_style_width(btnWifi, 40, LV_STATE_PRESSED);
+    lv_obj_set_style_height(btnWifi, 24, LV_STATE_PRESSED);
     lv_obj_set_style_radius(btnWifi, 6, 0);
+
+    lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
+    lv_obj_set_style_transition(btnWifi, &tran, LV_STATE_PRESSED);
+    lv_obj_set_style_transition(btnWifi, &tran, LV_STATE_FOCUSED);
+    lv_obj_update_layout(btnWifi);
     ui.shutdown.btnWifi = btnWifi;
 
     lv_obj_t* labelWifi = lv_label_create(btnWifi);
@@ -96,6 +103,17 @@ ShutdownView::Create(lv_obj_t* root) {
     lv_label_set_text(labelWifi, CUSTOM_SYMBOL_WIFI);
     lv_obj_center(labelWifi);
     ui.shutdown.btnWifiLabel = labelWifi;
+
+    lv_obj_t* wifiLoadingLabel = lv_label_create(main_cont);
+    lv_obj_remove_style_all(wifiLoadingLabel);
+    lv_obj_set_width(wifiLoadingLabel, 24);
+    lv_obj_set_style_text_font(wifiLoadingLabel, font, 0);
+    lv_obj_set_style_text_color(wifiLoadingLabel, lv_palette_main(LV_PALETTE_BLUE), 0);
+    lv_obj_set_style_text_align(wifiLoadingLabel, LV_TEXT_ALIGN_LEFT, 0);
+    lv_label_set_text(wifiLoadingLabel, "...");
+    lv_obj_align_to(wifiLoadingLabel, btnWifi, LV_ALIGN_OUT_RIGHT_MID, 6, -3);
+    lv_obj_add_flag(wifiLoadingLabel, LV_OBJ_FLAG_HIDDEN);
+    ui.shutdown.wifiLoadingLabel = wifiLoadingLabel;
 
     lv_obj_t* btnLanguage = lv_obj_create(main_cont);
     lv_obj_remove_style_all(btnLanguage);
@@ -122,9 +140,19 @@ ShutdownView::Delete() {}
 
 void
 ShutdownView::SetWifiStatus(const On_Off_Status_t status) const {
-    const lv_color_t color =
-        status == On_Off_Status_ON ? lv_palette_main(LV_PALETTE_BLUE) : lv_color_white();
+    const lv_color_t color = status == On_Off_Status_ON ? lv_palette_main(LV_PALETTE_BLUE) : lv_color_white();
     lv_obj_set_style_text_color(ui.shutdown.btnWifiLabel, color, LV_STATE_DEFAULT);
+}
+
+void
+ShutdownView::SetWifiLoading(const bool loading, const uint8_t step) const {
+    if (loading) {
+        static const char* const dots[] = {".", "..", "..."};
+        lv_label_set_text(ui.shutdown.wifiLoadingLabel, dots[step % 3]);
+        lv_obj_clear_flag(ui.shutdown.wifiLoadingLabel, LV_OBJ_FLAG_HIDDEN);
+    } else {
+        lv_obj_add_flag(ui.shutdown.wifiLoadingLabel, LV_OBJ_FLAG_HIDDEN);
+    }
 }
 
 void
@@ -133,7 +161,6 @@ ShutdownView::ApplyLanguage() const {
     lv_label_set_text(ui.shutdown.btnLabel, I18n::Text(I18n::TextId::Press));
     lv_img_set_src(
         ui.shutdown.btnLanguageImg,
-        ResourcePool::GetImage(I18n::GetLanguage() == I18n::Language::Russian ? "NationalFlag_RU" : "NationalFlag_EN")
-    );
+        ResourcePool::GetImage(I18n::GetLanguage() == I18n::Language::Russian ? "NationalFlag_RU" : "NationalFlag_EN"));
     lv_obj_center(ui.shutdown.btnLanguageImg);
 }

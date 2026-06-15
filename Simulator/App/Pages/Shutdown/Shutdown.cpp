@@ -70,6 +70,7 @@ Shutdown::onViewWillAppear() {
     lv_group_focus_obj(View.ui.shutdown.btnPress);
 
     Update();
+    View.SetWifiLoading(wifiChangePending, wifiLoadingStep);
     if (timer == nullptr) {
         timer = lv_timer_create(onTimerUpdate, 500, this);
     } else {
@@ -125,13 +126,20 @@ Shutdown::AttachEvent(lv_obj_t* obj) {
 }
 
 void
-Shutdown::Update() const {
+Shutdown::Update() {
     View.SetWifiStatus(systemInfo.wifiInfo.wifi_status);
+    if (wifiChangePending && systemInfo.messageDecode.InfoWifi_count != wifiMessageCount) {
+        wifiChangePending = false;
+        wifiLoadingStep = 0;
+        View.SetWifiLoading(false);
+    } else if (wifiChangePending) {
+        View.SetWifiLoading(true, wifiLoadingStep++);
+    }
 }
 
 void
 Shutdown::onTimerUpdate(lv_timer_t* timer) {
-    const auto* instance = static_cast<Shutdown*>(timer->user_data);
+    auto* instance = static_cast<Shutdown*>(timer->user_data);
     LV_ASSERT_NULL(instance);
     instance->Update();
 }
@@ -144,11 +152,17 @@ Shutdown::onEvent(lv_event_t* event) {
     const lv_event_code_t code = lv_event_get_code(event);
 
     if (obj == instance->View.ui.shutdown.btnWifi) {
-        if (code == LV_EVENT_SHORT_CLICKED) {
+        if (code == LV_EVENT_SHORT_CLICKED && !instance->wifiChangePending) {
             systemInfo.wifiInfo.wifi_on_off_set =
                 systemInfo.wifiInfo.wifi_status == On_Off_Status_ON ? On_Off_Status_OFF : On_Off_Status_ON;
             systemInfo.wifiInfo.wifi_change_flag = 1;
+            instance->wifiMessageCount = systemInfo.messageDecode.InfoWifi_count;
+            instance->wifiChangePending = true;
+            instance->wifiLoadingStep = 0;
+            instance->View.SetWifiLoading(true, instance->wifiLoadingStep++);
             LV_LOG_USER("Shutdown btnWifi clicked, set wifi_on_off_set to %d", systemInfo.wifiInfo.wifi_on_off_set);
+        } else if (code == LV_EVENT_SHORT_CLICKED && instance->wifiChangePending) {
+            LV_LOG_USER("Shutdown btnWifi event pending, rev code: %d", code);
         }
         return;
     }

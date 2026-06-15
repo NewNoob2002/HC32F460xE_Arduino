@@ -38,7 +38,7 @@ public:
     ShutdownView View{};
 
 private:
-    void Update() const;
+    void Update();
 
     void AttachEvent(lv_obj_t* obj);
 
@@ -47,6 +47,9 @@ private:
     static void onEvent(lv_event_t* event);
 
     lv_timer_t* timer = nullptr;
+    uint32_t wifiMessageCount = 0;
+    bool wifiChangePending = false;
+    uint8_t wifiLoadingStep = 0;
 };
 }
 

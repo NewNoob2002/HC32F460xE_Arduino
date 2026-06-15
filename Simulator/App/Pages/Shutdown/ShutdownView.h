@@ -28,12 +28,15 @@ public:
             lv_obj_t* btnPress;
             lv_obj_t* btnWifi;
             lv_obj_t* btnWifiLabel;
+            lv_obj_t* wifiLoadingLabel;
             lv_obj_t* btnLanguage;
             lv_obj_t* btnLanguageImg;
         } shutdown;
     } ui;
 
     void SetWifiStatus(On_Off_Status_t status) const;
+
+    void SetWifiLoading(bool loading, uint8_t step = 0) const;
 };
 }
 
