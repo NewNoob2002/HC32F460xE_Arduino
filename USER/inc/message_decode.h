@@ -45,6 +45,10 @@
 #define NM_PROTOCOL_INFO4_MSG_LEN         28 //28 bytes message length
 #define NM_PROTOCOL_PINFO4_MSG_PACK_LEN   52 //52 bytes package length
 
+#define NM_PANEL_WIFI_SET_ID              0x0B
+#define NM_PROTOCOL_WIFI_SET_MSG_LEN      24 //24 bytes message length
+#define NM_PROTOCOL_WIFI_SET_MSG_PACK_LEN 48 //48 bytes package length
+
 #define NM_PANEL_RST_ID                   0x04
 #define NM_PROTOCOL_RST_RESP_MSG_LEN      2  //2 bytes message length
 #define NM_PROTOCOL_RST_RESP_MSG_PACK_LEN 26 //26 bytes package length

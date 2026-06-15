@@ -86,6 +86,7 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_HEADER_LEN + 84] = systemInfo.radioInfo.radio_mode;
             msg[NM_PROTOCOL_HEADER_LEN + 85] = systemInfo.radioInfo.radio_protocol;
             msg[NM_PROTOCOL_HEADER_LEN + 86] = systemInfo.radioInfo.radio_channel;
+
             systemInfo.radioInfo.radio_change_flag = 0;
             break;
         }
@@ -104,6 +105,13 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             if (systemInfo.recordInfo.record_op) {
                 systemInfo.recordInfo.record_op = 0;
             }
+            break;
+        }
+        case NM_PANEL_SET_WIFI_ID: {
+            systemInfo.messageDecode.InfoWifi_count++;
+            msg[NM_PROTOCOL_HEADER_LEN + 0] = systemInfo.wifiInfo.wifi_status;
+            msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.wifiInfo.wifi_change_flag;
+            systemInfo.wifiInfo.wifi_change_flag = 0;
             break;
         }
         default: {
@@ -211,10 +219,12 @@ message_set_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             break;
         case NM_PANEL_SET_WIFI_ID:
             systemInfo.messageDecode.SetWifi_count++;
-            systemInfo.wifiInfo.wifi_status = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
-            systemInfo.wifiInfo.wifi_mode = parse->buffer[NM_PROTOCOL_HEADER_LEN + 1];
-            memcpy(&systemInfo.wifiInfo.wifi_ip, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 4);
-            memcpy(&systemInfo.wifiInfo.wifi_ssid, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 8], 16);
+            if (systemInfo.wifiInfo.wifi_change_flag == 0) {
+                systemInfo.wifiInfo.wifi_status = (On_Off_Status_t)parse->buffer[NM_PROTOCOL_HEADER_LEN + 0];
+                systemInfo.wifiInfo.wifi_mode = parse->buffer[NM_PROTOCOL_HEADER_LEN + 1];
+                memcpy(&systemInfo.wifiInfo.wifi_ip, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 4], 4);
+                memcpy(&systemInfo.wifiInfo.wifi_ssid, &parse->buffer[NM_PROTOCOL_HEADER_LEN + 8], 16);
+            }
             break;
         case NM_PANEL_SET_SATELLITE_ID:
             systemInfo.messageDecode.SetSatellite_count++;

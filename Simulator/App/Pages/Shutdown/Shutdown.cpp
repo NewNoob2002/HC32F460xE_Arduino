@@ -50,6 +50,7 @@ Shutdown::onViewLoad() {
     lv_anim_set_user_data(&View.ui.shutdown.bar.anim, this);
 
     AttachEvent(View.ui.shutdown.btnPress);
+    AttachEvent(View.ui.shutdown.btnWifi);
     AttachEvent(View.ui.shutdown.btnLanguage);
 }
 
@@ -64,8 +65,16 @@ Shutdown::onViewWillAppear() {
     lv_group_t* group = lv_group_get_default();
     LV_ASSERT_NULL(group);
     lv_group_add_obj(group, View.ui.shutdown.btnPress);
+    lv_group_add_obj(group, View.ui.shutdown.btnWifi);
     lv_group_add_obj(group, View.ui.shutdown.btnLanguage);
     lv_group_focus_obj(View.ui.shutdown.btnPress);
+
+    Update();
+    if (timer == nullptr) {
+        timer = lv_timer_create(onTimerUpdate, 500, this);
+    } else {
+        lv_timer_resume(timer);
+    }
 }
 
 void
@@ -77,7 +86,11 @@ void
 Shutdown::onViewWillDisappear() {
     LV_LOG_USER("onViewWillDisappear");
     lv_group_remove_obj(View.ui.shutdown.btnPress);
+    lv_group_remove_obj(View.ui.shutdown.btnWifi);
     lv_group_remove_obj(View.ui.shutdown.btnLanguage);
+    if (timer) {
+        lv_timer_pause(timer);
+    }
 }
 
 void
@@ -89,6 +102,10 @@ void
 Shutdown::onViewUnload() {
     LV_LOG_USER("onViewUnload");
     anim_complement_callback_do = false;
+    if (timer) {
+        lv_timer_del(timer);
+        timer = nullptr;
+    }
     View.Delete();
 }
 
@@ -108,11 +125,33 @@ Shutdown::AttachEvent(lv_obj_t* obj) {
 }
 
 void
+Shutdown::Update() const {
+    View.SetWifiStatus(systemInfo.wifiInfo.wifi_status);
+}
+
+void
+Shutdown::onTimerUpdate(lv_timer_t* timer) {
+    const auto* instance = static_cast<Shutdown*>(timer->user_data);
+    LV_ASSERT_NULL(instance);
+    instance->Update();
+}
+
+void
 Shutdown::onEvent(lv_event_t* event) {
     auto* instance = static_cast<Shutdown*>(lv_event_get_user_data(event));
     LV_ASSERT_NULL(instance);
     const lv_obj_t* obj = lv_event_get_target(event);
     const lv_event_code_t code = lv_event_get_code(event);
+
+    if (obj == instance->View.ui.shutdown.btnWifi) {
+        if (code == LV_EVENT_SHORT_CLICKED) {
+            systemInfo.wifiInfo.wifi_on_off_set =
+                systemInfo.wifiInfo.wifi_status == On_Off_Status_ON ? On_Off_Status_OFF : On_Off_Status_ON;
+            systemInfo.wifiInfo.wifi_change_flag = 1;
+            LV_LOG_USER("Shutdown btnWifi clicked, set wifi_on_off_set to %d", systemInfo.wifiInfo.wifi_on_off_set);
+        }
+        return;
+    }
 
     if (obj == instance->View.ui.shutdown.btnLanguage) {
         if (code == LV_EVENT_SHORT_CLICKED) {

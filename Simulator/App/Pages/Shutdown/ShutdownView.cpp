@@ -78,6 +78,25 @@ ShutdownView::Create(lv_obj_t* root) {
     lv_obj_center(label_btn);
     ui.shutdown.btnLabel = label_btn;
 
+    lv_obj_t* btnWifi = lv_obj_create(main_cont);
+    lv_obj_remove_style_all(btnWifi);
+    lv_obj_set_size(btnWifi, 36, 28);
+    lv_obj_clear_flag(btnWifi, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_align(btnWifi, LV_ALIGN_TOP_LEFT, 10, 34);
+    lv_obj_set_style_bg_opa(btnWifi, LV_OPA_COVER, 0);
+    lv_obj_set_style_bg_color(btnWifi, lv_color_hex(0x666666), 0);
+    lv_obj_set_style_bg_color(btnWifi, lv_color_hex(0xff931e), LV_STATE_FOCUSED);
+    lv_obj_set_style_bg_color(btnWifi, lv_color_hex(0xbbbbbb), LV_STATE_PRESSED);
+    lv_obj_set_style_radius(btnWifi, 6, 0);
+    ui.shutdown.btnWifi = btnWifi;
+
+    lv_obj_t* labelWifi = lv_label_create(btnWifi);
+    lv_obj_remove_style_all(labelWifi);
+    lv_obj_set_style_text_font(labelWifi, ResourcePool::GetFont("statusbar"), 0);
+    lv_label_set_text(labelWifi, CUSTOM_SYMBOL_WIFI);
+    lv_obj_center(labelWifi);
+    ui.shutdown.btnWifiLabel = labelWifi;
+
     lv_obj_t* btnLanguage = lv_obj_create(main_cont);
     lv_obj_remove_style_all(btnLanguage);
     lv_obj_set_size(btnLanguage, 36, 28);
@@ -100,6 +119,13 @@ ShutdownView::Create(lv_obj_t* root) {
 
 void
 ShutdownView::Delete() {}
+
+void
+ShutdownView::SetWifiStatus(const On_Off_Status_t status) const {
+    const lv_color_t color =
+        status == On_Off_Status_ON ? lv_palette_main(LV_PALETTE_BLUE) : lv_color_white();
+    lv_obj_set_style_text_color(ui.shutdown.btnWifiLabel, color, LV_STATE_DEFAULT);
+}
 
 void
 ShutdownView::ApplyLanguage() const {

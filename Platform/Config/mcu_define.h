@@ -171,6 +171,8 @@ typedef struct RadioInfo_t {
 typedef struct WifiInfo_t {
     uint8_t wifi_mode;
     On_Off_Status_t wifi_status;
+    On_Off_Status_t wifi_on_off_set;
+    uint8_t wifi_change_flag;
     char wifi_ssid[16];
     char wifi_ip[4];
 } WifiInfo_t;
@@ -201,6 +203,7 @@ typedef struct MessageDecode_Count_t {
     uint32_t Info2_count;
     uint32_t Info3_count;
     uint32_t Info4_count;
+    uint32_t InfoWifi_count;
 
     uint32_t Set1_count;
     uint32_t Set3_count;

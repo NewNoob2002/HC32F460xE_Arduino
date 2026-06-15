@@ -42,7 +42,11 @@ private:
 
     void AttachEvent(lv_obj_t* obj);
 
+    static void onTimerUpdate(lv_timer_t* timer);
+
     static void onEvent(lv_event_t* event);
+
+    lv_timer_t* timer = nullptr;
 };
 }
 

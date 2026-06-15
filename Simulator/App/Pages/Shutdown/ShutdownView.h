@@ -26,10 +26,14 @@ public:
             } bar;
 
             lv_obj_t* btnPress;
+            lv_obj_t* btnWifi;
+            lv_obj_t* btnWifiLabel;
             lv_obj_t* btnLanguage;
             lv_obj_t* btnLanguageImg;
         } shutdown;
     } ui;
+
+    void SetWifiStatus(On_Off_Status_t status) const;
 };
 }
 
