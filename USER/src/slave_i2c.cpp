@@ -1,6 +1,8 @@
 #include "slave_i2c.h"
 #include "HAL.h"
+#include "SEGGER_RTT.h"
 #include "SparkFun_Extensible_Message_Parser.h"
+#include "core_debug.h"
 #include "message_decode.h"
 #include "src/misc/lv_types.h"
 
@@ -17,7 +19,7 @@ volatile uint16_t _rxBufferHead = 0;
 volatile uint16_t _rxBufferTail = 0;
 uint8_t _rxBuffer[SLAVE_RX_BUFFER_SIZE];
 
-uint8_t txBuffer_temp[NM_PROTOCOL_PINFO3_MSG_PACK_LEN];
+uint8_t txBuffer_temp[SLAVE_TX_BUFFER_SIZE];
 
 SEMP_PARSE_STATE* CustomParse = nullptr;
 /// @brief Bluetooth parser
@@ -39,7 +41,7 @@ PRINT_ERROR(const char* format, ...) {
     va_start(args, format);
     vprintf(format, args);
     va_end(args);
-    log_e(format);
+    SEGGER_RTT_printf(0,format);
 }
 
 static void
@@ -48,7 +50,7 @@ PRINT_DEBUG(const char* format, ...) {
     va_start(args, format);
     vprintf(format, args);
     va_end(args);
-    log_d(format);
+    SEGGER_RTT_printf(0,format);
 }
 
 static bool
@@ -61,7 +63,7 @@ BAD_CRC_CALLBACK(P_SEMP_PARSE_STATE parse) {
 void
 CustomDataProcess(SEMP_PARSE_STATE* parse, uint16_t type) {
     LV_UNUSED(type);
-    int length = message_decode(parse, txBuffer_temp);
+    int length = message_decode(parse, txBuffer_temp, sizeof(txBuffer_temp));
     if (length <= 0) {
         return;
     }

@@ -210,9 +210,10 @@ void
 SystemInfosView::SetWifi(const WifiInfo_t& wifiInfo) const {
     lv_label_set_text_fmt(ui.wifi.labelData,
                           "%s-%s\n"
+                          "%s\n"
                           "%d.%d.%d.%d",
-                          wifiInfo.wifi_mode ? "STA" : "AP", wifiInfo.wifi_ssid, wifiInfo.wifi_ip[0],
-                          wifiInfo.wifi_ip[1], wifiInfo.wifi_ip[2], wifiInfo.wifi_ip[3]);
+                          wifiInfo.wifi_mode ? "STA" : "AP", wifiInfo.wifi_ssid, wifiInfo.wifi_status ? "ON" : "OFF",
+                          wifiInfo.wifi_ip[0], wifiInfo.wifi_ip[1], wifiInfo.wifi_ip[2], wifiInfo.wifi_ip[3]);
 }
 
 void
