@@ -56,11 +56,12 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 */
 #if (defined __CC_ARM) || (defined __ARMCC_VERSION)
 
+#include <rt_misc.h>
+#include <rt_sys.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <rt_sys.h>
-#include <rt_misc.h>
+
 
 #if defined(__CORE_DEBUG)
 //#include "SEGGER_RTT.h"
@@ -77,7 +78,7 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 #endif
 
 #ifdef _MICROLIB
-  #pragma import(__use_full_stdio)
+#pragma import(__use_full_stdio)
 #endif
 
 /*********************************************************************
@@ -89,9 +90,9 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 
 /* Standard IO device handles - arbitrary, but any real file system handles must be
    less than 0x8000. */
-#define STDIN             0x8001    // Standard Input Stream
-#define STDOUT            0x8002    // Standard Output Stream
-#define STDERR            0x8003    // Standard Error Stream
+#define STDIN  0x8001 // Standard Input Stream
+#define STDOUT 0x8002 // Standard Output Stream
+#define STDERR 0x8003 // Standard Error Stream
 
 /*********************************************************************
 *
@@ -105,12 +106,14 @@ const char __stdout_name[] = "STDOUT";
 const char __stderr_name[] = "STDERR";
 #endif
 
-void DDL_AssertHandler(const char *file, int line)
-{
+void
+DDL_AssertHandler(const char* file, int line) {
     /* Users can re-implement this function to print information */
     printf("Wrong parameters value: file %s on line %d\r\n", file, line);
-    while (1);
+    while (1)
+        ;
 }
+
 /*********************************************************************
 *
 *       Public code
@@ -129,9 +132,10 @@ void DDL_AssertHandler(const char *file, int line)
 *    c    - character to output
 *
 */
-void _ttywrch(int c) {
-  fputc(c, stdout); // stdout
-  fflush(stdout);
+void
+_ttywrch(int c) {
+    fputc(c, stdout); // stdout
+    fflush(stdout);
 }
 
 /*********************************************************************
@@ -150,15 +154,17 @@ void _ttywrch(int c) {
 *    == 0     -"device" is not handled by this module
 *
 */
-FILEHANDLE _sys_open(const char * sName, int OpenMode) {
-  (void)OpenMode;
-  // Register standard Input Output devices.
-  if (strcmp(sName, __stdout_name) == 0) {
-    return (STDOUT);
-  } else if (strcmp(sName, __stderr_name) == 0) {
-    return (STDERR);
-  } else
-  return (0);  // Not implemented
+FILEHANDLE
+_sys_open(const char* sName, int OpenMode) {
+    (void)OpenMode;
+    // Register standard Input Output devices.
+    if (strcmp(sName, __stdout_name) == 0) {
+        return (STDOUT);
+    } else if (strcmp(sName, __stderr_name) == 0) {
+        return (STDERR);
+    } else {
+        return (0); // Not implemented
+    }
 }
 
 /*********************************************************************
@@ -175,9 +181,10 @@ FILEHANDLE _sys_open(const char * sName, int OpenMode) {
 *    0     - device/file closed
 *
 */
-int _sys_close(FILEHANDLE hFile) {
-  (void)hFile;
-  return 0;  // Not implemented
+int
+_sys_close(FILEHANDLE hFile) {
+    (void)hFile;
+    return 0; // Not implemented
 }
 
 /*********************************************************************
@@ -198,21 +205,22 @@ int _sys_close(FILEHANDLE hFile) {
 *    Number of bytes *not* written to the file/device
 *
 */
-int _sys_write(FILEHANDLE hFile, const unsigned char * pBuffer, unsigned NumBytes, int Mode) {
-  int r = 0;
+int
+_sys_write(FILEHANDLE hFile, const unsigned char* pBuffer, unsigned NumBytes, int Mode) {
+    int r = 0;
 
-  (void)Mode;
-  if (hFile == STDOUT) {
+    (void)Mode;
+    if (hFile == STDOUT) {
 #ifdef __CORE_DEBUG
-		#ifdef SEGGER_RTT_H
-			SEGGER_RTT_Write(0, (const char*)pBuffer, NumBytes);
-		#else
-			usart_write_buffer(pBuffer, NumBytes);
-		#endif
+#ifdef SEGGER_RTT_H
+        SEGGER_RTT_Write(0, (const char*)pBuffer, NumBytes);
+#else
+        usart_write_buffer(pBuffer, NumBytes);
 #endif
-		return 0;
-  }
-  return r;
+#endif
+        return 0;
+    }
+    return r;
 }
 
 /*********************************************************************
@@ -231,11 +239,12 @@ int _sys_write(FILEHANDLE hFile, const unsigned char * pBuffer, unsigned NumByte
 *    0       - Device is not a console
 *
 */
-int _sys_istty(FILEHANDLE hFile) {
-  if (hFile > 0x8000) {
-    return (1);
-  }
-  return (0);  // Not implemented
+int
+_sys_istty(FILEHANDLE hFile) {
+    if (hFile > 0x8000) {
+        return (1);
+    }
+    return (0); // Not implemented
 }
 
 /*********************************************************************
@@ -253,10 +262,11 @@ int _sys_istty(FILEHANDLE hFile) {
 *    int       -
 *
 */
-int _sys_seek(FILEHANDLE hFile, long Pos) {
-  (void)hFile;
-  (void)Pos;
-  return (0);  // Not implemented
+int
+_sys_seek(FILEHANDLE hFile, long Pos) {
+    (void)hFile;
+    (void)Pos;
+    return (0); // Not implemented
 }
 
 /*********************************************************************
@@ -273,9 +283,10 @@ int _sys_seek(FILEHANDLE hFile, long Pos) {
 *    Length of the file
 *
 */
-long _sys_flen(FILEHANDLE hFile) {
-  (void)hFile;
-  return (0);  // Not implemented
+long
+_sys_flen(FILEHANDLE hFile) {
+    (void)hFile;
+    return (0); // Not implemented
 }
 
 #if (__ARMCC_VERSION <= 6000000) // The following functions are not required to be implemented for CC version > 6.
@@ -297,12 +308,13 @@ long _sys_flen(FILEHANDLE hFile) {
 *    Number of bytes read from the file/device
 *
 */
-int _sys_read(FILEHANDLE hFile, unsigned char * pBuffer, unsigned NumBytes, int Mode) {
-  (void)hFile;
-  (void)pBuffer;
-  (void)NumBytes;
-  (void)Mode;
-  return (0);  // Not implemented
+int
+_sys_read(FILEHANDLE hFile, unsigned char* pBuffer, unsigned NumBytes, int Mode) {
+    (void)hFile;
+    (void)pBuffer;
+    (void)NumBytes;
+    (void)Mode;
+    return (0); // Not implemented
 }
 
 /*********************************************************************
@@ -319,9 +331,10 @@ int _sys_read(FILEHANDLE hFile, unsigned char * pBuffer, unsigned NumBytes, int 
 *    int       -
 *
 */
-int _sys_ensure(FILEHANDLE hFile) {
-  (void)hFile;
-  return (-1);  // Not implemented
+int
+_sys_ensure(FILEHANDLE hFile) {
+    (void)hFile;
+    return (-1); // Not implemented
 }
 
 /*********************************************************************
@@ -343,18 +356,20 @@ int _sys_ensure(FILEHANDLE hFile) {
 *
 */
 #if __ARMCC_VERSION >= 6190000
-void _sys_tmpnam(char * pBuffer, int FileNum, unsigned MaxLen) {
-  (void)pBuffer;
-  (void)FileNum;
-  (void)MaxLen;
-  return;      // Not implemented
+void
+_sys_tmpnam(char* pBuffer, int FileNum, unsigned MaxLen) {
+    (void)pBuffer;
+    (void)FileNum;
+    (void)MaxLen;
+    return; // Not implemented
 }
 #else
-int _sys_tmpnam(char * pBuffer, int FileNum, unsigned MaxLen) {
-  (void)pBuffer;
-  (void)FileNum;
-  (void)MaxLen;
-  return (1);  // Not implemented
+int
+_sys_tmpnam(char* pBuffer, int FileNum, unsigned MaxLen) {
+    (void)pBuffer;
+    (void)FileNum;
+    (void)MaxLen;
+    return (1); // Not implemented
 }
 #endif
 
@@ -374,9 +389,10 @@ int _sys_tmpnam(char * pBuffer, int FileNum, unsigned MaxLen) {
 *    == sCmd - Command was passed successfully
 *
 */
-char * _sys_command_string(char * cmd, int len) {
-  (void)len;
-  return cmd;  // Not implemented
+char*
+_sys_command_string(char* cmd, int len) {
+    (void)len;
+    return cmd; // Not implemented
 }
 
 /*********************************************************************
@@ -391,9 +407,11 @@ char * _sys_command_string(char * cmd, int len) {
 *
 *
 */
-void _sys_exit(int ReturnCode) {
-  (void)ReturnCode;
-  while (1);  // Not implemented
+void
+_sys_exit(int ReturnCode) {
+    (void)ReturnCode;
+    while (1)
+        ; // Not implemented
 }
 
 #if __ARMCC_VERSION >= 5000000
@@ -409,9 +427,10 @@ void _sys_exit(int ReturnCode) {
 *
 *
 */
-int stdout_putchar(int ch) {
-  (void)ch;
-  return ch;  // Not implemented
+int
+stdout_putchar(int ch) {
+    (void)ch;
+    return ch; // Not implemented
 }
 #endif
 

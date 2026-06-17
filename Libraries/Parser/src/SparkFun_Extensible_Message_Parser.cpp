@@ -7,6 +7,7 @@ License: MIT. Please see LICENSE.md for more details
 ------------------------------------------------------------------------------*/
 
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <cstdarg>
 #include <vector>

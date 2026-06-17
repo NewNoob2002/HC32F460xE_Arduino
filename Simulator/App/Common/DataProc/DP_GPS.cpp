@@ -1,17 +1,16 @@
-#include "DataProc.h"
 #include "../HAL/HAL.h"
+#include "DataProc.h"
 
-typedef enum
-{
+typedef enum {
     GPS_STATUS_DISCONNECT,
     GPS_STATUS_UNSTABLE,
     GPS_STATUS_CONNECT,
 } GPS_Status_t;
 
-static GPS_Status_t nowStatus = GPS_STATUS_DISCONNECT;
+// static GPS_Status_t nowStatus = GPS_STATUS_DISCONNECT;
 
-static void onTimer(Account* account)
-{
+static void
+onTimer(Account* account) {
     const PositionInfo_t gpsInfo = systemInfo.positionInfo;
 
     // if (const int coordinate_status = gpsInfo.coordinate_status; coordinate_status >= 4)
@@ -30,21 +29,18 @@ static void onTimer(Account* account)
     account->Publish();
 }
 
-static int onEvent(Account* account, Account::EventParam_t* param)
-{
-    if (param->event == Account::EVENT_TIMER)
-    {
+static int
+onEvent(Account* account, Account::EventParam_t* param) {
+    if (param->event == Account::EVENT_TIMER) {
         onTimer(account);
         return Account::RES_OK;
     }
 
-    if (param->event != Account::EVENT_SUB_PULL)
-    {
+    if (param->event != Account::EVENT_SUB_PULL) {
         return Account::RES_UNSUPPORTED_REQUEST;
     }
 
-    if (param->size != sizeof(PositionInfo_t))
-    {
+    if (param->size != sizeof(PositionInfo_t)) {
         return Account::RES_SIZE_MISMATCH;
     }
 
@@ -53,8 +49,7 @@ static int onEvent(Account* account, Account::EventParam_t* param)
     return Account::RES_OK;
 }
 
-DATA_PROC_INIT_DEF(GPS)
-{
+DATA_PROC_INIT_DEF(GPS) {
     account->SetEventCallback(onEvent);
     account->SetTimerPeriod(1000);
 }

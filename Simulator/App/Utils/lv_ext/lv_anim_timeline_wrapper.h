@@ -35,7 +35,8 @@ void lv_anim_timeline_add_wrapper(lv_anim_timeline_t* at, const lv_anim_timeline
 *      MACROS
 **********************/
 
-#define LV_ANIM_TIMELINE_WRAPPER_END {0, NULL}
+#define LV_ANIM_TIMELINE_WRAPPER_END                                                                                   \
+    { 0, NULL, NULL, 0, 0, 0, NULL, false }
 
 #ifdef __cplusplus
 } /*extern "C"*/

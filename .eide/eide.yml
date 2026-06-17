@@ -74,6 +74,18 @@ virtualFolder:
             - path: Simulator/App/Pages/Shutdown/ShutdownModel.cpp
             - path: Simulator/App/Pages/Shutdown/ShutdownView.cpp
           folders: []
+        - name: SaveConfig
+          files:
+            - path: Simulator/App/Pages/SaveConfig/SaveConfig.cpp
+            - path: Simulator/App/Pages/SaveConfig/SaveConfigModel.cpp
+            - path: Simulator/App/Pages/SaveConfig/SaveConfigView.cpp
+          folders: []
+        - name: RecordConfig
+          files:
+            - path: Simulator/App/Pages/RecordConfig/RecordConfig.cpp
+            - path: Simulator/App/Pages/RecordConfig/RecordConfigModel.cpp
+            - path: Simulator/App/Pages/RecordConfig/RecordConfigView.cpp
+          folders: []
     - name: Resource
       files:
         - path: Simulator/App/Resource/ResourcePool.cpp
@@ -116,6 +128,10 @@ virtualFolder:
             - path: Simulator/App/Resource/img/img_src_base.c
             - path: Simulator/App/Resource/img/img_src_rover.c
             - path: Simulator/App/Resource/img/img_src_ntrip.c
+            - path: Simulator/App/Resource/img/img_src_clock.c
+            - path: Simulator/App/Resource/img/img_src_mode.c
+            - path: Simulator/App/Resource/img/img_src_record.c
+            - path: Simulator/App/Resource/img/img_src_settings.c
           folders: []
     - name: Utils
       files: []
@@ -468,6 +484,8 @@ targets:
     excludeList:
       - <virtual_root>/Common/DP_Power.cpp
       - <virtual_root>/Platform/Drivers/hc32_ll_icg.c
+    settings:
+      debugger: cortex-debug
     toolchain: AC6
     toolchainConfigMap:
       AC6:
@@ -483,23 +501,20 @@ targets:
               disable: false
             - name: C:\Keil_v5\ARM\ARMCLANG\bin\fromelf.exe --bin --output=@L.bin !L
               abortAfterFailed: true
-              command: cd .\Platform\project && C:\Keil_v5\ARM\ARMCLANG\bin\fromelf.exe --bin --output=${ProjectName}.bin ${KEIL_OUTPUT_DIR}\${ProjectName}.axf
+              command: cd .\Platform\project && C:\Users\gtc\AppData\Local\Keil_v5\ARM\ARMCLANG\bin\fromelf.exe --bin --output=${ProjectName}.bin ${KEIL_OUTPUT_DIR}\${ProjectName}.axf
               disable: false
           asm-compiler:
             $use: asm-auto
-            misc-controls: ""
           beforeBuildTasks: []
           c/cpp-compiler:
             language-c: c11
             language-cpp: c++14
-            link-time-optimization: false
             one-elf-section-per-function: true
             optimization: level-1
             short-enums#wchar: true
             warnings: no-warnings
           global:
             output-debug-info: enable
-            use-microLIB: false
           linker:
             $outputTaskExcludes:
               - .bin
@@ -507,7 +522,6 @@ targets:
             output-format: elf
             ro-base: "0x00000000"
             rw-base: "0x1FFF8000"
-            xo-base: ""
         scatterFilePath: Platform/project/linker/HC32F460xE.sct
         storageLayout:
           RAM:

@@ -22,9 +22,12 @@
  */
 #ifndef __APP_H
 #define __APP_H
-#include "../Platform/Config/mcu_config.h"
+#include "mcu_config.h"
+#include "Utils/I18n/I18n.h"
 
 void App_Init();
 void App_Update();
+bool App_SetLanguage(I18n::Language language);
+I18n::Language App_GetLanguage();
 
 #endif

@@ -2,23 +2,27 @@
 #include "Arduino.h"
 #include "MillisTaskManager/MillisTaskManager.h"
 #include "elog.h"
+#include "src/misc/lv_types.h"
 
 static MillisTaskManager taskManager;
 volatile SharedData_t shared_info __attribute__((section(".bss.NoInit"), used));
 
 static void
 HAL_MONITOR_TASK(void* e) {
+    LV_UNUSED(e);
     HAL::Power_PowerOffMonitor();
     HAL::Key_Update();
 }
 
 static void
 HAL_POWER_TASK(void* e) {
+    LV_UNUSED(e);
     HAL::Power_Update();
 }
 
 static void
 HAL_LED_TASK(void* e) {
+    LV_UNUSED(e);
     HAL::Led_Update();
 }
 

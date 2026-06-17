@@ -1,7 +1,14 @@
 #include "slave_i2c.h"
-#include "Arduino.h"
+#include "HAL.h"
+#include "SEGGER_RTT.h"
 #include "SparkFun_Extensible_Message_Parser.h"
+#include "core_debug.h"
 #include "message_decode.h"
+#include "src/misc/lv_types.h"
+
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
 
 volatile SLAVE_I2C_STATE slave_state = SLAVE_RX;
 
@@ -12,7 +19,7 @@ volatile uint16_t _rxBufferHead = 0;
 volatile uint16_t _rxBufferTail = 0;
 uint8_t _rxBuffer[SLAVE_RX_BUFFER_SIZE];
 
-uint8_t txBuffer_temp[NM_PROTOCOL_PINFO3_MSG_PACK_LEN];
+uint8_t txBuffer_temp[SLAVE_TX_BUFFER_SIZE];
 
 SEMP_PARSE_STATE* CustomParse = nullptr;
 /// @brief Bluetooth parser
@@ -27,14 +34,14 @@ const char* const CustomParserNames[] = {
 };
 const int CustomParserNameCount = sizeof(CustomParserNames) / sizeof(CustomParserNames[0]);
 
-#if defined(__DEBUG)
+#if defined(__CORE_DEBUG)
 static void
 PRINT_ERROR(const char* format, ...) {
     va_list args;
     va_start(args, format);
     vprintf(format, args);
     va_end(args);
-    log_e(format);
+    SEGGER_RTT_printf(0,format);
 }
 
 static void
@@ -43,7 +50,7 @@ PRINT_DEBUG(const char* format, ...) {
     va_start(args, format);
     vprintf(format, args);
     va_end(args);
-    log_d(format);
+    SEGGER_RTT_printf(0,format);
 }
 
 static bool
@@ -55,29 +62,47 @@ BAD_CRC_CALLBACK(P_SEMP_PARSE_STATE parse) {
 
 void
 CustomDataProcess(SEMP_PARSE_STATE* parse, uint16_t type) {
-    int length = message_decode(parse, txBuffer_temp);
+    LV_UNUSED(type);
+    int length = message_decode(parse, txBuffer_temp, sizeof(txBuffer_temp));
     if (length <= 0) {
         return;
     }
-    txBufferWrite(txBuffer_temp, length);
+    if (txBufferWrite(txBuffer_temp, length) < 0) {
+        systemInfo.i2c__err_count++;
+    }
 }
 
 int
 txBufferAvailable() {
-    return _txBufferHead - _txBufferTail;
+    if (_txBufferHead >= _txBufferTail) {
+        return _txBufferHead - _txBufferTail;
+    }
+    return 0;
 }
 
 int
 txBufferRead(void) {
+    if (txBufferAvailable() <= 0) {
+        return SLAVE_I2C_TX_EMPTY_BYTE;
+    }
     return _txBuffer[_txBufferTail++];
 }
 
 int
-txBufferWrite(uint8_t* Buffer, const uint16_t length) {
-    // if the head isn't ahead of the tail, we don't have any characters
+txBufferWrite(const uint8_t* Buffer, const uint16_t length) {
+    if (Buffer == nullptr || length == 0) {
+        _txBufferHead = 0;
+        _txBufferTail = 0;
+        return 0;
+    }
+    if (length > SLAVE_TX_BUFFER_SIZE) {
+        return -1;
+    }
+    __disable_irq();
     memcpy(_txBuffer, Buffer, length);
     _txBufferHead = length;
     _txBufferTail = 0;
+    __enable_irq();
     return _txBufferHead;
 }
 
@@ -98,12 +123,42 @@ rxBufferRead(void) {
     }
 }
 
+static uint16_t
+rxBufferReadBlock(uint8_t* buffer, uint16_t length) {
+    const uint16_t available = rxBufferAvailable();
+    if (buffer == nullptr || length == 0 || available == 0) {
+        return 0;
+    }
+
+    uint16_t readLength = length;
+    if (readLength > available) {
+        readLength = available;
+    }
+
+    uint16_t firstChunk = readLength;
+    const uint16_t tailToEnd = SLAVE_RX_BUFFER_SIZE - _rxBufferTail;
+    if (firstChunk > tailToEnd) {
+        firstChunk = tailToEnd;
+    }
+
+    memcpy(buffer, &_rxBuffer[_rxBufferTail], firstChunk);
+    const uint16_t secondChunk = readLength - firstChunk;
+    if (secondChunk > 0) {
+        memcpy(buffer + firstChunk, _rxBuffer, secondChunk);
+    }
+
+    _rxBufferTail = (uint16_t)(_rxBufferTail + readLength) % SLAVE_RX_BUFFER_SIZE;
+    return readLength;
+}
+
 void
 rxBufferWrite(uint8_t ch) {
     uint16_t i = (uint16_t)(_rxBufferHead + 1) % SLAVE_RX_BUFFER_SIZE;
     if (i != _rxBufferTail) {
         _rxBuffer[_rxBufferHead] = ch;
         _rxBufferHead = i;
+    } else {
+        systemInfo.i2c__err_count++;
     }
 }
 
@@ -176,6 +231,25 @@ I2C_RXI_Callback(void) {
     rxBufferWrite(I2C_ReadData(I2C_UNIT));
 }
 
+static int32_t
+slave_i2c_irq_sign_in(stc_irq_signin_config_t* irq_cfg, uint32_t priority) {
+    NVIC_DisableIRQ(irq_cfg->enIRQn);
+    NVIC_ClearPendingIRQ(irq_cfg->enIRQn);
+
+    const int32_t ret = INTC_IrqSignIn(irq_cfg);
+    if (ret != LL_OK) {
+        CORE_DEBUG_PRINTF("I2C1 INTC_IrqSignIn failed irq=%d src=%lu cb=0x%08lx ret=%ld\r\n", irq_cfg->enIRQn,
+                          (unsigned long)irq_cfg->enIntSrc, (unsigned long)irq_cfg->pfnCallback, (long)ret);
+        return ret;
+    }
+
+    NVIC_SetPriority(irq_cfg->enIRQn, priority);
+    NVIC_EnableIRQ(irq_cfg->enIRQn);
+    CORE_DEBUG_PRINTF("I2C1 IRQ registered irq=%d src=%lu cb=0x%08lx\r\n", irq_cfg->enIRQn,
+                      (unsigned long)irq_cfg->enIntSrc, (unsigned long)irq_cfg->pfnCallback);
+    return ret;
+}
+
 int32_t
 slave_i2c_init() {
     FCG_Fcg1PeriphClockCmd(I2C_FCG_USE, ENABLE);
@@ -193,7 +267,7 @@ slave_i2c_init() {
     stcI2cInit.u32ClockDiv = I2C_CLK_DIV2;
     stcI2cInit.u32Baudrate = 400000;
     stcI2cInit.u32SclTime = 5UL;
-    const int32_t i32Ret = I2C_Init(I2C_UNIT, &stcI2cInit, &fErr);
+    int32_t i32Ret = I2C_Init(I2C_UNIT, &stcI2cInit, &fErr);
 
     if (LL_OK == i32Ret) {
         I2C_SlaveAddrConfig(I2C_UNIT, I2C_ADDR0, I2C_ADDR_7BIT, DEVICE_ADDR);
@@ -201,48 +275,69 @@ slave_i2c_init() {
         stcIrqRegCfg.enIRQn = I2C_EEI_IRQN_DEF;
         stcIrqRegCfg.enIntSrc = I2C_INT_EEI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_EEI_Callback;
-        (void)INTC_IrqSignIn(&stcIrqRegCfg);
-        NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
-        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_06);
-        NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
+        i32Ret = slave_i2c_irq_sign_in(&stcIrqRegCfg, DDL_IRQ_PRIO_06);
+        if (i32Ret != LL_OK) {
+            return i32Ret;
+        }
 
         stcIrqRegCfg.enIRQn = I2C_RXI_IRQN_DEF;
         stcIrqRegCfg.enIntSrc = I2C_INT_RXI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_RXI_Callback;
-        (void)INTC_IrqSignIn(&stcIrqRegCfg);
-        NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
-        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_10);
-        NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
+        i32Ret = slave_i2c_irq_sign_in(&stcIrqRegCfg, DDL_IRQ_PRIO_10);
+        if (i32Ret != LL_OK) {
+            return i32Ret;
+        }
 
         stcIrqRegCfg.enIRQn = I2C_TEI_IRQN_DEF;
         stcIrqRegCfg.enIntSrc = I2C_INT_TEI_DEF;
         stcIrqRegCfg.pfnCallback = &I2C_TEI_Callback;
-        (void)INTC_IrqSignIn(&stcIrqRegCfg);
-        NVIC_ClearPendingIRQ(stcIrqRegCfg.enIRQn);
-        NVIC_SetPriority(stcIrqRegCfg.enIRQn, DDL_IRQ_PRIO_10);
-        NVIC_EnableIRQ(stcIrqRegCfg.enIRQn);
+        i32Ret = slave_i2c_irq_sign_in(&stcIrqRegCfg, DDL_IRQ_PRIO_10);
+        if (i32Ret != LL_OK) {
+            return i32Ret;
+        }
 
         if (CustomParse == nullptr) {
+#if defined(__CORE_DEBUG)
+            CustomParse =
+                sempBeginParser(CustomParserTable, CustomParserCount, CustomParserNames, CustomParserNameCount, 0, 512,
+                                CustomDataProcess, "CustomParser", PRINT_ERROR, PRINT_DEBUG, BAD_CRC_CALLBACK);
+#else
             CustomParse = sempBeginParser(CustomParserTable, CustomParserCount, CustomParserNames,
                                           CustomParserNameCount, 0, 512, CustomDataProcess, "CustomParser");
+#endif
             if (!CustomParse) {
                 CORE_DEBUG_PRINTF("Failed to initialize the parser");
             }
         }
+        I2C_Cmd(I2C_UNIT, ENABLE);
+        I2C_IntCmd(I2C_UNIT, I2C_INT_MATCH_ADDR0 | I2C_INT_RX_FULL, ENABLE);
     }
-    I2C_Cmd(I2C_UNIT, ENABLE);
-    I2C_IntCmd(I2C_UNIT, I2C_INT_MATCH_ADDR0 | I2C_INT_RX_FULL, ENABLE);
     return i32Ret;
 }
 
 void
 slave_i2c_update() {
-    if (rxBufferAvailable() > 0 && slave_state == SLAVE_RX_DONE) {
+    if (CustomParse == nullptr) {
+        return;
+    }
+    uint16_t bytesToParse = 0;
+    if (slave_state == SLAVE_RX_DONE) {
         __disable_irq();
-        for (int i = 0; i <= rxBufferAvailable(); i++) {
-            sempParseNextByte(CustomParse, rxBufferRead());
-        }
+        bytesToParse = rxBufferAvailable();
+        slave_state = SLAVE_RX;
         __enable_irq();
+    }
+    if (bytesToParse > 0) {
+        static uint8_t parseBuffer[SLAVE_RX_BUFFER_SIZE];
+        uint16_t parseLength = 0;
+
+        __disable_irq();
+        parseLength = rxBufferReadBlock(parseBuffer, bytesToParse);
+        __enable_irq();
+
+        for (uint16_t i = 0; i < parseLength; i++) {
+            sempParseNextByte(CustomParse, parseBuffer[i]);
+        }
     }
     if (systemInfo.i2c_communicate_err_count >= 2000) {
         systemInfo.i2c_communicate_err_count = 0;

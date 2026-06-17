@@ -8,6 +8,7 @@
 #include "lvgl.h"
 
 namespace Page {
-    lv_obj_t *StatusBar_Create(lv_obj_t *par);
+lv_obj_t* StatusBar_Create(lv_obj_t* par);
+void StatusBar_ApplyLanguage();
 }
 #endif //LVGL_STATUSBAR_H

@@ -28,7 +28,6 @@
 #include "PageBase.h"
 #include "PageFactory.h"
 
-
 class PageManager {
   public:
     /* Page switching animation type  */
@@ -119,13 +118,13 @@ class PageManager {
     SetRootDefaultStyle(lv_style_t* style) {
         RootDefaultStyle = style;
     }
-		
-				/* Page Info*/
-		PageBase* PageInfo[8];
-		
-		PageBase *GetCurrentPage(){
-			return PageCurrent;
-		}
+
+    PageBase*
+    GetCurrentPage() const {
+        return PageCurrent;
+    }
+
+    void NotifyLanguageChanged() const;
 
   private:
     /* Page Pool */
@@ -192,6 +191,7 @@ class PageManager {
     GetState() const {
         return PageCurrent->priv.State;
     }
+
     /* Page factory */
     PageFactory* pageFactory;
 
@@ -200,7 +200,7 @@ class PageManager {
 
     /* Page stack */
     std::stack<PageBase*> PageStack;
-	
+
     /* Previous page */
     PageBase* PagePrev;
 
@@ -212,12 +212,12 @@ class PageManager {
         bool IsSwitchReq; // Has switch request
         bool IsBusy;      // Is switching
         bool IsEntering;  // Is in entering action
+        bool IsDragging;  // Is handling a root drag gesture
 
         PageBase::AnimAttr_t Current; // Current animation properties
         PageBase::AnimAttr_t Global;  // Global animation properties
     } AnimState{};
 
-		uint8_t PageInfoIndex;
     /* Root style */
     lv_style_t* RootDefaultStyle;
 };

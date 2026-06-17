@@ -1,24 +1,26 @@
 CompileFlags:
   Remove:
-    - '-std:c++17'
+    - "--target=*"
+    - "-U__clang__"
+    - "-D__PROGRAM_START=*"
+    - "-std:c++17"
+    - "-Ic:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include"
+    - "-Ic:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include/libcxx"
+    - "-IC:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include"
+    - "-IC:\\Users\\gtc\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG/include/libcxx"
+    - "-IE:\\LLVM\\lib\\clang\\21\\include"
+    - "-D_WIN32"
+    - "-D_WIN64"
+    - "-D_MSC_VER=*"
+    - "-D_MSVC_LANG=*"
+    - "-fms-*"
+    - "-fdelayed-template-parsing"
+  Compiler: /usr/bin/g++
   Add:
-    - '-Wno-implicit-int'
-    - '-std=c++17'
-    - '-fms-compatibility'
-    - '-fms-extensions'
-    - '-fdelayed-template-parsing'
-    - '-fms-compatibility-version=19'
-    - '-D_MSC_VER=1900'
-    - '-D_WIN32'
-    - '-D_WIN64'
-    - '-D_MSVC_LANG=201703L'
+    - "--target=x86_64-linux-gnu"
+    - "-Wno-implicit-int"
+    - "-DLVGL_SIMULATOR"
   CompilationDatabase: build
-QueryDriver:
-  - 'C:\Program Files\LLVM\bin\clang.exe'
-  - 'C:\Program Files\LLVM\bin\clang++.exe'
-  - 'C:\PROGRA~1\LLVM\bin\clang.exe'
-  - 'C:\PROGRA~1\LLVM\bin\clang++.exe'
-  - 'C:\Program Files\LLVM\bin\CLANG_~1.EXE'
 Index:
   Background: Build
 Diagnostics:

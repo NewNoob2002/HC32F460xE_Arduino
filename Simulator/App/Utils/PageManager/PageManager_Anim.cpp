@@ -180,10 +180,10 @@ PageManager::GetLoadAnimAttr(const uint8_t anim, LoadAnimAttr_t* attr) {
         attr->getter = [](void* obj) { return static_cast<int32_t>(lv_obj_get_y(static_cast<lv_obj_t*>(obj))); };
     } else {
         attr->setter = [](void* obj, const int32_t v) {
-            lv_obj_set_style_bg_opa(static_cast<lv_obj_t*>(obj), static_cast<lv_opa_t>(v), LV_PART_MAIN);
+            lv_obj_set_style_opa(static_cast<lv_obj_t*>(obj), static_cast<lv_opa_t>(v), LV_PART_MAIN);
         };
         attr->getter = [](void* obj) {
-            return static_cast<int32_t>(lv_obj_get_style_bg_opa(static_cast<lv_obj_t*>(obj), LV_PART_MAIN));
+            return static_cast<int32_t>(lv_obj_get_style_opa(static_cast<lv_obj_t*>(obj), LV_PART_MAIN));
         };
     }
 

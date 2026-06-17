@@ -25,12 +25,38 @@
 
 #include "lvgl/lvgl.h"
 
-#define LV_ANIM_TIME_DEFAULT    400
-#define LV_ANIM_EXEC(attr)      (lv_anim_exec_xcb_t)lv_obj_set_##attr
-
 void lv_obj_set_opa_scale(lv_obj_t* obj, int16_t opa);
 int16_t lv_obj_get_opa_scale(lv_obj_t* obj);
 void lv_label_set_text_add(lv_obj_t * label, const char * text);
+
+#define LV_ANIM_TIME_DEFAULT    400
+
+static inline void lv_anim_exec_obj_set_x(void* obj, int32_t value)
+{
+    lv_obj_set_x((lv_obj_t*)obj, (lv_coord_t)value);
+}
+
+static inline void lv_anim_exec_obj_set_y(void* obj, int32_t value)
+{
+    lv_obj_set_y((lv_obj_t*)obj, (lv_coord_t)value);
+}
+
+static inline void lv_anim_exec_obj_set_width(void* obj, int32_t value)
+{
+    lv_obj_set_width((lv_obj_t*)obj, (lv_coord_t)value);
+}
+
+static inline void lv_anim_exec_obj_set_height(void* obj, int32_t value)
+{
+    lv_obj_set_height((lv_obj_t*)obj, (lv_coord_t)value);
+}
+
+static inline void lv_anim_exec_obj_set_opa_scale(void* obj, int32_t value)
+{
+    lv_obj_set_opa_scale((lv_obj_t*)obj, (int16_t)value);
+}
+
+#define LV_ANIM_EXEC(attr)      lv_anim_exec_obj_set_##attr
 void lv_obj_add_anim(
     lv_obj_t * obj, lv_anim_t * a,
     lv_anim_exec_xcb_t exec_cb, 
@@ -44,7 +70,7 @@ void lv_obj_add_anim(
 do{\
     lv_obj_add_anim(\
         (obj), NULL,\
-        (lv_anim_exec_xcb_t)lv_obj_set_##attr,\
+        LV_ANIM_EXEC(attr),\
         lv_obj_get_##attr(obj),\
         (target),\
         (time)\
@@ -54,7 +80,7 @@ do{\
 do{\
     lv_obj_add_anim(\
         (obj), NULL,\
-        (lv_anim_exec_xcb_t)lv_obj_set_##attr,\
+        LV_ANIM_EXEC(attr),\
         lv_obj_get_##attr(obj),\
         (target),\
         (time),\

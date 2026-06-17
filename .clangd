@@ -1,7 +1,16 @@
 CompileFlags:
+  CompilationDatabase: build/gcc-debug
   Add:
-    - -IC:\Keil_v5\ARM\ARMCLANG/include
-    - -IC:\Keil_v5\ARM\ARMCLANG/include/libcxx
-  Remove: []
-  CompilationDatabase: ./build/debug
-  Compiler: C:\Keil_v5\ARM\ARMCLANG\bin\armclang.exe
+    - --target=arm-none-eabi
+    - -U__clang__
+    - -D__PROGRAM_START=Reset_Handler
+---
+If:
+  PathMatch: .*\.cpp
+CompileFlags:
+  Compiler: arm-none-eabi-g++
+---
+If:
+  PathMatch: .*\.c
+CompileFlags:
+  Compiler: arm-none-eabi-gcc

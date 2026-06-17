@@ -5,33 +5,45 @@
 #include "StartupModel.h"
 
 
-namespace Page
-{
+namespace Page {
 
-class Startup final : public PageBase
-{
+class Startup final : public PageBase {
 public:
     Startup()
     = default;
+
     ~Startup() override = default;
 
     void onCustomAttrConfig() override;
+
     void onViewLoad() override;
+
     void onViewDidLoad() override;
+
     void onViewWillAppear() override;
+
     void onViewDidAppear() override;
+
     void onViewWillDisappear() override;
+
     void onViewDidDisappear() override;
+
     void onViewUnload() override;
+
     void onViewDidUnload() override;
+
+    void onLanguageChanged() override;
 
     StartupView View{};
     StartupModel Model;
 
-    void AttachEvent(lv_obj_t *obj);
+    void AttachEvent(lv_obj_t* obj);
+
 private:
     mutable lv_timer_t* timer{};
+
     static void onTimer(lv_timer_t* timer);
+
     static void onEvent(lv_event_t* event);
 };
 

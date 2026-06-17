@@ -34,6 +34,7 @@ spi_dma_trans(void* buf, uint16_t len) {
 
 void
 my_rounder_cb(lv_disp_drv_t* disp_drv, lv_area_t* area) {
+    (void)disp_drv;
     area->x1 = area->x1 & ~1;
     area->x2 = area->x2 | 1;
     area->y1 = area->y1 & ~1;

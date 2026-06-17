@@ -2,12 +2,17 @@
 #include "HAL.h"
 #include "bq40z50.h"
 #include "mp2762a.h"
-
+#include "ots.h"
 
 #define FORCE_SHUTDOWN() (systemInfo.powerMonitor.Force_ShutDown)
 
 static bool POWER_GET_REASON = false;
 en_flag_status_t softwareReset = RESET;
+
+void
+ots_callback(void) {
+    systemInfo.powerMonitor.batteryInfo.fOtsTemp = OTS_CalculateTemp();
+}
 
 void
 HAL::Power_Init() {
@@ -25,12 +30,18 @@ HAL::Power_Init() {
     pinMode(CHARGE_LED_PIN, OUTPUT);
 
     pinMode(WATCHDOG_FEED_PIN, OUTPUT);
+    OtsInitConfig(ots_callback);
 }
 
 void
 HAL::Power_OnCheck() {
+    if (!systemInfo.online_device.mp2762) {
+        Charger_Control_GPIO_Init();
+        USB_Switch_GPIO_Init();
+        USB_Switch_GPIO_Control(1);
+    }
     while (true) {
-        HAL_Update();
+        HAL::HAL_Update();
         lv_timer_handler();
         if (systemInfo.powerMonitor.panel_power_on) {
             CORE_DEBUG_PRINTF("MCU PowerDone");
@@ -40,11 +51,18 @@ HAL::Power_OnCheck() {
             CORE_DEBUG_PRINTF("softwareRst PowerDone");
             break;
         }
+        __WFI();
     }
     CORE_DEBUG_PRINTF("Power: Done");
     digitalWrite(POWER_LED_PIN, HIGH);
     digitalWrite(FUNCTION_LED_PIN, HIGH);
     digitalWrite(POWER_CONTROL_PIN, HIGH);
+    if (!systemInfo.online_device.mp2762) {
+        uint8_t typec_power = digitalRead(CHARGER_ADC_DETECT_PIN);
+        if (!typec_power) {
+            USB_Switch_GPIO_Control(0);
+        }
+    }
 }
 
 void
@@ -54,6 +72,7 @@ HAL::Power_Shutdown(bool en) {
         systemInfo.powerMonitor.ShutdownReq = true;
     } else {
         CORE_DEBUG_PRINTF("Shutdown Done");
+        systemInfo.powerMonitor.ShutdownGoing = false;
         digitalWrite(POWER_CONTROL_PIN, LOW);
     }
 }
@@ -65,6 +84,7 @@ HAL::Power_PowerOffMonitor() {
         digitalWrite(POWER_LED_PIN, HIGH);
         digitalWrite(FUNCTION_LED_PIN, HIGH);
         systemInfo.powerMonitor.poweroff_flag = 1;
+        systemInfo.powerMonitor.ShutdownGoing = true;
         systemInfo.powerMonitor.ShutdownReq = false;
     }
     if ((systemInfo.powerMonitor.ShutdownEnsure) || FORCE_SHUTDOWN() || systemInfo.powerMonitor.LowBatteryPowerOff) {
@@ -123,25 +143,63 @@ HAL::Power_ShutdownSoftReset() {
 void
 HAL::Power_Update() {
     WatchDog_Feed();
+    OtsStart();
     Power_GetInfo(&systemInfo.powerMonitor);
 }
 
 void
+HAL::Power_EnableCharger(BatteryInfo_t* pBatteryState) {
+    if (pBatteryState->ChargerDisable) {
+        if (systemInfo.online_device.mp2762) {
+            //To do MP2762
+            uint8_t cfg0 = mp2762enableCharger();
+            cfg0 &= (1 << 4);
+            if (cfg0) {
+                pBatteryState->ChargerDisable = 0;
+            }
+        } else {
+        }
+    }
+}
+
+void
+HAL::Power_DisableCharger(BatteryInfo_t* pBatteryState) {
+    if (pBatteryState->ChargerDisable == 0) {
+        if (systemInfo.online_device.mp2762) {
+            uint8_t cfg0 = mp2762disableCharger();
+            cfg0 &= (1 << 4);
+            if (!cfg0) {
+                pBatteryState->ChargerDisable = 1;
+            }
+        } else {
+            if (pBatteryState->chargeStatus != notCharge) {
+                pBatteryState->chargeStatus = notCharge;
+                Charge_Enable_Switch(0);
+                pBatteryState->ChargerDisable = 1;
+            }
+        }
+    }
+}
+
+void
 HAL::Power_GetInfo(Power_Monitor_t* info) {
+    if (info == nullptr) {
+        return;
+    }
     if (millis() - systemInfo.powerMonitor.BatteryLastHandleTime >= 3000) {
         systemInfo.powerMonitor.BatteryLastHandleTime = millis();
         if (!systemInfo.online_device.bq40z50) {
-
+            digitalToggle(POWER_LED_PIN);
         } else {
             checkBatteryInfo(&info->batteryInfo);
         }
     }
-    if (!systemInfo.online_device.mp2762) {
-        /*
-         *V1.3 Board do
-         */
-    } else {
+    info->batteryInfo.ChargerDetect = digitalRead(CHARGER_CTRL_PIN);
+    BatteryTemp_Monitor(&info->batteryInfo); //Battery Temperature Check
+    if (systemInfo.online_device.mp2762) {
         charger_update(&info->batteryInfo);
+    } else {
+        Charger_Control_Monitor(&info->batteryInfo);
     }
 }
 
@@ -200,6 +258,90 @@ checkBatteryInfo(pBatteryInfo_t p_batteryState) {
     p_batteryState->Percent_f = CM_SET_VALUE_IN_RANGE(batteryLevelPercent_f, 0.0, 100.0);
     p_batteryState->Voltage_f = CM_SET_VALUE_IN_RANGE(batteryVoltage_f, 6.0, 8.4);
     p_batteryState->Temp_f = CM_SET_VALUE_IN_RANGE(batteryTempC_f, 0.0, 100.0);
+}
+
+void
+BatteryTemp_Monitor(pBatteryInfo_t pBatteryState) {
+    if (pBatteryState->Temp_f >= BATTERY_TERMINATE_TEMP) {
+        if (pBatteryState->ChargerOverTempCount <= 50) {
+            pBatteryState->ChargerOverTempCount++;
+        }
+        if (pBatteryState->ChargerOverTempCount >= 20) {
+            pBatteryState->isOverTemp = 1;
+        }
+    } else {
+        pBatteryState->ChargerOverTempCount = 0;
+        pBatteryState->isOverTemp = 0;
+    }
+
+    if (pBatteryState->isOverTemp) {
+        HAL::Power_DisableCharger(pBatteryState);
+    } else {
+        HAL::Power_EnableCharger(pBatteryState);
+    }
+}
+
+void
+Charger_Control_GPIO_Init(void) {
+    pinMode(CHARGER_ENABLE_PIN, OUTPUT);
+    pinMode(CHARGER_SWITCH_PIN, OUTPUT);
+
+    pinMode(CHARGER_CTRL_PIN, INPUT_PULLUP);
+    pinMode(CHARGER_CTRL_FAST_PIN, INPUT_PULLUP);
+    pinMode(CHARGER_ADC_DETECT_PIN, INPUT_PULLUP);
+}
+
+void
+USB_Switch_GPIO_Init(void) {
+    pinMode(USB_SWITCH_PIN, OUTPUT);
+}
+
+void
+USB_Switch_GPIO_Control(uint8_t state) {
+    digitalWrite(USB_SWITCH_PIN, state == 1 ? HIGH : LOW);
+}
+
+void
+Charge_Enable_Switch(uint8_t state) {
+    digitalWrite(CHARGER_ENABLE_PIN, state == 1 ? HIGH : LOW);
+}
+
+void
+Charge_Current_Select(uint16_t select) {
+    if (3000 == select) {
+        digitalWrite(CHARGER_SWITCH_PIN, HIGH);
+    } else {
+        digitalWrite(CHARGER_SWITCH_PIN, LOW);
+    }
+}
+
+void
+Charger_Control_Monitor(BatteryInfo_t* batteryState) {
+    if (batteryState->ChargerDetect) {
+        if (batteryState->ChargerPlugCount < 5) {
+            batteryState->ChargerPlugCount++;
+        }
+    } else {
+        batteryState->ChargerPlugCount = 0;
+    }
+
+    if (batteryState->ChargerDisable) {
+        return;
+    }
+
+    if (batteryState->ChargerPlugCount >= 3) {
+        Charge_Enable_Switch(1);
+        Charge_Current_Select(3000);
+
+        if (digitalRead(CHARGER_ENABLE_PIN) == 1) {
+            batteryState->chargeStatus = fastCharge;
+        } else {
+            batteryState->chargeStatus = normalCharge;
+        }
+    } else {
+        batteryState->chargeStatus = notCharge;
+        Charge_Enable_Switch(0);
+    }
 }
 
 const char*

@@ -71,7 +71,6 @@ TwoWire::end() {
 
 bool
 TwoWire::beginTransmission(uint8_t address) {
-    uint32_t i32Ret = LL_ERR;
     bool result = false;
 
     I2C_Cmd(this->_config->register_base, ENABLE);

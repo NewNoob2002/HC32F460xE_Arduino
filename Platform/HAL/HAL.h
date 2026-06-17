@@ -6,7 +6,6 @@
 #include "HAL_CONFIG.h"
 #include "mcu_config.h"
 
-
 extern volatile SharedData_t shared_info;
 
 #ifdef __cplusplus
@@ -29,6 +28,8 @@ bool Power_ShutdownLinux();
 bool Power_ShutdownLowBattery();
 bool Power_ShutdownSoftReset();
 void Power_Update();
+void Power_EnableCharger(BatteryInfo_t* pBatteryState);
+void Power_DisableCharger(BatteryInfo_t* pBatteryState);
 void Power_GetInfo(Power_Monitor_t* info);
 const char* Power_GetPowerOffCause();
 void WatchDog_Feed();
@@ -98,6 +99,15 @@ void HAL_ResumeTick(void);
 bool chagrer_begin(pBatteryInfo_t p_batteryState);
 void charger_update(pBatteryInfo_t p_batteryState);
 void checkBatteryInfo(pBatteryInfo_t p_batteryState);
+
+void BatteryTemp_Monitor(pBatteryInfo_t pBatteryState);
+void Charger_Control_GPIO_Init(void);
+void USB_Switch_GPIO_Init(void);
+void USB_Switch_GPIO_Control(uint8_t state);
+void Charge_Enable_Switch(uint8_t state);
+void Charge_Current_Select(uint16_t select);
+void Charger_Control_Monitor(BatteryInfo_t* batteryState);
+
 #ifdef __cplusplus
 }
 #endif /*__cplusplus*/

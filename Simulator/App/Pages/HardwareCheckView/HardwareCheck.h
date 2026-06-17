@@ -8,40 +8,43 @@
 #include "HardwareCheckModel.h"
 
 namespace Page {
-    class HardwareCheck final : public PageBase {
-    public:
-        HardwareCheck() = default;
+class HardwareCheck final : public PageBase {
+public:
+    HardwareCheck() = default;
 
-        ~HardwareCheck() override = default;
+    ~HardwareCheck() override = default;
 
-        void onCustomAttrConfig() override;
+    void onCustomAttrConfig() override;
 
-        void onViewLoad() override;
+    void onViewLoad() override;
 
-        void onViewDidLoad() override;
+    void onViewDidLoad() override;
 
-        void onViewWillAppear() override;
+    void onViewWillAppear() override;
 
-        void onViewDidAppear() override;
+    void onViewDidAppear() override;
 
-        void onViewWillDisappear() override;
+    void onViewWillDisappear() override;
 
-        void onViewDidDisappear() override;
+    void onViewDidDisappear() override;
 
-        void onViewUnload() override;
+    void onViewUnload() override;
 
-        void onViewDidUnload() override;
+    void onViewDidUnload() override;
 
-        HardwareCheckView View{};
-        HardwareCheckModel Model;
+    void onLanguageChanged() override;
 
-    private:
-        lv_timer_t *timer{};
-        static uint32_t first_check_time;
-        static void onTimer(lv_timer_t *timer);
+    HardwareCheckView View{};
+    HardwareCheckModel Model;
 
-        static void onEvent(lv_event_t *event);
-    };
+private:
+    lv_timer_t* timer{};
+    static uint32_t first_check_time;
+
+    static void onTimer(lv_timer_t* timer);
+
+    static void onEvent(lv_event_t* event);
+};
 }
 
 #endif //LVGL_HARDWARE_CHECK_H

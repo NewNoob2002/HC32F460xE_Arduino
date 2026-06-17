@@ -24,10 +24,14 @@
 #include "Common/DataProc/DataProc.h"
 #include "HAL/HAL.h"
 #include "Pages/AppFactory.h"
+#include "Pages/BatteryWarning/BatteryWarning.h"
 #include "Pages/StatusBar/StatusBar.h"
 #include "Resource/ResourcePool.h"
+#include "Utils/I18n/I18n.h"
 #include "Utils/PageManager/PageManager.h"
-#ifdef _WIN32
+#include "mcu_define.h"
+#include "src/hal/lv_hal_tick.h"
+#if defined(LVGL_SIMULATOR) || defined(_WIN32)
 #else
 #include "lv_port.h"
 #endif
@@ -80,23 +84,45 @@ App_Init() {
 
     /* Initialize status bar */
     Page::StatusBar_Create(lv_layer_top());
+    Page::BatteryWarning_Create(lv_layer_top());
 
     /* Initialize pages */
     manager.Install("Startup", "Pages/Startup");
     manager.Install("HardwareCheck", "Pages/HardwareCheck");
     manager.Install("Dialplate", "Pages/Dialplate");
+    manager.Install("RecordConfig", "Pages/RecordConfig");
     manager.Install("WorkSettings", "Pages/WorkSettings");
     manager.Install("SystemInfos", "Pages/SystemInfos");
     manager.Install("Shutdown", "Pages/Shutdown");
     manager.Install("SaveConfig", "Pages/SaveConfig");
+    manager.Install("StarMap", "Pages/StarMap");
 
     manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP);
 
     manager.Push("Pages/Startup");
 }
 
+bool
+App_SetLanguage(const I18n::Language language) {
+    if (!I18n::SetLanguage(language)) {
+        return false;
+    }
+
+    manager.NotifyLanguageChanged();
+    Page::StatusBar_ApplyLanguage();
+    Page::BatteryWarning_ApplyLanguage();
+    return true;
+}
+
+I18n::Language
+App_GetLanguage() {
+    return I18n::GetLanguage();
+}
+
 void
 App_Update() {
+    Page::BatteryWarning_Update();
+
     if (systemInfo.powerMonitor.Force_ShutDown || systemInfo.powerMonitor.LowBatteryPowerOff
         || systemInfo.powerMonitor.LinuxPowerOff) {
         if (!Shutdown_pushed) {
@@ -105,7 +131,15 @@ App_Update() {
             manager.Push("Pages/SaveConfig");
         }
     }
-#ifdef _WIN32
+#if defined(LVGL_SIMULATOR) || defined(_WIN32)
+    static uint32_t lastTick = 0;
+    if (lv_tick_get() - lastTick > 1000) {
+        lastTick = lv_tick_get();
+        systemInfo.powerMonitor.batteryInfo.Temp_f++;
+    }
+    if (systemInfo.powerMonitor.batteryInfo.Temp_f >= 80) {
+        systemInfo.powerMonitor.batteryInfo.Temp_f = 10;
+    }
 #else
     if (systemInfo.powerMonitor.ExternalPowerChange) {
         systemInfo.powerMonitor.ExternalPowerChange = 0;

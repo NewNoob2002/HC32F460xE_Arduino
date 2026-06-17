@@ -4,25 +4,26 @@
 #include "Common/DataProc/DataProc.h"
 
 namespace Page {
-    class SaveConfigModel {
-    public:
-        SaveConfigModel() : account(nullptr) {
-        }
+class SaveConfigModel {
+public:
+    SaveConfigModel()
+        : account(nullptr) {}
 
-        ~SaveConfigModel() {
-            delete account;
-        }
+    ~SaveConfigModel() {
+        delete account;
+    }
 
-        void Init();
+    void Init();
 
-        void Deinit();
+    void Deinit();
 
-        void SetStatusBarAppear(bool delay) const;
+    void SetStatusBarAppear(bool delay) const;
 
-        void SetStatusBarDisappear(bool delay) const;
-    private:
-        Account *account;
-    };
+    void SetStatusBarDisappear(bool delay) const;
+
+private:
+    Account* account;
+};
 }
 
 #endif

@@ -5,31 +5,32 @@
 #include "HAL/HAL.h"
 
 namespace Page {
-    class StartupModel {
-    public:
-        StartupModel() : account(nullptr) {
-        }
+class StartupModel {
+public:
+    StartupModel()
+        : account(nullptr) {}
 
-        ~StartupModel() {
-            delete account;
-        }
+    ~StartupModel() {
+        delete account;
+    }
 
-        void Init();
+    void Init();
 
-        void Deinit();
+    void Deinit();
 
-        void SetStatusBarAppear(bool en, bool delay) const;
+    void SetStatusBarAppear(bool en, bool delay) const;
 
-        static void SetEncoderEnable(const bool en) {
-#if defined(_WIN32)
+    static void
+    SetEncoderEnable(const bool en) {
+#if defined(LVGL_SIMULATOR) || defined(_WIN32)
 #else
-            HAL::Encoder_SetEnable(en);
+        HAL::Encoder_SetEnable(en);
 #endif
-        }
+    }
 
-    private:
-        Account *account;
-    };
+private:
+    Account* account;
+};
 }
 
 #endif
