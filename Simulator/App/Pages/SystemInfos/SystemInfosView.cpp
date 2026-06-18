@@ -212,7 +212,9 @@ SystemInfosView::SetWifi(const WifiInfo_t& wifiInfo) const {
                           "%s-%s\n"
                           "%s\n"
                           "%d.%d.%d.%d",
-                          wifiInfo.wifi_mode ? "STA" : "AP", wifiInfo.wifi_ssid, wifiInfo.wifi_status ? "ON" : "OFF",
+                          wifiInfo.wifi_mode ? "STA" : "AP", wifiInfo.wifi_ssid,
+                          wifiInfo.wifi_status ? I18n::Text(I18n::TextId::StatusOn)
+                                               : I18n::Text(I18n::TextId::StatusOff),
                           wifiInfo.wifi_ip[0], wifiInfo.wifi_ip[1], wifiInfo.wifi_ip[2], wifiInfo.wifi_ip[3]);
 }
 
