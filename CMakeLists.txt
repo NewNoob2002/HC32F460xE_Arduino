@@ -21,7 +21,6 @@ set(TARGET_NAME MCU_LED_${PROJECT_VERSION})
 set(CMAKE_EXECUTABLE_SUFFIX .elf)
 set(LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/HC32F460xE.ld)
 
-include(cmake/Clangd.cmake)
 include(cmake/ProjectOptions.cmake)
 
 add_subdirectory(Platform)
