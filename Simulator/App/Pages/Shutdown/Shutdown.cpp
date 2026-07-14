@@ -128,7 +128,7 @@ Shutdown::AttachEvent(lv_obj_t* obj) {
 void
 Shutdown::Update() {
     View.SetWifiStatus(systemInfo.wifiInfo.wifi_status);
-    if (wifiChangePending && systemInfo.messageDecode.InfoWifi_count != wifiMessageCount) {
+    if (wifiChangePending && systemInfo.wifiInfo.wifi_status == systemInfo.wifiInfo.wifi_on_off_set) {
         wifiChangePending = false;
         wifiLoadingStep = 0;
         View.SetWifiLoading(false);

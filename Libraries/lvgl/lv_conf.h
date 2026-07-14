@@ -294,11 +294,8 @@
 
 /*1: Show the used memory and the memory fragmentation
  * Requires LV_MEM_CUSTOM = 0*/
-#if defined(__CORE_DEBUG)
-#define LV_USE_MEM_MONITOR 1
-#else
 #define LV_USE_MEM_MONITOR 0
-#endif
+
 #if LV_USE_MEM_MONITOR
     #define LV_USE_MEM_MONITOR_POS LV_ALIGN_TOP_RIGHT
 #endif

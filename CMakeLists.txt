@@ -19,7 +19,6 @@ set(TARGET_NAME MCU_PRO_${PROJECT_VERSION})
 set(CMAKE_EXECUTABLE_SUFFIX .elf)
 set(LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/HC32F460xE.ld)
 
-include(cmake/clangd.cmake)
 include(cmake/ProjectOptions.cmake)
 
 add_subdirectory(Platform)
@@ -49,8 +48,8 @@ target_link_options(${TARGET_NAME} PRIVATE
 )
 
 add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${TARGET_NAME}> ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.hex
-    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${TARGET_NAME}> ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.bin
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${TARGET_NAME}> ${CMAKE_CURRENT_BINARY_DIR}/generated/${TARGET_NAME}.hex
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${TARGET_NAME}> ${CMAKE_CURRENT_BINARY_DIR}/generated/${TARGET_NAME}.bin
     COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${TARGET_NAME}>
     COMMENT "Generating HEX/BIN and size report"
 )
