@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <cstring>
 #include "core_debug.h"
-#include "mcu_config.h"
+#include "mcu_define.h"
 
 static uint32_t
 calculate_crc(const char* msg, unsigned int len) {
