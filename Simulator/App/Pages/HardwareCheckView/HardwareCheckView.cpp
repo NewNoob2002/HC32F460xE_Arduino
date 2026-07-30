@@ -77,6 +77,8 @@ HardwareCheckView::Create(lv_obj_t* root) {
     lv_obj_t* img_logo = lv_img_create(root);
 #if defined(RGK_LOGO_USE)
     lv_img_set_src(img_logo, ResourcePool::GetImage("RGKLogo"));
+#elif defined(MIDDLE_LOGO_USE)
+    lv_img_set_src(img_logo, ResourcePool::GetImage("MiddleLogo"));
 #else
     lv_img_set_src(img_logo, ResourcePool::GetImage("startupLogo"));
 #endif // RGK_LOGO_USE

@@ -36,7 +36,7 @@ else()
     endif()
 endif()
 
-set(PROJECT_VERSION 2.4.2)
+set(PROJECT_VERSION 2.4.4)
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Config/mcu_version_config.h.in
     ${CMAKE_CURRENT_BINARY_DIR}/generated/Platform/Config/mcu_version_config.h
@@ -127,7 +127,7 @@ target_compile_definitions(hc32_project_options INTERFACE
     ARDUINO=111
     LV_CONF_INCLUDE_SIMPLE
     $<$<CONFIG:Debug>:__CORE_DEBUG>
-    # RGK_LOGO_USE
+    MIDDLE_LOGO_USE
 )
 target_compile_options(hc32_project_options INTERFACE
     ${CPU_FLAGS}
