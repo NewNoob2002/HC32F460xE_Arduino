@@ -3,7 +3,6 @@
 //
 
 #include "HardwareCheckView.h"
-#include <cstdlib>
 
 #define BAR_WIDTH 100
 

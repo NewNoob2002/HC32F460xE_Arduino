@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(PROJECT_VERSION 2.4.3)
+set(PROJECT_VERSION 2.4.4)
 #2.4.3: shutdown page add wifi set interface,  add temparature reach 65 warming
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/Platform/Config/mcu_version_config.h.in
