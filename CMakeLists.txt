@@ -39,7 +39,7 @@ target_link_options(${TARGET_NAME} PRIVATE
     ${CPU_FLAGS}
     -T${LINKER_SCRIPT}
     -Wl,--defsym=FLASH_ORIGIN=0x00008000
-    # -Wl,--defsym=FLASH_LENGTH=0x00036000
+    -Wl,--defsym=FLASH_LENGTH=0x00076000
     -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.map
     -Wl,--gc-sections
     -Wl,--print-memory-usage
