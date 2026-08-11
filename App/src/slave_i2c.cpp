@@ -32,6 +32,7 @@ const int CustomParserNameCount = sizeof(CustomParserNames) / sizeof(CustomParse
 
 void
 CustomDataProcess(SEMP_PARSE_STATE* parse, uint16_t type) {
+    (void)type;
     int length = message_decode(parse, txBuffer_temp);
     if (length <= 0) {
         return;

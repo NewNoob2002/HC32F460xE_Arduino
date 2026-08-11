@@ -86,6 +86,8 @@ void print_cfsr_info()
  */
 void print_stack_frame(hardfault_stack_frame_t *stack_frame)
 {
+    (void)stack_frame;
+    panic_printf("- Stack frame:\n");
     panic_printf("R0 = 0x%08lx\n", stack_frame->r0);
     panic_printf("R1 = 0x%08lx\n", stack_frame->r1);
     panic_printf("R2 = 0x%08lx\n", stack_frame->r2);
@@ -101,6 +103,7 @@ void print_stack_frame(hardfault_stack_frame_t *stack_frame)
  */
 void HardFault_Handler_C(hardfault_stack_frame_t *stack_frame, uint32_t lr_value)
 {
+    (void)lr_value;
     // prepare panic message formatting
     panic_begin();
 
