@@ -57,10 +57,16 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
             msg[NM_PROTOCOL_HEADER_LEN + 2] = systemInfo.recordInfo.record_status;   // 静态记录状态
             msg[NM_PROTOCOL_HEADER_LEN + 3] = systemInfo.recordInfo.record_op;       // 静态记录开关
             msg[NM_PROTOCOL_HEADER_LEN + 4] = systemInfo.powerMonitor.batteryInfo.chargeStatus != notCharge;
-            // CORE_DEBUG_PRINTF("RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n",
-            //                   systemInfo.recordInfo.record_status, systemInfo.recordInfo.record_op,
-            //                   systemInfo.recordInfo.record_interval, systemInfo.recordInfo.record_change_flag);
-            if (systemInfo.powerMonitor.poweroff_flag == 1) {
+            CORE_DEBUG_PRINTF("RecordInfo: record_status:%d, op:%d, interval:%d, changeflag:%d\n",
+                              systemInfo.recordInfo.record_status, systemInfo.recordInfo.record_op,
+                              systemInfo.recordInfo.record_interval, systemInfo.recordInfo.record_change_flag);
+            if (systemInfo.recordInfo.record_change_flag) {
+                systemInfo.recordInfo.record_change_flag = 0;
+            }
+            if (systemInfo.recordInfo.record_op) {
+                systemInfo.recordInfo.record_op = 0;
+            }
+            if (systemInfo.powerMonitor.poweroff_flag) {
                 systemInfo.powerMonitor.poweroff_flag = 0;
                 systemInfo.powerMonitor.ShutdownEnsure = true;
                 CORE_DEBUG_PRINTF("Shutdown Sync");
