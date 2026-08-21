@@ -7,7 +7,7 @@ extern const uint8_t RadioProtocol[PROTOCOL_MAX];
 
 namespace Page {
 class WorkSettingsView {
-public:
+  public:
     struct {
         struct {
             lv_obj_t* cont;
@@ -75,11 +75,11 @@ public:
 
     void AppearAnimStart(bool reverse = false) const;
 
-private:
+  private:
     static int8_t left_roller_index;
     static int8_t right_roller_index;
 };
 
-}
+} // namespace Page
 
 #endif // WorkSettings_VIEW_H

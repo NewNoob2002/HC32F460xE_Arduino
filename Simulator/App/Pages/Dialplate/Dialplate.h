@@ -1,13 +1,14 @@
 #ifndef DIALPLATE_PRESENTER_H
 #define DIALPLATE_PRESENTER_H
 
-#include "DialplateView.h"
 #include "DialplateModel.h"
+#include "DialplateView.h"
+
 
 namespace Page {
 
 class Dialplate final : public PageBase {
-public:
+  public:
     Dialplate();
 
     ~Dialplate() override;
@@ -30,11 +31,8 @@ public:
 
     void onViewDidUnload() override;
 
-private:
-    typedef enum {
-        RECORD_STATE_START = 0,
-        RECORD_STATE_STOP
-    } RecordState_t;
+  private:
+    typedef enum { RECORD_STATE_START = 0, RECORD_STATE_STOP } RecordState_t;
 
     void Update();
 
@@ -57,6 +55,6 @@ private:
     lv_obj_t* lastFocus;
 };
 
-}
+} // namespace Page
 
 #endif

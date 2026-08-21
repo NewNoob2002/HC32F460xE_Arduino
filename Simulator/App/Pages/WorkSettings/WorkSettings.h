@@ -5,7 +5,7 @@
 
 namespace Page {
 class WorkSettings : public PageBase {
-public:
+  public:
     WorkSettings();
 
     ~WorkSettings() override;
@@ -32,7 +32,7 @@ public:
 
     void onBtnClicked(const lv_obj_t* btn) const;
 
-private:
+  private:
     WorkSettingsView View{};
     lv_obj_t* lastFocus{};
     lv_timer_t* timer{};
@@ -43,6 +43,6 @@ private:
 
     static void onEvent(lv_event_t* event);
 };
-}
+} // namespace Page
 
 #endif

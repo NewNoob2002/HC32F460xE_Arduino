@@ -22,14 +22,13 @@
  */
 #include "AppFactory.h"
 #include "Dialplate/Dialplate.h"
-#include "RecordConfig/RecordConfig.h"
 #include "HardwareCheckView/HardwareCheck.h"
+#include "RecordConfig/RecordConfig.h"
 #include "SaveConfig/SaveConfig.h"
 #include "Shutdown/Shutdown.h"
 #include "Startup/Startup.h"
 #include "SystemInfos/SystemInfos.h"
 #include "WorkSettings/WorkSettings.h"
-
 
 #define APP_CLASS_MATCH(className)                                                                                     \
     do {                                                                                                               \

@@ -5,15 +5,14 @@
 #ifndef LVGL_HARDWARE_CHECK_MODEL_H
 #define LVGL_HARDWARE_CHECK_MODEL_H
 
-#include "Common/DataProc/DataProc.h"
+#include "Common/DataProc/DataProc_Def.h"
 #include "HAL/HAL.h"
+#include "Utils/DataCenter/Account.h"
 
 namespace Page {
 class HardwareCheckModel {
-public:
-    HardwareCheckModel() {
-        account = nullptr;
-    }
+  public:
+    HardwareCheckModel() { account = nullptr; }
 
     ~HardwareCheckModel() = default;
 
@@ -33,9 +32,9 @@ public:
 #endif
     }
 
-private:
+  private:
     Account* account;
 };
-};
+}; // namespace Page
 
 #endif //LVGL_HARDWARE_CHECK_MODEL_H

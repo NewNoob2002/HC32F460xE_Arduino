@@ -10,8 +10,9 @@ static bool anim_complement_callback_do = false;
 static void
 lv_anim_obj_set_width(void* obj, const int32_t width) {
     lv_anim_t* anim = lv_anim_get(obj, lv_anim_obj_set_width);
-    if (anim == nullptr)
+    if (anim == nullptr) {
         return;
+    }
 
     const auto* instance = static_cast<Shutdown*>(lv_anim_get_user_data(anim));
     LV_ASSERT_NULL(instance);
@@ -115,9 +116,8 @@ Shutdown::onEvent(lv_event_t* event) {
 
     if (obj == instance->View.ui.shutdown.btnLanguage) {
         if (code == LV_EVENT_SHORT_CLICKED) {
-            const I18n::Language nextLanguage = App_GetLanguage() == I18n::Language::Russian
-                                                    ? I18n::Language::English
-                                                    : I18n::Language::Russian;
+            const I18n::Language nextLanguage =
+                App_GetLanguage() == I18n::Language::Russian ? I18n::Language::English : I18n::Language::Russian;
             App_SetLanguage(nextLanguage);
         }
         return;
@@ -131,8 +131,9 @@ Shutdown::onEvent(lv_event_t* event) {
         instance->pageManager->Pop();
     } else if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESSED) {
 #if defined(HC32F460)
-        if (!systemInfo.online_device.eg25_board && !systemInfo.eg25_overtime)
+        if (!systemInfo.online_device.eg25_board && !systemInfo.eg25_overtime) {
             return;
+        }
 #endif
         lv_anim_t anim = instance->View.ui.shutdown.bar.anim;
         const int16_t current_width = lv_obj_get_width(instance->View.ui.shutdown.bar.obj);
@@ -158,7 +159,7 @@ Shutdown::onEvent(lv_event_t* event) {
                 }
                 break;
             }
-            default: ;
+            default:;
         }
     }
 }

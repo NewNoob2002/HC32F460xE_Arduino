@@ -7,7 +7,7 @@ namespace Page {
 
 class DialplateView {
 
-public:
+  public:
     struct {
         struct {
             lv_obj_t* cont;
@@ -35,7 +35,7 @@ public:
 
     void AppearAnimStart(bool reverse = false) const;
 
-private:
+  private:
     void TopInfo_Create(lv_obj_t* par);
 
     void BtnCont_Create(lv_obj_t* par);
@@ -43,6 +43,6 @@ private:
     static lv_obj_t* Btn_Create(lv_obj_t* par, const void* img_src, lv_coord_t x_ofs);
 };
 
-}
+} // namespace Page
 
 #endif // DIALPLATE_VIEW_H

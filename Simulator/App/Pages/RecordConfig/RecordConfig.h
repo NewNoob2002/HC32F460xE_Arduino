@@ -5,14 +5,14 @@
 #ifndef LVGL_RECORDCONFIG_H
 #define LVGL_RECORDCONFIG_H
 
-#include "RecordConfigView.h"
 #include "RecordConfigModel.h"
+#include "RecordConfigView.h"
+
 
 namespace Page {
 class RecordConfig : public PageBase {
-public:
-    RecordConfig()
-        : recState(RECORD_STATE_STOP), lastFocus(nullptr), timerRecord(nullptr), timerRoller(nullptr) {}
+  public:
+    RecordConfig() : recState(RECORD_STATE_STOP), lastFocus(nullptr), timerRecord(nullptr), timerRoller(nullptr) {}
 
     ~RecordConfig() override = default;
 
@@ -36,11 +36,8 @@ public:
 
     void onLanguageChanged() override;
 
-private:
-    typedef enum {
-        RECORD_STATE_START = 0,
-        RECORD_STATE_STOP
-    } RecordState_t;
+  private:
+    typedef enum { RECORD_STATE_START = 0, RECORD_STATE_STOP } RecordState_t;
 
     RecordConfigView View{};
     RecordConfigModel Model{};
@@ -65,6 +62,6 @@ private:
 
     static void onEvent(lv_event_t* event);
 };
-}
+} // namespace Page
 
 #endif //LVGL_RECORDCONFIG_H

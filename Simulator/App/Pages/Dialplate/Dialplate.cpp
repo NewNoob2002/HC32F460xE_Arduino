@@ -1,5 +1,4 @@
 #include "Dialplate.h"
-#include <cstdlib>
 
 using namespace Page;
 

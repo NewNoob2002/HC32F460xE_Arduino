@@ -5,7 +5,7 @@
 
 namespace Page {
 class SaveConfigView {
-public:
+  public:
     void Create(lv_obj_t* root);
 
     void Delete();
@@ -35,6 +35,6 @@ public:
         lv_anim_timeline_t* anim_timeline;
     } ui;
 };
-}
+} // namespace Page
 
 #endif // !SHUTDOWN_VIEW_H

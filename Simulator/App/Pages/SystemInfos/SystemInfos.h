@@ -1,13 +1,14 @@
 #ifndef __SYSTEM_INFOS_PRESENTER_H
 #define __SYSTEM_INFOS_PRESENTER_H
 
-#include "SystemInfosView.h"
 #include "SystemInfosModel.h"
+#include "SystemInfosView.h"
+
 
 namespace Page {
 
 class SystemInfos : public PageBase {
-public:
+  public:
     SystemInfos();
 
     ~SystemInfos() override;
@@ -32,7 +33,7 @@ public:
 
     void onLanguageChanged() override;
 
-private:
+  private:
     void Update() const;
 
     void AttachEvent(lv_obj_t* obj);
@@ -46,6 +47,6 @@ private:
     lv_timer_t* timer{};
 };
 
-}
+} // namespace Page
 
 #endif

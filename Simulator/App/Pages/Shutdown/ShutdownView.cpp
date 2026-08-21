@@ -107,7 +107,6 @@ ShutdownView::ApplyLanguage() const {
     lv_label_set_text(ui.shutdown.btnLabel, I18n::Text(I18n::TextId::Press));
     lv_img_set_src(
         ui.shutdown.btnLanguageImg,
-        ResourcePool::GetImage(I18n::GetLanguage() == I18n::Language::Russian ? "NationalFlag_RU" : "NationalFlag_EN")
-    );
+        ResourcePool::GetImage(I18n::GetLanguage() == I18n::Language::Russian ? "NationalFlag_RU" : "NationalFlag_EN"));
     lv_obj_center(ui.shutdown.btnLanguageImg);
 }

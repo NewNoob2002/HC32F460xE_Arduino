@@ -1,12 +1,13 @@
 #ifndef SAVECONFIG_H
 #define SAVECONFIG_H
 
-#include "SaveConfigView.h"
 #include "SaveConfigModel.h"
+#include "SaveConfigView.h"
+
 
 namespace Page {
 class SaveConfig : public PageBase {
-public:
+  public:
     typedef struct {
         uint16_t time;
         lv_color_t color;
@@ -39,10 +40,10 @@ public:
     SaveConfigView View{};
     SaveConfigModel Model{};
 
-private:
+  private:
     void UpdatePowerOffCauseText() const;
     static I18n::TextId GetPowerOffCauseTextId();
 };
-}
+} // namespace Page
 
 #endif

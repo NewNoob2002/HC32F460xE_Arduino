@@ -1,16 +1,14 @@
 #ifndef STARTUP_PRESENTER_H
 #define STARTUP_PRESENTER_H
 
-#include "StartupView.h"
 #include "StartupModel.h"
-
+#include "StartupView.h"
 
 namespace Page {
 
 class Startup final : public PageBase {
-public:
-    Startup()
-    = default;
+  public:
+    Startup() = default;
 
     ~Startup() override = default;
 
@@ -39,7 +37,7 @@ public:
 
     void AttachEvent(lv_obj_t* obj);
 
-private:
+  private:
     mutable lv_timer_t* timer{};
 
     static void onTimer(lv_timer_t* timer);
@@ -47,6 +45,6 @@ private:
     static void onEvent(lv_event_t* event);
 };
 
-}
+} // namespace Page
 
 #endif

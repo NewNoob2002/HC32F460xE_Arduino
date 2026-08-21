@@ -16,7 +16,6 @@ StartupModel::Deinit() {
     }
 }
 
-
 void
 StartupModel::SetStatusBarAppear(const bool en, const bool delay) const {
     DataProc::StatusBar_Info_t info;

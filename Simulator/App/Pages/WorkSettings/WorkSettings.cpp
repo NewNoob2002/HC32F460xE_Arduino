@@ -120,8 +120,8 @@ WorkSettings::onLanguageChanged() {
 void
 WorkSettings::onBtnClicked(const lv_obj_t* btn) const {
     if (btn == View.ui.btnCont.btnBase) {
-        const uint8_t protocol_index = RadioProtocol[
-            WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
+        const uint8_t protocol_index =
+            RadioProtocol[WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
         const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.right_roller.label);
         if (channel_index != 0) {
             PM_LOG_INFO("btnBase, pro:%d, freq:%d", protocol_index, channel_index);
@@ -136,8 +136,8 @@ WorkSettings::onBtnClicked(const lv_obj_t* btn) const {
         }
         pageManager->Pop();
     } else if (btn == View.ui.btnCont.btnRover) {
-        const uint8_t protocol_index = RadioProtocol[
-            WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
+        const uint8_t protocol_index =
+            RadioProtocol[WorkSettingsView::Roller_GetIndex(View.ui.roller.left_roller.label)];
         const uint8_t channel_index = WorkSettingsView::Roller_GetIndex(View.ui.roller.right_roller.label);
         if (channel_index != 0) {
             PM_LOG_INFO("btnRover, pro:%d, freq:%d", protocol_index, channel_index);

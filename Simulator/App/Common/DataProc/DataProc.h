@@ -2,8 +2,6 @@
 #define __DATA_PROC_H
 
 #include "Utils/DataCenter/DataCenter.h"
-#include "../../Platform/Config/mcu_config.h"
-#include "DataProc_Def.h"
 
 #define DATA_PROC_INIT_DEF(name)   void _DP_##name##_Init(Account* account)
 #define DATA_PROC_INIT_STRUCT(sct) memset(&sct, 0, sizeof(sct))
@@ -20,6 +18,6 @@ uint32_t GetTickElaps(uint32_t prevTick);
 
 const char* MakeTimeString(uint64_t ms, char* buf, uint16_t len);
 
-}
+} // namespace DataProc
 
 #endif

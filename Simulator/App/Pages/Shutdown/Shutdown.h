@@ -5,7 +5,7 @@
 
 namespace Page {
 class Shutdown : public PageBase {
-public:
+  public:
     typedef struct {
         uint16_t time;
         lv_color_t color;
@@ -37,13 +37,13 @@ public:
 
     ShutdownView View{};
 
-private:
+  private:
     void Update() const;
 
     void AttachEvent(lv_obj_t* obj);
 
     static void onEvent(lv_event_t* event);
 };
-}
+} // namespace Page
 
 #endif

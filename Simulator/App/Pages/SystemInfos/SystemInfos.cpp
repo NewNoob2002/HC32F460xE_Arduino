@@ -18,10 +18,8 @@ SystemInfos::onViewLoad() {
 
 void
 SystemInfos::onViewDidLoad() {
-    lv_obj_t* const icons[] = {
-        View.ui.work.icon, View.ui.gps.icon, View.ui.wifi.icon,
-        View.ui.battery.icon, View.ui.storage.icon, View.ui.system.icon
-    };
+    lv_obj_t* const icons[] = {View.ui.work.icon,    View.ui.gps.icon,     View.ui.wifi.icon,
+                               View.ui.battery.icon, View.ui.storage.icon, View.ui.system.icon};
     for (lv_obj_t* icon : icons) {
         AttachEvent(icon);
     }
@@ -107,11 +105,7 @@ SystemInfos::Update() const {
 
     /* System */
     MakeTimeString(lv_tick_get(), buf, sizeof(buf));
-    View.SetSystem(
-        SOFTWARE_VERSION,
-        buf,
-        systemInfo.i2c__err_count,
-        SOFTWARE_BUILD_DATE " " SOFTWARE_BUILD_TIME);
+    View.SetSystem(SOFTWARE_VERSION, buf, systemInfo.i2c__err_count, SOFTWARE_BUILD_DATE " " SOFTWARE_BUILD_TIME);
 }
 
 void

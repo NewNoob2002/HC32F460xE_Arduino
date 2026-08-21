@@ -6,13 +6,10 @@
 
 namespace Page {
 class StartupModel {
-public:
-    StartupModel()
-        : account(nullptr) {}
+  public:
+    StartupModel() : account(nullptr) {}
 
-    ~StartupModel() {
-        delete account;
-    }
+    ~StartupModel() { delete account; }
 
     void Init();
 
@@ -28,9 +25,9 @@ public:
 #endif
     }
 
-private:
+  private:
     Account* account;
 };
-}
+} // namespace Page
 
 #endif

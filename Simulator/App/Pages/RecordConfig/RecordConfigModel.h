@@ -1,7 +1,8 @@
 #ifndef __RECORDCONFIG_MODEL_H
 #define __RECORDCONFIG_MODEL_H
 
-#include "Common/DataProc/DataProc.h"
+#include "Common/DataProc/DataProc_Def.h"
+#include "Utils/DataCenter/Account.h"
 
 namespace Page {
 

@@ -1,22 +1,20 @@
 #ifndef __DIALPLATE_MODEL_H
 #define __DIALPLATE_MODEL_H
 
-#include "Common/DataProc/DataProc.h"
+#include "Common/DataProc/DataProc_Def.h"
+#include "Utils/DataCenter/Account.h"
 
 namespace Page {
 
 class DialplateModel {
-public:
+  public:
     DialplateModel() = default;
 
     ~DialplateModel() = default;
 
-    typedef enum {
-        REC_START = DataProc::RECORDER_CMD_START,
-        REC_STOP = DataProc::RECORDER_CMD_STOP
-    } RecCmd_t;
+    typedef enum { REC_START = DataProc::RECORDER_CMD_START, REC_STOP = DataProc::RECORDER_CMD_STOP } RecCmd_t;
 
-public:
+  public:
     void Init();
 
     void Deinit();
@@ -25,13 +23,13 @@ public:
 
     void SetStatusBarStyle(DataProc::StatusBar_Style_t style) const;
 
-private:
+  private:
     Account* account{};
 
-private:
+  private:
     static int onEvent(Account* account, Account::EventParam_t* param);
 };
 
-}
+} // namespace Page
 
 #endif

@@ -3,6 +3,8 @@
 //
 
 #include "HardwareCheckModel.h"
+#include "Common/DataProc/DataProc.h"
+#include "Common/DataProc/DataProc_Def.h"
 
 using namespace Page;
 

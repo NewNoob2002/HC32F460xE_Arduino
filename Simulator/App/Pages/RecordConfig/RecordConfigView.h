@@ -5,7 +5,6 @@
 #ifndef LVGL_RECORDCONFIGVIEW_H
 #define LVGL_RECORDCONFIGVIEW_H
 
-
 #include "../Page.h"
 
 extern const uint8_t RecordConfigType[Redcord_Type_MAX];
@@ -13,7 +12,7 @@ extern const uint8_t RecordConfigInterval[Redcord_Interval_MAX];
 
 namespace Page {
 class RecordConfigView {
-public:
+  public:
     struct {
         struct {
             lv_obj_t* cont;
@@ -72,12 +71,11 @@ public:
 
     void AppearAnimStart(bool reverse = false) const;
 
-private:
+  private:
     static int8_t left_roller_index;
     static int8_t right_roller_index;
 };
 
-}
-
+} // namespace Page
 
 #endif //LVGL_RECORDCONFIGVIEW_H

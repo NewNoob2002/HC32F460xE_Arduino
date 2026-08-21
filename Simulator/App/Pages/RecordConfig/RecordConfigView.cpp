@@ -25,18 +25,16 @@ RecordConfigView::Create(lv_obj_t* root) {
     BtnCont_Create(root);
     ui.anim_timeline = lv_anim_timeline_create();
 
-#define ANIM_DEF(start_time, obj, attr, start, end) \
-{start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
+#define ANIM_DEF(start_time, obj, attr, start, end)                                                                    \
+    {start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
 
-#define ANIM_OPA_DEF(start_time, obj) \
-ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
+#define ANIM_OPA_DEF(start_time, obj) ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
     const lv_coord_t x_tar_top = lv_obj_get_x(ui.roller.cont);
     const lv_coord_t w_up_btn = lv_obj_get_width(ui.roller.left_roller.btnUp);
     const lv_coord_t w_tar_btn = lv_obj_get_width(ui.btnCont.btnRecord);
 
-    const lv_anim_timeline_wrapper_t wrapper[] =
-    {
+    const lv_anim_timeline_wrapper_t wrapper[] = {
         ANIM_DEF(0, ui.roller.cont, x, -lv_obj_get_width(ui.roller.cont), x_tar_top),
 
         ANIM_DEF(100, ui.roller.left_roller.btnUp, width, 0, w_up_btn),
@@ -46,8 +44,7 @@ ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
         ANIM_DEF(500, ui.btnCont.btnRecord, width, 0, w_tar_btn),
         ANIM_DEF(600, ui.btnCont.btnReturn, width, 0, w_tar_btn),
-        LV_ANIM_TIMELINE_WRAPPER_END
-    };
+        LV_ANIM_TIMELINE_WRAPPER_END};
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 }
 
@@ -84,7 +81,6 @@ RecordConfigView::Update() const {
 
     Roller_toIndex(ui.roller.left_roller.label, left_roller_index);
     Roller_toIndex(ui.roller.right_roller.label, right_roller_index);
-
 }
 
 void
@@ -97,7 +93,7 @@ RecordConfigView::Roller_Create(lv_obj_t* par) {
     lv_obj_set_align(cont, LV_ALIGN_LEFT_MID);
     ui.roller.cont = cont;
 
-    lv_obj_t *img_left = lv_img_create(cont);
+    lv_obj_t* img_left = lv_img_create(cont);
     lv_obj_enable_style_refresh(false);
     lv_img_set_src(img_left, ResourcePool::GetImage("mode"));
     lv_obj_align(img_left, LV_ALIGN_TOP_LEFT, 10, 20);
@@ -117,7 +113,7 @@ RecordConfigView::Roller_Create(lv_obj_t* par) {
     lv_obj_set_align(label_left, LV_ALIGN_TOP_MID);
     ui.roller.left_roller.label = label_left;
 
-    lv_obj_t *img_right = lv_img_create(cont);
+    lv_obj_t* img_right = lv_img_create(cont);
     lv_obj_enable_style_refresh(false);
     lv_img_set_src(img_right, ResourcePool::GetImage("clock"));
     lv_obj_align_to(img_right, cont_left, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
@@ -178,14 +174,7 @@ RecordConfigView::Roller_Style_Init(lv_obj_t* obj) {
 
     static lv_style_transition_dsc_t tran;
     static constexpr lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
-    lv_style_transition_dsc_init(
-        &tran,
-        prop,
-        lv_anim_path_ease_out,
-        200,
-        0,
-        nullptr
-        );
+    lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_FOCUSED);
 
@@ -215,8 +204,7 @@ RecordConfigView::BtnCont_Create(lv_obj_t* par) {
 }
 
 lv_obj_t*
-RecordConfigView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_t x_ofs,
-                             const lv_coord_t y_ofs) {
+RecordConfigView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_t x_ofs, const lv_coord_t y_ofs) {
     lv_obj_t* obj = lv_obj_create(par);
     lv_obj_remove_style_all(obj);
     lv_obj_set_size(obj, 35, 26);
@@ -236,14 +224,7 @@ RecordConfigView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_
 
     static lv_style_transition_dsc_t tran;
     static constexpr lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
-    lv_style_transition_dsc_init(
-        &tran,
-        prop,
-        lv_anim_path_ease_out,
-        200,
-        0,
-        nullptr
-        );
+    lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_FOCUSED);
 

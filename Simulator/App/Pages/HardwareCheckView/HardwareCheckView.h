@@ -8,7 +8,7 @@
 
 namespace Page {
 class HardwareCheckView {
-public:
+  public:
     void Create(lv_obj_t* root);
 
     void Delete();
@@ -29,10 +29,10 @@ public:
         lv_obj_t* img_logo;
     } ui;
 
-private:
+  private:
     static bool do_it_once;
     static uint8_t check_time;
 };
-}
+} // namespace Page
 
 #endif //LVGL_HARDWARE_CHECK_VIEW_H

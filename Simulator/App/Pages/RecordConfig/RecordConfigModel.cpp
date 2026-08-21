@@ -3,6 +3,7 @@
 //
 
 #include "RecordConfigModel.h"
+#include "Common/DataProc/DataProc.h"
 
 using namespace Page;
 
@@ -23,6 +24,7 @@ RecordConfigModel::Deinit() {
 
 int
 RecordConfigModel::onEvent(Account* account, Account::EventParam_t* param) {
+    (void)account;
     if (param->event != Account::EVENT_PUB_PUBLISH) {
         return Account::RES_UNSUPPORTED_REQUEST;
     }

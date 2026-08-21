@@ -1,7 +1,8 @@
 #pragma once
-#include "lvgl/src/font/lv_font.h"
 #include "Utils/lv_anim_label/numberFlow.h"
+#include "lvgl/src/font/lv_font.h"
 #include "symbol/symbol_unicode.h"
+
 
 namespace ResourcePool {
 
@@ -11,4 +12,4 @@ lv_font_t* GetFont(const char* name);
 
 const void* GetImage(const char* name);
 
-}
+} // namespace ResourcePool

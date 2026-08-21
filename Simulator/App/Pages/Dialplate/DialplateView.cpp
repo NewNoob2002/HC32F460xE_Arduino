@@ -1,7 +1,6 @@
 #include "DialplateView.h"
-#include <cstdio>
 
-#define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 using namespace Page;
 
@@ -12,25 +11,22 @@ DialplateView::Create(lv_obj_t* root) {
 
     ui.anim_timeline = lv_anim_timeline_create();
 
-#define ANIM_DEF(start_time, obj, attr, start, end) \
+#define ANIM_DEF(start_time, obj, attr, start, end)                                                                    \
     {start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
 
-#define ANIM_OPA_DEF(start_time, obj) \
-    ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
+#define ANIM_OPA_DEF(start_time, obj) ANIM_DEF(start_time, obj, opa_scale, LV_OPA_TRANSP, LV_OPA_COVER)
 
     const lv_coord_t y_tar_top = lv_obj_get_y(ui.topInfo.cont);
     const lv_coord_t h_tar_btn = lv_obj_get_height(ui.btnCont.btnRec);
 
-    const lv_anim_timeline_wrapper_t wrapper[] =
-    {
+    const lv_anim_timeline_wrapper_t wrapper[] = {
         ANIM_DEF(0, ui.topInfo.cont, y, -lv_obj_get_height(ui.topInfo.cont), y_tar_top),
 
         ANIM_DEF(500, ui.btnCont.btnMap, height, 0, h_tar_btn),
         ANIM_DEF(600, ui.btnCont.btnRec, height, 0, h_tar_btn),
         ANIM_DEF(700, ui.btnCont.btnMenu, height, 0, h_tar_btn),
         ANIM_DEF(800, ui.btnCont.btnShutdown, height, 0, h_tar_btn),
-        LV_ANIM_TIMELINE_WRAPPER_END
-    };
+        LV_ANIM_TIMELINE_WRAPPER_END};
     lv_anim_timeline_add_wrapper(ui.anim_timeline, wrapper);
 }
 
@@ -143,14 +139,7 @@ DialplateView::Btn_Create(lv_obj_t* par, const void* img_src, const lv_coord_t x
 
     static lv_style_transition_dsc_t tran;
     static constexpr lv_style_prop_t prop[] = {LV_STYLE_WIDTH, LV_STYLE_HEIGHT, LV_STYLE_PROP_INV};
-    lv_style_transition_dsc_init(
-        &tran,
-        prop,
-        lv_anim_path_ease_out,
-        200,
-        0,
-        nullptr
-        );
+    lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_PRESSED);
     lv_obj_set_style_transition(obj, &tran, LV_STATE_FOCUSED);
 

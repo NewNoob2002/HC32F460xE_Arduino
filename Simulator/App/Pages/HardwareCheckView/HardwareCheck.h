@@ -4,12 +4,13 @@
 
 #ifndef LVGL_HARDWARE_CHECK_H
 #define LVGL_HARDWARE_CHECK_H
-#include "HardwareCheckView.h"
 #include "HardwareCheckModel.h"
+#include "HardwareCheckView.h"
+
 
 namespace Page {
 class HardwareCheck final : public PageBase {
-public:
+  public:
     HardwareCheck() = default;
 
     ~HardwareCheck() override = default;
@@ -37,7 +38,7 @@ public:
     HardwareCheckView View{};
     HardwareCheckModel Model;
 
-private:
+  private:
     lv_timer_t* timer{};
     static uint32_t first_check_time;
 
@@ -45,6 +46,6 @@ private:
 
     static void onEvent(lv_event_t* event);
 };
-}
+} // namespace Page
 
 #endif //LVGL_HARDWARE_CHECK_H

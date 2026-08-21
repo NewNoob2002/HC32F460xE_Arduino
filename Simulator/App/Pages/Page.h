@@ -23,18 +23,19 @@
 #ifndef PAGE_H
 #define PAGE_H
 
-#include "lvgl/lvgl.h"
-#include "Utils/PageManager/PageManager.h"
-#include "Utils/PageManager/PM_Log.h"
 #include "../../Platform/Config/mcu_config.h"
 #include "../../Platform/HAL/HAL.h"
-#include "Utils/lv_ext/lv_obj_ext_func.h"
-#include "Utils/lv_anim_label/numberFlow.h"
-#include "Utils/lv_anim_label/numberFlow_clock.h"
-#include "Utils/lv_anim_label/lv_anim_label.h"
-#include "Utils/lv_ext/lv_anim_timeline_wrapper.h"
-#include "Utils/I18n/I18n.h"
 #include "Resource/ResourcePool.h"
 #include "StatusBar/StatusBar.h"
+#include "Utils/I18n/I18n.h"
+#include "Utils/PageManager/PM_Log.h"
+#include "Utils/PageManager/PageManager.h"
+#include "Utils/lv_anim_label/lv_anim_label.h"
+#include "Utils/lv_anim_label/numberFlow.h"
+#include "Utils/lv_anim_label/numberFlow_clock.h"
+#include "Utils/lv_ext/lv_anim_timeline_wrapper.h"
+#include "Utils/lv_ext/lv_obj_ext_func.h"
+#include "lvgl/lvgl.h"
+
 
 #endif

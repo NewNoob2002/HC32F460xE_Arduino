@@ -5,7 +5,7 @@
 
 namespace Page {
 class ShutdownView {
-public:
+  public:
     void Create(lv_obj_t* root);
 
     void Delete();
@@ -31,6 +31,6 @@ public:
         } shutdown;
     } ui;
 };
-}
+} // namespace Page
 
 #endif // !SHUTDOWN_VIEW_H

@@ -5,7 +5,7 @@
 
 namespace Page {
 class StartupView {
-public:
+  public:
     void Create(lv_obj_t* root);
 
     void Delete() const;
@@ -23,9 +23,9 @@ public:
         lv_obj_t* btnLabel;
     } ui;
 
-private:
+  private:
     mutable makeTime_t time = {};
 };
-}
+} // namespace Page
 
 #endif // STARTUP_VIEW_H

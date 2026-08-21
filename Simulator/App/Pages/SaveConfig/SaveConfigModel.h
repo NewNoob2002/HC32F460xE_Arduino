@@ -1,17 +1,14 @@
 #ifndef SAVECONFIG_MODEL_H
 #define SAVECONFIG_MODEL_H
 
-#include "Common/DataProc/DataProc.h"
+#include "Utils/DataCenter/Account.h"
 
 namespace Page {
 class SaveConfigModel {
-public:
-    SaveConfigModel()
-        : account(nullptr) {}
+  public:
+    SaveConfigModel() : account(nullptr) {}
 
-    ~SaveConfigModel() {
-        delete account;
-    }
+    ~SaveConfigModel() { delete account; }
 
     void Init();
 
@@ -21,9 +18,9 @@ public:
 
     void SetStatusBarDisappear(bool delay) const;
 
-private:
+  private:
     Account* account;
 };
-}
+} // namespace Page
 
 #endif
