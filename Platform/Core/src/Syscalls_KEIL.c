@@ -62,7 +62,6 @@ Notes   : (1) https://wiki.segger.com/Keil_MDK-ARM#RTT_in_uVision
 #include <stdlib.h>
 #include <string.h>
 
-
 #if defined(__CORE_DEBUG)
 //#include "SEGGER_RTT.h"
 #include "usart.h"
