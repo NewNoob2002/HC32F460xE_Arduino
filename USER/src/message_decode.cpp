@@ -2,6 +2,9 @@
 #include "core_debug.h"
 #include "mcu_config.h"
 
+#include <cstddef>
+#include <cstring>
+
 static uint32_t
 calculate_crc(const char* msg, unsigned int len) {
     if (msg == nullptr || len == 0) {
@@ -12,6 +15,15 @@ calculate_crc(const char* msg, unsigned int len) {
         crc = semp_crc32Table[(crc ^ msg[n]) & 0xff] ^ (crc >> 8);
     }
     return crc ^ 0xFFFFFFFF;
+}
+
+static void
+copy_string_field(uint8_t* destination, const char* source, size_t fieldLength) {
+    size_t length = 0;
+    while (length < fieldLength && source[length] != '\0') {
+        ++length;
+    }
+    memcpy(destination, source, length);
 }
 
 static int
@@ -43,10 +55,8 @@ message_info_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
 
     switch (parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L]) {
         case NM_PANEL_INFO1_ID: {
-            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 0], systemInfo.hardware_version,
-                   strlen(systemInfo.hardware_version)); // HardWare_Version
-            memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 8], systemInfo.software_version,
-                   strlen(systemInfo.software_version)); // SoftWare_Version
+            copy_string_field(&msg[NM_PROTOCOL_HEADER_LEN + 0], systemInfo.hardware_version, 8);
+            copy_string_field(&msg[NM_PROTOCOL_HEADER_LEN + 8], systemInfo.software_version, 10);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 18], &systemInfo.powerMonitor.batteryInfo.Percent, 2);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 20], &systemInfo.powerMonitor.batteryInfo.Temp, 2);
             memcpy(&msg[NM_PROTOCOL_HEADER_LEN + 22], &systemInfo.powerMonitor.batteryInfo.Voltage, 2);
@@ -243,12 +253,56 @@ message_set_encode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
 }
 
 int
-message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
-    DDL_ASSERT(parse != nullptr);
-    DDL_ASSERT(txBuffer != nullptr);
+message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer, size_t txBufferLength) {
+    if (parse == nullptr || parse->buffer == nullptr || txBuffer == nullptr ||
+        parse->length < NM_PROTOCOL_HEADER_LEN + NM_PROTOCOL_CRC_LEN ||
+        parse->buffer[0] != NM_PROTOCOL_SYN_BYTE1 || parse->buffer[1] != NM_PROTOCOL_SYN_BYTE2 ||
+        parse->buffer[2] != NM_PROTOCOL_SYN_BYTE3 || parse->buffer[3] != NM_PROTOCOL_HEADER_LEN) {
+        return 0;
+    }
+
+    const uint16_t messageLength = static_cast<uint16_t>(parse->buffer[NM_PROTOCOL_MSG_LEN_INDEX_L]) |
+                                   (static_cast<uint16_t>(parse->buffer[NM_PROTOCOL_MSG_LEN_INDEX_H]) << 8);
+    if (parse->length != NM_PROTOCOL_HEADER_LEN + messageLength + NM_PROTOCOL_CRC_LEN) {
+        return 0;
+    }
+
+    const uint16_t messageId = static_cast<uint16_t>(parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_L]) |
+                               (static_cast<uint16_t>(parse->buffer[NM_PROTOCOL_MSG_ID_INDEX_H]) << 8);
+    uint16_t minimumPayloadLength = 0;
+    size_t responseLength = 0;
+    switch (messageId) {
+        case NM_PANEL_INFO1_ID: responseLength = NM_PROTOCOL_INFO1_MSG_PACK_LEN; break;
+        case NM_PANEL_INFO2_ID: responseLength = NM_PROTOCOL_PINFO2_MSG_PACK_LEN; break;
+        case NM_PANEL_INFO3_ID: responseLength = NM_PROTOCOL_PINFO3_MSG_PACK_LEN; break;
+        case NM_PANEL_INFO4_ID: responseLength = NM_PROTOCOL_PINFO4_MSG_PACK_LEN; break;
+        case NM_PANEL_RST_ID:
+            minimumPayloadLength = 1;
+            responseLength = NM_PROTOCOL_RST_RESP_MSG_PACK_LEN;
+            break;
+        case NM_PANEL_SET1_ID:
+            minimumPayloadLength = 88;
+            responseLength = NM_PROTOCOL_SET_MSG_PACK_LEN;
+            break;
+        case NM_PANEL_SET3_ID:
+            minimumPayloadLength = 28;
+            responseLength = NM_PROTOCOL_SET_MSG_PACK_LEN;
+            break;
+        case NM_PANEL_SET6_ID:
+            minimumPayloadLength = 27;
+            responseLength = NM_PROTOCOL_SET_MSG_PACK_LEN;
+            break;
+        case NM_PANEL_SET7_ID:
+            minimumPayloadLength = 24;
+            responseLength = NM_PROTOCOL_SET_MSG_PACK_LEN;
+            break;
+        default: return 0;
+    }
+    if (messageLength < minimumPayloadLength || txBufferLength < responseLength) {
+        return 0;
+    }
+
     int result = 0;
-    SEMP_CUSTOM_HEADER* messageHeader = (SEMP_CUSTOM_HEADER*)parse->buffer;
-    uint16_t messageId = *(uint16_t*)&messageHeader->messageId_L;
     if (!systemInfo.online_device.eg25_board) {
         systemInfo.online_device.eg25_board = 1;
         systemInfo.i2c__err_count = 0;
@@ -265,8 +319,7 @@ message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer) {
         case NM_PANEL_SET1_ID:
         case NM_PANEL_SET3_ID:
         case NM_PANEL_SET6_ID:
-        case NM_PANEL_SET7_ID:
-        case NM_PANEL_SET3_1_ID: result = message_set_encode(parse, txBuffer); break;
+        case NM_PANEL_SET7_ID: result = message_set_encode(parse, txBuffer); break;
         default: break;
     }
     return result;

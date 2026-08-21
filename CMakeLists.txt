@@ -8,6 +8,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+option(HC32_HOST_TESTS_ONLY "Build host tests without the ARM firmware" OFF)
+if(HC32_HOST_TESTS_ONLY)
+    include(CTest)
+    add_subdirectory(tests/host)
+    return()
+endif()
+
 set(CLANGD_COMPILE_COMMANDS_LINK "${CMAKE_CURRENT_SOURCE_DIR}/build/clangd")
 if(EXISTS "${CLANGD_COMPILE_COMMANDS_LINK}" AND NOT IS_SYMLINK "${CLANGD_COMPILE_COMMANDS_LINK}")
     message(WARNING "Cannot update ${CLANGD_COMPILE_COMMANDS_LINK}: path exists and is not a symlink")
@@ -73,6 +80,21 @@ if(C_COMPILER_NAME MATCHES "^arm-none-eabi-gcc")
         list(APPEND ARM_GCC_SYSTEM_INCLUDE_DIRS "${ARM_GCC_SYSROOT}/include")
     endif()
 
+    execute_process(
+        COMMAND ${CMAKE_C_COMPILER} -print-file-name=libc.a
+        OUTPUT_VARIABLE ARM_GCC_LIBC
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(ARM_GCC_LIBC AND EXISTS "${ARM_GCC_LIBC}")
+        get_filename_component(ARM_GCC_LIBC "${ARM_GCC_LIBC}" REALPATH)
+        get_filename_component(ARM_GCC_LIB_DIR "${ARM_GCC_LIBC}" DIRECTORY)
+        get_filename_component(ARM_GCC_TOOLCHAIN_ROOT "${ARM_GCC_LIB_DIR}" DIRECTORY)
+        if(EXISTS "${ARM_GCC_TOOLCHAIN_ROOT}/include")
+            list(APPEND ARM_GCC_SYSTEM_INCLUDE_DIRS "${ARM_GCC_TOOLCHAIN_ROOT}/include")
+        endif()
+    endif()
+
     if(CMAKE_CXX_COMPILER)
         execute_process(
             COMMAND ${CMAKE_CXX_COMPILER} -dumpversion
@@ -80,7 +102,7 @@ if(C_COMPILER_NAME MATCHES "^arm-none-eabi-gcc")
             OUTPUT_STRIP_TRAILING_WHITESPACE
             ERROR_QUIET
         )
-        set(ARM_GXX_INCLUDE_DIR "${ARM_GCC_SYSROOT}/include/c++/${ARM_GXX_VERSION}")
+        set(ARM_GXX_INCLUDE_DIR "${ARM_GCC_TOOLCHAIN_ROOT}/include/c++/${ARM_GXX_VERSION}")
         foreach(ARM_GXX_SYSTEM_INCLUDE_DIR IN ITEMS
             "${ARM_GXX_INCLUDE_DIR}"
             "${ARM_GXX_INCLUDE_DIR}/arm-none-eabi"

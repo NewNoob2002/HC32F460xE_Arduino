@@ -53,15 +53,16 @@ PRINT_DEBUG(const char* format, ...) {
 
 static bool
 BAD_CRC_CALLBACK(P_SEMP_PARSE_STATE parse) {
-    PRINT_ERROR("Bad CRC: 0x%08x--0x%08x, %s", parse->computeCrc, parse->crc, parse->buffer);
-    return false;
+    (void)parse;
+    PRINT_ERROR("Bad CRC");
+    return true;
 }
 #endif
 
 void
 CustomDataProcess(SEMP_PARSE_STATE* parse, uint16_t type) {
     LV_UNUSED(type);
-    int length = message_decode(parse, txBuffer_temp);
+    int length = message_decode(parse, txBuffer_temp, sizeof(txBuffer_temp));
     if (length <= 0) {
         return;
     }

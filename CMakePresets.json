@@ -20,6 +20,16 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
+        },
+        {
+            "name": "host-tests",
+            "displayName": "Host tests",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/host-tests",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "HC32_HOST_TESTS_ONLY": "ON"
+            }
         }
     ],
     "buildPresets": [
@@ -30,7 +40,19 @@
         {
             "name": "gcc-release",
             "configurePreset": "gcc-release"
+        },
+        {
+            "name": "host-tests",
+            "configurePreset": "host-tests"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "host-tests",
+            "configurePreset": "host-tests",
+            "output": {
+                "outputOnFailure": true
+            }
         }
     ]
 }
-

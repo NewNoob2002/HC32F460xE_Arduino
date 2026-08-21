@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SparkFun_Extensible_Message_Parser.h"
+#include <stddef.h>
 
 #define NM_PROTOCOL_SYN_BYTE1             0xaa
 #define NM_PROTOCOL_SYN_BYTE2             0x44
@@ -64,7 +65,7 @@ extern "C" {
 
 extern uint8_t txBuffer_temp[NM_PROTOCOL_PINFO3_MSG_PACK_LEN];
 
-int message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer);
+int message_decode(SEMP_PARSE_STATE* parse, uint8_t* txBuffer, size_t txBufferLength);
 
 #ifdef __cplusplus
 }

@@ -2,6 +2,13 @@
 
 #if defined(PARSER_CUSTOM_CONFIG_ON)
 
+namespace {
+constexpr uint16_t CUSTOM_HEADER_LENGTH = 20;
+constexpr uint16_t CUSTOM_CRC_LENGTH = 4;
+constexpr uint16_t CUSTOM_MESSAGE_LENGTH_L = 12;
+constexpr uint16_t CUSTOM_MESSAGE_LENGTH_H = 13;
+}
+
 uint32_t
 sempBluetoothComputeCrc(SEMP_PARSE_STATE* parse, const uint8_t data) {
     uint32_t crc = parse->crc;
@@ -86,11 +93,24 @@ sempCustomReadHeader(SEMP_PARSE_STATE* parse, uint8_t data) {
     (void)data;
     auto* scratchPad = static_cast<SEMP_SCRATCH_PAD*>(parse->scratchPad);
 
-    if (parse->length >= sizeof(SEMP_CUSTOM_HEADER)) {
-        // The header is complete, read the message data next
-        const auto* header = reinterpret_cast<SEMP_CUSTOM_HEADER*>(parse->buffer);
-        scratchPad->custom.bytesRemaining = header->messageLength;
-        parse->state = sempCustomReadData;
+    if (parse->length >= CUSTOM_HEADER_LENGTH) {
+        const uint16_t messageLength = static_cast<uint16_t>(parse->buffer[CUSTOM_MESSAGE_LENGTH_L]) |
+                                       (static_cast<uint16_t>(parse->buffer[CUSTOM_MESSAGE_LENGTH_H]) << 8);
+        if (parse->buffer[3] != CUSTOM_HEADER_LENGTH ||
+            static_cast<uint32_t>(messageLength) + CUSTOM_HEADER_LENGTH + CUSTOM_CRC_LENGTH > parse->bufferLength) {
+            parse->state = sempFirstByte;
+            return false;
+        }
+
+        if (messageLength == 0) {
+            scratchPad->custom.bytesRemaining = CUSTOM_CRC_LENGTH;
+            parse->crc ^= 0xFFFFFFFF;
+            scratchPad->custom.crc = parse->crc;
+            parse->state = sempCustomReadCrc;
+        } else {
+            scratchPad->custom.bytesRemaining = messageLength;
+            parse->state = sempCustomReadData;
+        }
     }
     return true;
 }

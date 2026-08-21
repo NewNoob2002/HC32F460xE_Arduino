@@ -402,10 +402,9 @@ void sempParseNextByte(SEMP_PARSE_STATE *parse, const uint8_t data)
 // Shutdown the parser
 void sempStopParser(SEMP_PARSE_STATE **parse)
 {
-    // Free the parse structure if it was specified
     if (parse && *parse)
     {
-        free(*parse);
+        delete[] reinterpret_cast<uint8_t*>(*parse);
         *parse = nullptr;
     }
 }
