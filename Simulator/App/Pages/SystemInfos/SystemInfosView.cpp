@@ -47,14 +47,14 @@ SystemInfosView::Group_Init() {
     lv_group_set_wrap(group, true);
     lv_group_set_focus_cb(group, onFocus);
 
-    const item_t* item_grp = reinterpret_cast<item_t*>(&ui);
+    item_t* const items[] = {&ui.work, &ui.gps, &ui.wifi, &ui.battery, &ui.storage, &ui.system};
 
     /* Reverse adding to group makes encoder operation more comfortable */
-    for (int i = sizeof(ui) / sizeof(item_t) - 1; i >= 0; i--) {
-        lv_group_add_obj(group, item_grp[i].icon);
+    for (size_t i = sizeof(items) / sizeof(items[0]); i-- > 0;) {
+        lv_group_add_obj(group, items[i]->icon);
     }
 
-    lv_group_focus_obj(item_grp[0].icon);
+    lv_group_focus_obj(items[0]->icon);
 }
 
 void

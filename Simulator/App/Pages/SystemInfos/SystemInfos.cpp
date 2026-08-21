@@ -18,11 +18,12 @@ SystemInfos::onViewLoad() {
 
 void
 SystemInfos::onViewDidLoad() {
-    const auto item_grp = reinterpret_cast<SystemInfosView::item_t*>(&View.ui);
-
-    constexpr size_t itemCount = sizeof(View.ui) / sizeof(SystemInfosView::item_t);
-    for (size_t i = 0; i < itemCount; i++) {
-        AttachEvent(item_grp[i].icon);
+    lv_obj_t* const icons[] = {
+        View.ui.work.icon, View.ui.gps.icon, View.ui.wifi.icon,
+        View.ui.battery.icon, View.ui.storage.icon, View.ui.system.icon
+    };
+    for (lv_obj_t* icon : icons) {
+        AttachEvent(icon);
     }
 }
 

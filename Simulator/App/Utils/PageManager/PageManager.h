@@ -120,9 +120,6 @@ class PageManager {
         RootDefaultStyle = style;
     }
 		
-				/* Page Info*/
-		PageBase* PageInfo[8];
-		
 		PageBase *GetCurrentPage(){
 			return PageCurrent;
 		}
@@ -219,7 +216,6 @@ class PageManager {
         PageBase::AnimAttr_t Global;  // Global animation properties
     } AnimState{};
 
-		uint8_t PageInfoIndex;
     /* Root style */
     lv_style_t* RootDefaultStyle;
 };

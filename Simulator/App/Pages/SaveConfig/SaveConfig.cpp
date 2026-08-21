@@ -41,7 +41,7 @@ SaveConfig::onViewLoad() {
     View.Create(_root);
     Model.SetStatusBarDisappear(false);
     UpdatePowerOffCauseText();
-    lv_anim_set_deleted_cb(&View.ui.sync.bar.anim, syncbar_anim_done_callback);
+    lv_anim_set_ready_cb(&View.ui.sync.bar.anim, syncbar_anim_done_callback);
     lv_anim_set_user_data(&View.ui.sync.bar.anim, this);
     lv_anim_timeline_start(View.ui.anim_timeline);
     lv_anim_start(&View.ui.sync.bar.anim);
