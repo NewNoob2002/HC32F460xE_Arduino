@@ -15,33 +15,17 @@ if(HC32_HOST_TESTS_ONLY)
     return()
 endif()
 
-set(CLANGD_COMPILE_COMMANDS_LINK "${CMAKE_CURRENT_SOURCE_DIR}/build/clangd")
-if(EXISTS "${CLANGD_COMPILE_COMMANDS_LINK}" AND NOT IS_SYMLINK "${CLANGD_COMPILE_COMMANDS_LINK}")
-    message(WARNING "Cannot update ${CLANGD_COMPILE_COMMANDS_LINK}: path exists and is not a symlink")
-else()
-    get_filename_component(CURRENT_BINARY_DIR_PARENT "${CMAKE_CURRENT_BINARY_DIR}" DIRECTORY)
-    get_filename_component(CURRENT_BINARY_DIR_NAME "${CMAKE_CURRENT_BINARY_DIR}" NAME)
-    get_filename_component(DEFAULT_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build" ABSOLUTE)
-
-    if(CURRENT_BINARY_DIR_PARENT STREQUAL DEFAULT_BUILD_DIR)
-        set(CLANGD_COMPILE_COMMANDS_TARGET "${CURRENT_BINARY_DIR_NAME}")
-    else()
-        set(CLANGD_COMPILE_COMMANDS_TARGET "${CMAKE_CURRENT_BINARY_DIR}")
-    endif()
-
-    file(REMOVE "${CLANGD_COMPILE_COMMANDS_LINK}")
-    file(CREATE_LINK
-        "${CLANGD_COMPILE_COMMANDS_TARGET}"
-        "${CLANGD_COMPILE_COMMANDS_LINK}"
-        SYMBOLIC
-        RESULT CLANGD_LINK_RESULT
-    )
-    if(CLANGD_LINK_RESULT EQUAL 0)
-        message(STATUS "clangd compilation database: ${CLANGD_COMPILE_COMMANDS_LINK} -> ${CLANGD_COMPILE_COMMANDS_TARGET}")
-    else()
-        message(WARNING "Failed to update ${CLANGD_COMPILE_COMMANDS_LINK}: ${CLANGD_LINK_RESULT}")
-    endif()
+set(CLANGD_DATABASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build/clangd")
+if(IS_SYMLINK "${CLANGD_DATABASE_DIR}")
+    file(REMOVE "${CLANGD_DATABASE_DIR}")
 endif()
+file(MAKE_DIRECTORY "${CLANGD_DATABASE_DIR}")
+add_custom_target(clangd_database ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json"
+        "${CLANGD_DATABASE_DIR}/compile_commands.json"
+    COMMENT "clangd compilation database -> ${CMAKE_CURRENT_BINARY_DIR}"
+)
 
 set(PROJECT_VERSION 2.4.5)
 configure_file(
@@ -149,7 +133,7 @@ target_compile_definitions(hc32_project_options INTERFACE
     ARDUINO=111
     LV_CONF_INCLUDE_SIMPLE
     $<$<CONFIG:Debug>:__CORE_DEBUG>
-    # MIDDLE_LOGO_USE
+    MIDDLE_LOGO_USE
 )
 target_compile_options(hc32_project_options INTERFACE
     ${CPU_FLAGS}

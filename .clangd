@@ -1,4 +1,37 @@
-CompileFlags:
-  CompilationDatabase: build/clangd
+Diagnostics:
+  UnusedIncludes: None
+  MissingIncludes: None
+  ClangTidy:
+    FastCheckFilter: Strict
+
 Index:
   Background: Build
+
+CompileFlags:
+  CompilationDatabase: build/clangd
+
+---
+If:
+  PathExclude: Simulator/.*
+CompileFlags:
+  Add:
+    - --target=arm-none-eabi
+    - -U__clang__
+    - -D__PROGRAM_START=Reset_Handler
+  Remove:
+    - -fcyclomatic-complexity
+    - -mcmse
+
+---
+If:
+  PathMatch: .*\.(c|h)$
+  PathExclude: Simulator/.*
+CompileFlags:
+  Compiler: arm-none-eabi-gcc
+
+---
+If:
+  PathMatch: .*\.(cpp|cc|cxx|hpp|hh|hxx)$
+  PathExclude: Simulator/.*
+CompileFlags:
+  Compiler: arm-none-eabi-g++

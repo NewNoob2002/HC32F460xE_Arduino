@@ -5,6 +5,18 @@ set(CMAKE_CXX_STANDARD 17) #C17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(CLANGD_DATABASE_DIR "${CMAKE_CURRENT_LIST_DIR}/../build/clangd")
+if(IS_SYMLINK "${CLANGD_DATABASE_DIR}")
+    file(REMOVE "${CLANGD_DATABASE_DIR}")
+endif()
+file(MAKE_DIRECTORY "${CLANGD_DATABASE_DIR}")
+add_custom_target(clangd_database ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json"
+    "${CLANGD_DATABASE_DIR}/compile_commands.json"
+    COMMENT "clangd compilation database -> ${CMAKE_CURRENT_BINARY_DIR}"
+)
+
 file(STRINGS "${CMAKE_CURRENT_LIST_DIR}/../CMakeLists.txt" PROJECT_VERSION_LINE
     REGEX "^set\\(PROJECT_VERSION [0-9]+\\.[0-9]+\\.[0-9]+\\)")
 string(REGEX REPLACE "^set\\(PROJECT_VERSION ([0-9]+\\.[0-9]+\\.[0-9]+)\\)" "\\1" PROJECT_VERSION "${PROJECT_VERSION_LINE}")
@@ -79,7 +91,8 @@ target_compile_definitions(main PRIVATE
     LV_CONF_INCLUDE_SIMPLE
     LV_INCLUDE_SIMPLE
     LVGL_SIMULATOR
-    RGK_LOGO_USE
+    #RGK_LOGO_USE
+    MIDDLE_LOGO_USE
 )
 target_include_directories(main PRIVATE
     ${SDL2_INCLUDE_DIRS}

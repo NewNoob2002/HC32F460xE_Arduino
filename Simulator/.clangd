@@ -1,4 +1,4 @@
 CompileFlags:
-  CompilationDatabase: build
+  CompilationDatabase: ../build/clangd
 Index:
   Background: Build
